@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 
-package gui;
+package substructure;
+import gui.GuiPromptHelper;
 import java.io.*;
 import java.io.FileOutputStream;
 import java.util.Properties;
@@ -96,7 +97,13 @@ public class Output
 		prop.load(input);
  
 		// get the property value and print it out
-                 debug = Integer.parseInt(prop.getProperty("MODE"));
+                try{
+                    debug = Integer.parseInt(prop.getProperty("MODE"));
+                }
+                catch(Exception e)
+                {
+                    new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Modelevel konnte nicht gelesen werden "+e);
+                }
 
 		
 	} catch (IOException ex) {

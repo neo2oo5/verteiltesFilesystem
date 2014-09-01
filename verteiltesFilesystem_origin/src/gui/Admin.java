@@ -5,6 +5,7 @@
  */
 
 package gui;
+import substructure.Output;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;

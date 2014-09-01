@@ -1,0 +1,146 @@
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 0
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: Not supported yet.
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Parent 1
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 2
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Root Node false
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Parent 1 false
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 1 true
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 2 true
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Parent 2 false
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 1 true
+[32mINFORMATION: Panelindex: 0
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 0
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: lala true
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: lala true
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Parent 1 false
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 2 true
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Parent 1 false
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 1 true
+Panelindex: 2
+case 2
+test
+datei erstellt
+Panelindex: 1
+test
+Panelindex: 2
+case 2
+test
+datei erstellt
+Child 1 true
+Panelindex: 0
+test
+Panelindex: 1
+test
+javax.swing.JLabel[,139,37,28x15,invalid,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@cb645db,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=/home/xoxoxo/NetBeansProjects/verteiltesFilesystem/origin/verteiltesFilesystem/verteiltesFilesystem_origin/nbproject,verticalAlignment=CENTER,verticalTextPosition=CENTER]
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 0
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 1 true
+Panelindex: 0
+test
+Panelindex: 1
+test
+Panelindex: 1
+test
+Panelindex: 2
+case 2
+test
+Panelindex: 1
+test
+Panelindex: 2
+case 2
+test
+datei erstellt
+Child 2 true
+Panelindex: 0
+test
+Panelindex: 1
+test
+Panelindex: 2
+case 2
+test
+Panelindex: 0
+test
+Panelindex: 0
+test

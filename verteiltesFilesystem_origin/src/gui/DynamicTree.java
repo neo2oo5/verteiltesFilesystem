@@ -6,6 +6,7 @@
 
 package gui;
 
+import substructure.GUIOutput;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Toolkit;

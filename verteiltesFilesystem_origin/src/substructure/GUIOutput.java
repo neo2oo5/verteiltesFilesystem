@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
-package gui;
+package substructure;
+import gui.ColorPane;
+import gui.GuiPromptHelper;
 import java.awt.Color;
-import java.awt.Font;
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 /**
  *
