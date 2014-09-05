@@ -144,3 +144,27 @@ Panelindex: 0
 test
 Panelindex: 0
 test
+Panelindex: 1
+test
+Panelindex: 1
+test
+javax.swing.JLabel[,139,37,28x15,invalid,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@4a2f48df,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=/home/xoxoxo,verticalAlignment=CENTER,verticalTextPosition=CENTER]
+Panelindex: 1
+test
+Panelindex: 0
+test
+Panelindex: 1
+test
+javax.swing.JLabel[,139,37,85x15,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@1d2a5fbb,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=/home/xoxoxo,verticalAlignment=CENTER,verticalTextPosition=CENTER]
+Panelindex: 0
+test
+Panelindex: 0
+test
+Panelindex: 1
+test
+javax.swing.JLabel[,139,37,85x15,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@26307ce2,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=/home/xoxoxo,verticalAlignment=CENTER,verticalTextPosition=CENTER]
+Panelindex: 1
+test
+Panelindex: 1
+test
+javax.swing.JLabel[,139,37,85x15,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@329ca13,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=/home/xoxoxo,verticalAlignment=CENTER,verticalTextPosition=CENTER]

@@ -6,22 +6,30 @@
 
 package substructure;
 
-import java.io.File;
+
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
  * @author xoxoxo
  */
-public class fileSystem {
+public class fileSystem{
     
-    private File[] fileSystem;
-    private boolean isLocked        = false;
-    private boolean isInterrupted   = false;
+    private final List<DirectoryStream> fileSystem;
+    private int clientscount            = 0;
+    private String clients[]            = new String[100];
+    private boolean isLocked            = false;
+    private boolean isInterrupted       = false;
     private String  whoLocked;
     private String  token;
+    private String workingDir = System.getProperty("user.dir");
    
     
     private fileSystem() {
+        this.fileSystem = new ArrayList<>();
     }
     
     /**
@@ -109,4 +117,64 @@ public class fileSystem {
             throw new fileSystemException("Ein Interrupt wurde gemeldet!");
         }
     }
+    
+    public void setnewFileSystem(String IP, String path) throws fileSystemException
+    {
+        try{
+            fileSystem.add(clientscount, Files.newDirectoryStream(converttoPath(path) , "*"));
+            clients[clientscount] = IP;
+            clientscount++;
+        }
+        catch(java.nio.file.NoSuchFileException e) 
+        {
+            throw new fileSystemException("Kein Pfad in config.properties gefunden");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public String listAll ()
+    {
+        String out ="";
+        try{
+           for (DirectoryStream entry: fileSystem) {
+               for (Object file_or_folder: entry) {
+                    out += " " + file_or_folder + " - Datei oder Ordner? " + Files.isDirectory(converttoPath(file_or_folder)) + "\n";
+                }
+              
+           }
+       } catch (DirectoryIteratorException ex) {
+           // I/O error encounted during the iteration, the cause is an IOException
+           //throw ex.getCause();
+       }
+        return out;
+    }
+    public String list (String IP)
+    {
+        String out ="";
+        try{
+           
+               for (Object file_or_folder: fileSystem.get(find(clients, IP))) {
+                    out += " " + file_or_folder + " - Datei oder Ordner? " + Files.isDirectory(converttoPath(file_or_folder)) + "\n";
+                }
+              
+           
+       } catch (DirectoryIteratorException ex) {
+           // I/O error encounted during the iteration, the cause is an IOException
+           //throw ex.getCause();
+       }
+        return out;
+    }
+    
+    public static int find (String[] array , String name) {  
+      return Arrays.asList(array).indexOf(name);  
+    }  
+    
+    private Path converttoPath(Object obj)
+    {
+       return FileSystems.getDefault().getPath(String.valueOf(obj));
+    }
+    
 }

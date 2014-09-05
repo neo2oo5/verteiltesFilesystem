@@ -7,17 +7,24 @@
 package substructure;
 
 import gui.GUI;
+import gui.GuiPromptHelper;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Properties;
 
 /**
  *
  * @author xoxoxo
  */
 public class fileSystem_Start {
+    private static FileInputStream input;
+    
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, IOException {
         
         /** Singelton Klasse
                 * Im gesamten Projekt benutzbar aufruf ueber folgenden ein Zeiler  
@@ -34,6 +41,10 @@ public class fileSystem_Start {
                 * 
                 */
        
+        
+        
+        
+        
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -75,6 +86,41 @@ public class fileSystem_Start {
                 
             }
         });
+        
+        String debug ="";
+  
+                        Properties prop = new Properties();
+                        boolean trigger = false;
+                        
+		input = new FileInputStream("config.properties");
+ 
+		// load a properties file
+		prop.load(input);
+                
+                do
+                {
+		// get the property value and print it out
+                try{
+                    debug = prop.getProperty("ROOT_DIR");
+                    trigger = true;
+                    fileSystem  c = fileSystem.getInstance();
+                    c.setnewFileSystem("127.0.0.1", debug);
+                   // c.setnewFileSystem("127.0.0.2", "/home/xoxoxo/Downloads");
+                    //System.out.print(c.listAll());
+                    System.out.print(c.list("127.0.0.1"));
+                }
+                catch(Exception e)
+                {
+                    //new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Modelevel konnte nicht gelesen werden "+e);
+                    trigger = false;
+                    Thread.currentThread().sleep(5000);
+                }
+                }while(trigger == false);
+
+		
+	
+        
+        
     }
     
 }
