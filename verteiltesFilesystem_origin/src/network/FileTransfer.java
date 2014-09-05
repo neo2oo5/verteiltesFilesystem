@@ -31,18 +31,31 @@ public class FileTransfer {
      * @param args
      */
     public static boolean FT(String[] args) {
+        
         String datei = args[0]+args[2];
         File file = new File(datei);
         FileProvider fileProvider = new FileProvider(file, 1718);
- 
+        
+        File target = new File(args[1]); 
+        target.mkdirs(); 
         FileFetcher fileFetcher = new FileFetcher(args[3], 1718, args);
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(fileProvider);
         executorService.execute(fileFetcher);
  
         executorService.shutdown();
-        
-        return true;
+        String dateiCheck = args[0]+args[2];
+        File fileCheck = new File(dateiCheck);
+        if(fileCheck.exists())
+        {
+            System.out.println("File transfer complete");
+            return true;
+        }
+        else
+        {
+            System.out.println("File transfer not complete");
+            return false;
+        }
     }
  
     static class FileProvider implements Runnable {
@@ -58,8 +71,7 @@ public class FileTransfer {
  
         public void run() {
             try {
-                System.out.println(getClass() + " Providing file...");
- 
+                
                 ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
                 serverSocketChannel.socket().bind(new InetSocketAddress(port));
                 SocketChannel socketChannel = serverSocketChannel.accept();
@@ -110,10 +122,8 @@ public class FileTransfer {
                 String fileName = dataInputStream.readUTF();
                 long sizeInBytes = dataInputStream.readLong();
  
-                System.out.println("FileSize: " + sizeInBytes);
  
                 File file = new File(args[1], fileName);
-                System.out.println(getClass() + " Fetching file... " + file);
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 FileChannel fileChannel = fileOutputStream.getChannel();
  
@@ -166,8 +176,7 @@ public class FileTransfer {
             System.out.printf("Transfered: %s bytes in: %s s -> %s kbytes/s",
                     overallBytesTransfered, time / 1000,
                     (overallBytesTransfered / 1024.0) / (time / 1000.0));
-        }
- 
+        } 
     }
  
 }

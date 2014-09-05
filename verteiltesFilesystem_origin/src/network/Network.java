@@ -15,6 +15,7 @@ public class Network
     public static void main(String[] args)
     {
         boolean startProgram = Interfaces.inerfaceStartProgram();
-        int interfaceFileTransfer = Interfaces.interfaceFileTransfer("192.168.178.161", "C:/VerteilteSysteme/test/", "C:/VerteilteSysteme/test/VS/", "xyz.txt");
+        int interfaceFileTransfer = Interfaces.interfaceFileTransfer("192.168.178.161", "C:/VerteilteSysteme/test/", "C:/VerteilteSysteme/test/VS/tester/", "ersterclient.zip");
+        System.out.println("ttt");
     }
 }

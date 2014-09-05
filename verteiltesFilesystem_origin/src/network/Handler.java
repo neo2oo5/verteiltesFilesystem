@@ -76,8 +76,9 @@ public class Handler implements Runnable
                     } 
                     else if (args[anz].equals("FileTransfer"))
                     {
+                        System.out.println("test1");
                         boolean transferFile = FileTransfer.FT(args);
-                        System.out.println("Transfer Erfolgreich?: " + transferFile);
+                        System.out.println("Transfer successfull?: " + transferFile);
                     }
                 }
                 reader.close();
