@@ -5,6 +5,7 @@
  */
 package network;
 /** Used Libraries */
+import java.io.File;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -39,8 +40,11 @@ public class Interfaces
             args[1] = sourcePath; // quelle
             args[2] = targetPath; // ziel
             args[3] = filename;
-            args[4] = IPv4target;
+            args[4] = "95.88.241.26";
             args[5] = doWhat;
+            
+            File target = new File(args[2]); 
+            target.mkdirs(); 
             StartClientServer.startClient(args);
         }
         return 1;

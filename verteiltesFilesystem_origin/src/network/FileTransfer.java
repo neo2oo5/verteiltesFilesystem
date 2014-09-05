@@ -36,8 +36,6 @@ public class FileTransfer {
         File file = new File(datei);
         FileProvider fileProvider = new FileProvider(file, 1718);
         
-        File target = new File(args[1]); 
-        target.mkdirs(); 
         FileFetcher fileFetcher = new FileFetcher(args[3], 1718, args);
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(fileProvider);
