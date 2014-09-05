@@ -31,10 +31,11 @@ public class FileTransfer {
      * @param args
      */
     public static boolean FT(String[] args) {
-        File file = new File(args[1]+args[3]);
+        String datei = args[0]+args[2];
+        File file = new File(datei);
         FileProvider fileProvider = new FileProvider(file, 1718);
  
-        FileFetcher fileFetcher = new FileFetcher(args[4], 1718, args);
+        FileFetcher fileFetcher = new FileFetcher(args[3], 1718, args);
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(fileProvider);
         executorService.execute(fileFetcher);
@@ -59,15 +60,13 @@ public class FileTransfer {
             try {
                 System.out.println(getClass() + " Providing file...");
  
-                ServerSocketChannel serverSocketChannel = ServerSocketChannel
-                        .open();
+                ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
                 serverSocketChannel.socket().bind(new InetSocketAddress(port));
                 SocketChannel socketChannel = serverSocketChannel.accept();
                 Socket socket = socketChannel.socket();
  
                 FileInputStream fileInputStream = new FileInputStream(this.file);
-                DataOutputStream dataOutputStream = new DataOutputStream(socket
-                        .getOutputStream());
+                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 dataOutputStream.writeUTF(file.getName());
                 dataOutputStream.writeLong(file.length());
  
@@ -75,8 +74,7 @@ public class FileTransfer {
  
                 FileChannel fileChannel = fileInputStream.getChannel();
  
-                transfer(fileChannel, socketChannel, file.length(),
-                        1024 * 1024 * 16, true, true);
+                transfer(fileChannel, socketChannel, file.length(),1024 * 1024 * 16, true, true);
  
                 fileInputStream.close();
  
@@ -114,7 +112,7 @@ public class FileTransfer {
  
                 System.out.println("FileSize: " + sizeInBytes);
  
-                File file = new File(args[2], fileName);
+                File file = new File(args[1], fileName);
                 System.out.println(getClass() + " Fetching file... " + file);
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 FileChannel fileChannel = fileOutputStream.getChannel();
