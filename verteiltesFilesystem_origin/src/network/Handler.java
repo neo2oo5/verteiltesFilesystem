@@ -74,6 +74,11 @@ public class Handler implements Runnable
                         boolean createFile = Create.createFile(args[0], args[1]);
                         System.out.println("Create successfull?: " + createFile);
                     } 
+                    else if (args[anz].equals("FileTransfer"))
+                    {
+                        boolean transferFile = FileTransfer.FT(args);
+                        System.out.println("Transfer Erfolgreich?: " + transferFile);
+                    }
                 }
                 reader.close();
                 writer.close();

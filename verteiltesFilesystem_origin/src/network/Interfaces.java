@@ -7,6 +7,8 @@ package network;
 /** Used Libraries */
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,9 +17,32 @@ import java.net.UnknownHostException;
 public class Interfaces
 {
 
-    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath)
+    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath,  String filename)
     {
-        /* Interface to handle the filetransfer */
+        String IPv4target = null;
+        try
+        {
+            IPv4target = getIPv4Address.getIPv4Address();
+        } catch (SocketException ex)
+        {
+            Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException ex)
+        {
+            Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(IPv4target.isEmpty()){}
+        else {
+            // do ...
+            String doWhat = "FileTransfer";
+            String[] args = new String[6];
+            args[0] = IPv4;
+            args[1] = sourcePath; // quelle
+            args[2] = targetPath; // ziel
+            args[3] = filename;
+            args[4] = IPv4target;
+            args[5] = doWhat;
+            StartClientServer.startClient(args);
+        }
         return 1;
     }
 
@@ -92,6 +117,7 @@ public class Interfaces
         /** success if an IP was found with CheckWhoIsOnline */
         if (ip != null)
         {
+            System.out.println("Ihre IP: " + ip);
             CheckWhoIsOnline.CheckWhoIsOnline(ip);
             succes = true;
         }

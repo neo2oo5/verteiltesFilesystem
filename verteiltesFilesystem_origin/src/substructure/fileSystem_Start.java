@@ -86,7 +86,7 @@ public class fileSystem_Start {
                 
             }
         });
-        
+        /*
         String debug ="";
   
                         Properties prop = new Properties();
@@ -105,7 +105,7 @@ public class fileSystem_Start {
                     trigger = true;
                     fileSystem  c = fileSystem.getInstance();
                     c.setnewFileSystem("127.0.0.1", debug);
-                   // c.setnewFileSystem("127.0.0.2", "/home/xoxoxo/Downloads");
+                   // c.setnewFileSystem("127.0.0.2", "  c.setnewFileSystem("127.0.0.1", debug);/home/xoxoxo/Downloads");
                     //System.out.print(c.listAll());
                     System.out.print(c.list("127.0.0.1"));
                 }
@@ -117,7 +117,7 @@ public class fileSystem_Start {
                 }
                 }while(trigger == false);
 
-		
+		*/
 	
         
         

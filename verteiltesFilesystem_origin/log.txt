@@ -168,3 +168,50 @@ test
 Panelindex: 1
 test
 javax.swing.JLabel[,139,37,85x15,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@329ca13,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=/home/xoxoxo,verticalAlignment=CENTER,verticalTextPosition=CENTER]
+Panelindex: 2
+case 2
+test
+Panelindex: 2
+case 2
+test
+Panelindex: 1
+test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 0
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 1 true
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 1 true
+[32mINFORMATION: Panelindex: 2
+case 2
+[32mINFORMATION: test
+[32mINFORMATION: datei erstellt
+[32mINFORMATION: Child 1 true
+[32mINFORMATION: Panelindex: 1
+[32mINFORMATION: test
+[32mINFORMATION: javax.swing.JLabel[,126,37,25x16,invalid,alignmentX=0.0,alignmentY=0.0,border=javax.swing.plaf.synth.SynthBorder@6ccc4acb,flags=8388608,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=C:\Users\Lamparari\Documents\HTW,verticalAlignment=CENTER,verticalTextPosition=CENTER]
+Panelindex: 2
+case 2
+test
+Panelindex: 0
+test
