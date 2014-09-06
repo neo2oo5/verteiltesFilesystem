@@ -7,12 +7,15 @@
 package gui;
 
 
-import substructure.Output;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import substructure.Output;
+import fileSystem.fileSystem;
+import fileSystem.fileSystemException;
 
 
 /**
@@ -22,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class Explorer
 {
     Output out = new Output();
+    private fileSystem  c;
     /**
      *
      * @param Explorer
@@ -49,6 +53,52 @@ public class Explorer
                 out.print(nodeInfo);
             }
         });*/
+        
+        
+        
+        String out="";
+        try{
+                
+
+        
+       
+        
+                c = fileSystem.getInstance();
+                String s="";
+                c.setnewFileSystem("127.0.0.1", "/home/xoxoxo");
+               for (Path file_or_folder: c.get("127.0.0.1"))
+               {
+                   
+                  DefaultMutableTreeNode p = treePanel.addObject(null , file_or_folder.getFileName());
+                  if(c.getChild(file_or_folder) != null)
+                  {
+                    for (Path file_or_folder_child: c.getChild(file_or_folder))
+                    {
+                        if(Files.isDirectory(file_or_folder))
+                        {
+                          treePanel.addObject(p , file_or_folder.getFileName());
+                        }
+                    }
+                  }
+                  
+               
+               }
+                } catch (fileSystemException ex) {
+                    
+        } 
+        catch (DirectoryIteratorException ex) {
+           // I/O error encounted during the iteration, the cause is an IOException
+           //throw ex.getCause();
+       }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         String p1Name = new String("Parent 1");
         String p2Name = new String("Parent 2");
         String c1Name = new String("Child 1");
