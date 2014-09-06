@@ -42,18 +42,7 @@ public class FileTransfer {
         executorService.execute(fileFetcher);
  
         executorService.shutdown();
-        String dateiCheck = args[0]+args[2];
-        File fileCheck = new File(dateiCheck);
-        if(fileCheck.exists())
-        {
-            System.out.println("File transfer complete");
-            return true;
-        }
-        else
-        {
-            System.out.println("File transfer not complete");
-            return false;
-        }
+        return true;
     }
  
     static class FileProvider implements Runnable {

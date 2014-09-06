@@ -6,6 +6,7 @@
 package network;
 /** Used Libraries */
 import java.io.File;
+import static java.lang.Thread.sleep;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
 public class Interfaces
 {
 
-    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath,  String filename)
+    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath,  String filename) throws InterruptedException
     {
         String IPv4target = null;
         try
@@ -40,12 +41,23 @@ public class Interfaces
             args[1] = sourcePath; // quelle
             args[2] = targetPath; // ziel
             args[3] = filename;
-            args[4] = "95.88.241.26";
+            args[4] = IPv4target;
             args[5] = doWhat;
             
             File target = new File(args[2]); 
             target.mkdirs(); 
             StartClientServer.startClient(args);
+            sleep(100);
+            String dateiCheck = args[0]+args[2];
+            File fileCheck = new File(dateiCheck);
+            if(fileCheck.exists())
+            {
+                System.out.println("File transfer complete");
+            }
+            else
+            {
+                System.out.println("File transfer not complete");
+            }
         }
         return 1;
     }
