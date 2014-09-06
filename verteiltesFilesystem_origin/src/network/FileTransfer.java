@@ -40,6 +40,8 @@ public class FileTransfer {
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(fileProvider);
         executorService.execute(fileFetcher);
+        
+        System.out.println("test");
  
         executorService.shutdown();
         return true;
