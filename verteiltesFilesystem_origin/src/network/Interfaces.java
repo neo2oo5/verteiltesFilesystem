@@ -9,8 +9,6 @@ import java.io.File;
 import static java.lang.Thread.sleep;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,15 +46,8 @@ public class Interfaces
             
             File target = new File(args[2]); 
             target.mkdirs(); 
-            
             StartClientServer.startClient(args);
             sleep(100);
-            
-            FileTransfer.FileFetcher fileFetcher = new FileTransfer.FileFetcher(IPv4target, 1718, args);
-            ExecutorService executorService = Executors.newFixedThreadPool(2);
-            executorService.execute(fileFetcher);
-
-            executorService.shutdown();
             String dateiCheck = args[0]+args[2];
             File fileCheck = new File(dateiCheck);
             if(fileCheck.exists())

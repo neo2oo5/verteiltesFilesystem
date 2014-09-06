@@ -35,9 +35,13 @@ public class FileTransfer {
         String datei = args[0]+args[2];
         File file = new File(datei);
         FileProvider fileProvider = new FileProvider(file, 1718);
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
         
+        FileFetcher fileFetcher = new FileFetcher(args[3], 1718, args);
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(fileProvider);
+        executorService.execute(fileFetcher);
+ 
+        executorService.shutdown();
         return true;
     }
  
