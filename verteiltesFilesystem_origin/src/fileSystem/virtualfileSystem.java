@@ -8,10 +8,13 @@ package fileSystem;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,31 +24,52 @@ import java.util.logging.Logger;
  */
 public class virtualfileSystem implements Serializable
 {
-    private DirectoryStream<Path> virtualFSystem[] = null;
+    private Node virtualFSystem[];
             
             
             
     virtualfileSystem(String path) {
-        try {
-            Files.newDirectoryStream(converttoPath(path) , "*");
-        } catch (IOException ex) {
-            Logger.getLogger(virtualfileSystem.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        initFilesystem(path, null, virtualFSystem);
+    }
+    private void initFilesystem(Object path)
+    {
+        initFilesystem(path, null, virtualFSystem);
     }
     
-    private boolean initFilesystem(String path)
-    {   int x = 0;
-        try {
-            if(virtualFSystem[x] == null)
-            {
-                virtualFSystem[x] = Files.newDirectoryStream(converttoPath(path) , "*");
-                x++;
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(virtualfileSystem.class.getName()).log(Level.SEVERE, null, ex);
+    private void initFilesystem(Object path, Folder parent,  Node virtualFSystem[])
+    {   
+        try{
+               int x = 0;
+               DirectoryStream<Path> stream = Files.newDirectoryStream(converttoPath(path), "*");
+               Node tmparray[] = null;
+               
+               for (Path file_or_folder: stream) {
+                    
+                   
+                    
+                    if(Files.isDirectory(converttoPath(file_or_folder)) == true)
+                    {  
+                        Folder nextparent = new Folder(file_or_folder.toString(), parent);
+                        virtualFSystem[x] = (Folder) nextparent;
+                        
+                        initFilesystem(file_or_folder, nextparent, virtualFSystem[]);
+                        
+                    }
+                    else
+                    {
+                        virtualFSystem[x] =  new File(file_or_folder.toString(), parent); 
+                    }
+                }
+               
+               virtualFSystem[] = tmplist;
+              
+           
+       } catch (DirectoryIteratorException ex) {
+           // I/O error encounted during the iteration, the cause is an IOException
+           //throw ex.getCause();
+       } catch (IOException ex) {
+           // Logger.getLogger(virtualfileSystem.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
     }
     
     private Path converttoPath(Object obj)
@@ -59,7 +83,7 @@ public class virtualfileSystem implements Serializable
         String out ="";
         try{
            
-               for (Object file_or_folder: fileSystem.get(find(clients, IP))) {
+               for (Object file_or_folder: virtualFSystem) {
                     out += " " + file_or_folder + " - Datei oder Ordner? " + Files.isDirectory(converttoPath(file_or_folder)) + "\n";
                 }
               
@@ -71,4 +95,8 @@ public class virtualfileSystem implements Serializable
         return out;
     }
     
+    public List<List<Node>> get()
+    {
+        return virtualFSystem;
+    }
 }

@@ -10,6 +10,7 @@ package fileSystem;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class fileSystem{
     
-    private final List<virtualfileSystem> fileSystem;
+    private final List<List<List<Node>>> fileSystem = new ArrayList<>();
     private int clientscount            = 0;
     private String clients[]            = new String[100];
     private boolean isLocked            = false;
@@ -29,7 +30,7 @@ public class fileSystem{
    
     
     private fileSystem() {
-        this.fileSystem = new ArrayList<>();
+       // this.fileSystem = new ArrayList<>();
     }
     
     /**
@@ -121,7 +122,9 @@ public class fileSystem{
     public void setnewFileSystem(String IP, String path) throws fileSystemException
     {
         try{
-            fileSystem.add(clientscount, new virtualfileSystem(path));
+            virtualfileSystem fs = new virtualfileSystem(path);
+            
+            fileSystem.add(clientscount, fs.get());
             clients[clientscount] = IP;
             clientscount++;
         }
@@ -132,25 +135,30 @@ public class fileSystem{
         }
     }
     
-    public String listAll ()
+    public List<List<Node>> get(String IP)
+    {
+        return fileSystem.get(find(clients,IP));
+    }
+    public String list (String IP)
     {
         String out ="";
         try{
-           for (DirectoryStream entry: fileSystem) {
-               for (Object file_or_folder: entry) {
-                    out += " " + file_or_folder + " - Datei oder Ordner? " + Files.isDirectory(converttoPath(file_or_folder)) + "\n";
-                }
-              
-           }
+           List<List<Node>> fs = fileSystem.get(find(clients,IP));
+           print(fs);
+           
        } catch (DirectoryIteratorException ex) {
            // I/O error encounted during the iteration, the cause is an IOException
            //throw ex.getCause();
        }
         return out;
     }
-    public String list (String IP)
+    
+    private void print(List<Node> n)
     {
-        
+        for (Iterator<Node> it = n.iterator(); it.hasNext();) {
+            List<Node> entry = (List<Node>) it.next();
+            System.out.print(entry + "\n");
+        } 
     }
     
     public static int find (String[] array , String name) {  
