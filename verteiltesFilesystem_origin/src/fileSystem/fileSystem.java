@@ -1,25 +1,27 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+* Docs:
+* http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html
+* http://openjdk.java.net/projects/nio/javadoc/java/nio/file/DirectoryStream.html
+* Bildet die Dateisysteme nach als Liste (Singelton Klasse)
+* Fehlende Funktionen: 
  */
 
 package fileSystem;
 
 
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin.Bonner@gmx.de
  */
 public class fileSystem{
     
-    private final List<List<List<Node>>> fileSystem = new ArrayList<>();
+    private final List<List<Path>> fileSystem = new ArrayList<>();
     private int clientscount            = 0;
     private String clients[]            = new String[100];
     private boolean isLocked            = false;
@@ -119,12 +121,18 @@ public class fileSystem{
         }
     }
     
+    /**
+     * nimmt neues Dateisystem auf z.B localhost oder Remoteclient
+     * @param IP
+     * @param path
+     * @throws fileSystemException
+     */
     public void setnewFileSystem(String IP, String path) throws fileSystemException
     {
         try{
-            virtualfileSystem fs = new virtualfileSystem(path);
+        
             
-            fileSystem.add(clientscount, fs.get());
+            fileSystem.add(clientscount, initFS(path));
             clients[clientscount] = IP;
             clientscount++;
         }
@@ -135,16 +143,45 @@ public class fileSystem{
         }
     }
     
-    public List<List<Node>> get(String IP)
+    private List<Path> initFS(String Path) throws IOException
     {
-        return fileSystem.get(find(clients,IP));
+         List<Path> result = new ArrayList<>();
+       try (DirectoryStream<Path> stream = Files.newDirectoryStream(converttoPath(Path), "*")) {
+           for (Path entry: stream) {
+               if(Files.isDirectory(entry) == false && Files.isHidden(entry) == false)
+               result.add(entry);
+           }
+       } catch (DirectoryIteratorException ex) {
+           // I/O error encounted during the iteration, the cause is an IOException
+           throw ex.getCause();
+       }
+       return result;
     }
+    
+    /**
+     *
+     * @param IP
+     * @return
+     */
+    public List<Path> get(String IP)
+    {
+        return fileSystem.get(find(clients, IP));
+    }
+
+    /**
+     *
+     * @param IP
+     * @return
+     */
     public String list (String IP)
     {
         String out ="";
         try{
-           List<List<Node>> fs = fileSystem.get(find(clients,IP));
-           print(fs);
+           for (Path entry: fileSystem.get(find(clients,IP)))
+           {
+                       out += entry + " \n";
+           }
+           
            
        } catch (DirectoryIteratorException ex) {
            // I/O error encounted during the iteration, the cause is an IOException
@@ -152,18 +189,23 @@ public class fileSystem{
        }
         return out;
     }
+    /******************************************************* Helper *****************************************************************************/
     
-    private void print(List<Node> n)
-    {
-        for (Iterator<Node> it = n.iterator(); it.hasNext();) {
-            List<Node> entry = (List<Node>) it.next();
-            System.out.print(entry + "\n");
-        } 
-    }
     
+    /**
+     *
+     * @param array
+     * @param name
+     * @return
+     */
     public static int find (String[] array , String name) {  
       return Arrays.asList(array).indexOf(name);  
-    }  
+    }
+    
+    private Path converttoPath(Object obj)
+    {
+       return FileSystems.getDefault().getPath(String.valueOf(obj));
+    }
     
    
     

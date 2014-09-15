@@ -304,7 +304,7 @@ public class GUI extends javax.swing.JFrame
         {
             String getPath = jfc.getSelectedFile().getPath();
             Path.setText(getPath);
-            out.print(Path);
+            //out.print(Path);
 
             Properties prop = new Properties();
             OutputStream output = null;

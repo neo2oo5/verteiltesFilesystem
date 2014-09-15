@@ -41,10 +41,8 @@ public class DynamicTree extends JPanel implements MouseListener
     private JMenuItem menuItemOrdnerErstellen;
     private JMenuItem menuItemDateiLoeschen;
     private JMenuItem menuItemDateiErstellen;
-    private static String CFO_CMD = "createFolder";
-    private static String RFO_CMD = "removeFolder";
-    private static String CFI_CMD = "createFolder";    
-    private static String RFI_CMD = "removeFolder";    
+    private static String CFI_CMD = "createFile";    
+    private static String RFI_CMD = "removeFile";    
         
         /**
          * Erstellt den Tree
@@ -184,19 +182,16 @@ public class DynamicTree extends JPanel implements MouseListener
     public void showMenu(MouseEvent e)
     {
       popup = new JPopupMenu();
-        menuItemOrdnerErstellen = new JMenuItem("Ordner erstellen");
-        menuItemOrdnerLoeschen = new JMenuItem("Ordner loeschen");
+      
         menuItemDateiErstellen = new JMenuItem("Datei erstellen");
         menuItemDateiLoeschen = new JMenuItem("Datei loeschen");
 
 
-        menuItemOrdnerErstellen.addActionListener(new PopupListener());
-        menuItemOrdnerLoeschen.addActionListener(new PopupListener());
+
         menuItemDateiErstellen.addActionListener(new PopupListener());
         menuItemDateiLoeschen.addActionListener(new PopupListener());
         
-        menuItemOrdnerErstellen.setActionCommand(CFO_CMD);
-        menuItemOrdnerLoeschen.setActionCommand(RFO_CMD);
+   
         menuItemDateiErstellen.setActionCommand(CFI_CMD);
         menuItemDateiLoeschen.setActionCommand(RFI_CMD);
         
@@ -276,7 +271,7 @@ public class DynamicTree extends JPanel implements MouseListener
                             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
                             MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
                             
-                            out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
+                            //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
                             
                             DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "ordner name?"));
                              treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
@@ -292,14 +287,7 @@ public class DynamicTree extends JPanel implements MouseListener
                 {
                     out.print("datei entfernt");
                 }
-                else if(CFO_CMD.equals(command))
-                {
-                    out.print("ordner erstellt");
-                }
-                else if(RFO_CMD.equals(command))
-                {
-                    out.print("ordner entfernt");
-                }
+               
             }
         }
 }

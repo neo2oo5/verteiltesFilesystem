@@ -7,6 +7,7 @@
 package gui;
 
 
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.file.*;
@@ -15,7 +16,12 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import substructure.Output;
 import fileSystem.fileSystem;
+import static fileSystem.fileSystem.find;
 import fileSystem.fileSystemException;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -26,6 +32,7 @@ public class Explorer
 {
     Output out = new Output();
     private fileSystem  c;
+    DynamicTree treePanel;
     /**
      *
      * @param Explorer
@@ -34,9 +41,9 @@ public class Explorer
     public void init(javax.swing.JTabbedPane Pane)
     {
       
-        DynamicTree treePanel = new DynamicTree(Pane);
+        treePanel = new DynamicTree(Pane);
         
-        javax.swing.JTree tree = treePanel.getTree();
+       // tree = treePanel.getTree();
         
         
         
@@ -56,41 +63,24 @@ public class Explorer
         
         
         
-        String out="";
-        try{
-                
+       
+        
 
         
        
         
                 c = fileSystem.getInstance();
-                String s="";
-                c.setnewFileSystem("127.0.0.1", "/home/xoxoxo");
-               for (Path file_or_folder: c.get("127.0.0.1"))
-               {
-                   
-                  DefaultMutableTreeNode p = treePanel.addObject(null , file_or_folder.getFileName());
-                  if(c.getChild(file_or_folder) != null)
-                  {
-                    for (Path file_or_folder_child: c.getChild(file_or_folder))
-                    {
-                        if(Files.isDirectory(file_or_folder))
-                        {
-                          treePanel.addObject(p , file_or_folder.getFileName());
-                        }
-                    }
-                  }
-                  
+                
+        try {
+            c.setnewFileSystem("127.0.0.1", "/home/xoxoxo/Musik/BM35flac");
+            initExplorerTree(c.get("127.0.0.1"));
+        } catch (fileSystemException ex) {
+            Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, null, ex);
+        }
                
-               }
-                } catch (fileSystemException ex) {
-                    
-        } 
-        catch (DirectoryIteratorException ex) {
-           // I/O error encounted during the iteration, the cause is an IOException
-           //throw ex.getCause();
-       }
-        
+         
         
         
         
@@ -122,10 +112,24 @@ public class Explorer
        
     }
     
-    /**
-     *
-     * @param e
-     */
+    private void initExplorerTree(List<Path> fs) throws IOException
+    {
+        try {
+           for (int i = 0; i < fs.size(); i++) {
+               Path tmp = fs.get(i);
+               //System.out.print(tmp.getFileName());
+		treePanel.addObject(tmp.getFileName());
+            }
+           
+       } catch (DirectoryIteratorException ex) {
+           // I/O error encounted during the iteration, the cause is an IOException
+           throw ex.getCause();
+       }
+    }
+    
+
+    
+  
 
    
 }
