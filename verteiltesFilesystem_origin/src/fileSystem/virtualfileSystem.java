@@ -8,6 +8,7 @@ package fileSystem;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
@@ -36,7 +37,7 @@ public class virtualfileSystem implements Serializable
         initFilesystem(path, null, virtualFSystem);
     }
     
-    private void initFilesystem(Object path, Folder parent,  Node virtualFSystem[])
+    private Node[] initFilesystem(Object path, Folder parent,  Node virtualFSystem[])
     {   
         try{
                int x = 0;
@@ -50,9 +51,8 @@ public class virtualfileSystem implements Serializable
                     if(Files.isDirectory(converttoPath(file_or_folder)) == true)
                     {  
                         Folder nextparent = new Folder(file_or_folder.toString(), parent);
-                        virtualFSystem[x] = (Folder) nextparent;
-                        
-                        initFilesystem(file_or_folder, nextparent, virtualFSystem[]);
+                        virtualFSystem[x] = new Node();
+                        virtualFSystem[x] = initFilesystem(file_or_folder, nextparent, Array.get(virtualFSystem,x));
                         
                     }
                     else
@@ -61,7 +61,7 @@ public class virtualfileSystem implements Serializable
                     }
                 }
                
-               virtualFSystem[] = tmplist;
+                return virtualFSystem;
               
            
        } catch (DirectoryIteratorException ex) {
