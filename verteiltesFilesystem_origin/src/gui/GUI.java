@@ -62,6 +62,7 @@ public class GUI extends javax.swing.JFrame
         
         
         /*Set Icon Image*/
+        /*
         BufferedImage image = null;
         try {
             image = ImageIO.read(getClass().getResource("/substructure/hdd.png"));
@@ -70,7 +71,7 @@ public class GUI extends javax.swing.JFrame
         }
         setIconImage(image);
         
-        
+        */
     }
     /**
      * This method is called from within the constructor to initialize the form.
