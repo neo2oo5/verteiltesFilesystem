@@ -195,8 +195,7 @@ public class DynamicTree extends JPanel implements MouseListener
         menuItemDateiErstellen.setActionCommand(CFI_CMD);
         menuItemDateiLoeschen.setActionCommand(RFI_CMD);
         
-        popup.add(menuItemOrdnerErstellen);
-        popup.add(menuItemOrdnerLoeschen);
+        
         popup.add(menuItemDateiErstellen);
         popup.add(menuItemDateiLoeschen);
     
