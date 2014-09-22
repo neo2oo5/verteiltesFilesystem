@@ -14,14 +14,15 @@ import java.nio.file.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import substructure.Output;
 import fileSystem.fileSystem;
 import static fileSystem.fileSystem.find;
 import fileSystem.fileSystemException;
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import substructure.GUIOutput;
+
 
 
 /**
@@ -30,7 +31,7 @@ import java.util.logging.Logger;
  */
 public class Explorer
 {
-    Output out = new Output();
+    private  GUIOutput out =  GUIOutput.getInstance();
     private fileSystem  c;
     DynamicTree treePanel;
     /**
@@ -39,86 +40,31 @@ public class Explorer
      * @return
      */
     public void init(javax.swing.JTabbedPane Pane)
+    {      
+        treePanel = new DynamicTree(Pane); 
+    }
+    
+    public void add(String IP)
     {
-      
-        treePanel = new DynamicTree(Pane);
-        
-       // tree = treePanel.getTree();
-        
-        
-        
-       /* tree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-                                   tree.getLastSelectedPathComponent();
-
-           
-                if (node == null) return;
-
-        
-                Object nodeInfo = node.getUserObject();
-                out.print(nodeInfo);
-            }
-        });*/
-        
-        
-        
-       
-        
-
-        
-       
-        
-                c = fileSystem.getInstance();
+         c = fileSystem.getInstance();
                 
         try {
-            c.setnewFileSystem("127.0.0.1", "/home/xoxoxo/Musik/BM35flac");
-            initExplorerTree(c.get("127.0.0.1"));
-        } catch (fileSystemException ex) {
-            Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, null, ex);
+            
+            initExplorerTree(c.get(IP), IP);
         } catch (IOException ex) {
             Logger.getLogger(Explorer.class.getName()).log(Level.SEVERE, null, ex);
         }
-               
-         
-        
-        
-        
-        
-        
-        
-        
-        
-        String p1Name = new String("Parent 1");
-        String p2Name = new String("Parent 2");
-        String c1Name = new String("Child 1");
-        String c2Name = new String("Child 2");
-
-        DefaultMutableTreeNode p1, p2;
-
-        p1 = treePanel.addObject(null , p1Name);
-        p2 = treePanel.addObject(null , p2Name);
-
-       treePanel.addObject(p1, c1Name);
-        treePanel.addObject(p1, c2Name);
-
-        treePanel.addObject(p2, c1Name);
-        treePanel.addObject(p2, c2Name);
-         
-        
-       // Pane.addTab("Explorer", treePanel );
-        
-        
-       
+             
     }
     
-    private void initExplorerTree(List<Path> fs) throws IOException
+    private void initExplorerTree(List<Path> fs,  String IP) throws IOException
     {
         try {
+            DefaultMutableTreeNode rootNode = treePanel.addObject(IP);
            for (int i = 0; i < fs.size(); i++) {
                Path tmp = fs.get(i);
                //System.out.print(tmp.getFileName());
-		treePanel.addObject(tmp.getFileName());
+		treePanel.addObject(rootNode, tmp.getFileName());
             }
            
        } catch (DirectoryIteratorException ex) {

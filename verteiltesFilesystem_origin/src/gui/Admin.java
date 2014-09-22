@@ -5,11 +5,12 @@
  */
 
 package gui;
-import substructure.Output;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import substructure.GUIOutput;
 
 /**
  *
@@ -17,7 +18,7 @@ import java.util.Properties;
  */
 public class Admin
 {
-    private static Output out = new Output();
+     private static  GUIOutput out =  GUIOutput.getInstance();
     /**
      *
      * @param username
@@ -40,7 +41,7 @@ public class Admin
  
 	try {
  
-		input = new FileInputStream("config.properties");
+		input = new FileInputStream("user.properties");
  
 		// load a properties file
 		prop.load(input);

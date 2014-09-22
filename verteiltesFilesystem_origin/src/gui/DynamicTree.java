@@ -37,12 +37,13 @@ public class DynamicTree extends JPanel implements MouseListener
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private GUIOutput out = GUIOutput.getInstance();
     private JPopupMenu popup;
-    private JMenuItem menuItemOrdnerLoeschen;
-    private JMenuItem menuItemOrdnerErstellen;
+    private JMenuItem menuItemDateiDownload;
     private JMenuItem menuItemDateiLoeschen;
     private JMenuItem menuItemDateiErstellen;
     private static String CFI_CMD = "createFile";    
     private static String RFI_CMD = "removeFile";    
+    private String DFI_CMD;
+
         
         /**
          * Erstellt den Tree
@@ -183,19 +184,20 @@ public class DynamicTree extends JPanel implements MouseListener
     {
       popup = new JPopupMenu();
       
+        menuItemDateiDownload = new JMenuItem("Datei downloaden");
         menuItemDateiErstellen = new JMenuItem("Datei erstellen");
         menuItemDateiLoeschen = new JMenuItem("Datei loeschen");
 
 
-
+        menuItemDateiDownload.addActionListener(new PopupListener());
         menuItemDateiErstellen.addActionListener(new PopupListener());
         menuItemDateiLoeschen.addActionListener(new PopupListener());
         
-   
+        menuItemDateiDownload.setActionCommand(DFI_CMD);
         menuItemDateiErstellen.setActionCommand(CFI_CMD);
         menuItemDateiLoeschen.setActionCommand(RFI_CMD);
         
-        
+        popup.add(menuItemDateiDownload);
         popup.add(menuItemDateiErstellen);
         popup.add(menuItemDateiLoeschen);
     

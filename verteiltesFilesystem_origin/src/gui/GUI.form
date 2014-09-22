@@ -141,12 +141,12 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="AdminUsernameField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jTextField1"/>
+                    <Property name="text" type="java.lang.String" value="Username"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="AdminPasswordField">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+                    <Property name="text" type="java.lang.String" value="Password"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -195,9 +195,11 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="Log" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <Component id="FolderChooser" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="PathName" min="-2" max="-2" attributes="0"/>
@@ -219,7 +221,11 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="FolderChooser" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="2697" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="Log" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="2635" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -242,6 +248,20 @@
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="FolderChooserMouseClicked"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FolderChooserActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Zeige Logfile:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="Log">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Aus"/>
+                <Property name="actionCommand" type="java.lang.String" value="Log"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LogActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

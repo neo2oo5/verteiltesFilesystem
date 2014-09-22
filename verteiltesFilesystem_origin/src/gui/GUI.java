@@ -59,7 +59,10 @@ public class GUI extends javax.swing.JFrame
         Explorer explorer   = new Explorer();
         explorer.init(jTabbedPane5);
         
+        explorer.add("127.0.0.1");
+        explorer.add("127.0.0.2");
         
+      
         
         /*Set Icon Image*/
         /*
@@ -95,6 +98,8 @@ public class GUI extends javax.swing.JFrame
         PathName = new javax.swing.JLabel();
         Path = new javax.swing.JLabel();
         FolderChooser = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        Log = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Verteiltes Filesystem");
@@ -120,9 +125,9 @@ public class GUI extends javax.swing.JFrame
 
         AdminLoginLabel.setText("Login:");
 
-        AdminUsernameField.setText("jTextField1");
+        AdminUsernameField.setText("Username");
 
-        AdminPasswordField.setText("jPasswordField1");
+        AdminPasswordField.setText("Password");
 
         javax.swing.GroupLayout AdminLoginPanelLayout = new javax.swing.GroupLayout(AdminLoginPanel);
         AdminLoginPanel.setLayout(AdminLoginPanelLayout);
@@ -211,6 +216,16 @@ public class GUI extends javax.swing.JFrame
             }
         });
 
+        jLabel1.setText("Zeige Logfile:");
+
+        Log.setText("Aus");
+        Log.setActionCommand("Log");
+        Log.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ConfigPanelLayout = new javax.swing.GroupLayout(ConfigPanel);
         ConfigPanel.setLayout(ConfigPanelLayout);
         ConfigPanelLayout.setHorizontalGroup(
@@ -218,6 +233,8 @@ public class GUI extends javax.swing.JFrame
             .addGroup(ConfigPanelLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(ConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Log)
+                    .addComponent(jLabel1)
                     .addComponent(FolderChooser)
                     .addGroup(ConfigPanelLayout.createSequentialGroup()
                         .addComponent(PathName)
@@ -234,7 +251,11 @@ public class GUI extends javax.swing.JFrame
                     .addComponent(Path))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FolderChooser)
-                .addContainerGap(2697, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Log)
+                .addContainerGap(2635, Short.MAX_VALUE))
         );
 
         jTabbedPane5.addTab("Config", ConfigPanel);
@@ -340,6 +361,7 @@ public class GUI extends javax.swing.JFrame
 
         if(Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
         {
+            
             AdminLoginPanel.setVisible(false);
             AdminConfigPanel.setVisible(true);
         }
@@ -349,6 +371,21 @@ public class GUI extends javax.swing.JFrame
     private void AdminLoginSentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminLoginSentMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_AdminLoginSentMouseClicked
+
+    private void LogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogActionPerformed
+        // TODO add your handling code here:
+        if(Log.getText().equals("An"))
+        {
+            Log.setText("Aus");
+            out.setVisible(false);
+        }
+        else
+        {
+            Log.setText("An");
+            out.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_LogActionPerformed
 
     /**
      * @param args the command line arguments
@@ -368,8 +405,10 @@ public class GUI extends javax.swing.JFrame
     private javax.swing.JTextField AdminUsernameField;
     private javax.swing.JPanel ConfigPanel;
     private javax.swing.JButton FolderChooser;
+    private javax.swing.JToggleButton Log;
     private javax.swing.JLabel Path;
     private javax.swing.JLabel PathName;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTabbedPane jTabbedPane5;
     // End of variables declaration//GEN-END:variables
