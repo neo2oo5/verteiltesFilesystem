@@ -8,6 +8,7 @@ package substructure;
 import gui.ColorPane;
 import gui.GuiPromptHelper;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class GUIOutput extends Output{
     private ArrayList<String> log = new ArrayList( );
     JFrame f;
     ColorPane pane;
+    JScrollPane spane;
     
     
     public static GUIOutput getInstance() {
@@ -36,11 +38,19 @@ public class GUIOutput extends Output{
       return instance;
    }
     
+    public void setVisible(boolean e)
+    {
+        f.setVisible(e);
+    }
+    
     private GUIOutput()
     {
          f = new JFrame("Log");
          pane = new ColorPane();
          f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         f.setPreferredSize(new Dimension(600, 400));
+         f.setSize(600, 400);
+         f.setVisible(false);
   
     }
   
@@ -85,9 +95,13 @@ public class GUIOutput extends Output{
            
                 pane.setText("");
                 setText(pane);
-                f.setContentPane(new JScrollPane(pane));
-                f.setSize(600, 400);
-                f.setVisible(true);
+                pane.validate();
+                spane = new JScrollPane(pane);
+                spane.validate();
+                f.setContentPane(spane);
+                f.pack();
+                
+                
             
            
   
@@ -117,6 +131,8 @@ public class GUIOutput extends Output{
                 pane.append(getANSIColor(ANSI_GREEN), p.toString().replace(ANSI_GREEN, "") + "\n");
             }
           
+            
+            
         }
         
       

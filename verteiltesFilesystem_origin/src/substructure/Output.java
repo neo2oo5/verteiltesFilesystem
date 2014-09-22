@@ -91,7 +91,7 @@ public class Output
                 */
 	try {
  
-		input = new FileInputStream("config.properties");
+		input = new FileInputStream("debug.properties");
  
 		// load a properties file
 		prop.load(input);
@@ -106,7 +106,12 @@ public class Output
                 }
 
 		
-	} catch (IOException ex) {
+	} 
+        catch (FileNotFoundException e){
+            new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Debug File konnte nicht geladen werden "+e);
+        }
+        
+        catch (IOException ex) {
 		ex.printStackTrace();
 	} finally {
 		if (input != null) {

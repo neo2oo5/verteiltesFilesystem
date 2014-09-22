@@ -6,12 +6,16 @@
 
 package substructure;
 
+import fileSystem.fileSystem;
+import fileSystem.fileSystemException;
 import gui.GUI;
 import gui.GuiPromptHelper;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,26 +28,25 @@ public class fileSystem_Start {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException, IOException, fileSystemException {
         
         /** Singelton Klasse
-                * Im gesamten Projekt benutzbar aufruf ueber folgenden ein Zeiler  
-                *   GUIOutput out =  GUIOutput.getInstance();
-                *   out.print(Object msg, int modelevel) 
-                *  Level: 
-                * 0) None
-                * 1) Information (Default)
-                * 2) Warning
-                * 3) Error
-                * 
-                * Wird Standart maeßig in log.txt geschrieben
-                * Kann in config.properties den modelevel geaendert werden
-                * 
-                */
-       
-        
-        
-        
+         * Im gesamten Projekt benutzbar aufruf ueber folgenden ein Zeiler
+         *   GUIOutput out =  GUIOutput.getInstance();
+         *   out.print(Object msg, int modelevel)
+         *  Level:
+         * 0) None
+         * 1) Information (Default)
+         * 2) Warning
+         * 3) Error
+         *
+         * Wird Standart maeßig in log.txt geschrieben
+         * Kann in config.properties den modelevel geaendert werden
+         *
+         */
+        fileSystem c = fileSystem.getInstance();
+        c.setnewFileSystem("127.0.0.1", "/home/xoxoxo/Musik/BM35flac");
+        c.setnewFileSystem("127.0.0.2", "/home/xoxoxo/Musik/BM35flac");
         
         
         /* Set the Nimbus look and feel */
@@ -86,38 +89,40 @@ public class fileSystem_Start {
                 
             }
         });
-        /*
-        String debug ="";
-  
-                        Properties prop = new Properties();
-                        boolean trigger = false;
-                        
-		input = new FileInputStream("config.properties");
- 
-		// load a properties file
-		prop.load(input);
-                
-                do
-                {
-		// get the property value and print it out
-                try{
-                    debug = prop.getProperty("ROOT_DIR");
-                    trigger = true;
-                    fileSystem  c = fileSystem.getInstance();
-                    c.setnewFileSystem("127.0.0.1", debug);
-                   // c.setnewFileSystem("127.0.0.2", "  c.setnewFileSystem("127.0.0.1", debug);/home/xoxoxo/Downloads");
-                    //System.out.print(c.listAll());
-                    System.out.print(c.list("127.0.0.1"));
-                }
-                catch(Exception e)
-                {
-                    //new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Modelevel konnte nicht gelesen werden "+e);
-                    trigger = false;
-                    Thread.currentThread().sleep(5000);
-                }
-                }while(trigger == false);
-
-		*/
+        
+            /*
+            String debug ="";
+            
+            Properties prop = new Properties();
+            boolean trigger = false;
+            
+            input = new FileInputStream("config.properties");
+            
+            // load a properties file
+            prop.load(input);
+            
+            do
+            {
+            // get the property value and print it out
+            try{
+            debug = prop.getProperty("ROOT_DIR");
+            trigger = true;
+            fileSystem  c = fileSystem.getInstance();
+            c.setnewFileSystem("127.0.0.1", debug);
+            // c.setnewFileSystem("127.0.0.2", "  c.setnewFileSystem("127.0.0.1", debug);/home/xoxoxo/Downloads");
+            //System.out.print(c.listAll());
+            System.out.print(c.list("127.0.0.1"));
+            }
+            catch(Exception e)
+            {
+            //new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Modelevel konnte nicht gelesen werden "+e);
+            trigger = false;
+            Thread.currentThread().sleep(5000);
+            }
+            }while(trigger == false);
+            
+            */
+       
 	
         
         
