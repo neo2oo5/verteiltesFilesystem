@@ -59,8 +59,7 @@ public class GUI extends javax.swing.JFrame
         Explorer explorer   = new Explorer();
         explorer.init(jTabbedPane5);
         
-        explorer.add("127.0.0.1");
-        explorer.add("127.0.0.2");
+     
         
       
         

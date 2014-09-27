@@ -262,20 +262,28 @@ public class DynamicTree extends JPanel implements MouseListener
             @Override
             public void actionPerformed(ActionEvent e) {
                 String command = e.getActionCommand(); //To change body of generated methods, choose Tools | Templates.
+                TreePath currentSelection = tree.getSelectionPath();
+                DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
+                
                 if (CFI_CMD.equals(command)) 
                 {
                    out.print("datei erstellt");
-                   TreePath currentSelection = tree.getSelectionPath();
+                   
                     if (currentSelection != null) 
                     {
                         
-                            DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
                             MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
                             
                             //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
-                            
-                            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "ordner name?"));
-                             treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
+                            if(currentNode.isLeaf() == false)
+                            {
+                                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "ordner name?"));
+                                treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
+                            }
+                            else
+                            {
+                                new GuiPromptHelper(GuiPromptHelper.showError, "Es kann in einer Datei keine Datei angelegt werden.");
+                            }
                             
                             if (parent != null) 
                             {
@@ -286,7 +294,27 @@ public class DynamicTree extends JPanel implements MouseListener
                 } 
                 else if(RFI_CMD.equals(command))
                 {
+                    
+                    if(currentNode.isLeaf() == true)
+                    {
+                        treeModel.removeNodeFromParent(currentNode);
+                    }
+                    else
+                    {
+                        new GuiPromptHelper(GuiPromptHelper.showError, "Ein FileSystem kann nicht geloescht werden.");
+                    }
                     out.print("datei entfernt");
+                }
+                else if(DFI_CMD.equals(command))
+                {
+                    if(currentNode.isLeaf() == false)
+                    {
+                       //download
+                    }
+                    else
+                    {
+                        new GuiPromptHelper(GuiPromptHelper.showError, "Ein FileSystem kann nicht gedownloadet werden.");
+                    }
                 }
                
             }
