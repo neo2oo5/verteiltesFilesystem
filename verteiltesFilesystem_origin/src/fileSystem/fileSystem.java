@@ -190,11 +190,69 @@ public class fileSystem{
         return out;
     }
     
+    /**
+     * PLATZHALTER 
+     * Hier muss Davids Funktion eingebunden werden
+     * Gibt die IP des Clienten zurück ->(ZWECK) erstellen eines Strings mit all deinen Files und deiner IP Adresse
+     * @return 
+     */
+    public String myIp()
+    {
+        String IP = "127.0.0.1";
+        return IP;
+    }
+    
+    /**
+     * Funktion zum Senden deiner Daten 
+     * @param IP
+     * @return 
+     */
+    public String outGoingList (String IP)
+    {
+        String output = "";
+        try
+        {
+           for (Path entry: fileSystem.get(find(clients,IP)))
+           {
+               output += IP+"#"+entry + " \n";
+           }
+        }
+        catch (DirectoryIteratorException ex) 
+        {
+           // I/O error encounted during the iteration, the cause is an IOException
+           //throw ex.getCause();
+       }
+        return output;
+    }   
+    
+    /**
+     * Transferiert einen String in das Filesystem  
+     * funktioniert noch nicht wie geplant sonder ruft setnewFileSystem wieder auf...
+     * @throws fileSystemException 
+     */
+    public void mergeInComingList() throws fileSystemException
+    {
+        String inComingList = "172.1.1.9#E:\\BAF\n184.2.2.9#E:\\BAF\\Test";
+        String[] parts = inComingList.split("\n");
+        for (int i=0;i<parts.length;i++)
+        {
+               String[] seperated=parts[i].split("#",2);
+               setnewFileSystem(seperated[0],seperated[1]);
+        }
+    }
+    
+    /**
+     * IPS als StingArray
+     * @return 
+     */
     public String[] getAllIps()
     {
         return this.clients;
     }
-    
+    /**
+     * getClientCount
+     * @return 
+     */
     public int getClientCount()
     {
         return this.clientscount;
