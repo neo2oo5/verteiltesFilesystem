@@ -68,7 +68,7 @@ public class fileSystem{
     {
         if(token.equals(this.token))
         {
-            isLocked = true;
+            isLocked = false;
             return true;
         }
         else
@@ -188,6 +188,16 @@ public class fileSystem{
            //throw ex.getCause();
        }
         return out;
+    }
+    
+    public String[] getAllIps()
+    {
+        return this.clients;
+    }
+    
+    public int getClientCount()
+    {
+        return this.clientscount;
     }
     /******************************************************* Helper *****************************************************************************/
     
