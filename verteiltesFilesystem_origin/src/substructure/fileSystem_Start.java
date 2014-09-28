@@ -13,6 +13,7 @@ import gui.GuiPromptHelper;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,8 +46,8 @@ public class fileSystem_Start {
          *
          */
         fileSystem c = fileSystem.getInstance();
-        c.setnewFileSystem("127.0.0.1", "/home/xoxoxo/Musik/BM35flac");
-        c.setnewFileSystem("127.0.0.2", "/home/xoxoxo/Musik/BM35flac");
+        Path path = Paths.get("E:/BAF");
+        c.setnewFileSystem("127.0.0.1", path);
         
         
         /* Set the Nimbus look and feel */
