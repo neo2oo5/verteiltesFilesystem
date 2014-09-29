@@ -131,12 +131,12 @@ public class fileSystem{
      * @param path
      * @throws fileSystemException
      */
-    public void setnewFileSystem(String IP, Path path) throws fileSystemException
+    public void setnewFileSystem(String IP, String path) throws fileSystemException
     {
         try{
-        
+             Path finalPath = Paths.get(path);
             //Path path2 = Paths.get("E:/BAF");
-            fileSystem.add(clientscount, initFS(path));
+            fileSystem.add(clientscount, initFS(finalPath));
             clients[clientscount] = IP;
             clientscount++;
         }

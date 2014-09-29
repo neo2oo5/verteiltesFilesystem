@@ -46,8 +46,7 @@ public class fileSystem_Start {
          *
          */
         fileSystem c = fileSystem.getInstance();
-        Path path = Paths.get("E:/BAF");
-        c.setnewFileSystem("127.0.0.1", path);
+        c.setnewFileSystem("127.0.0.1", "E:/BLA");
         
         
         /* Set the Nimbus look and feel */
