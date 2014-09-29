@@ -47,7 +47,6 @@ public class GUIOutput extends Output{
     {
          f = new JFrame("Log");
          pane = new ColorPane();
-         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          f.setPreferredSize(new Dimension(600, 400));
          f.setSize(600, 400);
          f.setVisible(false);
