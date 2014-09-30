@@ -27,7 +27,9 @@ public class fileSystem{
     
     private final List<List<Path>> fileSystem = new ArrayList<>();
     private int clientscount            = 0;
+    private int count                    = 0;
     private String clients[]            = new String[100];
+    private String[] newElementList        = new String[100];
     private boolean isLocked            = false;
     private boolean isInterrupted       = false;
     private String  whoLocked;
@@ -202,6 +204,9 @@ public class fileSystem{
                     else
                     {
                         result.add(entry);
+                        String newElement = entry.toString();
+                        latestElementsAdded(newElement);
+                        count++;
                     }
                 }
             }
@@ -209,6 +214,27 @@ public class fileSystem{
         return result;
     }
     
+    /**
+     * StringArray welches die letzten 100 Pfade enthält ansprechbar 0-99
+     * Sollte 99 ueberschritten werden so wird 99 in 0 gespeichert und ab 1 wieder neu beschrieben
+     * @param newElement
+     * @return 
+     */
+    private String[] latestElementsAdded(String newElement)
+    {
+        if(count>99)
+        {
+            newElementList[0]=newElementList[99];
+            for(int x=1;x<newElementList.length;x++)
+            {
+                newElementList[x]=null;
+            }
+            count=1;
+        }
+        System.out.println(count);
+        newElementList[count] = newElement;
+        return newElementList;
+    }
     
     
     /**
@@ -287,9 +313,9 @@ public class fileSystem{
     {
         String inComingList = "172.1.1.9#E:\\BAF\n184.2.2.9#E:\\BAF\\Test";
         String[] parts = inComingList.split("\n");
-        for (int i=0;i<parts.length;i++)
+        for (int count=0;count<parts.length;count++)
         {
-               String[] seperated=parts[i].split("#",2);
+               String[] seperated=parts[count].split("#",2);
                setnewFileSystem(seperated[0],seperated[1]);
         }
     }*/
