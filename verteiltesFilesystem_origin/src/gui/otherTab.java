@@ -21,7 +21,9 @@ public class otherTab {
     {
         aboutus = new JTextArea(loadTabContent("ueberuns.txt"));
         aboutus.setEditable(false);
-        //System.out.print(TabbedPane.getPreferredSize());
+
+        System.out.print(TabbedPane.getPreferredSize());
+
         
         
         
