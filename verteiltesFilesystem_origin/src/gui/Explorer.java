@@ -22,6 +22,8 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import substructure.GUIOutput;
 
 
@@ -40,10 +42,19 @@ public class Explorer
      * @param Explorer
      * @return
      */
-    public void init(javax.swing.JTabbedPane Pane)
-    {      
-        treePanel = new DynamicTree(Pane);
-        startRefreshTimer();
+    public Explorer(javax.swing.JTabbedPane Pane)
+    {     
+        
+       
+        
+            treePanel = new DynamicTree(Pane);
+            startRefreshTimer();
+        
+    }
+    
+    public void addTab(javax.swing.JTabbedPane Pane, int index)
+    {
+        treePanel.addTab(Pane, index);
     }
     
     private void startRefreshTimer()
@@ -53,8 +64,8 @@ public class Explorer
         Timer timer = new Timer();
 
         // Start in einer Sekunde dann Ablauf alle 5 Sekunden
-        timer.schedule(new JTreeCreator(), 1000, 5000 );
-       // JTreeCreator c = new JTreeCreator();
+       timer.schedule(new JTreeCreator(), 1000, 5000 );
+        //JTreeCreator c = new JTreeCreator();
         //c.run();
     }
     
@@ -62,7 +73,7 @@ public class Explorer
       
         @Override public void run()
         {
-            treePanel.clear();
+            
             c = fileSystem.getInstance();
            // GUIOutput out =  GUIOutput.getInstance();
 
@@ -85,18 +96,22 @@ public class Explorer
         private void initExplorerTree(List<Path> fs,  String IP) throws IOException
         {
             try {
-                DefaultMutableTreeNode rootNode = treePanel.addObject(IP);
-               for (int i = 0; i < fs.size(); i++) {
-                   Path tmp = fs.get(i);
-                   //System.out.print(tmp.getFileName());
-                    treePanel.addObject(rootNode, tmp.getFileName());
+                
+                DefaultMutableTreeNode parent = treePanel.addObject(IP); 
+                for (int i = 0; i < fs.size(); i++) {
+                    System.out.print(fs.get(i).toString() + "\n");
+                   treePanel.buildTreeFromString(parent, fs.get(i).toString());
+                   
                 }
+                
 
            } catch (DirectoryIteratorException ex) {
                // I/O error encounted during the iteration, the cause is an IOException
                throw ex.getCause();
            }
         }
+        
+        
    }
     
 

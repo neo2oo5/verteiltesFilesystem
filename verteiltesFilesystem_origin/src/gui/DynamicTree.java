@@ -6,6 +6,7 @@
 
 package gui;
 
+import java.awt.Color;
 import substructure.GUIOutput;
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -15,6 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.nio.file.Path;
+import java.util.Enumeration;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -40,9 +46,11 @@ public class DynamicTree extends JPanel implements MouseListener
     private JMenuItem menuItemDateiDownload;
     private JMenuItem menuItemDateiLoeschen;
     private JMenuItem menuItemDateiErstellen;
+    private static JLabel loadingl;
+    JScrollPane scrollPane;
     private static String CFI_CMD = "createFile";    
     private static String RFI_CMD = "removeFile";    
-    private String DFI_CMD;
+    private static String DFI_CMD = "downloadFile";
 
         
         /**
@@ -61,11 +69,93 @@ public class DynamicTree extends JPanel implements MouseListener
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 
-		JScrollPane scrollPane = new JScrollPane(tree);
-                tree.addMouseListener(this);
-		Pane.addTab("Explorer", scrollPane);
                 
+		scrollPane = new JScrollPane(tree);
+                tree.addMouseListener(this);
+                
+                
+                if(Config.isRootDir())
+                {
+                    ImageIcon loading = new ImageIcon("ajax-loader.gif");
+                    loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
+                    loadingl = new JLabel("", loading, JLabel.CENTER);
+                    Pane.addTab("Explorer",loadingl);
+                    
+                    
+                    
+                }
+                else
+                {
+                    Pane.addTab("Explorer", scrollPane);
+                }
 	}
+        
+        public void addTab(javax.swing.JTabbedPane Pane, int index)
+        {
+            Pane.removeTabAt(index);
+            Pane.addTab("Explorer", scrollPane);
+            Pane.setSelectedIndex(index);
+        }
+        
+        /**
+               * Builds a tree from a given forward slash delimited string.
+               * 
+               * @param model The tree model
+               * @param str The string to build the tree from
+               */
+              public void buildTreeFromString(DefaultMutableTreeNode root, final String str) {
+                  // Fetch the root node
+                 // DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
+
+                  // Split the string around the delimiter
+                  String [] strings = str.split("/");
+
+                  // Create a node object to use for traversing down the tree as it 
+                  // is being created
+                  DefaultMutableTreeNode node = root;
+
+                  // Iterate of the string array
+                  for (String s: strings) {
+                      // Look for the index of a node at the current level that
+                      // has a value equal to the current string
+                      int index = childIndex(node, s);
+
+                      // Index less than 0, this is a new node not currently present on the tree
+                      if (index < 0) {
+                          // Add the new node
+                          DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(s);
+                          node.insert(newChild, node.getChildCount());
+                          node = newChild;
+                      }
+                      // Else, existing node, skip to the next string
+                      else {
+                          node = (DefaultMutableTreeNode) node.getChildAt(index);
+                      }
+                  }
+              }
+
+              /**
+               * Returns the index of a child of a given node, provided its string value.
+               * 
+               * @param node The node to search its children
+               * @param childValue The value of the child to compare with
+               * @return The index
+               */
+              private int childIndex(final DefaultMutableTreeNode node, final String childValue) {
+                  Enumeration<DefaultMutableTreeNode> children = node.children();
+                  DefaultMutableTreeNode child = null;
+                  int index = -1;
+
+                  while (children.hasMoreElements() && index < 0) {
+                      child = children.nextElement();
+
+                      if (child.getUserObject() != null && childValue.equals(child.getUserObject())) {
+                          index = node.getIndex(child);
+                      }
+                  }
+
+                  return index;
+              }
 
 	/** 
          * Löscht alle Äste abgesehen vom Root. 

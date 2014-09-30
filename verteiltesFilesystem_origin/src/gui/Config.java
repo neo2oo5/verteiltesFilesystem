@@ -6,11 +6,219 @@
 
 package gui;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import substructure.GUIOutput;
+
 /**
  *
  * @author xoxoxo
  */
 public class Config
 {
+    static  GUIOutput out =  GUIOutput.getInstance();
+    static JLabel folderL, pathL, logL;
+    JPanel configP;
+    static JButton folderB, logB;
+    static String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR";
     
+    
+    public Config(javax.swing.JTabbedPane Pane)
+    {
+        folderL = new JLabel("Aktueller Pfad: ");
+        
+        if(isRootDir())
+        {
+            pathL   = new JLabel("Pfad");
+        }
+        else
+        {
+            pathL   = new JLabel(getRootDir());
+        }
+        
+        folderB = new JButton("Ordner wählen");
+        
+        logL    = new JLabel("Zeige Logfile: ");
+        logB    = new JButton("Aus");
+        
+        configP = new JPanel();
+        
+        folderB.setActionCommand("folder");
+        logB.setActionCommand("log");
+        
+        folderB.addActionListener(new ConfigListener());
+        logB.addActionListener(new ConfigListener());
+        
+        configP.setLayout(new GridBagLayout());
+        
+        GridBagConstraints cons = new GridBagConstraints();
+        cons.insets = new Insets(5, 5, 5, 5);
+
+         cons.gridwidth = GridBagConstraints.REMAINDER;
+        //add Components to Panel
+        
+        configP.add(folderL, cons);
+        configP.add(pathL, cons);
+        
+       
+        configP.add(folderB, cons);
+        
+        configP.add(logL, cons);
+        configP.add(logB, cons);
+        
+        
+        Pane.addTab("Config", configP);
+    }
+    
+    static public boolean isRootDir()
+        {
+            FileInputStream input = null;
+            Properties prop = new Properties();
+            try {
+                input = new FileInputStream(configFile);
+                
+                // load a properties file
+                prop.load(input);
+                return prop.getProperty(value).isEmpty();
+                
+                
+            } catch (FileNotFoundException ex) {
+                out.print("(Config.java) " + configFile + "nicht gefunden");
+            } catch (IOException ex) {
+                out.print("(Config.java) " + ex.toString());
+            } catch (NullPointerException ex) {
+                out.print("(Config.java) " + ex.toString());
+                return true;
+            } finally {
+                try {
+                    input.close();
+                } catch (IOException ex) {
+                    out.print("(Config.java) " + ex.toString());
+                }
+            }
+            
+            return false;
+            
+        }
+    static public String getRootDir()
+        {
+            FileInputStream input = null;
+            Properties prop = new Properties();
+            try {
+                input = new FileInputStream(configFile);
+                
+                // load a properties file
+                prop.load(input);
+                return prop.getProperty(value);
+            } catch (FileNotFoundException ex) {
+                out.print("(Config.java) " + configFile + "nicht gefunden");
+            } catch (IOException ex) {
+                out.print("(Config.java) " + ex.toString());
+            } finally {
+                try {
+                    input.close();
+                } catch (IOException ex) {
+                    out.print("(Config.java) " + ex.toString());
+                }
+            }
+            
+           
+            return null;
+        }
+    
+    static public void filechooser()
+    {
+        /*
+                                *   Erstellt ordner auswahl
+                                *  speichert Pfad in config.properties
+                                */
+
+                                JFileChooser jfc = new javax.swing.JFileChooser(".");
+                                jfc.setApproveButtonText("Auswählen");
+                                jfc.setDialogTitle("Bitte Verzeichnis auswählen");
+                                jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                                int auswahl = jfc.showOpenDialog(new JFrame());
+                                if (auswahl == JFileChooser.APPROVE_OPTION)
+                                {
+                                    String getPath = jfc.getSelectedFile().getPath();
+                                    pathL.setText(getPath);
+                                    //out.print(Path);
+
+                                    Properties prop = new Properties();
+                                    OutputStream output = null;
+
+                                    try {
+
+                                        output = new FileOutputStream(configFile);
+
+                                        // set the properties value
+                                        prop.setProperty(value, getPath);
+
+                                        // save properties to project root folder
+                                        prop.store(output, null);
+
+                                    } catch (IOException io) {
+
+                                    } finally {
+                                        if (output != null) {
+                                            try {
+                                                output.close();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                    }
+                                }
+                                else if(auswahl == JFileChooser.CANCEL_OPTION)
+                                {
+                                    new GuiPromptHelper(GuiPromptHelper.showWarning, "Ohne ausgewählten Pfad wird der Client sich nicht"
+                                            + " ins Netz einwählen");
+                                }
+    }
+    
+
+    private static class ConfigListener implements ActionListener {
+
+        public ConfigListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            String cmd = e.getActionCommand();
+            if (folderCMD.equals(cmd)) 
+            {
+                filechooser();
+            }
+            else if (logCMD.equals(cmd))
+            {
+                if(logB.getText().equals("An"))
+                {
+                    logB.setText("Aus");
+                    out.setVisible(false);
+                }
+                else
+                {
+                    logB.setText("An");
+                    out.setVisible(true);
+                }
+            }
+        }
+        
+  
+        
+    }
 }
