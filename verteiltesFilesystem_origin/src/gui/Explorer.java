@@ -9,21 +9,10 @@ package gui;
 
 
 import java.util.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.nio.file.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import fileSystem.fileSystem;
-import static fileSystem.fileSystem.find;
-import fileSystem.fileSystemException;
 import java.io.*;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import substructure.GUIOutput;
 
 
