@@ -12,9 +12,18 @@ package gui;
 
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JApplet;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import substructure.GUIOutput;
@@ -32,6 +41,8 @@ public class GUI extends javax.swing.JFrame
     private  GUIOutput out =  GUIOutput.getInstance();
     private int ActiveTabIndex              =   0;
     private Explorer explorer;
+    private KreisPanel state;
+    private JLabel statel;
     /**
      * Creates new form GUI
      */
@@ -44,15 +55,30 @@ public class GUI extends javax.swing.JFrame
  
     private void owninitComponents()
     {
-      
 
         //tree.setPreferredSize(new Dimension(300, 150));
+        JLabel jLabel1 = new JLabel();
+        jLabel1.setText("Offline");
         
+        //netstate.add(new JLabel("test<s"));
+        //netstate.validate();
+        state = new KreisPanel();
+        
+        state.setBounds(3, 7, 25, 25);
+       
+        state.setVisible(true);
+        add(state);
+        
+        statel = new JLabel("Offline");
+        statel.setBounds(30, 7, 100, 25);
+        statel.setVisible(true);
+        add(statel);
         
         AdminConfigPanel.setVisible(false);
        // imagetest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/hdd.jpeg")));
         //imagetest.setText("");
         
+       
        
        
         
@@ -88,7 +114,6 @@ public class GUI extends javax.swing.JFrame
     private void initComponents() {
 
         jTabbedPane5 = new javax.swing.JTabbedPane();
-        AdminPanel = new javax.swing.JPanel();
         AdminConfigPanel = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         AdminLoginPanel = new javax.swing.JPanel();
@@ -96,6 +121,7 @@ public class GUI extends javax.swing.JFrame
         AdminLoginLabel = new javax.swing.JLabel();
         AdminUsernameField = new javax.swing.JTextField();
         AdminPasswordField = new javax.swing.JPasswordField();
+        netstate = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Verteiltes Filesystem");
@@ -109,9 +135,6 @@ public class GUI extends javax.swing.JFrame
                 jTabbedPane5MouseClicked(evt);
             }
         });
-
-        AdminPanel.setBackground(new java.awt.Color(102, 102, 102));
-        AdminPanel.setToolTipText("");
 
         jLabel4.setText("jLabel4");
 
@@ -167,12 +190,12 @@ public class GUI extends javax.swing.JFrame
             .addGroup(AdminConfigPanelLayout.createSequentialGroup()
                 .addGroup(AdminConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(AdminConfigPanelLayout.createSequentialGroup()
-                        .addGap(249, 249, 249)
-                        .addComponent(jLabel4))
-                    .addGroup(AdminConfigPanelLayout.createSequentialGroup()
                         .addGap(339, 339, 339)
-                        .addComponent(AdminLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(480, Short.MAX_VALUE))
+                        .addComponent(AdminLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(AdminConfigPanelLayout.createSequentialGroup()
+                        .addGap(249, 249, 249)
+                        .addComponent(jLabel4)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         AdminConfigPanelLayout.setVerticalGroup(
             AdminConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,36 +204,41 @@ public class GUI extends javax.swing.JFrame
                 .addComponent(jLabel4)
                 .addGap(95, 95, 95)
                 .addComponent(AdminLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(381, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout AdminPanelLayout = new javax.swing.GroupLayout(AdminPanel);
-        AdminPanel.setLayout(AdminPanelLayout);
-        AdminPanelLayout.setHorizontalGroup(
-            AdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(AdminConfigPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        AdminPanelLayout.setVerticalGroup(
-            AdminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(AdminConfigPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jTabbedPane5.addTab("Admin", AdminConfigPanel);
 
-        jTabbedPane5.addTab("Admin", AdminPanel);
+        netstate.setOpaque(false);
+        netstate.setPreferredSize(new java.awt.Dimension(30, 30));
+
+        javax.swing.GroupLayout netstateLayout = new javax.swing.GroupLayout(netstate);
+        netstate.setLayout(netstateLayout);
+        netstateLayout.setHorizontalGroup(
+            netstateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 36, Short.MAX_VALUE)
+        );
+        netstateLayout.setVerticalGroup(
+            netstateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(netstate, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jTabbedPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1082, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(netstate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -281,13 +309,39 @@ public class GUI extends javax.swing.JFrame
     private javax.swing.JLabel AdminLoginLabel;
     private javax.swing.JPanel AdminLoginPanel;
     private javax.swing.JButton AdminLoginSent;
-    private javax.swing.JPanel AdminPanel;
     private javax.swing.JPasswordField AdminPasswordField;
     private javax.swing.JTextField AdminUsernameField;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTabbedPane jTabbedPane5;
+    private javax.swing.JPanel netstate;
     // End of variables declaration//GEN-END:variables
     
-    
+    class KreisPanel extends JPanel{
+        
+        Graphics2D g2;
+        Color color = Color.RED;
+        
+        @Override
+        public void paint(Graphics g) {
+             g2 = (Graphics2D) g;
+
+            g2.setPaint(color);
+            g2.fill(new Ellipse2D.Double(0, 0, 24, 24));
+
+            
+        }
+        
+        public void setRed()
+        {
+            this.color = Color.RED;
+            repaint();
+        }
+        
+        public void setGreen()
+        {
+            this.color = Color.GREEN;
+            repaint();
+        }
+    } 
   
 }
