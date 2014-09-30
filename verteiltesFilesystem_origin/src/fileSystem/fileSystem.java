@@ -14,6 +14,10 @@ import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.File;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  *
@@ -130,9 +134,9 @@ public class fileSystem{
     public void setnewFileSystem(String IP, String path) throws fileSystemException
     {
         try{
-        
-            
-            fileSystem.add(clientscount, initFS(path));
+             Path finalPath = Paths.get(path);
+            //Path path2 = Paths.get("E:/BAF");
+            fileSystem.add(clientscount, initFS(finalPath));
             clients[clientscount] = IP;
             clientscount++;
         }
@@ -143,20 +147,69 @@ public class fileSystem{
         }
     }
     
-    private List<Path> initFS(String Path) throws IOException
+    /*private List<Path> initFS(String Path) throws IOException
     {
-         List<Path> result = new ArrayList<>();
-       try (DirectoryStream<Path> stream = Files.newDirectoryStream(converttoPath(Path), "*")) {
-           for (Path entry: stream) {
-               if(Files.isDirectory(entry) == false && Files.isHidden(entry) == false)
-               result.add(entry);
+       List<Path> result = new ArrayList<>();
+       try (DirectoryStream<Path> stream = Files.newDirectoryStream(converttoPath(Path), "*"))
+       {
+           for (Path entry: stream) 
+           {
+               if(Files.isHidden(entry)==false)
+               {
+                   if(Files.isDirectory(entry)==true)
+                   {
+                       String pathAsString = entry.toString();
+                       initFS(pathAsString);
+                       result.add(entry); //kp ob nötig addet den Folder in den Parentpfad
+                   }
+                   else
+                   {
+                      result.add(entry);
+                   }
+               }
            }
-       } catch (DirectoryIteratorException ex) {
+       }
+       catch (DirectoryIteratorException ex)
+       {
            // I/O error encounted during the iteration, the cause is an IOException
            throw ex.getCause();
        }
+       System.out.println("\t"+result);
        return result;
+    }*/
+    
+    /**
+     * ersetz iniFS da rekursiv 
+     * @param Path
+     * @return
+     * @throws IOException 
+     */
+    private List <Path> initFS(Path Path) throws IOException
+    {
+        Deque<Path> stack = new ArrayDeque<>();
+        final List<Path> result = new LinkedList<>();
+        stack.push(Path);
+        while(!stack.isEmpty())
+        {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(stack.pop()))
+            {
+                for(Path entry : stream)
+                {
+                    if (Files.isDirectory(entry))
+                    {
+                        stack.push(entry);
+                    }
+                    else
+                    {
+                        result.add(entry);
+                    }
+                }
+            }
+        }
+        return result;
     }
+    
+    
     
     /**
      *
@@ -190,11 +243,69 @@ public class fileSystem{
         return out;
     }
     
+    /**
+     * PLATZHALTER 
+     * Hier muss Davids Funktion eingebunden werden
+     * Gibt die IP des Clienten zurück ->(ZWECK) erstellen eines Strings mit all deinen Files und deiner IP Adresse
+     * @return 
+     */
+    public String myIp()
+    {
+        String IP = "127.0.0.1";
+        return IP;
+    }
+    
+    /**
+     * Funktion zum Senden deiner Daten 
+     * @param IP
+     * @return 
+     */
+    public String outGoingList (String IP)
+    {
+        String output = "";
+        try
+        {
+           for (Path entry: fileSystem.get(find(clients,IP)))
+           {
+               output += IP+"#"+entry + " \n";
+           }
+        }
+        catch (DirectoryIteratorException ex) 
+        {
+           // I/O error encounted during the iteration, the cause is an IOException
+           //throw ex.getCause();
+       }
+        return output;
+    }   
+    
+    /**
+     * Transferiert einen String in das Filesystem  
+     * funktioniert noch nicht wie geplant sonder ruft setnewFileSystem wieder auf...
+     * @throws fileSystemException 
+     */
+   /* public void mergeInComingList() throws fileSystemException
+    {
+        String inComingList = "172.1.1.9#E:\\BAF\n184.2.2.9#E:\\BAF\\Test";
+        String[] parts = inComingList.split("\n");
+        for (int i=0;i<parts.length;i++)
+        {
+               String[] seperated=parts[i].split("#",2);
+               setnewFileSystem(seperated[0],seperated[1]);
+        }
+    }*/
+    
+    /**
+     * IPS als StingArray
+     * @return 
+     */
     public String[] getAllIps()
     {
         return this.clients;
     }
-    
+    /**
+     * getClientCount
+     * @return 
+     */
     public int getClientCount()
     {
         return this.clientscount;

@@ -8,11 +8,12 @@ package substructure;
 
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
-import gui.GUI;
+import gui.*;
 import gui.GuiPromptHelper;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class fileSystem_Start {
     private static FileInputStream input;
-    
+    static GUIOutput out =  GUIOutput.getInstance();
 
     /**
      * @param args the command line arguments
@@ -44,10 +45,9 @@ public class fileSystem_Start {
          * Kann in config.properties den modelevel geaendert werden
          *
          */
-        fileSystem c = fileSystem.getInstance();
-        c.setnewFileSystem("127.0.0.1", "/home/xoxoxo/Musik/BM35flac");
-        c.setnewFileSystem("127.0.0.2", "/home/xoxoxo/Musik/BM35flac");
+
         
+  
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -86,46 +86,19 @@ public class fileSystem_Start {
             { 
                
                 new GUI().setVisible(true);
+                startSequence();
                 
             }
         });
-        
-            /*
-            String debug ="";
-            
-            Properties prop = new Properties();
-            boolean trigger = false;
-            
-            input = new FileInputStream("config.properties");
-            
-            // load a properties file
-            prop.load(input);
-            
-            do
-            {
-            // get the property value and print it out
-            try{
-            debug = prop.getProperty("ROOT_DIR");
-            trigger = true;
-            fileSystem  c = fileSystem.getInstance();
-            c.setnewFileSystem("127.0.0.1", debug);
-            // c.setnewFileSystem("127.0.0.2", "  c.setnewFileSystem("127.0.0.1", debug);/home/xoxoxo/Downloads");
-            //System.out.print(c.listAll());
-            System.out.print(c.list("127.0.0.1"));
-            }
-            catch(Exception e)
-            {
-            //new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Modelevel konnte nicht gelesen werden "+e);
-            trigger = false;
-            Thread.currentThread().sleep(5000);
-            }
-            }while(trigger == false);
-            
-            */
-       
-	
-        
+
         
     }
     
+    static private void startSequence()
+    {
+           if(Config.isRootDir())
+           {
+               Config.filechooser();
+           }
+    }
 }
