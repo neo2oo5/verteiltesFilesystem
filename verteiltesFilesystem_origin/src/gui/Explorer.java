@@ -53,9 +53,9 @@ public class Explorer
         Timer timer = new Timer();
 
         // Start in einer Sekunde dann Ablauf alle 5 Sekunden
-       timer.schedule(new JTreeCreator(), 1000, 5000 );
-        //JTreeCreator c = new JTreeCreator();
-        //c.run();
+       //timer.schedule(new JTreeCreator(), 1000, 5000 );
+        JTreeCreator c = new JTreeCreator();
+        c.run();
     }
     
     class JTreeCreator extends TimerTask{

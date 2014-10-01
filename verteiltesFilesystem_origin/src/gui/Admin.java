@@ -6,10 +6,12 @@
 
 package gui;
 
+import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import javax.swing.*;
 import substructure.GUIOutput;
 
 /**
@@ -19,6 +21,21 @@ import substructure.GUIOutput;
 public class Admin
 {
      private static  GUIOutput out =  GUIOutput.getInstance();
+     private JLabel welcome = new JLabel("Willkomen");
+     
+     
+     
+     public Admin(JPanel panel)
+     {
+         out.print("Admin Konstruktor");
+         AdminControlPanel apanel = new AdminControlPanel();
+         apanel.setVisible(true);
+         apanel.setSize(new Dimension(500, 500));
+         
+         panel.add(apanel);
+       
+        
+     }
     /**
      *
      * @param username

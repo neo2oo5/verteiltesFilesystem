@@ -74,7 +74,12 @@ public class GUI extends javax.swing.JFrame
         statel.setVisible(true);
         add(statel);
         
-        AdminConfigPanel.setVisible(false);
+        new Admin(AdminConfigPanel);
+        
+        AdminConfigPanel.setVisible(true);
+        AdminLoginPanel.setVisible(false);
+        
+        
        // imagetest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/hdd.jpeg")));
         //imagetest.setText("");
         
@@ -115,13 +120,11 @@ public class GUI extends javax.swing.JFrame
 
         jTabbedPane5 = new javax.swing.JTabbedPane();
         AdminConfigPanel = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         AdminLoginPanel = new javax.swing.JPanel();
         AdminLoginSent = new javax.swing.JButton();
         AdminLoginLabel = new javax.swing.JLabel();
         AdminUsernameField = new javax.swing.JTextField();
         AdminPasswordField = new javax.swing.JPasswordField();
-        netstate = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Verteiltes Filesystem");
@@ -135,8 +138,6 @@ public class GUI extends javax.swing.JFrame
                 jTabbedPane5MouseClicked(evt);
             }
         });
-
-        jLabel4.setText("jLabel4");
 
         AdminLoginSent.setText("Anmelden");
         AdminLoginSent.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -188,56 +189,30 @@ public class GUI extends javax.swing.JFrame
         AdminConfigPanelLayout.setHorizontalGroup(
             AdminConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AdminConfigPanelLayout.createSequentialGroup()
-                .addGroup(AdminConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(AdminConfigPanelLayout.createSequentialGroup()
-                        .addGap(339, 339, 339)
-                        .addComponent(AdminLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(AdminConfigPanelLayout.createSequentialGroup()
-                        .addGap(249, 249, 249)
-                        .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(339, 339, 339)
+                .addComponent(AdminLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(559, Short.MAX_VALUE))
         );
         AdminConfigPanelLayout.setVerticalGroup(
             AdminConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AdminConfigPanelLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jLabel4)
-                .addGap(95, 95, 95)
+                .addGap(148, 148, 148)
                 .addComponent(AdminLoginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(365, Short.MAX_VALUE))
         );
 
         jTabbedPane5.addTab("Admin", AdminConfigPanel);
-
-        netstate.setOpaque(false);
-        netstate.setPreferredSize(new java.awt.Dimension(30, 30));
-
-        javax.swing.GroupLayout netstateLayout = new javax.swing.GroupLayout(netstate);
-        netstate.setLayout(netstateLayout);
-        netstateLayout.setHorizontalGroup(
-            netstateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 36, Short.MAX_VALUE)
-        );
-        netstateLayout.setVerticalGroup(
-            netstateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(netstate, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(jTabbedPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1082, Short.MAX_VALUE)
+            .addComponent(jTabbedPane5)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(netstate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
                 .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -287,8 +262,10 @@ public class GUI extends javax.swing.JFrame
         {
             
             AdminLoginPanel.setVisible(false);
-            AdminConfigPanel.setVisible(true);
+            new Admin(AdminConfigPanel);
+                    
         }
+        
 
     }//GEN-LAST:event_AdminLoginSentActionPerformed
 
@@ -311,9 +288,7 @@ public class GUI extends javax.swing.JFrame
     private javax.swing.JButton AdminLoginSent;
     private javax.swing.JPasswordField AdminPasswordField;
     private javax.swing.JTextField AdminUsernameField;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JPanel netstate;
     // End of variables declaration//GEN-END:variables
     
     class KreisPanel extends JPanel{
