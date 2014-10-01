@@ -44,7 +44,7 @@ public class CheckWhoIsOnline
             if (reachable)
             {
                 /** path and name for the found IP */
-                String path = "C:/VerteilteSysteme/System/";
+                String path = "/System/";
                 String name = "IPs.txt";
                 /** create a file/dir with name and path */ 
                 File dir = new File(path);

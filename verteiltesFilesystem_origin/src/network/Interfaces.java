@@ -5,12 +5,18 @@
  */
 package network;
 /** Used Libraries */
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import substructure.GUIOutput;
+
 
 /**
  *
@@ -18,9 +24,16 @@ import java.util.logging.Logger;
  */
 public class Interfaces
 {
+    static GUIOutput out =  GUIOutput.getInstance();
 
     public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath,  String filename) throws InterruptedException
     {
+        
+        boolean kicked = CheckKicked.checkKicked();
+        if(kicked) out.print("You get Kicked from Network", 3);
+        else 
+        {
+
         String IPv4target = null;
         try
         {
@@ -59,11 +72,17 @@ public class Interfaces
                 System.out.println("File transfer not complete");
             }
         }
+        }
         return 1;
     }
 
     public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename)
     {
+        
+        boolean kicked = CheckKicked.checkKicked();
+        if(kicked) out.print("You get Kicked from Network", 3);
+        else 
+        {
         /* interface to rename a file with the necessary values */
         String doWhat = "FileRename";
         /** arguments to rename the file */
@@ -75,11 +94,17 @@ public class Interfaces
         args[4] = doWhat;
         StartClientServer.startClient(args);
         /** if successfully */
+        }
         return 1; 
     }
 
     public static int interfaceFileDelete(String IPv4, String sourcePath, String filename)
     {
+        
+        boolean kicked = CheckKicked.checkKicked();
+        if(kicked) out.print("You get Kicked from Network", 3);
+        else 
+        {
         /** interface to delete a file/directory */
         String doWhat = "FileDelete";
         /** arguments needed */
@@ -90,11 +115,17 @@ public class Interfaces
         args[3] = doWhat;
         StartClientServer.startClient(args);
         /** if successfully */
+        }
         return 1;
     }
 
     public static int interfaceFileCreate(String IPv4, String sourcePath, String filename)
     {
+        
+        boolean kicked = CheckKicked.checkKicked();
+        if(kicked) out.print("You get Kicked from Network", 3);
+        else 
+        {
         /** interface to create a file */
         String doWhat = "FileCreate";
         /** arguments needed */
@@ -105,6 +136,7 @@ public class Interfaces
         args[3] = doWhat;
         StartClientServer.startClient(args);
         /** if successfully */
+        }
         return 1;
     }
     
@@ -139,5 +171,36 @@ public class Interfaces
         }
         /** tell the client that the connection to the server was successful */
         return succes;
+    }
+    
+    /** method to start the interfaces */
+    public  static boolean inerfaceNetworkOnline()
+    {
+        
+        boolean online = false;
+        boolean kicked = CheckKicked.checkKicked();
+        if(kicked) out.print("You get Kicked from Network", 3);
+        else 
+        {
+        
+            String iplist = "/System/IPs.txt";
+            int anzahl = 0;
+            try {
+                    BufferedReader in = new BufferedReader(new FileReader(iplist));
+                    String ip = null;
+                    FileWriter writer;
+                    while ((ip = in.readLine()) != null) {
+                            anzahl++;
+}
+
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
+
+            if(anzahl > 1) online = true;
+            else online = false;
+
+        }
+        return online;
     }
 }
