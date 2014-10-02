@@ -5,11 +5,6 @@
  */
 package substructure;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  *
@@ -41,18 +36,9 @@ public class PathHelper {
     
     
     
-    public static FileReader getFile(String file) throws FileNotFoundException
-    {
-        
-        
-        
-        return new FileReader(setPath(file));
-        
+    public static String getFile(String file)
+    {  
+        return setPath(file);  
     }
-    
-    public static FileOutputStream setFile(String file) throws FileNotFoundException
-    {
-        return new FileOutputStream(setPath(file));
   
-    }
 }

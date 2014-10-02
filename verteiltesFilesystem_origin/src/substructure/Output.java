@@ -61,7 +61,7 @@ public class Output
     protected void setLogfile()
     {
         try{   
-            System.setOut(new PrintStream(substructure.PathHelper.setFile(Logfile)));  
+            System.setOut(new PrintStream(substructure.PathHelper.getFile(Logfile)));  
         }
         catch(Exception ex)
         {
@@ -94,7 +94,7 @@ public class Output
 		
  
 		// load a properties file
-		prop.load(substructure.PathHelper.getFile("debug.properties"));
+		prop.load(new FileReader(substructure.PathHelper.getFile("debug.properties")));
  
 		// get the property value and print it out
                 try{
