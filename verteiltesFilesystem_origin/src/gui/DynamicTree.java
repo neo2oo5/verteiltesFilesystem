@@ -34,9 +34,14 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-
+/**
+ *
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
+ */
 public class DynamicTree extends JPanel implements MouseListener
 {
+
+
     protected DefaultMutableTreeNode rootNode;
     protected DefaultTreeModel treeModel;
     protected JTree tree;
@@ -52,8 +57,9 @@ public class DynamicTree extends JPanel implements MouseListener
     private static String REFI_CMD = "renameFile";
 
         
-        /**
-         * Erstellt den Tree
+    /**
+         * Create JTree
+         * @param Pane
          */
 	public DynamicTree(javax.swing.JTabbedPane Pane) 
         {
@@ -89,7 +95,12 @@ public class DynamicTree extends JPanel implements MouseListener
                 }
 	}
         
-        public void addTab(javax.swing.JTabbedPane Pane, int index)
+    /**
+     * Refresh Explorer Tab after selecting a path
+     * @param Pane
+     * @param index
+     */
+    public void addTab(javax.swing.JTabbedPane Pane, int index)
         {
             Pane.removeTabAt(index);
             Pane.addTab("Explorer", scrollPane);
@@ -99,7 +110,6 @@ public class DynamicTree extends JPanel implements MouseListener
         /**
                * Builds a tree from a given forward slash delimited string.
                * 
-               * @param model The tree model
                * @param str The string to build the tree from
                */
               public void buildTreeFromString( final String str) {
@@ -157,23 +167,27 @@ public class DynamicTree extends JPanel implements MouseListener
               }
 
 	/** 
-         * Löscht alle Äste abgesehen vom Root. 
+         * remove all nodes without the root
          */
 	public void clear() 
         {
 		rootNode.removeAllChildren();
 		treeModel.reload();
 	}
-    /*
-        * Gibt Tree zurueck
-        */
+   
+
+    /**
+     *
+     * @return tree
+     */
+    
         public javax.swing.JTree getTree()
         {
             return tree;
         }
 
 	/** 
-         * Löscht den aktuellen Ast. 
+         * remove current Node
          */
 	public void removeCurrentNode() 
         {
@@ -194,7 +208,9 @@ public class DynamicTree extends JPanel implements MouseListener
 	}
 
 	/** 
-         * Fügt ein Child zum aktuellen Ast hinzu. 
+         * insert a child to current Node
+     * @param child
+     * @return 
          */
 	public DefaultMutableTreeNode addObject(Object child) 
         {
@@ -269,6 +285,11 @@ public class DynamicTree extends JPanel implements MouseListener
         }
         
     }
+
+    /**
+     * Create Rightclick Menu
+     * @param e
+     */
     public void showMenu(MouseEvent e)
     {
       popup = new JPopupMenu();
@@ -347,7 +368,11 @@ public class DynamicTree extends JPanel implements MouseListener
                 
                 
 	}
-        
+        /*
+                * RightClick Menu - ActionListener
+                *
+                *
+        */
         class PopupListener implements ActionListener {
           
 

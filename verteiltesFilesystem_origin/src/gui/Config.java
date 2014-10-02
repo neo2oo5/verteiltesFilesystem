@@ -6,23 +6,17 @@
 
 package gui;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Properties;
 import javax.swing.*;
 import substructure.GUIOutput;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class Config
 {
@@ -32,7 +26,10 @@ public class Config
     static JButton folderB, logB;
     static String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR";
     
-    
+    /**
+     *
+     * @param Pane
+     */
     public Config(javax.swing.JTabbedPane Pane)
     {
         folderL = new JLabel("Aktueller Pfad: ");
@@ -80,6 +77,10 @@ public class Config
         Pane.addTab("Config", configP);
     }
     
+    /**
+     *
+     * @return true or false if RootDir is set
+     */
     static public boolean isRootDir()
         {
             
@@ -104,6 +105,11 @@ public class Config
             return false;
             
         }
+
+    /**
+     *
+     * @return Folder Path
+     */
     static public String getRootDir()
         {
             
@@ -124,6 +130,9 @@ public class Config
             return null;
         }
     
+    /**
+     *
+     */
     static public void filechooser()
     {
         /*
@@ -176,7 +185,7 @@ public class Config
     }
     
 
-    private static class ConfigListener implements ActionListener {
+    private static  class ConfigListener implements ActionListener {
 
         public ConfigListener() {
         }

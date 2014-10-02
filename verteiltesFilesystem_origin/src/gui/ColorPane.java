@@ -8,12 +8,12 @@ package gui;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Extended JTextPane to colors
  */
 import java.awt.Color;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
+
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -22,7 +22,12 @@ import javax.swing.text.StyleContext;
 
 public class ColorPane extends JTextPane {
 
-  public void appendNaive(Color c, String s) { // naive implementation
+    /**
+     *
+     * @param c
+     * @param s
+     */
+    public void appendNaive(Color c, String s) { // naive implementation
     // bad: instiantiates a new AttributeSet object on each call
     SimpleAttributeSet aset = new SimpleAttributeSet();
     StyleConstants.setForeground(aset, c);
@@ -33,7 +38,12 @@ public class ColorPane extends JTextPane {
     replaceSelection(s); // there is no selection, so inserts at caret
   }
 
-  public void append(Color c, String s) { // better implementation--uses
+    /**
+     *
+     * @param c
+     * @param s
+     */
+    public void append(Color c, String s) { // better implementation--uses
                       // StyleContext
     StyleContext sc = StyleContext.getDefaultStyleContext();
     AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,

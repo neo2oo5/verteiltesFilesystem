@@ -10,12 +10,13 @@ import javax.swing.*;
 
 
 /**
- *
- * @author Kevin Bonner
+ * Creates small  Popups
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class GuiPromptHelper
 {
   
+
     final public static int showInformation     = 1;
     final public static int showWarning         = 2;
     final public static int showError           = 3;
@@ -23,10 +24,18 @@ public class GuiPromptHelper
     final public static int showInput        = 5;
     private String input="";
     
+    /**
+     *  
+     */
     public GuiPromptHelper() {
          //default constructor
      }
     
+    /**
+     *
+     * @param mode
+     * @param msg
+     */
     public GuiPromptHelper(int mode, String msg) {
         
          switch(mode)
@@ -47,6 +56,12 @@ public class GuiPromptHelper
         }
         
     }
+
+    /**
+     *
+     * @param mode
+     * @param msg
+     */
     public void show(int mode, String msg) {
         
          switch(mode)

@@ -6,8 +6,6 @@
 
 package gui;
 
-import java.awt.Dimension;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +15,7 @@ import substructure.GUIOutput;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class Admin
 {
@@ -25,9 +23,12 @@ public class Admin
      private JLabel welcome = new JLabel("Willkomen");
      private AdminControlPanel apanel;
      
-     
-     
-     public Admin(JPanel configpanel, JPanel loginpanel)
+    /**
+     *
+     * @param configpanel
+     * @param loginpanel
+     */
+    public Admin(JPanel configpanel, JPanel loginpanel)
      {
          out.print("Admin Konstruktor");
          apanel = new AdminControlPanel(loginpanel);
@@ -38,15 +39,18 @@ public class Admin
         
      }
      
-     public void refresh()
+    /**
+     *  Updated the userlist
+     */
+    public void refresh()
      {
          apanel.refreshUserlist();
      }
     /**
-     *
+     * Checked username and Password
      * @param username
      * @param password
-     * @return
+     * @return true or false
      */
     public static boolean Login(String username, String password)
     {

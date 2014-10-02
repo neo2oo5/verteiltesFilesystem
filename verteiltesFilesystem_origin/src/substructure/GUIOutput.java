@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class GUIOutput extends Output{
     
@@ -98,7 +98,7 @@ public class GUIOutput extends Output{
                 spane = new JScrollPane(pane);
                 spane.validate();
                 f.setContentPane(spane);
-                f.pack();
+               // f.pack();
                 
                 
             

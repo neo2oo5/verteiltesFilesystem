@@ -10,7 +10,6 @@ package gui;
 
 import java.util.*;
 import java.nio.file.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import fileSystem.fileSystem;
 import java.io.*;
 import substructure.GUIOutput;
@@ -19,7 +18,7 @@ import substructure.GUIOutput;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class Explorer
 {
@@ -28,7 +27,7 @@ public class Explorer
     DynamicTree treePanel;
     /**
      *
-     * @param Explorer
+     * @param Pane
      * @return
      */
     public Explorer(javax.swing.JTabbedPane Pane)
@@ -41,6 +40,11 @@ public class Explorer
         
     }
     
+    /**
+     *
+     * @param Pane
+     * @param index
+     */
     public void addTab(javax.swing.JTabbedPane Pane, int index)
     {
         treePanel.addTab(Pane, index);
@@ -52,7 +56,7 @@ public class Explorer
         
         Timer timer = new Timer();
 
-        // Start in einer Sekunde dann Ablauf alle 5 Sekunden
+        // Start in one second then drain every 5 seconds
         timer.schedule(new JTreeCreator(), 1000, 5000 );
        // JTreeCreator c = new JTreeCreator();
         //c.run();
@@ -97,10 +101,8 @@ public class Explorer
             }
             
             try {
-                
-               // DefaultMutableTreeNode parent = treePanel.addObject(IP); 
+                //Created the Tree Structure in Explorer
                 for (int i = 0; i < tmp.size(); i++) {
-                    //System.out.print(tmp.get(i).toString() + "\n");
                    treePanel.buildTreeFromString(tmp.get(i).toString());
                    
                 }

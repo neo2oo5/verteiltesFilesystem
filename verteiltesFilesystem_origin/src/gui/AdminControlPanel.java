@@ -7,7 +7,6 @@ package gui;
 
 import fileSystem.fileSystem;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import substructure.GUIOutput;
@@ -28,6 +27,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
     
     /**
      * Creates new form AdminConfigPanel
+     * @param panel
      */
     public AdminControlPanel(JPanel panel) {
         
@@ -48,13 +48,19 @@ public class AdminControlPanel extends javax.swing.JPanel {
             repaint();
     }
     
+    /**
+     * Updated the userlist
+     */
     public void refreshUserlist()
     {
         createUserlist();
         revalidate();
         repaint();
     }
-    
+    /*
+        *   Create Userlist on the AdminControlPanel
+        *   
+       */
     private void createUserlist()
     {
         String ips[] = c.getAllIps();
@@ -159,6 +165,9 @@ public class AdminControlPanel extends javax.swing.JPanel {
     private static javax.swing.JPanel userlist;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     *  ActionListener 
+     */
     private static class AdminControlListener implements ActionListener {
 
         public AdminControlListener() {

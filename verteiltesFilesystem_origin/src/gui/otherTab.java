@@ -17,6 +17,10 @@ public class otherTab {
     private JTextArea aboutus;
     private JTextArea info;
     
+    /**
+     *
+     * @param TabbedPane
+     */
     public otherTab(javax.swing.JTabbedPane TabbedPane)
     {
         aboutus = new JTextArea(loadTabContent("ueberuns.txt"));

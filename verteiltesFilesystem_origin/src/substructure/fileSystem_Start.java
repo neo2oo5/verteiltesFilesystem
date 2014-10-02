@@ -9,20 +9,13 @@ package substructure;
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import gui.*;
-import gui.GuiPromptHelper;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.plaf.ColorUIResource;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class fileSystem_Start {
     private static FileInputStream input;

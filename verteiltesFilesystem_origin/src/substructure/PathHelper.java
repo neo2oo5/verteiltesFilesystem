@@ -28,9 +28,9 @@ public class PathHelper {
         {
             return "." + SysDir + file;
         }
-        else if("Windows".equals(getOSName()))
+        else if("Windows 7".equals(getOSName()))
         {
-            return SysDir + file;
+            return "." + SysDir + file;
         }
         
         return null;

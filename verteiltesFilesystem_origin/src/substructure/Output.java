@@ -14,7 +14,7 @@ import java.util.Properties;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class Output
 {

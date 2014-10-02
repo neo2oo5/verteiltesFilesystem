@@ -12,24 +12,16 @@ package gui;
 
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JApplet;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
 import substructure.GUIOutput;
 
 
@@ -38,7 +30,7 @@ import substructure.GUIOutput;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class GUI extends javax.swing.JFrame
 {
@@ -225,7 +217,11 @@ public class GUI extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTabbedPane5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane5MouseClicked
-        // TODO add your handling code here:
+        /*
+                *  Performed at Tab change
+                *
+                *
+                */
         if(!Config.isRootDir()){
             try {
                 fileSystem fs = fileSystem.getInstance();
@@ -262,7 +258,7 @@ public class GUI extends javax.swing.JFrame
     }//GEN-LAST:event_jTabbedPane5MouseClicked
 
     private void AdminLoginSentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminLoginSentActionPerformed
-        //Switcht zwischen dem Login und Admin Panel
+        //Switcht between Login and Admin Panel
 
         if(Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
         {
@@ -294,6 +290,11 @@ public class GUI extends javax.swing.JFrame
     private javax.swing.JTabbedPane jTabbedPane5;
     // End of variables declaration//GEN-END:variables
     
+    /*
+        *
+        * Class to create the Online status Display
+        *      
+        */
     class KreisPanel extends JPanel{
         
         Graphics2D g2;
