@@ -23,7 +23,7 @@ import substructure.GUIOutput;
  */
 public class Explorer
 {
-    public  GUIOutput out =  GUIOutput.getInstance();
+    private  GUIOutput out =  GUIOutput.getInstance();
     private fileSystem c = fileSystem.getInstance();
     DynamicTree treePanel;
     /**
@@ -86,7 +86,14 @@ public class Explorer
         {
             List<String> tmp = new ArrayList<>();
             for (int i = 0; i < fs.size(); i++) {
-                tmp.add(IP + fs.get(i).toString());
+                if(fs.get(i).toString().substring(0, 1).equals("/"))
+                {
+                    tmp.add(IP + fs.get(i).toString());
+                }
+                else
+                {
+                    tmp.add(IP + "/" + fs.get(i).toString());
+                }
             }
             
             try {

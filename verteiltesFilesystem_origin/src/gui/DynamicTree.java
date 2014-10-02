@@ -75,7 +75,7 @@ public class DynamicTree extends JPanel implements MouseListener
                 
                 if(Config.isRootDir())
                 {
-                    ImageIcon loading = new ImageIcon("ajax-loader.gif");
+                    ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
                     loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
                     loadingl = new JLabel("", loading, JLabel.CENTER);
                     Pane.addTab("Explorer",loadingl);
@@ -401,7 +401,7 @@ public class DynamicTree extends JPanel implements MouseListener
                 }
                 else if(DFI_CMD.equals(command))
                 {
-                    if(currentNode.isLeaf() == false)
+                    if(currentNode.isLeaf() == true)
                     {
                        //download
                     }
