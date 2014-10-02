@@ -5,6 +5,8 @@
  */
 package substructure;
 
+import java.io.File;
+
 
 /**
  *
@@ -13,7 +15,7 @@ package substructure;
 public class PathHelper {
     
     static GUIOutput out =  GUIOutput.getInstance();
-    private static String SysDir = "/System/";
+    private static String SysDir = File.separator + "System" + File.separator;
     
     private static String getOSName()
     {
