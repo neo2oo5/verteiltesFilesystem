@@ -57,7 +57,7 @@ public class GUIOutput extends Output{
     private void readLogfile()
     {
         try {
-		BufferedReader in = new BufferedReader(new FileReader(Logfile));
+		BufferedReader in = new BufferedReader(substructure.PathHelper.getFile(Logfile));
 		String line;
                
 		while ((line = in.readLine()) != null) {

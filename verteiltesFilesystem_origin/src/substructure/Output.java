@@ -61,7 +61,7 @@ public class Output
     protected void setLogfile()
     {
         try{   
-            System.setOut(new PrintStream(new FileOutputStream(Logfile,true)));  
+            System.setOut(new PrintStream(substructure.PathHelper.setFile(Logfile)));  
         }
         catch(Exception ex)
         {
@@ -91,10 +91,10 @@ public class Output
                 */
 	try {
  
-		input = new FileInputStream("debug.properties");
+		
  
 		// load a properties file
-		prop.load(input);
+		prop.load(substructure.PathHelper.getFile("debug.properties"));
  
 		// get the property value and print it out
                 try{
@@ -113,15 +113,7 @@ public class Output
         
         catch (IOException ex) {
 		ex.printStackTrace();
-	} finally {
-		if (input != null) {
-			try {
-				input.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	} 
         
       
          

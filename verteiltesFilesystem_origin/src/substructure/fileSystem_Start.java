@@ -11,12 +11,14 @@ import fileSystem.fileSystemException;
 import gui.*;
 import gui.GuiPromptHelper;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.plaf.ColorUIResource;
 
 /**
  *
@@ -25,6 +27,7 @@ import java.util.logging.Logger;
 public class fileSystem_Start {
     private static FileInputStream input;
     static GUIOutput out =  GUIOutput.getInstance();
+    static fileSystem c = fileSystem.getInstance();
 
     /**
      * @param args the command line arguments
@@ -60,6 +63,7 @@ public class fileSystem_Start {
             {
                 if ("Nimbus".equals(info.getName()))
                 {
+                 
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -84,7 +88,8 @@ public class fileSystem_Start {
         {
             public void run()
             { 
-               
+                javax.swing.UIManager.put("nimbusBase", new ColorUIResource(0, 0, 0));
+                javax.swing.UIManager.put("textForeground", new ColorUIResource(255, 69, 0));
                 new GUI().setVisible(true);
                 startSequence();
                 
@@ -99,6 +104,14 @@ public class fileSystem_Start {
            if(Config.isRootDir())
            {
                Config.filechooser();
+           }
+           else
+           {
+               try {
+                   c.setnewFileSystem("127.0.0.1", Config.getRootDir());
+               } catch (fileSystemException ex) {
+                   out.print("Lokales FileSystem konnte nicht Indexiert werden");
+               }
            }
     }
 }
