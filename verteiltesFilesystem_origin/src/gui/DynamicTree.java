@@ -103,7 +103,7 @@ public class DynamicTree extends JPanel implements MouseListener
                * @param model The tree model
                * @param str The string to build the tree from
                */
-              public void buildTreeFromString(DefaultMutableTreeNode root, final String str) {
+              public void buildTreeFromString( final String str) {
                   // Fetch the root node
                  // DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
 
@@ -112,7 +112,7 @@ public class DynamicTree extends JPanel implements MouseListener
 
                   // Create a node object to use for traversing down the tree as it 
                   // is being created
-                  DefaultMutableTreeNode node = root;
+                  DefaultMutableTreeNode node = rootNode;
 
                   // Iterate of the string array
                   for (String s: strings) {

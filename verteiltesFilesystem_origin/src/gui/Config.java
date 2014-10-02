@@ -11,14 +11,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import substructure.GUIOutput;
 
@@ -84,13 +82,13 @@ public class Config
     
     static public boolean isRootDir()
         {
-            FileInputStream input = null;
+            
             Properties prop = new Properties();
             try {
-                input = new FileInputStream(configFile);
+                
                 
                 // load a properties file
-                prop.load(input);
+                prop.load(new FileReader(substructure.PathHelper.getFile(configFile)));
                 return prop.getProperty(value).isEmpty();
                 
                 
@@ -101,37 +99,25 @@ public class Config
             } catch (NullPointerException ex) {
                 out.print("(Config.java) " + ex.toString());
                 return true;
-            } finally {
-                try {
-                    input.close();
-                } catch (IOException ex) {
-                    out.print("(Config.java) " + ex.toString());
-                }
-            }
+            } 
             
             return false;
             
         }
     static public String getRootDir()
         {
-            FileInputStream input = null;
+            
             Properties prop = new Properties();
             try {
-                input = new FileInputStream(configFile);
+                
                 
                 // load a properties file
-                prop.load(input);
+                prop.load(new FileReader(substructure.PathHelper.getFile(configFile)));
                 return prop.getProperty(value);
             } catch (FileNotFoundException ex) {
                 out.print("(Config.java) " + configFile + "nicht gefunden");
             } catch (IOException ex) {
                 out.print("(Config.java) " + ex.toString());
-            } finally {
-                try {
-                    input.close();
-                } catch (IOException ex) {
-                    out.print("(Config.java) " + ex.toString());
-                }
             }
             
            
@@ -161,13 +147,13 @@ public class Config
 
                                     try {
 
-                                        output = new FileOutputStream(configFile);
+                                       
 
                                         // set the properties value
                                         prop.setProperty(value, getPath);
 
                                         // save properties to project root folder
-                                        prop.store(output, null);
+                                        prop.store(new FileWriter(substructure.PathHelper.getFile(configFile)), null);
 
                                     } catch (IOException io) {
 

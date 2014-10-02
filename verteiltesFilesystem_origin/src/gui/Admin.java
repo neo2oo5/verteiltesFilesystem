@@ -8,6 +8,7 @@ package gui;
 
 import java.awt.Dimension;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -22,19 +23,24 @@ public class Admin
 {
      private static  GUIOutput out =  GUIOutput.getInstance();
      private JLabel welcome = new JLabel("Willkomen");
+     private AdminControlPanel apanel;
      
      
      
-     public Admin(JPanel panel)
+     public Admin(JPanel configpanel, JPanel loginpanel)
      {
          out.print("Admin Konstruktor");
-         AdminControlPanel apanel = new AdminControlPanel();
-         apanel.setVisible(true);
-         apanel.setSize(new Dimension(500, 500));
+         apanel = new AdminControlPanel(loginpanel);
          
-         panel.add(apanel);
+         
+         configpanel.add(apanel);
        
         
+     }
+     
+     public void refresh()
+     {
+         apanel.refreshUserlist();
      }
     /**
      *
@@ -58,10 +64,10 @@ public class Admin
  
 	try {
  
-		input = new FileInputStream("user.properties");
+	
  
 		// load a properties file
-		prop.load(input);
+		prop.load(new FileReader(substructure.PathHelper.getFile("user.properties")));
  
 		// get the property value and print it out
                 propusername = prop.getProperty("ADMINUSERNAME");
@@ -72,15 +78,7 @@ public class Admin
                 out.print("Param Password: " + password);
 	} catch (IOException ex) {
 		ex.printStackTrace();
-	} finally {
-		if (input != null) {
-			try {
-				input.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	} 
         
         if(username.equals(propusername) && password.equals(proppassword))
         {

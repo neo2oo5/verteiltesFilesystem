@@ -24,7 +24,7 @@ import substructure.GUIOutput;
 public class Explorer
 {
     public  GUIOutput out =  GUIOutput.getInstance();
-    private fileSystem  c;
+    private fileSystem c = fileSystem.getInstance();
     DynamicTree treePanel;
     /**
      *
@@ -53,9 +53,9 @@ public class Explorer
         Timer timer = new Timer();
 
         // Start in einer Sekunde dann Ablauf alle 5 Sekunden
-       //timer.schedule(new JTreeCreator(), 1000, 5000 );
-        JTreeCreator c = new JTreeCreator();
-        c.run();
+        timer.schedule(new JTreeCreator(), 1000, 5000 );
+       // JTreeCreator c = new JTreeCreator();
+        //c.run();
     }
     
     class JTreeCreator extends TimerTask{
@@ -63,12 +63,12 @@ public class Explorer
         @Override public void run()
         {
             
-            c = fileSystem.getInstance();
-           // GUIOutput out =  GUIOutput.getInstance();
+            
+           
 
             String ips[] = c.getAllIps();
-            
-            System.out.print("Es werden " + c.getClientCount() + " Clienten indexiert. \n");
+            //out.print(" explorer clientscount"+c.getClientCount());
+            //out.print("Es werden " + c.getClientCount() + " Clienten indexiert. \n");
 
             for(int i = 0; i < c.getClientCount(); i++)
             {
@@ -84,12 +84,17 @@ public class Explorer
     
         private void initExplorerTree(List<Path> fs,  String IP) throws IOException
         {
+            List<String> tmp = new ArrayList<>();
+            for (int i = 0; i < fs.size(); i++) {
+                tmp.add(IP + fs.get(i).toString());
+            }
+            
             try {
                 
-                DefaultMutableTreeNode parent = treePanel.addObject(IP); 
-                for (int i = 0; i < fs.size(); i++) {
-                    System.out.print(fs.get(i).toString() + "\n");
-                   treePanel.buildTreeFromString(parent, fs.get(i).toString());
+               // DefaultMutableTreeNode parent = treePanel.addObject(IP); 
+                for (int i = 0; i < tmp.size(); i++) {
+                    //System.out.print(tmp.get(i).toString() + "\n");
+                   treePanel.buildTreeFromString(tmp.get(i).toString());
                    
                 }
                 

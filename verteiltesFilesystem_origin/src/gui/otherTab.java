@@ -39,7 +39,7 @@ public class otherTab {
         String content = "";
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(new File(file)));
+            br = new BufferedReader(new FileReader(substructure.PathHelper.getFile(file)));
             String line = null;
             while((line = br.readLine()) != null) {
                content += line + "\n"; 

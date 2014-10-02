@@ -18,8 +18,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,6 +45,7 @@ public class GUI extends javax.swing.JFrame
     private  GUIOutput out =  GUIOutput.getInstance();
     private int ActiveTabIndex              =   0;
     private Explorer explorer;
+    private Admin admin = null;
     private KreisPanel state;
     private JLabel statel;
     /**
@@ -48,6 +53,7 @@ public class GUI extends javax.swing.JFrame
      */
     public GUI()
     {
+        
         initComponents();
         owninitComponents();
     }
@@ -55,18 +61,17 @@ public class GUI extends javax.swing.JFrame
  
     private void owninitComponents()
     {
-
-        //tree.setPreferredSize(new Dimension(300, 150));
-        JLabel jLabel1 = new JLabel();
-        jLabel1.setText("Offline");
         
-        //netstate.add(new JLabel("test<s"));
-        //netstate.validate();
+        /*Network status display*/
         state = new KreisPanel();
-        
-        state.setBounds(3, 7, 25, 25);
-       
+        state.setBounds(3, 7, 25, 25); 
         state.setVisible(true);
+        if(network.Interfaces.inerfaceNetworkOnline() == true)
+        {
+            state.setGreen();
+        }
+        
+        
         add(state);
         
         statel = new JLabel("Offline");
@@ -74,40 +79,38 @@ public class GUI extends javax.swing.JFrame
         statel.setVisible(true);
         add(statel);
         
-        new Admin(AdminConfigPanel);
         
-        AdminConfigPanel.setVisible(true);
-        AdminLoginPanel.setVisible(false);
+        /*Set Admin Defaults*/
+        AdminConfigPanel.setVisible(false);
+        AdminLoginPanel.setVisible(true);
+        // admin = new Admin(AdminConfigPanel, AdminLoginPanel);
         
-        
-       // imagetest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/hdd.jpeg")));
-        //imagetest.setText("");
+  
         
        
        
        
-        
+        /*Create required Tabs*/
         new otherTab(jTabbedPane5);
         
         new Config(jTabbedPane5);
-        
-         //init ExplorerTab
+
         explorer = new Explorer(jTabbedPane5);
         
-        UIManager.put("nimbusBase", new ColorUIResource(0, 0, 0));
-        UIManager.put("textForeground", new ColorUIResource(255, 69, 0));
+        
+       
         
         /*Set Icon Image*/
-        /*
+        
         BufferedImage image = null;
         try {
-            image = ImageIO.read(getClass().getResource("/substructure/hdd.png"));
+            image = ImageIO.read(new File(substructure.PathHelper.getFile("hdd.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
         setIconImage(image);
         
-        */
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -239,9 +242,11 @@ public class GUI extends javax.swing.JFrame
         switch(jTabbedPane5.getTitleAt(ActiveTabIndex))
         {
             case "Config":
-            break;
+                break;
             case "Explorer":   if(!Config.isRootDir()){  explorer.addTab(jTabbedPane5, ActiveTabIndex);}
-            break;
+                break;
+            case "Admin":      if(admin != null) admin.refresh();
+                break;          
                                 
            
 
@@ -261,8 +266,8 @@ public class GUI extends javax.swing.JFrame
         if(Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
         {
             
-            AdminLoginPanel.setVisible(false);
-            new Admin(AdminConfigPanel);
+           
+           admin = new Admin(AdminConfigPanel, AdminLoginPanel);
                     
         }
         
