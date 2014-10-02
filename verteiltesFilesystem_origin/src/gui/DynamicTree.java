@@ -43,14 +43,13 @@ public class DynamicTree extends JPanel implements MouseListener
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private GUIOutput out = GUIOutput.getInstance();
     private JPopupMenu popup;
-    private JMenuItem menuItemDateiDownload;
-    private JMenuItem menuItemDateiLoeschen;
-    private JMenuItem menuItemDateiErstellen;
+    private JMenuItem menuItemFileDownload, menuItemFileDelete, menuItemFileCreate, menuItemFileRename;
     private static JLabel loadingl;
     JScrollPane scrollPane;
     private static String CFI_CMD = "createFile";    
     private static String RFI_CMD = "removeFile";    
     private static String DFI_CMD = "downloadFile";
+    private static String REFI_CMD = "renameFile";
 
         
         /**
@@ -65,7 +64,7 @@ public class DynamicTree extends JPanel implements MouseListener
 		treeModel = new DefaultTreeModel(rootNode);
 
 		tree = new JTree(treeModel);
-		tree.setEditable(true);
+		tree.setEditable(false);
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 
@@ -260,7 +259,7 @@ public class DynamicTree extends JPanel implements MouseListener
                 
 		return childNode;
 	}
-
+    //open Popupmenu
     @Override
     public void mouseClicked(MouseEvent e) {
         
@@ -274,22 +273,25 @@ public class DynamicTree extends JPanel implements MouseListener
     {
       popup = new JPopupMenu();
       
-        menuItemDateiDownload = new JMenuItem("Datei downloaden");
-        menuItemDateiErstellen = new JMenuItem("Datei erstellen");
-        menuItemDateiLoeschen = new JMenuItem("Datei loeschen");
+        menuItemFileDownload = new JMenuItem("Datei downloaden");
+        menuItemFileCreate = new JMenuItem("Datei erstellen");
+        menuItemFileDelete = new JMenuItem("Datei loeschen");
+        menuItemFileRename = new JMenuItem("Datei umbenennen");
 
-
-        menuItemDateiDownload.addActionListener(new PopupListener());
-        menuItemDateiErstellen.addActionListener(new PopupListener());
-        menuItemDateiLoeschen.addActionListener(new PopupListener());
+        menuItemFileDownload.addActionListener(new PopupListener());
+        menuItemFileCreate.addActionListener(new PopupListener());
+        menuItemFileDelete.addActionListener(new PopupListener());
+        menuItemFileRename.addActionListener(new PopupListener());
         
-        menuItemDateiDownload.setActionCommand(DFI_CMD);
-        menuItemDateiErstellen.setActionCommand(CFI_CMD);
-        menuItemDateiLoeschen.setActionCommand(RFI_CMD);
+        menuItemFileDownload.setActionCommand(DFI_CMD);
+        menuItemFileCreate.setActionCommand(CFI_CMD);
+        menuItemFileDelete.setActionCommand(RFI_CMD);
+        menuItemFileRename.setActionCommand(REFI_CMD);
         
-        popup.add(menuItemDateiDownload);
-        popup.add(menuItemDateiErstellen);
-        popup.add(menuItemDateiLoeschen);
+        popup.add(menuItemFileDownload);
+        popup.add(menuItemFileCreate);
+        popup.add(menuItemFileDelete);
+        popup.add(menuItemFileRename);
     
         popup.show(e.getComponent(), e.getX(), e.getY());
        
@@ -367,8 +369,9 @@ public class DynamicTree extends JPanel implements MouseListener
                             //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
                             if(currentNode.isLeaf() == false)
                             {
-                                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "ordner name?"));
+                                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Ordner Name?"));
                                 treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
+                                //netzwerk hinzufueg funktion
                             }
                             else
                             {
@@ -388,6 +391,7 @@ public class DynamicTree extends JPanel implements MouseListener
                     if(currentNode.isLeaf() == true)
                     {
                         treeModel.removeNodeFromParent(currentNode);
+                        //netzwerk loesch funktion
                     }
                     else
                     {
@@ -405,6 +409,11 @@ public class DynamicTree extends JPanel implements MouseListener
                     {
                         new GuiPromptHelper(GuiPromptHelper.showError, "Ein FileSystem kann nicht gedownloadet werden.");
                     }
+                }
+                else if (REFI_CMD.equals(command))
+                {
+                    currentNode.setUserObject(new GuiPromptHelper(GuiPromptHelper.showInput, "Neuer Name?"));
+                    out.print("Node Text geändert");
                 }
                
             }

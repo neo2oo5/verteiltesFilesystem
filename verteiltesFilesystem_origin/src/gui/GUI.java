@@ -66,17 +66,18 @@ public class GUI extends javax.swing.JFrame
         state = new KreisPanel();
         state.setBounds(3, 7, 25, 25); 
         state.setVisible(true);
-        if(network.Interfaces.inerfaceNetworkOnline() == true)
-        {
-            state.setGreen();
-        }
-        
-        
-        add(state);
-        
+      
         statel = new JLabel("Offline");
         statel.setBounds(30, 7, 100, 25);
         statel.setVisible(true);
+        
+          if(network.Interfaces.inerfaceNetworkOnline() == true)
+        {
+            state.setGreen();
+            statel.setText("Online");
+        }
+        
+        add(state);
         add(statel);
         
         
@@ -234,6 +235,13 @@ public class GUI extends javax.swing.JFrame
             }
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
         }
+        
+        /*check Network state*/
+        if(network.Interfaces.inerfaceNetworkOnline() == true)
+        {
+            state.setGreen();
+            statel.setText("Online");
+        }
 
         ActiveTabIndex = jTabbedPane5.getSelectedIndex();
         out.print("Panel: " + jTabbedPane5.getTitleAt(ActiveTabIndex) + " wurde geöffnet");
@@ -247,16 +255,9 @@ public class GUI extends javax.swing.JFrame
                 break;
             case "Admin":      if(admin != null) admin.refresh();
                 break;          
-                                
-           
-
-            
+  
 
         }
-        
-        
-        
-        
 
     }//GEN-LAST:event_jTabbedPane5MouseClicked
 
@@ -265,10 +266,7 @@ public class GUI extends javax.swing.JFrame
 
         if(Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
         {
-            
-           
-           admin = new Admin(AdminConfigPanel, AdminLoginPanel);
-                    
+           admin = new Admin(AdminConfigPanel, AdminLoginPanel);           
         }
         
 
