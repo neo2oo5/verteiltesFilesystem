@@ -19,9 +19,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import network.getIPv4Address;
 import substructure.GUIOutput;
 
 
@@ -225,9 +230,13 @@ public class GUI extends javax.swing.JFrame
         if(!Config.isRootDir()){
             try {
                 fileSystem fs = fileSystem.getInstance();
-                fs.setnewFileSystem("127.0.0.1", Config.getRootDir());
+                fs.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
             } catch (fileSystemException ex) {
                 out.print("(GUI-Z227) lokales fileySystem konnte nicht eingelesen werden");
+            } catch (SocketException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
         }

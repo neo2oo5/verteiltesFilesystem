@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.List;
@@ -117,7 +118,7 @@ public class DynamicTree extends JPanel implements MouseListener
                  // DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
 
                   // Split the string around the delimiter
-                  String [] strings = str.split("/");
+                  String [] strings = str.split(File.separator);
 
                   // Create a node object to use for traversing down the tree as it 
                   // is being created
