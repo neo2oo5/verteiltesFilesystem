@@ -258,20 +258,21 @@ public class Interfaces
         return online;
     }
 
-    public static void inerfaceAdminLogin()
+    public static boolean inerfaceAdminLogin()
     {
         try
         {
-            AdminPannel.adminLogin();
+           return AdminPannel.adminLogin();
         } catch (InterruptedException ex)
         {
             Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
-    public static void inerfaceAdminLogout()
+    public static boolean inerfaceAdminLogout() throws UnknownHostException, IOException
     {
-        AdminPannel.adminLogout();
+        return AdminPannel.adminLogout();
         
     }
 }

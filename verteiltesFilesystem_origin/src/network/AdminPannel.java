@@ -83,7 +83,7 @@ public class AdminPannel
         }
     }
 
-    public static void adminLogin() throws InterruptedException
+    public static boolean adminLogin() throws InterruptedException
     {
         adminCheckLogin();
         sleep(100);
@@ -112,14 +112,18 @@ public class AdminPannel
         } else
         {
             out.print("Es ist bereits ein Admin eingeloggt!", 3);
+            return false;
         }
+        return true;
     }
 
-    public static void adminLogout() throws SocketException, UnknownHostException, IOException
+    public static boolean adminLogout() throws SocketException, UnknownHostException, IOException
     {
         message("Admin Logged out!");
         
         Delete.deleteFile(substructure.PathHelper.getFile(""), "admin.loggedin");
+        
+        return true;
     }
 
     public static void message(String msg) throws FileNotFoundException, SocketException, UnknownHostException, IOException
