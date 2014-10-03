@@ -275,6 +275,11 @@ public class Interfaces
         return AdminPannel.adminLogout();
         
     }
+
+    public static void inerfaceAdminKickUser(String ipToKick) throws IOException
+    {
+        AdminPannel.adminKickUser(ipToKick);    
+    }
     
     
 }
