@@ -31,7 +31,7 @@ public class Interfaces
 
     public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws InterruptedException
     {
-
+        
         boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {

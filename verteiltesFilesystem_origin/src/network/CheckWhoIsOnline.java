@@ -44,12 +44,8 @@ public class CheckWhoIsOnline
             if (reachable)
             {
                 /** path and name for the found IP */
-                String path = "/System/";
-                String name = "IPs.txt";
-                /** create a file/dir with name and path */ 
-                File dir = new File(path);
-                dir.mkdirs();
-                File file = new File(path + name);
+                String path = substructure.PathHelper.getFile("IPs.txt");
+                File file = new File(path);
                 
                 /** write the IP in the address table */
                 FileWriter writer;

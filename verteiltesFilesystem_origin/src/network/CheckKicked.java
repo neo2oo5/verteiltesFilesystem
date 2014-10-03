@@ -32,7 +32,8 @@ public class CheckKicked
             String searchedip = null;
             searchedip = getIPv4Address.getIPv4Address();
             
-            String iplist = "/System/IPs.txt";
+            String iplist = substructure.PathHelper.getFile("IPs.txt");
+            
             int anzahl = 0;
             try {
                 BufferedReader in = new BufferedReader(new FileReader(iplist));
