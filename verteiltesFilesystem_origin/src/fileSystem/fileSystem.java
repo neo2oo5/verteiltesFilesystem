@@ -137,12 +137,11 @@ public class fileSystem{
     {
         try{
              Path finalPath = Paths.get(path);
-            //Path path2 = Paths.get("E:/BAF");
             fileSystem.add(clientscount, initFS(finalPath));
             clients[clientscount] = IP;
             clientscount++;
         }
-      
+     
         catch(Exception e)
         {
             e.printStackTrace();
@@ -231,7 +230,6 @@ public class fileSystem{
             }
             count=1;
         }
-        System.out.println(count);
         newElementList[count] = newElement;
         return newElementList;
     }
