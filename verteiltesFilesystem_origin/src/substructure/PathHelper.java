@@ -15,39 +15,31 @@ import java.io.File;
 public class PathHelper {
     
     static GUIOutput out =  GUIOutput.getInstance();
-    private static String SysDir = File.separator + "System" + File.separator;
+    private static String SysDir = System.getProperty("user.dir") + File.separator + "System" + File.separator;
     
     private static String getOSName()
     {
         return System.getProperty("os.name");
     }
     
-    private static String setPath(String file)
+
+ private static String setPath(String file)
     {
-        String OS[];
-        if(getOSName().contains(" "))
-        {
-            OS = getOSName().split(" ");
-            
-            if(OS[0].equals(getOSName()))
+            if(getOSName().contains("Linux"))
             {
-                return "." + SysDir + file;
+                return  SysDir + file;
             }
-        }
-        else
-        {
-            if("Linux".equals(getOSName()))
+            else if(getOSName().contains("Mac"))
             {
-                return "." + SysDir + file;
+                
+                return  SysDir + file;
             }
-            else if("Mac OS X".equals(getOSName()))
+            else if(getOSName().contains("Windows"))
             {
-                return "." + SysDir + file;
-            }
-        }
+                return  SysDir + file;
+            }  
         return null;
     }
-    
     
     
     public static String getFile(String file)

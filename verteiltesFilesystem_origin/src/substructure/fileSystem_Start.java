@@ -11,7 +11,12 @@ import fileSystem.fileSystemException;
 import gui.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.plaf.ColorUIResource;
+import network.getIPv4Address;
 
 /**
  *
@@ -101,9 +106,13 @@ public class fileSystem_Start {
            else
            {
                try {
-                   c.setnewFileSystem("127.0.0.1", Config.getRootDir());
+                   c.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
                } catch (fileSystemException ex) {
                    out.print("Lokales FileSystem konnte nicht Indexiert werden");
+               } catch (SocketException ex) {
+                   Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
+               } catch (UnknownHostException ex) {
+                   Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
                }
            }
     }
