@@ -24,15 +24,27 @@ public class PathHelper {
     
     private static String setPath(String file)
     {
-        if("Linux".equals(getOSName()))
+        String OS[];
+        if(getOSName().contains(" "))
         {
-            return "." + SysDir + file;
+            OS = getOSName().split(" ");
+            
+            if(OS[0].equals(getOSName()))
+            {
+                return "." + SysDir + file;
+            }
         }
-        else if("Windows 7".equals(getOSName()))
+        else
         {
-            return "." + SysDir + file;
+            if("Linux".equals(getOSName()))
+            {
+                return "." + SysDir + file;
+            }
+            else if("Mac OS X".equals(getOSName()))
+            {
+                return "." + SysDir + file;
+            }
         }
-        
         return null;
     }
     
