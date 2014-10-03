@@ -9,6 +9,7 @@ package network;
  * Used Libraries
  */
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -94,6 +95,27 @@ public class Handler implements Runnable
                         System.out.println("test1");
                         boolean transferFile = FileTransfer.FT(args);
                         System.out.println("Transfer successfull?: " + transferFile);
+                    }
+                    else if (args[anz].equals("CheckAdminLoggedin"))
+                    {
+                        File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
+                        boolean exists = file.exists();
+
+                        if (exists)
+                        {
+                            System.out.println("ex-------");
+                            String doWhat = "AntwortAdminLoggedin";
+                            String[] argsNeu = new String[3];
+                            argsNeu[0] = args[0];
+                            argsNeu[1] = "true";
+                            argsNeu[2] = doWhat;
+                            StartClientServer.startClient(argsNeu);
+                        }
+                        else System.out.println("ex nicht");
+
+                    } else if (args[anz].equals("AntwortAdminLoggedin"))
+                    {
+                        network.AdminPannel.setLoggedin(true);
                     }
                 }
                 reader.close();

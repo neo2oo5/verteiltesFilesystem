@@ -257,4 +257,21 @@ public class Interfaces
         }
         return online;
     }
+
+    public static void inerfaceAdminLogin()
+    {
+        try
+        {
+            AdminPannel.adminLogin();
+        } catch (InterruptedException ex)
+        {
+            Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void inerfaceAdminLogout()
+    {
+        AdminPannel.adminLogout();
+        
+    }
 }
