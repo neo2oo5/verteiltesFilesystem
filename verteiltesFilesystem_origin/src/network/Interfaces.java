@@ -229,7 +229,7 @@ public class Interfaces
         } else
         {
 
-            String iplist = "/System/IPs.txt";
+            String iplist = substructure.PathHelper.getFile("IPs.txt");
             int anzahl = 0;
             try
             {
