@@ -11,7 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.System.in;
 import static java.lang.Thread.sleep;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import substructure.GUIOutput;
@@ -89,12 +92,10 @@ public class AdminPannel
             FileWriter writer = null;
             try
             {
-                System.out.println("Variable: " + loggedin);
-                System.out.println("japp ");
                 String path = substructure.PathHelper.getFile("");
                 File file = new File(path + "admin.loggedin");
                 writer = new FileWriter(file, false);
-                // message an alle
+                message("Admin Logged in!");
             } catch (IOException ex)
             {
                 Logger.getLogger(AdminPannel.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,19 +111,37 @@ public class AdminPannel
             }
         } else
         {
-            System.out.println("Admin Bereits eingeloggt!");
-            //out.print("Admin Bereits eingeloggt!", 2);
+            out.print("Es ist bereits ein Admin eingeloggt!", 3);
         }
     }
 
-    public static void adminLogout()
+    public static void adminLogout() throws SocketException, UnknownHostException, IOException
     {
-        // nachricht an alle
+        message("Admin Logged out!");
         
         Delete.deleteFile(substructure.PathHelper.getFile(""), "admin.loggedin");
     }
 
-    public void message(String message)
+    public static void message(String msg) throws FileNotFoundException, SocketException, UnknownHostException, IOException
     {
+            String iplist = substructure.PathHelper.getFile("IPs.txt");
+            int anzahl = 0;
+            String anServer = null;
+            String ownIP = network.getIPv4Address.getIPv4Address();
+            // check ob schon einer eingeloggt
+            BufferedReader in = null;
+            in = new BufferedReader(new FileReader(iplist));
+            String ip = null;
+            FileWriter writer;
+            while ((ip = in.readLine()) != null)
+            {
+                String doWhat = "AdminMessage";
+                String[] args = new String[3];
+                args[0] = ip;
+                args[1] = msg;
+                args[2] = doWhat;
+                StartClientServer.startClient(args);
+
+            }
     }
 }

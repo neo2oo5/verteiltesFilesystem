@@ -19,6 +19,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import substructure.GUIOutput;
 
 /**
  *
@@ -31,6 +32,7 @@ public class Handler implements Runnable
 {
 
     private Socket client;
+    GUIOutput guiOut =  GUIOutput.getInstance();
 
     /**
      *
@@ -116,6 +118,9 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("AntwortAdminLoggedin"))
                     {
                         network.AdminPannel.setLoggedin(true);
+                    } else if (args[anz].equals("AdminMessage"))
+                    {
+                        guiOut.print(args[0], 1);
                     }
                 }
                 reader.close();
