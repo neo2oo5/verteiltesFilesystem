@@ -163,6 +163,7 @@ public class AdminPannel
         FileWriter writer;
         while ((ip = in.readLine()) != null)
         {
+            System.out.println("aa--------------");
             String doWhat = "AdminKickUser";
             String[] args = new String[3];
             args[0] = ip;

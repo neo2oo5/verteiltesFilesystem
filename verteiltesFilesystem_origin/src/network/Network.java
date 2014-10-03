@@ -5,6 +5,9 @@
  */
 package network;
 
+import java.io.IOException;
+import static java.lang.Thread.sleep;
+
 /**
  *
  * @author Lamparari
@@ -12,9 +15,13 @@ package network;
 public class Network
 {
 
-    public static void main(String[] args) throws InterruptedException
+    public static void main(String[] args) throws InterruptedException, IOException
     {
         boolean startProgram = Interfaces.inerfaceStartProgram();
-        System.out.println("ttt");
+        System.out.println("prg start");
+        sleep(200);
+        System.out.println("sleep over - kick now");
+        Interfaces.inerfaceAdminKickUser("192.168.178.161");
+        System.out.println("fertig");
     }
 }

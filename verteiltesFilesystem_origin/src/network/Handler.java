@@ -124,7 +124,7 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("AdminMessage"))
                     {
                         guiOut.print(args[0], 1);
-                    } else if (args[anz].equals("AdminUserKick"))
+                    } else if (args[anz].equals("AdminKickUser"))
                     {
                         String iplist = substructure.PathHelper.getFile("IPs.txt");
                         int anzahl = 0;
@@ -135,10 +135,15 @@ public class Handler implements Runnable
                         String newIPList[] = null;
                         while ((ip = inFile.readLine()) != null)
                         {
-                            if (ip == args[0])
+                            if (ip.equals(args[0]))
                             {
+                                // nicht speicher
+                            } else
+                            {
+                                //speichern
                                 newIPList[anzahl++] = ip;
                             }
+
                         }
 
                         File file = new File(iplist);
@@ -148,28 +153,35 @@ public class Handler implements Runnable
                          */
                         FileWriter writerNeu;
                         int i = 0;
-                        while (i <= anzahl)
+                        if (anzahl == 0)
                         {
-                            try
+                            writerNeu = new FileWriter(file, false);
+                        } else
+                        {
+                            while (i <= anzahl)
                             {
-                                if (i == 0)
+                                try
                                 {
-                                    writerNeu = new FileWriter(file, false);
-                                } else
+                                    if (i == 0)
+                                    {
+                                        writerNeu = new FileWriter(file, false);
+                                    } else
+                                    {
+                                        writerNeu = new FileWriter(file, true);
+                                    }
+
+                                    writerNeu.write(newIPList[i]);
+                                    writerNeu.write(System.getProperty("line.separator"));
+                                    writerNeu.flush();
+                                    writerNeu.close();
+                                    i++;
+                                    /**
+                                     * catch exceptions
+                                     */
+                                } catch (IOException e)
                                 {
-                                    writerNeu = new FileWriter(file, true);
+
                                 }
-
-                                writerNeu.write(newIPList[i++]);
-                                writerNeu.write(System.getProperty("line.separator"));
-                                writerNeu.flush();
-                                writerNeu.close();
-                                /**
-                                 * catch exceptions
-                                 */
-                            } catch (IOException e)
-                            {
-
                             }
                         }
                     }
