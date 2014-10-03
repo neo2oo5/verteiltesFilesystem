@@ -5,7 +5,9 @@
  */
 package network;
 
- /** Used Libraries */
+/**
+ * Used Libraries
+ */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,22 +34,32 @@ public class CheckWhoIsOnline
         int anzahl = 0;
         int endung = 0;
         boolean reachable = false;
-        /** initiate the IP format */
+        /**
+         * initiate the IP format
+         */
         String[] sip = ipv4.split(Pattern.quote("."));
         String uIP = sip[0] + "." + sip[1] + "." + sip[2] + ".";
-        /** check wich ip is online in the network */
+        /**
+         * check wich ip is online in the network
+         */
         while (endung < 256)
         {
             String uebIP = uIP + endung;
             reachable = PingServer(uebIP);
-            /** write the found IP's in our address table */
+            /**
+             * write the found IP's in our address table
+             */
             if (reachable)
             {
-                /** path and name for the found IP */
+                /**
+                 * path and name for the found IP
+                 */
                 String path = substructure.PathHelper.getFile("IPs.txt");
                 File file = new File(path);
-                
-                /** write the IP in the address table */
+
+                /**
+                 * write the IP in the address table
+                 */
                 FileWriter writer;
                 try
                 {
@@ -63,13 +75,17 @@ public class CheckWhoIsOnline
                     writer.write(System.getProperty("line.separator"));
                     writer.flush();
                     writer.close();
-                /** catch exceptions */
+                    /**
+                     * catch exceptions
+                     */
                 } catch (IOException e)
                 {
-                    
+
                 }
             }
-            /** jump to the next address in the network */
+            /**
+             * jump to the next address in the network
+             */
             endung++;
 
         }
@@ -82,9 +98,13 @@ public class CheckWhoIsOnline
      */
     public static boolean PingServer(String checkIP)
     {
-        /** create a new socket (Port 1717, name = checkIP) */
+        /**
+         * create a new socket (Port 1717, name = checkIP)
+         */
         Socket socket = new Socket();
-        /** try to connect to and address, timeout at 50 seconds */
+        /**
+         * try to connect to and address, timeout at 50 seconds
+         */
         try
         {
             SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
@@ -94,7 +114,9 @@ public class CheckWhoIsOnline
         {
             return false;
         }
-        /** close the socket, catch exceptions and return the value */
+        /**
+         * close the socket, catch exceptions and return the value
+         */
         try
         {
             socket.close();

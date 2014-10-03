@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package network;
-/** Used Libraries */
+
+/**
+ * Used Libraries
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,8 +23,9 @@ import java.util.regex.Pattern;
  *
  * @author Lamparari
  */
-
-/** run class "Handler" with threads */
+/**
+ * run class "Handler" with threads
+ */
 public class Handler implements Runnable
 {
 
@@ -41,40 +45,51 @@ public class Handler implements Runnable
     {
         try
         {
-            /** get the output and buffer the input */
+            /**
+             * get the output and buffer the input
+             */
             OutputStream out = client.getOutputStream();
             BufferedReader reader;
-            /** convert to a string and write into an outputsteam */
+            /**
+             * convert to a string and write into an outputsteam
+             */
             try (PrintWriter writer = new PrintWriter(out))
             {
-                /** get input stream and buffer it */
+                /**
+                 * get input stream and buffer it
+                 */
                 InputStream in = client.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(in));
-                /** handler for the file editor interfaces */
+                /**
+                 * handler for the file editor interfaces
+                 */
                 String s = null;
                 while ((s = reader.readLine()) != null)
                 {
                     String[] args = s.split(Pattern.quote("#entf#"));
                     int anz = args.length - 1;
-                    /** file.rename handler */
+                    /**
+                     * file.rename handler
+                     */
                     if (args[anz].equals("FileRename"))
                     {
                         boolean renameFile = Rename.renameFile(args[0], args[1], args[2]);
                         System.out.println("Rename successfull?: " + renameFile);
-                    }
-                    /** file.delete handler */
+                    } /**
+                     * file.delete handler
+                     */
                     else if (args[anz].equals("FileDelete"))
                     {
                         boolean deleteFile = Delete.deleteFile(args[0], args[1]);
                         System.out.println("Delete successfull?: " + deleteFile);
-                    }
-                    /** file.create handler */
+                    } /**
+                     * file.create handler
+                     */
                     else if (args[anz].equals("FileCreate"))
                     {
                         boolean createFile = Create.createFile(args[0], args[1]);
                         System.out.println("Create successfull?: " + createFile);
-                    } 
-                    else if (args[anz].equals("FileTransfer"))
+                    } else if (args[anz].equals("FileTransfer"))
                     {
                         System.out.println("test1");
                         boolean transferFile = FileTransfer.FT(args);
@@ -85,7 +100,9 @@ public class Handler implements Runnable
                 writer.close();
                 client.close();
             }
-        /** catch exceptions and logg them */
+            /**
+             * catch exceptions and logg them
+             */
         } catch (IOException ex)
         {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

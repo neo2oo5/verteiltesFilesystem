@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package network;
-/** Used Libraries */
+
+/**
+ * Used Libraries
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,19 +23,24 @@ import java.util.logging.Logger;
  *
  * @author Lamparari
  */
-
-/** class wich starts a client to communicate with the server **/
+/**
+ * class wich starts a client to communicate with the server *
+ */
 public class Client
 {
 
     public static void client(String[] args)
     {
-        /** reads the input from the shell */
+        /**
+         * reads the input from the shell
+         */
         Scanner eingabe = new Scanner(System.in);
 
         try
         {
-            /** initiate the client socket (Port 1717, name = input) */
+            /**
+             * initiate the client socket (Port 1717, name = input)
+             */
             Socket client = new Socket(args[0], 1717);
             String anServer = "";
             anServer += args[1];
@@ -40,29 +48,45 @@ public class Client
             {
                 anServer += "#entf#" + args[i];
             }
-            
-            /** --- Streams --- */
-            /** Get the output and handle it */
+
+            /**
+             * --- Streams ---
+             */
+            /**
+             * Get the output and handle it
+             */
             OutputStream out = client.getOutputStream();
             BufferedReader reader;
-            /** convert input to a string */
+            /**
+             * convert input to a string
+             */
             try (PrintWriter writer = new PrintWriter(out))
             {
-                /** get the input */
+                /**
+                 * get the input
+                 */
                 InputStream in = client.getInputStream();
-                /** Buffer the input */
+                /**
+                 * Buffer the input
+                 */
                 reader = new BufferedReader(new InputStreamReader(in));
 
                 writer.write(anServer);
-                /** stop to puffer the output of the printwriter */
+                /**
+                 * stop to puffer the output of the printwriter
+                 */
                 writer.flush();
-                /** close the applications */
+                /**
+                 * close the applications
+                 */
                 writer.close();
                 reader.close();
                 client.close();
 
             }
-        /** catch exceptions and log them */ 
+            /**
+             * catch exceptions and log them
+             */
         } catch (IOException ex)
         {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

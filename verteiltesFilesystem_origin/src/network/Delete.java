@@ -1,5 +1,8 @@
 package network;
-/** Used Libraries */
+
+/**
+ * Used Libraries
+ */
 import java.io.File;
 
 /**
@@ -15,15 +18,20 @@ public class Delete
      * @param name
      * @return
      */
-    
-    /** Class to delete a file in a chosen directory */
+    /**
+     * Class to delete a file in a chosen directory
+     */
     public static boolean deleteFile(String path, String name)
     {
-        /** Search the selected file. If it was found, delete it! */
+        /**
+         * Search the selected file. If it was found, delete it!
+         */
         File file = new File(path + name);
-        
+
         boolean successful = file.delete();
-        /** return if the file was successfully deleted */
+        /**
+         * return if the file was successfully deleted
+         */
         return successful;
     }
 }
