@@ -10,6 +10,8 @@ package network;
  */
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,7 +34,7 @@ public class Handler implements Runnable
 {
 
     private Socket client;
-    GUIOutput guiOut =  GUIOutput.getInstance();
+    GUIOutput guiOut = GUIOutput.getInstance();
 
     /**
      *
@@ -97,8 +99,7 @@ public class Handler implements Runnable
                         System.out.println("test1");
                         boolean transferFile = FileTransfer.FT(args);
                         System.out.println("Transfer successfull?: " + transferFile);
-                    }
-                    else if (args[anz].equals("CheckAdminLoggedin"))
+                    } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
                         File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
                         boolean exists = file.exists();
@@ -112,8 +113,10 @@ public class Handler implements Runnable
                             argsNeu[1] = "true";
                             argsNeu[2] = doWhat;
                             StartClientServer.startClient(argsNeu);
+                        } else
+                        {
+                            System.out.println("ex nicht");
                         }
-                        else System.out.println("ex nicht");
 
                     } else if (args[anz].equals("AntwortAdminLoggedin"))
                     {
@@ -121,6 +124,54 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("AdminMessage"))
                     {
                         guiOut.print(args[0], 1);
+                    } else if (args[anz].equals("AdminUserKick"))
+                    {
+                        String iplist = substructure.PathHelper.getFile("IPs.txt");
+                        int anzahl = 0;
+                        String anServer = null;
+                        BufferedReader inFile = null;
+                        inFile = new BufferedReader(new FileReader(iplist));
+                        String ip = null;
+                        String newIPList[] = null;
+                        while ((ip = inFile.readLine()) != null)
+                        {
+                            if (ip == args[0])
+                            {
+                                newIPList[anzahl++] = ip;
+                            }
+                        }
+
+                        File file = new File(iplist);
+
+                        /**
+                         * write the IP in the address table
+                         */
+                        FileWriter writerNeu;
+                        int i = 0;
+                        while (i <= anzahl)
+                        {
+                            try
+                            {
+                                if (i == 0)
+                                {
+                                    writerNeu = new FileWriter(file, false);
+                                } else
+                                {
+                                    writerNeu = new FileWriter(file, true);
+                                }
+
+                                writerNeu.write(newIPList[i++]);
+                                writerNeu.write(System.getProperty("line.separator"));
+                                writerNeu.flush();
+                                writerNeu.close();
+                                /**
+                                 * catch exceptions
+                                 */
+                            } catch (IOException e)
+                            {
+
+                            }
+                        }
                     }
                 }
                 reader.close();
