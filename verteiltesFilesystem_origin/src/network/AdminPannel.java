@@ -151,26 +151,31 @@ public class AdminPannel
 
     public static void adminKickUser(String ipToKick) throws FileNotFoundException, IOException
     {
-        
-        String iplist = substructure.PathHelper.getFile("IPs.txt");
-        int anzahl = 0;
-        String anServer = null;
         String ownIP = network.getIPv4Address.getIPv4Address();
-        // check ob schon einer eingeloggt
-        BufferedReader in = null;
-        in = new BufferedReader(new FileReader(iplist));
-        String ip = null;
-        FileWriter writer;
-        while ((ip = in.readLine()) != null)
+        if (ipToKick.equals(ownIP))
         {
-            System.out.println("aa--------------");
-            String doWhat = "AdminKickUser";
-            String[] args = new String[3];
-            args[0] = ip;
-            args[1] = ipToKick;
-            args[2] = doWhat;
-            StartClientServer.startClient(args);
+            System.out.println("Sie können sich nicht selbst Kicken!");
+            out.print("Sie können sich nicht selbst Kicken!", 3);
+        } else
+        {
+            String iplist = substructure.PathHelper.getFile("IPs.txt");
+            int anzahl = 0;
+            String anServer = null;
+            // check ob schon einer eingeloggt
+            BufferedReader in = null;
+            in = new BufferedReader(new FileReader(iplist));
+            String ip = null;
+            FileWriter writer;
+            while ((ip = in.readLine()) != null)
+            {
+                String doWhat = "AdminKickUser";
+                String[] args = new String[3];
+                args[0] = ip;
+                args[1] = ipToKick;
+                args[2] = doWhat;
+                StartClientServer.startClient(args);
 
+            }
         }
     }
 }
