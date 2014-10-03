@@ -47,7 +47,7 @@ public class Server
             /**
              * check if the server was started
              */
-            System.out.println("Server gestartet!\n");
+            System.out.println("Programm gestartet!\n\nEinsatzbereit in ca 5 Sekunden!\n");
 
             /**
              * search for client requests to accept them
