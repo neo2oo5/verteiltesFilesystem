@@ -182,7 +182,7 @@ public class Interfaces
     public static boolean inerfaceStartProgram()
     {
         boolean succes = false;
-        
+
         /**
          * start the server
          */
@@ -264,7 +264,7 @@ public class Interfaces
     {
         try
         {
-           return AdminPannel.adminLogin();
+            return AdminPannel.adminLogin();
         } catch (InterruptedException ex)
         {
             Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,13 +275,12 @@ public class Interfaces
     public static boolean inerfaceAdminLogout() throws UnknownHostException, IOException
     {
         return AdminPannel.adminLogout();
-        
+
     }
 
     public static void inerfaceAdminKickUser(String ipToKick) throws IOException
     {
-        AdminPannel.adminKickUser(ipToKick);    
+        AdminPannel.adminKickUser(ipToKick);
     }
-    
-    
+
 }

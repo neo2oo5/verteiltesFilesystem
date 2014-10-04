@@ -26,8 +26,8 @@ import substructure.GUIOutput;
 public class CheckWhoIsOnline implements Runnable
 {
 
-    private static String ipv4;
-    GUIOutput out =  GUIOutput.getInstance();
+    private String ipv4;
+    GUIOutput out = GUIOutput.getInstance();
 
     /**
      *
