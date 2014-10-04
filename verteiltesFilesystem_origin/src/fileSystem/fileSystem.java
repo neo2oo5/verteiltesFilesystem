@@ -137,9 +137,17 @@ public class fileSystem{
     {
         try{
              Path finalPath = Paths.get(path);
-            fileSystem.add(clientscount, initFS(finalPath));
-            clients[clientscount] = IP;
-            clientscount++;
+            try{
+                 fileSystem.remove(find(clients, IP));
+                 fileSystem.add(find(clients, IP), initFS(finalPath));
+                 
+             }
+             catch(ArrayIndexOutOfBoundsException e)
+             {
+                 fileSystem.add(clientscount, initFS(finalPath));
+                 clients[clientscount] = IP;
+                 clientscount++;
+             }
         }
      
         catch(Exception e)
