@@ -178,4 +178,11 @@ public class AdminPannel
             }
         }
     }
+
+    public static boolean IAmAdmin()
+    {
+        File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
+        boolean exists = file.exists();
+        return exists;
+    }
 }

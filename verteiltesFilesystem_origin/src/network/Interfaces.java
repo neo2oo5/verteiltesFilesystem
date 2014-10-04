@@ -283,4 +283,9 @@ public class Interfaces
         AdminPannel.adminKickUser(ipToKick);
     }
 
+    public static boolean inerfaceIAmAdmin()
+    {
+        return AdminPannel.IAmAdmin();
+    }
+
 }
