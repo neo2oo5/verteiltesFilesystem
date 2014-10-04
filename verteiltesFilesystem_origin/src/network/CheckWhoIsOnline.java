@@ -15,6 +15,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.regex.Pattern;
+import substructure.GUIOutput;
 
 /**
  *
@@ -22,15 +23,25 @@ import java.util.regex.Pattern;
  */
 
 /* class to detect all clients who are online */
-public class CheckWhoIsOnline
+public class CheckWhoIsOnline implements Runnable
 {
+
+    private static String ipv4;
+    GUIOutput out =  GUIOutput.getInstance();
 
     /**
      *
-     * @param ipv4 // eigene IPv4 Adresse
+     * @param ipv4
      */
-    public static void CheckWhoIsOnline(String ipv4)
+    public CheckWhoIsOnline(String ipv4)
     {
+        this.ipv4 = ipv4;
+    }
+
+    @Override
+    public void run()
+    {
+        out.print("Starte Initialisierung der Rechner im Lokalen Netzwerk", 1);
         int anzahl = 0;
         int endung = 0;
         boolean reachable = false;

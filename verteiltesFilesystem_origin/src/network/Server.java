@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import substructure.GUIOutput;
 
 /**
  *
@@ -25,6 +26,8 @@ import java.util.logging.Logger;
  */
 public class Server
 {
+
+    static GUIOutput out = GUIOutput.getInstance();
 
     public static void server()
     {
@@ -47,7 +50,8 @@ public class Server
             /**
              * check if the server was started
              */
-            System.out.println("Programm gestartet!\n\nEinsatzbereit in ca 5 Sekunden!\n");
+            out.print("Programm gestartet!", 1);
+            out.print("Server Gestartet!", 1);
 
             /**
              * search for client requests to accept them

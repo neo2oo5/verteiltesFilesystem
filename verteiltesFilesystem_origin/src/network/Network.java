@@ -19,9 +19,9 @@ public class Network
     {
         boolean startProgram = Interfaces.inerfaceStartProgram();
         System.out.println("prg start");
-        sleep(200);
+        sleep(20000);
         System.out.println("sleep over - kick now");
-        Interfaces.inerfaceAdminKickUser("192.168.178.161");
+        Interfaces.inerfaceNetworkOnline();
         System.out.println("fertig");
     }
 }

@@ -182,6 +182,7 @@ public class Interfaces
     public static boolean inerfaceStartProgram()
     {
         boolean succes = false;
+        
         /**
          * start the server
          */
@@ -206,7 +207,8 @@ public class Interfaces
         if (ip != null)
         {
             System.out.println("Ihre IP: " + ip);
-            CheckWhoIsOnline.CheckWhoIsOnline(ip);
+            Thread cwio = new Thread(new CheckWhoIsOnline(ip));
+            cwio.start();
             succes = true;
         }
         /**
