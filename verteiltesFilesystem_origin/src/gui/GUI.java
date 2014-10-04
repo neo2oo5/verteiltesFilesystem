@@ -12,6 +12,7 @@ package gui;
 
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
+import static gui.Config.out;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -105,6 +106,8 @@ public class GUI extends javax.swing.JFrame
             image = ImageIO.read(new File(substructure.PathHelper.getFile("hdd.png")));
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (fileSystemException ex) { 
+             out.print(ex.toString());
         }
         setIconImage(image);
         

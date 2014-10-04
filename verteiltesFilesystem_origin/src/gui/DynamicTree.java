@@ -6,6 +6,7 @@
 
 package gui;
 
+import fileSystem.fileSystemException;
 import java.awt.Color;
 import substructure.GUIOutput;
 import java.awt.Component;
@@ -20,6 +21,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -43,9 +46,9 @@ public class DynamicTree extends JPanel implements MouseListener
 {
 
 
-    protected DefaultMutableTreeNode rootNode;
-    protected DefaultTreeModel treeModel;
-    protected JTree tree;
+    protected static DefaultMutableTreeNode rootNode;
+    protected static DefaultTreeModel treeModel;
+    protected static JTree tree;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private GUIOutput out = GUIOutput.getInstance();
     private JPopupMenu popup;
@@ -82,10 +85,14 @@ public class DynamicTree extends JPanel implements MouseListener
                 
                 if(Config.isRootDir())
                 {
-                    ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
-                    loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
-                    loadingl = new JLabel("", loading, JLabel.CENTER);
-                    Pane.addTab("Explorer",loadingl);
+                    try {
+                        ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
+                        loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
+                        loadingl = new JLabel("", loading, JLabel.CENTER);
+                        Pane.addTab("Explorer",loadingl);
+                    } catch (fileSystemException ex) {
+                        out.print(ex.toString());
+                    }
                     
                     
                     
@@ -276,6 +283,20 @@ public class DynamicTree extends JPanel implements MouseListener
                 
 		return childNode;
 	}
+        
+    public static String getPath(DefaultMutableTreeNode path)
+    {
+        String jTreeVarSelectedPath = "";
+        Object[] paths = path.getPath();
+        for (int i=1; i<paths.length; i++) {
+            jTreeVarSelectedPath += paths[i];
+            if (i+1 <paths.length ) {
+                jTreeVarSelectedPath += File.separator;
+            }
+        }
+        
+        return jTreeVarSelectedPath;
+    }
     //open Popupmenu
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -293,29 +314,7 @@ public class DynamicTree extends JPanel implements MouseListener
      */
     public void showMenu(MouseEvent e)
     {
-      popup = new JPopupMenu();
-      
-        menuItemFileDownload = new JMenuItem("Datei downloaden");
-        menuItemFileCreate = new JMenuItem("Datei erstellen");
-        menuItemFileDelete = new JMenuItem("Datei loeschen");
-        menuItemFileRename = new JMenuItem("Datei umbenennen");
-
-        menuItemFileDownload.addActionListener(new PopupListener());
-        menuItemFileCreate.addActionListener(new PopupListener());
-        menuItemFileDelete.addActionListener(new PopupListener());
-        menuItemFileRename.addActionListener(new PopupListener());
-        
-        menuItemFileDownload.setActionCommand(DFI_CMD);
-        menuItemFileCreate.setActionCommand(CFI_CMD);
-        menuItemFileDelete.setActionCommand(RFI_CMD);
-        menuItemFileRename.setActionCommand(REFI_CMD);
-        
-        popup.add(menuItemFileDownload);
-        popup.add(menuItemFileCreate);
-        popup.add(menuItemFileDelete);
-        popup.add(menuItemFileRename);
-    
-        popup.show(e.getComponent(), e.getX(), e.getY());
+      new rightClickMenu(e);
        
     }
 
@@ -369,79 +368,5 @@ public class DynamicTree extends JPanel implements MouseListener
                 
                 
 	}
-        /*
-                * RightClick Menu - ActionListener
-                *
-                *
-        */
-        class PopupListener implements ActionListener {
-          
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String command = e.getActionCommand(); //To change body of generated methods, choose Tools | Templates.
-                TreePath currentSelection = tree.getSelectionPath();
-                DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
-                
-                if (CFI_CMD.equals(command)) 
-                {
-                   out.print("datei erstellt");
-                   
-                    if (currentSelection != null) 
-                    {
-                        
-                            MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
-                            
-                            //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
-                            if(currentNode.isLeaf() == false)
-                            {
-                                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Ordner Name?"));
-                                treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
-                                //netzwerk hinzufueg funktion
-                            }
-                            else
-                            {
-                                new GuiPromptHelper(GuiPromptHelper.showError, "Es kann in einer Datei keine Datei angelegt werden.");
-                            }
-                            
-                            if (parent != null) 
-                            {
-                                    
-                                    return;
-                            }
-                    }
-                } 
-                else if(RFI_CMD.equals(command))
-                {
-                    
-                    if(currentNode.isLeaf() == true)
-                    {
-                        treeModel.removeNodeFromParent(currentNode);
-                        //netzwerk loesch funktion
-                    }
-                    else
-                    {
-                        new GuiPromptHelper(GuiPromptHelper.showError, "Ein FileSystem kann nicht geloescht werden.");
-                    }
-                    out.print("datei entfernt");
-                }
-                else if(DFI_CMD.equals(command))
-                {
-                    if(currentNode.isLeaf() == true)
-                    {
-                       //download
-                    }
-                    else
-                    {
-                        new GuiPromptHelper(GuiPromptHelper.showError, "Ein FileSystem kann nicht gedownloadet werden.");
-                    }
-                }
-                else if (REFI_CMD.equals(command))
-                {
-                    currentNode.setUserObject(new GuiPromptHelper(GuiPromptHelper.showInput, "Neuer Name?"));
-                    out.print("Node Text geändert");
-                }
-               
-            }
-        }
+        
 }

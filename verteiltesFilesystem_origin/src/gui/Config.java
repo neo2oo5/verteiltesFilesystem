@@ -6,11 +6,14 @@
 
 package gui;
 
+import fileSystem.fileSystemException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import substructure.GUIOutput;
 
@@ -100,7 +103,9 @@ public class Config
             } catch (NullPointerException ex) {
                 out.print("(Config.java) " + ex.toString());
                 return true;
-            } 
+            } catch (fileSystemException ex) { 
+             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+         } 
             
             return false;
             
@@ -124,7 +129,9 @@ public class Config
                 out.print("(Config.java) " + configFile + "nicht gefunden");
             } catch (IOException ex) {
                 out.print("(Config.java) " + ex.toString());
-            }
+            }catch (fileSystemException ex) { 
+             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+         } 
             
            
             return null;
@@ -166,6 +173,8 @@ public class Config
 
                                     } catch (IOException io) {
 
+                                    } catch (fileSystemException ex) { 
+                                        out.print(ex.toString());
                                     } finally {
                                         if (output != null) {
                                             try {

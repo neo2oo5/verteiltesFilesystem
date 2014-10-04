@@ -6,10 +6,13 @@
 
 package gui;
 
+import fileSystem.fileSystemException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import substructure.GUIOutput;
 
@@ -82,7 +85,9 @@ public class Admin
                 out.print("Param Password: " + password);
 	} catch (IOException ex) {
 		ex.printStackTrace();
-	} 
+	} catch (fileSystemException ex) { 
+             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+         } 
         
         if(username.equals(propusername) && password.equals(proppassword))
         {

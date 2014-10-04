@@ -5,8 +5,12 @@
  */
 package gui;
 
+import fileSystem.fileSystemException;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextArea;
+import substructure.GUIOutput;
 
 /**
  *
@@ -16,6 +20,7 @@ public class otherTab {
     
     private JTextArea aboutus;
     private JTextArea info;
+    static  GUIOutput out =  GUIOutput.getInstance();
     
     /**
      *
@@ -52,7 +57,9 @@ public class otherTab {
             e.printStackTrace();
         } catch(IOException e) {
             e.printStackTrace();
-        } finally {
+        } catch (fileSystemException ex) { 
+             out.print(ex.toString());
+         } finally {
             if(br != null) {
                 try {
                     br.close();
