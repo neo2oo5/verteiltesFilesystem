@@ -156,36 +156,7 @@ public class fileSystem{
         }
     }
     
-    /*private List<Path> initFS(String Path) throws IOException
-    {
-       List<Path> result = new ArrayList<>();
-       try (DirectoryStream<Path> stream = Files.newDirectoryStream(converttoPath(Path), "*"))
-       {
-           for (Path entry: stream) 
-           {
-               if(Files.isHidden(entry)==false)
-               {
-                   if(Files.isDirectory(entry)==true)
-                   {
-                       String pathAsString = entry.toString();
-                       initFS(pathAsString);
-                       result.add(entry); //kp ob nötig addet den Folder in den Parentpfad
-                   }
-                   else
-                   {
-                      result.add(entry);
-                   }
-               }
-           }
-       }
-       catch (DirectoryIteratorException ex)
-       {
-           // I/O error encounted during the iteration, the cause is an IOException
-           throw ex.getCause();
-       }
-       System.out.println("\t"+result);
-       return result;
-    }*/
+  
     
     /**
      * ersetz iniFS da rekursiv 
