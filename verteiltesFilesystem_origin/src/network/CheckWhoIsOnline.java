@@ -100,6 +100,7 @@ public class CheckWhoIsOnline implements Runnable
             endung++;
 
         }
+        out.print("Initialisierung der Rechner im Lokalen Netzwerk abgeschlossen", 1);
     }
 
     /**
