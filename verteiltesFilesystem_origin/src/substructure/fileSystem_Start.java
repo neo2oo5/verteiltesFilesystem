@@ -47,7 +47,7 @@ public class fileSystem_Start {
          *
          */
 
-        network.Interfaces.inerfaceStartProgram();
+        //network.Interfaces.inerfaceStartProgram();
   
         
         /* Set the Nimbus look and feel */

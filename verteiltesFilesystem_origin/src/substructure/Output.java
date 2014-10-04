@@ -5,10 +5,13 @@
  */
 
 package substructure;
+import fileSystem.fileSystemException;
 import gui.GuiPromptHelper;
 import java.io.*;
 import java.io.FileOutputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -93,8 +96,12 @@ public class Output
  
 		
  
-		// load a properties file
-		prop.load(new FileReader(substructure.PathHelper.getFile("debug.properties")));
+            try {
+                // load a properties file
+                prop.load(new FileReader(substructure.PathHelper.getFile("debug.properties")));
+            } catch (fileSystemException ex) {
+                Logger.getLogger(Output.class.getName()).log(Level.SEVERE, null, ex);
+            }
  
 		// get the property value and print it out
                 try{
