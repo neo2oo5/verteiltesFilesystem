@@ -17,8 +17,9 @@ public class Network
 
     public static void main(String[] args) throws InterruptedException, IOException
     {
-        System.out.println("prg start");
-        boolean startProgram = Interfaces.inerfaceStartProgram();
+        System.out.println("prg start" + getIPv4Address.getIPv4Address());
+        CheckWhoIsOnline test = new CheckWhoIsOnline(getIPv4Address.getIPv4Address());
+//boolean startProgram = Interfaces.inerfaceStartProgram();
         System.out.println("prg start");
         sleep(20000);
         System.out.println("sleep over - kick now");
