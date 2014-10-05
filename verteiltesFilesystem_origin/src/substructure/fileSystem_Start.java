@@ -26,6 +26,7 @@ public class fileSystem_Start {
     private static FileInputStream input;
     static GUIOutput out =  GUIOutput.getInstance();
     static fileSystem c = fileSystem.getInstance();
+    public static GUI gUI = null;
 
     /**
      * @param args the command line arguments
@@ -86,10 +87,20 @@ public class fileSystem_Start {
         {
             public void run()
             { 
+                //set UI Defaults
                 javax.swing.UIManager.put("nimbusBase", new ColorUIResource(0, 0, 0));
                 javax.swing.UIManager.put("textForeground", new ColorUIResource(255, 69, 0));
-                new GUI().setVisible(true);
+                
+                //start GUI
+                gUI = new GUI();
+                gUI.setVisible(true);
+                gUI.setOnOffState();
+                
+                //initiate startSequence
                 startSequence();
+                
+                //start scheduler
+                new substructure.runTimeUpdater();
                 
             }
         });

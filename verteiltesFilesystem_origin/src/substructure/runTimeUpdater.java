@@ -22,20 +22,17 @@ public class runTimeUpdater {
         Timer timer = new Timer();
 
         // Start in one second then drain every 5 seconds
+        // Update Explorer Folder structure
         timer.schedule(new JTreeCreator(), 1000, 5000 );
+        
+        timer.schedule(new GUIScheduler(), 1000, 10000 );
     }
     
     class JTreeCreator extends TimerTask{
         
         @Override public void run()
         {
-            
-            
-           
-
             String ips[] = c.getAllIps();
-            //out.print(" explorer clientscount"+c.getClientCount());
-            //out.print("Es werden " + c.getClientCount() + " Clienten indexiert. \n");
 
             for(int i = 0; i < c.getClientCount(); i++)
             {
@@ -46,8 +43,14 @@ public class runTimeUpdater {
                    // out.print(ex, 3);
                 }
             }
-
+        }    
+    }
+    
+    class GUIScheduler extends TimerTask
+    {
+        @Override public void run()
+        {
+           substructure.fileSystem_Start.gUI.setOnOffState();
         }
-        
     }
 }
