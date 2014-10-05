@@ -214,6 +214,31 @@ public class fileSystem{
     }
     
     
+     /**
+    * Noch nicht einsatzfähig
+    * @param path
+    * @throws IOException
+    * @throws InterruptedException 
+    */ 
+   /** public void WatchService(String path) throws IOException, InterruptedException
+    {
+        WatchService watcher = FileSystems.getDefault().newWatchService();
+        Paths.get(path).register(watcher, StandardWatchEventKinds.ENTRY_CREATE,
+                                          StandardWatchEventKinds.ENTRY_DELETE,
+                                          StandardWatchEventKinds.ENTRY_MODIFY);
+        while(true)
+        {
+            WatchKey key = watcher.take();
+            System.out.println("change");
+            for(WatchEvent<?> event : key.pollEvents())
+                System.out.println("Kind: "+event.kind()+", Path: "+event.context());
+            key.reset();
+        }
+        
+    }*/  
+    
+    
+    
     /**
      *
      * @param IP
@@ -282,20 +307,33 @@ public class fileSystem{
     }   
     
     /**
-     * Transferiert einen String in das Filesystem  
-     * funktioniert noch nicht wie geplant sonder ruft setnewFileSystem wieder auf...
+     * 
      * @throws fileSystemException 
      */
-   /* public void mergeInComingList() throws fileSystemException
+    public void mergeList(String inComingList) throws fileSystemException
     {
-        String inComingList = "172.1.1.9#E:\\BAF\n184.2.2.9#E:\\BAF\\Test";
+        List<Path> result = new ArrayList<>();
         String[] parts = inComingList.split("\n");
-        for (int count=0;count<parts.length;count++)
+        for(int count=0;count<parts.length;count++)
         {
-               String[] seperated=parts[count].split("#",2);
-               setnewFileSystem(seperated[0],seperated[1]);
+            String[] seperatedString = parts[count].split("--##--",2);
+            String path = seperatedString[1];
+            Path finalPath = Paths.get(seperatedString[1]);
+            String IP = seperatedString[0];
+            result.add(finalPath);
+            try
+            {
+                fileSystem.remove(find(clients, seperatedString[0]));
+                fileSystem.add(find(clients, IP), result);
+            }
+            catch(ArrayIndexOutOfBoundsException e)
+            {
+                fileSystem.add(clientscount,result);
+                clients[clientscount] = IP;
+                clientscount++;
+            }
         }
-    }*/
+    }
     
     /**
      * IPS als StingArray
