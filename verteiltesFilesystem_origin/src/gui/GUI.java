@@ -44,8 +44,8 @@ public class GUI extends javax.swing.JFrame
     private int ActiveTabIndex              =   0;
     private Explorer explorer;
     private Admin admin = null;
-    private KreisPanel state;
-    private JLabel statel;
+    private KreisPanel state = new KreisPanel();
+    private JLabel statel = new JLabel("Offline");
     /**
      * Creates new form GUI
      */
@@ -56,27 +56,39 @@ public class GUI extends javax.swing.JFrame
         owninitComponents();
     }
     
+    public void setOnOffState()
+    {
+        if(network.Interfaces.inerfaceNetworkOnline() == true)
+        {
+            state.setGreen();
+            statel.setText("Online");
+        }
+        else
+        {
+            state.setRed();
+            statel.setText("Offline");
+        }
+    }
+    
+
+    
  
     private void owninitComponents()
     {
         
         /*Network status display*/
-        state = new KreisPanel();
+        
         state.setBounds(3, 7, 25, 25); 
         state.setVisible(true);
       
-        statel = new JLabel("Offline");
+        
         statel.setBounds(30, 7, 100, 25);
         statel.setVisible(true);
         
-          if(network.Interfaces.inerfaceNetworkOnline() == true)
-        {
-            state.setGreen();
-            statel.setText("Online");
-        }
-        
         add(state);
         add(statel);
+        
+        
         
         
         /*Set Admin Defaults*/
