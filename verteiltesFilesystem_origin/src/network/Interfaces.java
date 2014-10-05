@@ -16,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import substructure.GUIOutput;
 
 /**
@@ -44,7 +46,7 @@ public class Interfaces
             {
             } else
             {
-                // do ...
+// do ...
                 String doWhat = "FileTransfer";
                 String[] args = new String[6];
                 args[0] = IPv4;
@@ -53,10 +55,24 @@ public class Interfaces
                 args[3] = filename;
                 args[4] = IPv4target;
                 args[5] = doWhat;
+                
+                String datei = args[0] + args[2];
+                File file = new File(datei);
+                FileTransfer.FileProvider fileProvider = new FileTransfer.FileProvider(file, 1718);
 
-                File target = new File(args[2]);
-                target.mkdirs();
-                StartClientServer.startClient(args);
+                FileTransfer.FileFetcher fileFetcher = new FileTransfer.FileFetcher(args[3], 1718, args);
+                ExecutorService executorService = Executors.newFixedThreadPool(2);
+                executorService.execute(fileProvider);
+                executorService.execute(fileFetcher);
+
+                executorService.shutdown();
+                
+
+
+
+//                File target = new File(args[2]);
+//                target.mkdirs();
+//                StartClientServer.startClient(args);
                 try
                 {
                     sleep(100);
