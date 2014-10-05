@@ -50,7 +50,7 @@ public class DynamicTree extends JPanel implements MouseListener
     protected static DefaultTreeModel treeModel;
     protected static JTree tree;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private GUIOutput out = GUIOutput.getInstance();
+    private static GUIOutput out = GUIOutput.getInstance();
     private JPopupMenu popup;
     private JMenuItem menuItemFileDownload, menuItemFileDelete, menuItemFileCreate, menuItemFileRename;
     private static JLabel loadingl;
@@ -59,6 +59,7 @@ public class DynamicTree extends JPanel implements MouseListener
     private static String RFI_CMD = "removeFile";    
     private static String DFI_CMD = "downloadFile";
     private static String REFI_CMD = "renameFile";
+    private static String downloadFolder   = "Downloads";
 
         
     /**
@@ -296,6 +297,31 @@ public class DynamicTree extends JPanel implements MouseListener
         }
         
         return jTreeVarSelectedPath;
+    }
+    
+    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode)
+    {
+        try {
+            return getNetOperationData(currentNode, substructure.PathHelper.getFolder(downloadFolder));
+        } catch (fileSystemException ex) {
+            out.print(ex.toString());
+        }
+            return null;
+    }
+    
+    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode, String targetPath)
+    {
+        String  path    = getPath(currentNode);
+        String result[] = null;
+       
+            
+        result[0]       = path.substring(0, path.indexOf("/")); //IP
+        result[1]   = path.substring(path.lastIndexOf("/")+1, path.length()); //filename
+        result[2]  = path.substring(path.indexOf("/"), path.lastIndexOf("/")); //sourcePath
+        result[3]  = targetPath; //targetPath
+        
+        
+        return   result;
     }
     //open Popupmenu
     @Override

@@ -29,10 +29,15 @@ public class rightClickMenu {
     private static String RFI_CMD = "removeFile";    
     private static String DFI_CMD = "downloadFile";
     private static String REFI_CMD = "renameFile";
-    private String downloadFolder   = "Downloads";
+    
+    private static String fileinFileMSG = "Es kann in einer Datei keine Datei angelegt werden.",
+                          fsDownloadMSG = "Ein FileSystem kann nicht gedownloadet werden.",
+                          fsDeleteMSG   = "Ein FileSystem kann nicht geloescht werden.";
+    
     private JPopupMenu popup;
     private JMenuItem menuItemFileDownload, menuItemFileDelete, menuItemFileCreate, menuItemFileRename;
     private GUIOutput out = GUIOutput.getInstance();
+    
     
     public rightClickMenu(MouseEvent e)
     {
@@ -77,7 +82,7 @@ public class rightClickMenu {
                 
                 if (CFI_CMD.equals(command)) 
                 {
-                   out.print("datei erstellt");
+                  
                    
                     if (currentSelection != null) 
                     {
@@ -89,11 +94,21 @@ public class rightClickMenu {
                             {
                                 DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Ordner Name?"));
                                 DynamicTree.treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
-                                //netzwerk hinzufueg funktion
+                                //netzwerk ordner hinzufueg funktion
+                                
+                                String args[];
+                            
+                                if((args = DynamicTree.getNetOperationData(currentNode)) != null)
+                                {
+                                    out.print("(Create) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
+                                    Interfaces.interfaceFileCreate(args[0], args[2], args[1]);
+                                    out.print("datei erstellt");
+                                }
+                                
                             }
                             else
                             {
-                                new GuiPromptHelper(GuiPromptHelper.showError, "Es kann in einer Datei keine Datei angelegt werden.");
+                                new GuiPromptHelper(GuiPromptHelper.showError, fileinFileMSG);
                             }
                             
                             if (parent != null) 
@@ -110,43 +125,57 @@ public class rightClickMenu {
                     {
                         DynamicTree.treeModel.removeNodeFromParent(currentNode);
                         //netzwerk loesch funktion
+                        String args[];
+                            
+                                if((args = DynamicTree.getNetOperationData(currentNode)) != null)
+                                {
+                                    out.print("(Remove) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
+                                    Interfaces.interfaceFileDelete(args[0], args[2], args[1]);
+                                    out.print("datei gelöscht");
+                                }
                     }
                     else
                     {
-                        new GuiPromptHelper(GuiPromptHelper.showError, "Ein FileSystem kann nicht geloescht werden.");
+                        new GuiPromptHelper(GuiPromptHelper.showError, fsDeleteMSG);
                     }
-                    out.print("datei entfernt");
+                    
                 }
                 else if(DFI_CMD.equals(command))
                 {
                     if(currentNode.isLeaf() == true)
                     {
-                        try {
+                        String args[];
                             
-                            String IPv4 = "", sourcePath = "", targetPath = "", filename = "", path = DynamicTree.getPath(currentNode);
-                            
-                            IPv4        = path.substring(0, path.indexOf("/"));
-                            filename    = path.substring(path.lastIndexOf("/")+1, path.length());
-                            sourcePath  = path.substring(path.indexOf("/"), path.lastIndexOf("/"));
-                            targetPath  = substructure.PathHelper.getFolder(downloadFolder);
-                            
-                            out.print("(Download) IPv4: " + IPv4 + " filename: " + filename + " sourcePath: " + sourcePath);
-                            Interfaces.interfaceFileTransfer(IPv4, sourcePath, targetPath, filename);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(rightClickMenu.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (fileSystemException ex) {
-                            out.print(ex.toString());
-                        }
+                                if((args = DynamicTree.getNetOperationData(currentNode)) != null)
+                                {
+                                    try {
+                                        out.print("(Download) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
+                                        Interfaces.interfaceFileTransfer(args[0], args[1], args[2], args[3]);
+                                        out.print("datei download beendet");
+                                    } catch (InterruptedException ex) {
+                                        out.print(ex.toString());
+                                    }
+                                }
                     }
                     else
                     {
-                        new GuiPromptHelper(GuiPromptHelper.showError, "Ein FileSystem kann nicht gedownloadet werden.");
+                        new GuiPromptHelper(GuiPromptHelper.showError, fsDownloadMSG);
                     }
                 }
                 else if (REFI_CMD.equals(command))
-                {
-                    currentNode.setUserObject(new GuiPromptHelper(GuiPromptHelper.showInput, "Neuer Name?"));
-                    out.print("Node Text geändert");
+                {   
+                    GuiPromptHelper prompt = new GuiPromptHelper(GuiPromptHelper.showInput, "Neuer Name?");
+                    
+                    currentNode.setUserObject(prompt.toString());
+                    
+                    String args[];
+                            
+                                if((args = DynamicTree.getNetOperationData(currentNode)) != null)
+                                {
+                                    out.print("(Rename) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
+                                    Interfaces.interfaceFileRename(args[0], args[2], args[1], prompt.toString());
+                                    out.print("datei umbenannt");
+                                }
                 }
                
             }

@@ -24,7 +24,7 @@ public class Explorer
 {
     private  GUIOutput out =  GUIOutput.getInstance();
     private fileSystem c = fileSystem.getInstance();
-    DynamicTree treePanel;
+    private static DynamicTree treePanel;
     /**
      *
      * @param Pane
@@ -36,7 +36,7 @@ public class Explorer
        
         
             treePanel = new DynamicTree(Pane);
-            startRefreshTimer();
+            
         
     }
     
@@ -54,39 +54,12 @@ public class Explorer
     {
         
         
-        Timer timer = new Timer();
-
-        // Start in one second then drain every 5 seconds
-        timer.schedule(new JTreeCreator(), 1000, 5000 );
+        
        // JTreeCreator c = new JTreeCreator();
         //c.run();
     }
     
-    class JTreeCreator extends TimerTask{
-      
-        @Override public void run()
-        {
-            
-            
-           
-
-            String ips[] = c.getAllIps();
-            //out.print(" explorer clientscount"+c.getClientCount());
-            //out.print("Es werden " + c.getClientCount() + " Clienten indexiert. \n");
-
-            for(int i = 0; i < c.getClientCount(); i++)
-            {
-                try {
-
-                    initExplorerTree(c.get(ips[i]), ips[i]);
-                } catch (IOException ex) {
-                   // out.print(ex, 3);
-                }
-            }
-
-        }
-    
-        private void initExplorerTree(List<Path> fs,  String IP) throws IOException
+ public static void initExplorerTree(List<Path> fs,  String IP) throws IOException
         {
             List<String> tmp = new ArrayList<>();
             for (int i = 0; i < fs.size(); i++) {
@@ -113,9 +86,6 @@ public class Explorer
                throw ex.getCause();
            }
         }
-        
-        
-   }
     
 
     
