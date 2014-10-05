@@ -3,12 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui;
-
-
-
-
 
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
@@ -30,101 +25,90 @@ import javax.swing.JPanel;
 import network.getIPv4Address;
 import substructure.GUIOutput;
 
-
-
-
-
 /**
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class GUI extends javax.swing.JFrame
 {
-    private  GUIOutput out =  GUIOutput.getInstance();
-    private int ActiveTabIndex              =   0;
+
+    private GUIOutput out = GUIOutput.getInstance();
+    private int ActiveTabIndex = 0;
     private Explorer explorer;
     private Admin admin = null;
     private KreisPanel state = new KreisPanel();
     private JLabel statel = new JLabel("Offline");
+
     /**
      * Creates new form GUI
      */
     public GUI()
     {
-        
+
         initComponents();
         owninitComponents();
     }
-    
+
     public void setOnOffState()
     {
-        if(network.Interfaces.inerfaceNetworkOnline() == true)
+        try
         {
-            state.setGreen();
-            statel.setText("Online");
-        }
-        else
+            if (network.Interfaces.inerfaceNetworkOnline() == true)
+            {
+                state.setGreen();
+                statel.setText("Online");
+            } else
+            {
+                state.setRed();
+                statel.setText("Offline");
+            }
+        } catch (UnknownHostException ex)
         {
-            state.setRed();
-            statel.setText("Offline");
+            out.print("(GUI) - setOnOffState : " + ex.toString(), 2);
         }
     }
-    
 
-    
- 
     private void owninitComponents()
     {
-        
+
         /*Network status display*/
-        
-        state.setBounds(3, 7, 25, 25); 
+        state.setBounds(3, 7, 25, 25);
         state.setVisible(true);
-      
-        
+
         statel.setBounds(30, 7, 100, 25);
         statel.setVisible(true);
-        
+
         add(state);
         add(statel);
-        
-        
-        
-        
+
         /*Set Admin Defaults*/
         AdminConfigPanel.setVisible(false);
         AdminLoginPanel.setVisible(true);
         // admin = new Admin(AdminConfigPanel, AdminLoginPanel);
-        
-  
-        
-       
-       
-       
+
         /*Create required Tabs*/
         new otherTab(jTabbedPane5);
-        
+
         new Config(jTabbedPane5);
 
         explorer = new Explorer(jTabbedPane5);
-        
-        
-       
-        
+
         /*Set Icon Image*/
-        
         BufferedImage image = null;
-        try {
+        try
+        {
             image = ImageIO.read(new File(substructure.PathHelper.getFile("hdd.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (fileSystemException ex) { 
-             out.print(ex.toString());
+        } catch (IOException e)
+        {
+            out.print("(GUI) - owninitComponents : " + e.toString(), 2);
+        } catch (fileSystemException ex)
+        {
+            out.print("(GUI) - owninitComponents : " + ex.toString(), 2);
         }
         setIconImage(image);
-        
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -238,44 +222,58 @@ public class GUI extends javax.swing.JFrame
 
     private void jTabbedPane5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane5MouseClicked
         /*
-                *  Performed at Tab change
-                *
-                *
-                */
-        if(!Config.isRootDir()){
-            try {
+         *  Performed at Tab change
+         *
+         *
+         */
+        if (!Config.isRootDir())
+        {
+            try
+            {
                 fileSystem fs = fileSystem.getInstance();
                 fs.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
-            } catch (fileSystemException ex) {
+            } catch (fileSystemException ex)
+            {
                 out.print("(GUI-Z227) lokales fileySystem konnte nicht eingelesen werden");
-            } catch (SocketException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnknownHostException ex)
+            {
+                out.print("(GUI) - jTabbedPane5MouseClicked : " + ex.toString(), 2);
             }
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
         }
-        
-        /*check Network state*/
-        if(network.Interfaces.inerfaceNetworkOnline() == true)
+
+        try
         {
-            state.setGreen();
-            statel.setText("Online");
+            /*check Network state*/
+            if (network.Interfaces.inerfaceNetworkOnline() == true)
+            {
+                state.setGreen();
+                statel.setText("Online");
+            }
+        } catch (UnknownHostException ex)
+        {
+            out.print("(GUI) - jTabbedPane5MouseClicked : " + ex.toString(), 2);
         }
 
         ActiveTabIndex = jTabbedPane5.getSelectedIndex();
         out.print("Panel: " + jTabbedPane5.getTitleAt(ActiveTabIndex) + " wurde geöffnet");
-       
-        
-        switch(jTabbedPane5.getTitleAt(ActiveTabIndex))
+
+        switch (jTabbedPane5.getTitleAt(ActiveTabIndex))
         {
             case "Config":
                 break;
-            case "Explorer":   if(!Config.isRootDir()){  explorer.addTab(jTabbedPane5, ActiveTabIndex);}
+            case "Explorer":
+                if (!Config.isRootDir())
+                {
+                    explorer.addTab(jTabbedPane5, ActiveTabIndex);
+                }
                 break;
-            case "Admin":      if(admin != null) admin.refresh();
-                break;          
-  
+            case "Admin":
+                if (admin != null)
+                {
+                    admin.refresh();
+                }
+                break;
 
         }
 
@@ -284,11 +282,11 @@ public class GUI extends javax.swing.JFrame
     private void AdminLoginSentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminLoginSentActionPerformed
         //Switcht between Login and Admin Panel
 
-        if(Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
+        if (Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
         {
-           admin = new Admin(AdminConfigPanel, AdminLoginPanel);           
+            admin = new Admin(AdminConfigPanel, AdminLoginPanel);
         }
-        
+
 
     }//GEN-LAST:event_AdminLoginSentActionPerformed
 
@@ -301,7 +299,7 @@ public class GUI extends javax.swing.JFrame
      */
     public static void main(String args[])
     {
-       
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,38 +311,39 @@ public class GUI extends javax.swing.JFrame
     private javax.swing.JTextField AdminUsernameField;
     private javax.swing.JTabbedPane jTabbedPane5;
     // End of variables declaration//GEN-END:variables
-    
+
     /*
-        *
-        * Class to create the Online status Display
-        *      
-        */
-    class KreisPanel extends JPanel{
-        
+     *
+     * Class to create the Online status Display
+     *      
+     */
+    class KreisPanel extends JPanel
+    {
+
         Graphics2D g2;
         Color color = Color.RED;
-        
+
         @Override
-        public void paint(Graphics g) {
-             g2 = (Graphics2D) g;
+        public void paint(Graphics g)
+        {
+            g2 = (Graphics2D) g;
 
             g2.setPaint(color);
             g2.fill(new Ellipse2D.Double(0, 0, 24, 24));
 
-            
         }
-        
+
         public void setRed()
         {
             this.color = Color.RED;
             repaint();
         }
-        
+
         public void setGreen()
         {
             this.color = Color.GREEN;
             repaint();
         }
-    } 
-  
+    }
+
 }
