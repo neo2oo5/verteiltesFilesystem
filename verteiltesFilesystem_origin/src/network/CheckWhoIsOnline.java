@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -30,7 +28,8 @@ public class CheckWhoIsOnline implements Runnable
 {
 
     private String ipv4;
-    GUIOutput out = GUIOutput.getInstance();
+
+    static GUIOutput out = GUIOutput.getInstance();
 
     /**
      *
@@ -72,7 +71,7 @@ public class CheckWhoIsOnline implements Runnable
                      */
                     String path = substructure.PathHelper.getFile("IPs.txt");
                     File file = new File(path);
-                    
+
                     /**
                      * write the IP in the address table
                      */
@@ -86,7 +85,7 @@ public class CheckWhoIsOnline implements Runnable
                         {
                             writer = new FileWriter(file, true);
                         }
-                        
+
                         writer.write(uebIP);
                         writer.write(System.getProperty("line.separator"));
                         writer.flush();
@@ -96,11 +95,11 @@ public class CheckWhoIsOnline implements Runnable
                          */
                     } catch (IOException e)
                     {
-
+                        out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
                     }
                 } catch (fileSystemException ex)
                 {
-                    Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                    out.print("(CheckWhoIsOnline - run) : " + ex.toString(), 2);
 
                 }
             }
@@ -134,6 +133,7 @@ public class CheckWhoIsOnline implements Runnable
 
         } catch (IOException ex)
         {
+            out.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
             return false;
         }
         /**
@@ -144,6 +144,7 @@ public class CheckWhoIsOnline implements Runnable
             socket.close();
         } catch (IOException ex)
         {
+            out.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
             return false;
         }
         return true;

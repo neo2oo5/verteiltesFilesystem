@@ -20,7 +20,6 @@ public class Rename
      * @param newName
      * @return
      */
-
     /**
      * class to rename an existing file
      */
@@ -65,7 +64,6 @@ public class Rename
         /**
          * return true if the file has get a new name
          */
-        boolean success = fileOld.renameTo(fileNew);
-        return success;
+        return fileOld.renameTo(fileNew);
     }
 }

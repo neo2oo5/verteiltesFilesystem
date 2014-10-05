@@ -16,8 +16,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import substructure.GUIOutput;
 
 /**
  *
@@ -28,6 +27,8 @@ import java.util.logging.Logger;
  */
 public class Client
 {
+
+    static GUIOutput out = GUIOutput.getInstance();
 
     public static void client(String[] args)
     {
@@ -89,7 +90,7 @@ public class Client
              */
         } catch (IOException ex)
         {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(Client - client) : " + ex.toString(), 2);
         }
 
     }

@@ -18,6 +18,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import substructure.GUIOutput;
 
 /**
  * @author David Lampa
@@ -26,8 +27,11 @@ import java.util.concurrent.Executors;
 public class FileTransfer
 {
 
+    static GUIOutput out = GUIOutput.getInstance();
+
     /**
      * @param args
+     * @return
      */
     public static boolean FT(String[] args)
     {
@@ -84,7 +88,7 @@ public class FileTransfer
                 socket.close();
             } catch (IOException e)
             {
-                e.printStackTrace();
+                out.print("(FileTransfer - FileProvider) : " + e.toString(), 2);
             }
         }
     }
@@ -129,7 +133,7 @@ public class FileTransfer
                 socket.close();
             } catch (Exception e)
             {
-                e.printStackTrace();
+                out.print("(FileTransfer - FileFetcher) : " + e.toString(), 2);
             }
         }
     }
@@ -137,7 +141,6 @@ public class FileTransfer
     public static void transfer(FileChannel fileChannel,
             SocketChannel socketChannel, long lengthInBytes,
             long chunckSizeInBytes, boolean verbose, boolean fromFileToSocket)
-            throws IOException
     {
 
         long overallBytesTransfered = 0L;
@@ -149,14 +152,26 @@ public class FileTransfer
 
             if (fromFileToSocket)
             {
-                bytesTransfered = fileChannel.transferTo(overallBytesTransfered, Math.min(
-                        chunckSizeInBytes, lengthInBytes
-                        - overallBytesTransfered), socketChannel);
+                try
+                {
+                    bytesTransfered = fileChannel.transferTo(overallBytesTransfered, Math.min(
+                            chunckSizeInBytes, lengthInBytes
+                            - overallBytesTransfered), socketChannel);
+                } catch (IOException ex)
+                {
+                    out.print("(FileTransfer - transfer) : " + ex.toString(), 2);
+                }
             } else
             {
-                bytesTransfered = fileChannel.transferFrom(socketChannel,
-                        overallBytesTransfered, Math.min(chunckSizeInBytes,
-                                lengthInBytes - overallBytesTransfered));
+                try
+                {
+                    bytesTransfered = fileChannel.transferFrom(socketChannel,
+                            overallBytesTransfered, Math.min(chunckSizeInBytes,
+                                    lengthInBytes - overallBytesTransfered));
+                } catch (IOException ex)
+                {
+                    out.print("(FileTransfer - transfer) : " + ex.toString(), 2);
+                }
             }
 
             overallBytesTransfered += bytesTransfered;

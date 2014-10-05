@@ -10,10 +10,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import static network.AdminPannel.out;
 
 /**
  *
@@ -22,7 +20,7 @@ import java.util.logging.Logger;
 public class CheckKicked
 {
 
-    public static boolean checkKicked() throws fileSystemException
+    public static boolean checkKicked() throws UnknownHostException
     {
 
         /**
@@ -54,15 +52,12 @@ public class CheckKicked
 
             } catch (IOException e)
             {
-                e.printStackTrace();
+                out.print("(CheckKicked - checkKicked) : " + e.toString(), 2);
             }
 
-        } catch (SocketException ex)
+        } catch (fileSystemException ex)
         {
-            Logger.getLogger(CheckKicked.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnknownHostException ex)
-        {
-            Logger.getLogger(CheckKicked.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(CheckKicked - checkKicked) : " + ex.toString(), 2);
         }
         return kicked;
     }
