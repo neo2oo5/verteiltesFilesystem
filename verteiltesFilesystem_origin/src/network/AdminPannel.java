@@ -5,13 +5,13 @@
  */
 package network;
 
+import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import static java.lang.System.in;
 import static java.lang.Thread.sleep;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -39,7 +39,7 @@ public class AdminPannel
         AdminPannel.loggedin = loggedin;
     }
 
-    public static void adminCheckLogin()
+    public static void adminCheckLogin() throws fileSystemException
     {
 
         BufferedReader in = null;
@@ -83,7 +83,7 @@ public class AdminPannel
         }
     }
 
-    public static boolean adminLogin() throws InterruptedException
+    public static boolean adminLogin() throws InterruptedException, fileSystemException
     {
         adminCheckLogin();
         sleep(100);
@@ -117,7 +117,7 @@ public class AdminPannel
         return true;
     }
 
-    public static boolean adminLogout() throws SocketException, UnknownHostException, IOException
+    public static boolean adminLogout() throws SocketException, UnknownHostException, IOException, fileSystemException
     {
         message("Admin Logged out!");
 
@@ -126,7 +126,7 @@ public class AdminPannel
         return true;
     }
 
-    public static void message(String msg) throws FileNotFoundException, SocketException, UnknownHostException, IOException
+    public static void message(String msg) throws FileNotFoundException, SocketException, UnknownHostException, IOException, fileSystemException
     {
         String iplist = substructure.PathHelper.getFile("IPs.txt");
         int anzahl = 0;
@@ -149,7 +149,7 @@ public class AdminPannel
         }
     }
 
-    public static void adminKickUser(String ipToKick) throws FileNotFoundException, IOException
+    public static void adminKickUser(String ipToKick) throws FileNotFoundException, IOException, fileSystemException
     {
         String ownIP = network.getIPv4Address.getIPv4Address();
         if (ipToKick.equals(ownIP))
@@ -179,7 +179,7 @@ public class AdminPannel
         }
     }
 
-    public static boolean IAmAdmin()
+    public static boolean IAmAdmin() throws fileSystemException
     {
         File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
         boolean exists = file.exists();

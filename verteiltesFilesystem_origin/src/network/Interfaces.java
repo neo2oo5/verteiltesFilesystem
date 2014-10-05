@@ -8,8 +8,10 @@ package network;
 /**
  * Used Libraries
  */
+import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,7 +31,7 @@ public class Interfaces
 
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws InterruptedException
+    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws InterruptedException, fileSystemException
     {
 
         boolean kicked = CheckKicked.checkKicked();
@@ -82,7 +84,7 @@ public class Interfaces
         return 1;
     }
 
-    public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename)
+    public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename) throws fileSystemException
     {
 
         boolean kicked = CheckKicked.checkKicked();
@@ -110,7 +112,7 @@ public class Interfaces
         return 1;
     }
 
-    public static int interfaceFileDelete(String IPv4, String sourcePath, String filename)
+    public static int interfaceFileDelete(String IPv4, String sourcePath, String filename) throws fileSystemException
     {
 
         boolean kicked = CheckKicked.checkKicked();
@@ -139,7 +141,7 @@ public class Interfaces
         return 1;
     }
 
-    public static int interfaceFileCreate(String IPv4, String sourcePath, String filename)
+    public static int interfaceFileCreate(String IPv4, String sourcePath, String filename) throws fileSystemException
     {
 
         boolean kicked = CheckKicked.checkKicked();
@@ -220,7 +222,7 @@ public class Interfaces
     /**
      * method to start the interfaces
      */
-    public static boolean inerfaceNetworkOnline()
+    public static boolean inerfaceNetworkOnline() throws fileSystemException
     {
 
         boolean online = false;
@@ -260,7 +262,7 @@ public class Interfaces
         return online;
     }
 
-    public static boolean inerfaceAdminLogin()
+    public static boolean inerfaceAdminLogin() throws fileSystemException
     {
         try
         {
@@ -272,18 +274,18 @@ public class Interfaces
         return false;
     }
 
-    public static boolean inerfaceAdminLogout() throws UnknownHostException, IOException
+    public static boolean inerfaceAdminLogout() throws UnknownHostException, IOException, SocketException, fileSystemException
     {
         return AdminPannel.adminLogout();
 
     }
 
-    public static void inerfaceAdminKickUser(String ipToKick) throws IOException
+    public static void inerfaceAdminKickUser(String ipToKick) throws IOException, FileNotFoundException, fileSystemException
     {
         AdminPannel.adminKickUser(ipToKick);
     }
 
-    public static boolean inerfaceIAmAdmin()
+    public static boolean inerfaceIAmAdmin() throws fileSystemException
     {
         return AdminPannel.IAmAdmin();
     }

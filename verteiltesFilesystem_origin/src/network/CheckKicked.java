@@ -5,6 +5,7 @@
  */
 package network;
 
+import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
 public class CheckKicked
 {
 
-    public static boolean checkKicked()
+    public static boolean checkKicked() throws fileSystemException
     {
 
         /**
