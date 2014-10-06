@@ -249,6 +249,31 @@ public class fileSystem{
     
     
     
+     /**
+    * Noch nicht einsatzfähig
+    * @param path
+    * @throws IOException
+    * @throws InterruptedException 
+    */ 
+   /** public void WatchService(String path) throws IOException, InterruptedException
+    {
+        WatchService watcher = FileSystems.getDefault().newWatchService();
+        Paths.get(path).register(watcher, StandardWatchEventKinds.ENTRY_CREATE,
+                                          StandardWatchEventKinds.ENTRY_DELETE,
+                                          StandardWatchEventKinds.ENTRY_MODIFY);
+        while(true)
+        {
+            WatchKey key = watcher.take();
+            System.out.println("change");
+            for(WatchEvent<?> event : key.pollEvents())
+                System.out.println("Kind: "+event.kind()+", Path: "+event.context());
+            key.reset();
+        }
+        
+    }*/  
+    
+    
+    
     /**
      *
      * @param IP
