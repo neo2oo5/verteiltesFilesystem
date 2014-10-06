@@ -28,6 +28,7 @@ public class fileSystem_Start
     static GUIOutput out = GUIOutput.getInstance();
     static fileSystem c = fileSystem.getInstance();
     public static GUI gUI = null;
+    
 
     /**
      * @param args the command line arguments
@@ -104,20 +105,7 @@ public class fileSystem_Start
 
     static private void startSequence()
     {
-           if(Config.isRootDir())
-           {
-               Config.filechooser();
-           }
-           else
-           {
-               try {
-                   c.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
-               } catch (fileSystemException ex) {
-                   out.print("Lokales FileSystem konnte nicht Indexiert werden");
-               } catch (UnknownHostException ex) {
-                   Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
-               }
-           }
+        
         if (Config.isRootDir())
         {
             Config.filechooser();
