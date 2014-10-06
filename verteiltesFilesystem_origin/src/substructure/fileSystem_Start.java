@@ -120,8 +120,6 @@ public class fileSystem_Start {
                    c.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
                } catch (fileSystemException ex) {
                    out.print("Lokales FileSystem konnte nicht Indexiert werden");
-               } catch (SocketException ex) {
-                   Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
                } catch (UnknownHostException ex) {
                    Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
                }

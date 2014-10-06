@@ -16,6 +16,7 @@ import java.util.TimerTask;
  */
 public class runTimeUpdater {
     private fileSystem c = fileSystem.getInstance();
+    private static GUIOutput out =  GUIOutput.getInstance();
     
     public runTimeUpdater()
     {
@@ -26,6 +27,8 @@ public class runTimeUpdater {
         timer.schedule(new JTreeCreator(), 1000, 5000 );
         
         timer.schedule(new GUIScheduler(), 1000, 10000 );
+        
+        out.print("runTimeUpdater gestarted");
     }
     
     class JTreeCreator extends TimerTask{
