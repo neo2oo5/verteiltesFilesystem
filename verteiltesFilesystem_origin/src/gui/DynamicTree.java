@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -124,9 +125,11 @@ public class DynamicTree extends JPanel implements MouseListener
               public void buildTreeFromString( final String str) {
                   // Fetch the root node
                  // DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-
+                  String [] strings;
                   // Split the string around the delimiter
-                  String [] strings = str.split(File.separator);
+                  
+                  strings = str.split(Pattern.quote(System.getProperty("file.separator")));
+                  
 
                   // Create a node object to use for traversing down the tree as it 
                   // is being created

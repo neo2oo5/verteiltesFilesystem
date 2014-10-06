@@ -6,15 +6,18 @@
 
 package gui;
 
+import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import network.getIPv4Address;
 import substructure.GUIOutput;
 
 /**
@@ -24,6 +27,7 @@ import substructure.GUIOutput;
 public class Config
 {
     static  GUIOutput out =  GUIOutput.getInstance();
+    static fileSystem c = fileSystem.getInstance();
     static JLabel folderL, pathL, logL;
     JPanel configP;
     static JButton folderB, logB;
@@ -170,6 +174,17 @@ public class Config
 
                                         // save properties to project root folder
                                         prop.store(new FileWriter(substructure.PathHelper.getFile(configFile)), null);
+                                        
+                                        try
+                                        {
+                                            c.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
+                                        } catch (fileSystemException ex)
+                                        {
+                                            out.print("Lokales FileSystem konnte nicht Indexiert werden");
+                                        } catch (UnknownHostException ex)
+                                        {
+                                            out.print("(fileSystem_Start) - startSequence : " + ex.toString(), 2);
+                                        }
 
                                     } catch (IOException io) {
 

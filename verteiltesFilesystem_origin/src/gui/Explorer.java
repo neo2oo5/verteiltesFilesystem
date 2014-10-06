@@ -22,7 +22,7 @@ import substructure.GUIOutput;
  */
 public class Explorer
 {
-    private  GUIOutput out =  GUIOutput.getInstance();
+    private static GUIOutput out =  GUIOutput.getInstance();
     private fileSystem c = fileSystem.getInstance();
     private static DynamicTree treePanel;
     /**
@@ -69,13 +69,14 @@ public class Explorer
                 }
                 else
                 {
-                    tmp.add(IP + "/" + fs.get(i).toString());
+                    tmp.add(IP + File.separator + fs.get(i).toString());
                 }
             }
             
             try {
                 //Created the Tree Structure in Explorer
                 for (int i = 0; i < tmp.size(); i++) {
+                   
                    treePanel.buildTreeFromString(tmp.get(i).toString());
                    
                 }
