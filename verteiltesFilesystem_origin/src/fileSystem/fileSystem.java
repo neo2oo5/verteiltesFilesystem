@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
+import substructure.GUIOutput;
 
 /**
  *
@@ -25,6 +26,7 @@ import java.util.LinkedList;
  */
 public class fileSystem{
     
+    private static  GUIOutput out =  GUIOutput.getInstance();
     private final List<List<Path>> fileSystem = new ArrayList<>();
     private int clientscount            = 0;
     private int count                    = 0;
@@ -138,8 +140,8 @@ public class fileSystem{
         try{
              Path finalPath = Paths.get(path);
             try{
-                 fileSystem.remove(find(clients, IP));
-                 fileSystem.add(find(clients, IP), initFS(finalPath));
+               
+                 fileSystem.set(find(clients, IP), initFS(finalPath));
                  
              }
              catch(ArrayIndexOutOfBoundsException e)
@@ -187,6 +189,14 @@ public class fileSystem{
                         count++;
                     }
                 }
+            }
+            catch(NoSuchFileException e)
+            {
+                out.print("Pfad existiert nicht");
+            }
+            catch(AccessDeniedException e)
+            {
+                out.print("Sie haben für diesen Pfad keine Berechtigung");
             }
         }
         return result;
