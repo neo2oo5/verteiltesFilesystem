@@ -58,15 +58,19 @@ public class GUI extends javax.swing.JFrame
     
     public void setOnOffState()
     {
-        if(network.Interfaces.inerfaceNetworkOnline() == true)
-        {
-            state.setGreen();
-            statel.setText("Online");
-        }
-        else
-        {
-            state.setRed();
-            statel.setText("Offline");
+        try {
+            if(network.Interfaces.inerfaceNetworkOnline() == true)
+            {
+                state.setGreen();
+                statel.setText("Online");
+            }
+            else
+            {
+                state.setRed();
+                statel.setText("Offline");
+            }
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -237,46 +241,48 @@ public class GUI extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTabbedPane5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane5MouseClicked
-        /*
-                *  Performed at Tab change
-                *
-                *
-                */
-        if(!Config.isRootDir()){
-            try {
-                fileSystem fs = fileSystem.getInstance();
-                fs.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
-            } catch (fileSystemException ex) {
-                out.print("(GUI-Z227) lokales fileySystem konnte nicht eingelesen werden");
-            } catch (SocketException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            /*
+            *  Performed at Tab change
+            *
+            *
+            */
+            if(!Config.isRootDir()){
+                try {
+                    fileSystem fs = fileSystem.getInstance();
+                    fs.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
+                } catch (fileSystemException ex) {
+                    out.print("(GUI-Z227) lokales fileySystem konnte nicht eingelesen werden");
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
             }
-            out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
-        }
-        
-        /*check Network state*/
-        if(network.Interfaces.inerfaceNetworkOnline() == true)
-        {
-            state.setGreen();
-            statel.setText("Online");
-        }
-
-        ActiveTabIndex = jTabbedPane5.getSelectedIndex();
-        out.print("Panel: " + jTabbedPane5.getTitleAt(ActiveTabIndex) + " wurde geöffnet");
-       
-        
-        switch(jTabbedPane5.getTitleAt(ActiveTabIndex))
-        {
-            case "Config":
+            
+            /*check Network state*/
+            if(network.Interfaces.inerfaceNetworkOnline() == true)
+            {
+                state.setGreen();
+                statel.setText("Online");
+            }
+            
+            ActiveTabIndex = jTabbedPane5.getSelectedIndex();
+            out.print("Panel: " + jTabbedPane5.getTitleAt(ActiveTabIndex) + " wurde geöffnet");
+            
+            
+            switch(jTabbedPane5.getTitleAt(ActiveTabIndex))
+            {
+                case "Config":
+                    break;
+                case "Explorer":   if(!Config.isRootDir()){  explorer.addTab(jTabbedPane5, ActiveTabIndex);}
                 break;
-            case "Explorer":   if(!Config.isRootDir()){  explorer.addTab(jTabbedPane5, ActiveTabIndex);}
+                case "Admin":      if(admin != null) admin.refresh();
                 break;
-            case "Admin":      if(admin != null) admin.refresh();
-                break;          
-  
-
+                    
+                    
+            }
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jTabbedPane5MouseClicked
