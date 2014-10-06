@@ -7,6 +7,8 @@ package network;
 
 import java.io.IOException;
 import static java.lang.Thread.sleep;
+import java.util.ArrayList;
+import java.util.Spliterator;
 
 /**
  *
@@ -17,7 +19,16 @@ public class Network
 
     public static void main(String[] args) throws InterruptedException, IOException
     {
-        Interfaces.inerfaceStartProgram();
-        Interfaces.interfaceFileTransfer(getIPv4Address.getIPv4Address(), "C:\\Users\\Lamparari\\Desktop", "C:\\Users\\Lamparari\\Downloads", "pwstef.txt");
+        
+        ArrayList<String> IPListe = new ArrayList<String>();
+        IPListe = getIPv4Address.getIPv4Address();
+        
+        System.out.println("Liste: " + IPListe.toString());
+        
+        System.out.println("0: " + IPListe.get(0).toString());
+        System.out.println("0: " + IPListe.get(1).toString());
+        
+        Spliterator<String> spliterator = IPListe.spliterator();
+        System.out.println("1: " + spliterator.toString());
     }
 }

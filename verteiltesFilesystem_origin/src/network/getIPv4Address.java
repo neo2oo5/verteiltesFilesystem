@@ -16,6 +16,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.regex.Pattern;
@@ -30,8 +31,10 @@ public class getIPv4Address
      *
      * @throws java.net.UnknownHostException
      */
-    public static String getIPv4Address() throws UnknownHostException
+    public static ArrayList<String> getIPv4Address() throws UnknownHostException
     {
+        
+        ArrayList<String> IPListe = new ArrayList<String>();
         /**
          * Search all network interfaces
          */
@@ -44,7 +47,6 @@ public class getIPv4Address
             out.print("(getIPv4Address - getIPv4Address) : " + ex.toString(), 2);
         }
         int n = 0;
-        String IPv4 = null;
         /**
          * Search for internet-adresses in the network table
          */
@@ -62,17 +64,11 @@ public class getIPv4Address
                  */
                 if (iaddress.isLoopbackAddress() == false && iaddress.isSiteLocalAddress() == true)
                 {
-                    String ip = iaddress.getHostAddress();
-                    String[] segs = ip.split(Pattern.quote("."));
-                    if (segs[3].length() > 1)
-                    {
-                        finder = 1;
-                        IPv4 = iaddress.getHostAddress();
-                    }
+                    IPListe.add(iaddress.getHostName() + "/" + iaddress.getHostAddress());
                 }
             }
         }
 
-        return IPv4;
+        return IPListe;
     }
 }
