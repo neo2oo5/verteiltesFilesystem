@@ -222,8 +222,8 @@ public class fileSystem{
         newElementList[count] = newElement;
         return newElementList;
     }
-    
-    
+   
+      
      /**
     * Noch nicht einsatzfähig
     * @param path
@@ -330,7 +330,7 @@ public class fileSystem{
         {
            for (Path entry: fileSystem.get(find(clients,IP)))
            {
-               output += IP+"#"+entry + " \n";
+               output += IP+"#"+entry + "\n";
            }
         }
         catch (DirectoryIteratorException ex) 
