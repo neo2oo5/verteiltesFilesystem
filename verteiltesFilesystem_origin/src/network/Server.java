@@ -13,8 +13,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -71,7 +69,7 @@ public class Server
              */
         } catch (IOException ex)
         {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(Server - server) : " + ex.toString(), 2);
         }
 
     }

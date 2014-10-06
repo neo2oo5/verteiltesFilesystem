@@ -17,12 +17,7 @@ public class Network
 
     public static void main(String[] args) throws InterruptedException, IOException
     {
-        System.out.println("prg start");
-        boolean startProgram = Interfaces.inerfaceStartProgram();
-        System.out.println("prg start");
-        sleep(20000);
-        System.out.println("sleep over - kick now");
-        Interfaces.inerfaceNetworkOnline();
-        System.out.println("fertig");
+        Interfaces.inerfaceStartProgram();
+        Interfaces.interfaceFileTransfer(getIPv4Address.getIPv4Address(), "C:\\Users\\Lamparari\\Desktop", "C:\\Users\\Lamparari\\Downloads", "pwstef.txt");
     }
 }

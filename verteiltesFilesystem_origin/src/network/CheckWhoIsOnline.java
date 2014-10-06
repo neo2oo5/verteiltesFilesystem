@@ -8,6 +8,7 @@ package network;
 /**
  * Used Libraries
  */
+import fileSystem.fileSystemException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +28,8 @@ public class CheckWhoIsOnline implements Runnable
 {
 
     private String ipv4;
-    GUIOutput out = GUIOutput.getInstance();
+
+    static GUIOutput out = GUIOutput.getInstance();
 
     /**
      *
@@ -62,35 +64,42 @@ public class CheckWhoIsOnline implements Runnable
              */
             if (reachable)
             {
-                /**
-                 * path and name for the found IP
-                 */
-                String path = substructure.PathHelper.getFile("IPs.txt");
-                File file = new File(path);
-
-                /**
-                 * write the IP in the address table
-                 */
-                FileWriter writer;
                 try
                 {
-                    if (++anzahl == 1)
-                    {
-                        writer = new FileWriter(file, false);
-                    } else
-                    {
-                        writer = new FileWriter(file, true);
-                    }
-
-                    writer.write(uebIP);
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
-                    writer.close();
                     /**
-                     * catch exceptions
+                     * path and name for the found IP
                      */
-                } catch (IOException e)
+                    String path = substructure.PathHelper.getFile("IPs.txt");
+                    File file = new File(path);
+
+                    /**
+                     * write the IP in the address table
+                     */
+                    FileWriter writer;
+                    try
+                    {
+                        if (++anzahl == 1)
+                        {
+                            writer = new FileWriter(file, false);
+                        } else
+                        {
+                            writer = new FileWriter(file, true);
+                        }
+
+                        writer.write(uebIP);
+                        writer.write(System.getProperty("line.separator"));
+                        writer.flush();
+                        writer.close();
+                        /**
+                         * catch exceptions
+                         */
+                    } catch (IOException e)
+                    {
+                        out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                    }
+                } catch (fileSystemException ex)
                 {
+                    out.print("(CheckWhoIsOnline - run) : " + ex.toString(), 2);
 
                 }
             }
@@ -124,6 +133,7 @@ public class CheckWhoIsOnline implements Runnable
 
         } catch (IOException ex)
         {
+            out.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
             return false;
         }
         /**
@@ -134,6 +144,7 @@ public class CheckWhoIsOnline implements Runnable
             socket.close();
         } catch (IOException ex)
         {
+            out.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
             return false;
         }
         return true;

@@ -6,12 +6,15 @@ package network;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import substructure.GUIOutput;
 
 /**
  * Class to create a File on a path wich the user can select by himself *
  */
 public class Create
 {
+
+    static GUIOutput out = GUIOutput.getInstance();
 
     /**
      *
@@ -35,6 +38,7 @@ public class Create
             FileWriter writer = new FileWriter(file, false);
         } catch (IOException ex)
         {
+            out.print("(Create - createFile) : " + ex.toString(), 2);
             return false;
         }
         /**

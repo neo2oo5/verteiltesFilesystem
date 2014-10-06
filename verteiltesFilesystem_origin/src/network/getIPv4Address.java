@@ -9,7 +9,6 @@ package network;
  *
  * @author David Lampa, Michael Marchand
  */
-
 /**
  * Used Libraries *
  */
@@ -20,21 +19,30 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.regex.Pattern;
+import substructure.GUIOutput;
 
 public class getIPv4Address
 {
 
+    static GUIOutput out = GUIOutput.getInstance();
+
     /**
      *
-     * @throws java.net.SocketException
      * @throws java.net.UnknownHostException
      */
-    public static String getIPv4Address() throws SocketException, UnknownHostException
+    public static String getIPv4Address() throws UnknownHostException
     {
         /**
          * Search all network interfaces
          */
-        Enumeration<NetworkInterface> netInter = NetworkInterface.getNetworkInterfaces();
+        Enumeration<NetworkInterface> netInter = null;
+        try
+        {
+            netInter = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException ex)
+        {
+            out.print("(getIPv4Address - getIPv4Address) : " + ex.toString(), 2);
+        }
         int n = 0;
         String IPv4 = null;
         /**

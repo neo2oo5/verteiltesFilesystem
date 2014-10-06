@@ -8,16 +8,16 @@ package network;
 /**
  * Used Libraries
  */
+import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import substructure.GUIOutput;
 
 /**
@@ -29,10 +29,11 @@ public class Interfaces
 
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws InterruptedException
+    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws UnknownHostException
     {
 
-        boolean kicked = CheckKicked.checkKicked();
+        boolean kicked = false;
+        kicked = CheckKicked.checkKicked();
         if (kicked)
         {
             out.print("You get Kicked from Network", 3);
@@ -40,21 +41,12 @@ public class Interfaces
         {
 
             String IPv4target = null;
-            try
-            {
-                IPv4target = getIPv4Address.getIPv4Address();
-            } catch (SocketException ex)
-            {
-                Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (UnknownHostException ex)
-            {
-                Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            IPv4target = getIPv4Address.getIPv4Address();
             if (IPv4target.isEmpty())
             {
             } else
             {
-                // do ...
+// do ...
                 String doWhat = "FileTransfer";
                 String[] args = new String[6];
                 args[0] = IPv4;
@@ -63,32 +55,53 @@ public class Interfaces
                 args[3] = filename;
                 args[4] = IPv4target;
                 args[5] = doWhat;
+                
+                String datei = args[0] + args[2];
+                File file = new File(datei);
+                FileTransfer.FileProvider fileProvider = new FileTransfer.FileProvider(file, 1718);
 
-                File target = new File(args[2]);
-                target.mkdirs();
-                StartClientServer.startClient(args);
-                sleep(100);
+                FileTransfer.FileFetcher fileFetcher = new FileTransfer.FileFetcher(args[3], 1718, args);
+                ExecutorService executorService = Executors.newFixedThreadPool(2);
+                executorService.execute(fileProvider);
+                executorService.execute(fileFetcher);
+
+                executorService.shutdown();
+                
+
+
+
+//                File target = new File(args[2]);
+//                target.mkdirs();
+//                StartClientServer.startClient(args);
+                try
+                {
+                    sleep(100);
+                } catch (InterruptedException ex)
+                {
+                    out.print("(Interface - FileTransfer) : " + ex.toString(), 2);
+                }
                 String dateiCheck = args[0] + args[2];
                 File fileCheck = new File(dateiCheck);
                 if (fileCheck.exists())
                 {
-                    System.out.println("File transfer complete");
+                    out.print("(Interface - FileTransfer) : " + "File transfer complete", 1);
                 } else
                 {
-                    System.out.println("File transfer not complete");
+                    out.print("(Interface - FileTransfer) : " + "File transfer not complete", 1);
                 }
             }
         }
         return 1;
     }
 
-    public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename)
+    public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename) throws UnknownHostException
     {
 
-        boolean kicked = CheckKicked.checkKicked();
+        boolean kicked = false;
+        kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("You get Kicked from Network", 3);
+            out.print("(Interface - FileRename) : " + "You get Kicked from Network", 3);
         } else
         {
             /* interface to rename a file with the necessary values */
@@ -110,13 +123,14 @@ public class Interfaces
         return 1;
     }
 
-    public static int interfaceFileDelete(String IPv4, String sourcePath, String filename)
+    public static int interfaceFileDelete(String IPv4, String sourcePath, String filename) throws UnknownHostException
     {
 
-        boolean kicked = CheckKicked.checkKicked();
+        boolean kicked = false;
+        kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("You get Kicked from Network", 3);
+            out.print("(Interface - FileDelete) : " + "You get Kicked from Network", 3);
         } else
         {
             /**
@@ -139,13 +153,14 @@ public class Interfaces
         return 1;
     }
 
-    public static int interfaceFileCreate(String IPv4, String sourcePath, String filename)
+    public static int interfaceFileCreate(String IPv4, String sourcePath, String filename) throws UnknownHostException
     {
 
-        boolean kicked = CheckKicked.checkKicked();
+        boolean kicked = false;
+        kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("You get Kicked from Network", 3);
+            out.print("(Interface - FileCreate) : " + "You get Kicked from Network", 3);
         } else
         {
             /**
@@ -179,7 +194,7 @@ public class Interfaces
     /**
      * method to start the interfaces
      */
-    public static boolean inerfaceStartProgram()
+    public static boolean inerfaceStartProgram() throws UnknownHostException
     {
         boolean succes = false;
 
@@ -188,19 +203,7 @@ public class Interfaces
          */
         StartClientServer.startServer();
         String ip = null;
-        /**
-         * get the IP address and catch exceptions
-         */
-        try
-        {
-            ip = getIPv4Address.getIPv4Address();
-        } catch (SocketException | UnknownHostException ex)
-        {
-            /**
-             * no succes for an unknown host
-             */
-            succes = false;
-        }
+        ip = getIPv4Address.getIPv4Address();
         /**
          * success if an IP was found with CheckWhoIsOnline
          */
@@ -220,18 +223,26 @@ public class Interfaces
     /**
      * method to start the interfaces
      */
-    public static boolean inerfaceNetworkOnline()
+    public static boolean inerfaceNetworkOnline() throws UnknownHostException
     {
 
         boolean online = false;
-        boolean kicked = CheckKicked.checkKicked();
+        boolean kicked = false;
+        kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("You get Kicked from Network", 3);
+            out.print("(Interface - NetworkOnline) : " + "You get Kicked from Network", 3);
         } else
         {
 
-            String iplist = substructure.PathHelper.getFile("IPs.txt");
+            String iplist = null;
+            try
+            {
+                iplist = substructure.PathHelper.getFile("IPs.txt");
+            } catch (fileSystemException ex)
+            {
+                out.print("(Interface - NetworkOnline) : " + ex.toString(), 2);
+            }
             int anzahl = 0;
             try
             {
@@ -245,7 +256,7 @@ public class Interfaces
 
             } catch (IOException e)
             {
-                e.printStackTrace();
+                out.print("(Interface - NetworkOnline) : " + e.toString(), 2);
             }
 
             if (anzahl > 1)
@@ -262,25 +273,30 @@ public class Interfaces
 
     public static boolean inerfaceAdminLogin()
     {
+        return AdminPannel.adminLogin();
+    }
+
+    public static boolean inerfaceAdminLogout() throws UnknownHostException
+    {
         try
         {
-            return AdminPannel.adminLogin();
-        } catch (InterruptedException ex)
+            return AdminPannel.adminLogout();
+        } catch (IOException ex)
         {
-            Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(Interface - AdminLogout) : " + ex.toString(), 2);
         }
         return false;
     }
 
-    public static boolean inerfaceAdminLogout() throws UnknownHostException, IOException
+    public static void inerfaceAdminKickUser(String ipToKick)
     {
-        return AdminPannel.adminLogout();
-
-    }
-
-    public static void inerfaceAdminKickUser(String ipToKick) throws IOException
-    {
-        AdminPannel.adminKickUser(ipToKick);
+        try
+        {
+            AdminPannel.adminKickUser(ipToKick);
+        } catch (IOException ex)
+        {
+            out.print("(Interface - AdminKickUser) : " + ex.toString(), 2);
+        }
     }
 
     public static boolean inerfaceIAmAdmin()

@@ -8,6 +8,7 @@ package network;
 /**
  * Used Libraries
  */
+import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -18,8 +19,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -34,7 +33,7 @@ public class Handler implements Runnable
 {
 
     private Socket client;
-    GUIOutput guiOut = GUIOutput.getInstance();
+    static GUIOutput out = GUIOutput.getInstance();
 
     /**
      *
@@ -53,12 +52,12 @@ public class Handler implements Runnable
             /**
              * get the output and buffer the input
              */
-            OutputStream out = client.getOutputStream();
+            OutputStream outPS = client.getOutputStream();
             BufferedReader reader;
             /**
              * convert to a string and write into an outputsteam
              */
-            try (PrintWriter writer = new PrintWriter(out))
+            try (PrintWriter writer = new PrintWriter(outPS))
             {
                 /**
                  * get input stream and buffer it
@@ -123,7 +122,7 @@ public class Handler implements Runnable
                         network.AdminPannel.setLoggedin(true);
                     } else if (args[anz].equals("AdminMessage"))
                     {
-                        guiOut.print(args[0], 1);
+                        out.print(args[0], 1);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
                         String iplist = substructure.PathHelper.getFile("IPs.txt");
@@ -181,6 +180,7 @@ public class Handler implements Runnable
                                 } catch (IOException e)
                                 {
 
+                                    out.print("(Handler - run -> AdminKickUser) : " + e.toString(), 2);
                                 }
                             }
                         }
@@ -189,13 +189,16 @@ public class Handler implements Runnable
                 reader.close();
                 writer.close();
                 client.close();
+            } catch (fileSystemException ex)
+            {
+                out.print("(Handler - run) : " + ex.toString(), 2);
             }
             /**
              * catch exceptions and logg them
              */
         } catch (IOException ex)
         {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(Handler - run) : " + ex.toString(), 2);
         }
     }
 }

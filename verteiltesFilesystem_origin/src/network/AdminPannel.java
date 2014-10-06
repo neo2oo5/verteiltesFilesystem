@@ -5,18 +5,15 @@
  */
 package network;
 
+import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import static java.lang.System.in;
 import static java.lang.Thread.sleep;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -66,10 +63,10 @@ public class AdminPannel
             }
         } catch (FileNotFoundException ex)
         {
-            Logger.getLogger(AdminPannel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex)
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+        } catch (IOException | fileSystemException ex)
         {
-            Logger.getLogger(AdminPannel.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
         } finally
         {
             try
@@ -78,15 +75,21 @@ public class AdminPannel
 
             } catch (IOException ex)
             {
-                Logger.getLogger(AdminPannel.class.getName()).log(Level.SEVERE, null, ex);
+                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
             }
         }
     }
 
-    public static boolean adminLogin() throws InterruptedException
+    public static boolean adminLogin()
     {
         adminCheckLogin();
-        sleep(100);
+        try
+        {
+            sleep(100);
+        } catch (InterruptedException ex)
+        {
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+        }
         if (loggedin == false)
         {
             FileWriter writer = null;
@@ -96,9 +99,9 @@ public class AdminPannel
                 File file = new File(path + "admin.loggedin");
                 writer = new FileWriter(file, false);
                 message("Admin Logged in!");
-            } catch (IOException ex)
+            } catch (IOException | fileSystemException ex)
             {
-                Logger.getLogger(AdminPannel.class.getName()).log(Level.SEVERE, null, ex);
+                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
             } finally
             {
                 try
@@ -106,7 +109,7 @@ public class AdminPannel
                     writer.close();
                 } catch (IOException ex)
                 {
-                    Logger.getLogger(AdminPannel.class.getName()).log(Level.SEVERE, null, ex);
+                    out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
                 }
             }
         } else
@@ -117,71 +120,122 @@ public class AdminPannel
         return true;
     }
 
-    public static boolean adminLogout() throws SocketException, UnknownHostException, IOException
+    public static boolean adminLogout() throws UnknownHostException
     {
         message("Admin Logged out!");
 
-        Delete.deleteFile(substructure.PathHelper.getFile(""), "admin.loggedin");
+        try
+        {
+            Delete.deleteFile(substructure.PathHelper.getFile(""), "admin.loggedin");
+        } catch (fileSystemException ex)
+        {
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+        }
 
         return true;
     }
 
-    public static void message(String msg) throws FileNotFoundException, SocketException, UnknownHostException, IOException
+    public static void message(String msg) throws UnknownHostException
     {
-        String iplist = substructure.PathHelper.getFile("IPs.txt");
+        String iplist = null;
+        try
+        {
+            iplist = substructure.PathHelper.getFile("IPs.txt");
+        } catch (fileSystemException ex)
+        {
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+        }
         int anzahl = 0;
         String anServer = null;
         String ownIP = network.getIPv4Address.getIPv4Address();
         // check ob schon einer eingeloggt
         BufferedReader in = null;
-        in = new BufferedReader(new FileReader(iplist));
+        try
+        {
+            in = new BufferedReader(new FileReader(iplist));
+        } catch (FileNotFoundException ex)
+        {
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+        }
         String ip = null;
         FileWriter writer;
-        while ((ip = in.readLine()) != null)
+        try
         {
-            String doWhat = "AdminMessage";
-            String[] args = new String[3];
-            args[0] = ip;
-            args[1] = msg;
-            args[2] = doWhat;
-            StartClientServer.startClient(args);
+            while ((ip = in.readLine()) != null)
+            {
+                String doWhat = "AdminMessage";
+                String[] args = new String[3];
+                args[0] = ip;
+                args[1] = msg;
+                args[2] = doWhat;
+                StartClientServer.startClient(args);
 
+            }
+        } catch (IOException ex)
+        {
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
         }
     }
 
-    public static void adminKickUser(String ipToKick) throws FileNotFoundException, IOException
+    public static void adminKickUser(String ipToKick) throws UnknownHostException
     {
-        String ownIP = network.getIPv4Address.getIPv4Address();
+        String ownIP = null;
+        ownIP = network.getIPv4Address.getIPv4Address();
         if (ipToKick.equals(ownIP))
         {
-            System.out.println("Sie können sich nicht selbst Kicken!");
             out.print("Sie können sich nicht selbst Kicken!", 3);
         } else
         {
-            String iplist = substructure.PathHelper.getFile("IPs.txt");
+            String iplist = null;
+            try
+            {
+                iplist = substructure.PathHelper.getFile("IPs.txt");
+            } catch (fileSystemException ex)
+            {
+                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+            }
             int anzahl = 0;
             String anServer = null;
             // check ob schon einer eingeloggt
             BufferedReader in = null;
-            in = new BufferedReader(new FileReader(iplist));
+            try
+            {
+                in = new BufferedReader(new FileReader(iplist));
+            } catch (FileNotFoundException ex)
+            {
+                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+            }
             String ip = null;
             FileWriter writer;
-            while ((ip = in.readLine()) != null)
+            try
             {
-                String doWhat = "AdminKickUser";
-                String[] args = new String[3];
-                args[0] = ip;
-                args[1] = ipToKick;
-                args[2] = doWhat;
-                StartClientServer.startClient(args);
+                while ((ip = in.readLine()) != null)
+                {
+                    String doWhat = "AdminKickUser";
+                    String[] args = new String[3];
+                    args[0] = ip;
+                    args[1] = ipToKick;
+                    args[2] = doWhat;
+                    StartClientServer.startClient(args);
 
+                }
+            } catch (IOException ex)
+            {
+                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
             }
         }
     }
 
     public static boolean IAmAdmin()
     {
-        File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
+        File file = null;
+        try
+        {
+            file = new File(substructure.PathHelper.getFile("admin.loggedin"));
+        } catch (fileSystemException ex)
+        {
+            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+        }
         boolean exists = file.exists();
         return exists;
     }
