@@ -11,6 +11,7 @@ package network;
 import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class Interfaces
                 args[3] = filename;
                 args[4] = IPv4target;
                 args[5] = doWhat;
-                
+
                 String datei = args[0] + args[2];
                 File file = new File(datei);
                 FileTransfer.FileProvider fileProvider = new FileTransfer.FileProvider(file, 1718);
@@ -66,9 +67,6 @@ public class Interfaces
                 executorService.execute(fileFetcher);
 
                 executorService.shutdown();
-                
-
-
 
 //                File target = new File(args[2]);
 //                target.mkdirs();
@@ -304,4 +302,45 @@ public class Interfaces
         return AdminPannel.IAmAdmin();
     }
 
+    public static void InterfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
+    {
+        String iplist = null;
+        try
+        {
+            iplist = substructure.PathHelper.getFile("IPs.txt");
+        } catch (fileSystemException ex)
+        {
+            out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
+        }
+        int anzahl = 0;
+        String anServer = null;
+        // check ob schon einer eingeloggt
+        BufferedReader in = null;
+        try
+        {
+            in = new BufferedReader(new FileReader(iplist));
+        } catch (FileNotFoundException ex)
+        {
+            out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
+        }
+        String ip = null;
+        FileWriter writer;
+        try
+        {
+            while ((ip = in.readLine()) != null)
+            {
+                String doWhat = "ChangeOwnIP";
+                String[] args = new String[3];
+                args[0] = ip;
+                args[1] = oldIP;
+                args[2] = newIP;
+                args[3] = doWhat;
+                StartClientServer.startClient(args);
+
+            }
+        } catch (IOException ex)
+        {
+            out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
+        }
+    }
 }
