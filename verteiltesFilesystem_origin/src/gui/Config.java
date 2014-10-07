@@ -208,8 +208,7 @@ public class Config
                                 }
     }
     
-
-    static public void setCurrentIp(String IP)
+     static public void setCurrentIp(String IP)
     {
         currentIP = IP;
     }
