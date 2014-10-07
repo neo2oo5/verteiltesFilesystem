@@ -34,6 +34,7 @@ public class CheckKicked
 
             String searchedip = null;
             searchedip = Config.getCurrentIp();
+            System.out.println("---: " + searchedip);
 
             String iplist = substructure.PathHelper.getFile("IPs.txt");
 

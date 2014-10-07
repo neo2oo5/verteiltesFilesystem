@@ -133,7 +133,7 @@ public class CheckWhoIsOnline implements Runnable
 
         } catch (IOException ex)
         {
-            out.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
+            //   out.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
             return false;
         }
         /**

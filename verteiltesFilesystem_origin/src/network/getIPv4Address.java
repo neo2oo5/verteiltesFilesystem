@@ -33,7 +33,7 @@ public class getIPv4Address
      */
     public static String getIPv4Address() throws UnknownHostException
     {
-        
+
         ArrayList<String> IPListe = new ArrayList<String>();
         /**
          * Search all network interfaces
@@ -71,7 +71,7 @@ public class getIPv4Address
         String list = IPListe.toString();
         return list;
     }
-    
+
     public static void setIPv4Address() throws UnknownHostException
     {
         /**
@@ -86,6 +86,7 @@ public class getIPv4Address
             out.print("(getIPv4Address - setIPv4Address) : " + ex.toString(), 2);
         }
         int n = 0;
+        String ip = null;
         /**
          * Search for internet-adresses in the network table
          */
@@ -103,7 +104,8 @@ public class getIPv4Address
                  */
                 if (iaddress.isLoopbackAddress() == false && iaddress.isSiteLocalAddress() == true)
                 {
-                    Config.setCurrentIp(iaddress.getHostAddress());
+                    ip = iaddress.getHostAddress();
+                    Config.setCurrentIp(ip);
                 }
             }
         }
