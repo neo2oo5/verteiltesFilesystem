@@ -31,7 +31,7 @@ public class Config
     static JLabel folderL, pathL, logL;
     JPanel configP;
     static JButton folderB, logB;
-    static String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR";
+    static String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR", currentIP=null;
     
     /**
      *
@@ -209,6 +209,16 @@ public class Config
     }
     
 
+    static public void setCurrentIp(String IP)
+    {
+        currentIP = IP;
+    }
+    
+    static public String getCurrentIp()
+    {
+        return currentIP;
+    }
+    
     private static  class ConfigListener implements ActionListener {
 
         public ConfigListener() {
