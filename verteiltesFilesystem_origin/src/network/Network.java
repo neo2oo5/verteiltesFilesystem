@@ -20,15 +20,9 @@ public class Network
     public static void main(String[] args) throws InterruptedException, IOException
     {
         
-        ArrayList<String> IPListe = new ArrayList<String>();
-        IPListe = getIPv4Address.getIPv4Address();
         
-        System.out.println("Liste: " + IPListe.toString());
+        String IPListe = getIPv4Address.getIPv4Address();
         
-        System.out.println("0: " + IPListe.get(0).toString());
-        System.out.println("0: " + IPListe.get(1).toString());
-        
-        Spliterator<String> spliterator = IPListe.spliterator();
-        System.out.println("1: " + spliterator.toString());
+        System.out.println("Liste: " + IPListe);
     }
 }

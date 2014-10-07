@@ -27,7 +27,7 @@ import substructure.GUIOutput;
  */
 public class Interfaces
 {
-
+    // attr.
     static GUIOutput out = GUIOutput.getInstance();
 
     public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws UnknownHostException
@@ -47,7 +47,7 @@ public class Interfaces
             {
             } else
             {
-// do ...
+                // do ...
                 String doWhat = "FileTransfer";
                 String[] args = new String[6];
                 args[0] = IPv4;
