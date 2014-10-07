@@ -15,6 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -37,6 +44,9 @@ public class fileSystem{
     private String  whoLocked;
     private String  token;
     private String workingDir = System.getProperty("user.dir");
+    OutputStream fos = null;
+    private static String outGoingList = "myObjs.ser";
+    InputStream fis = null;
    
     
     private fileSystem() {
@@ -223,57 +233,6 @@ public class fileSystem{
         return newElementList;
     }
     
-    
-     /**
-    * Noch nicht einsatzfähig
-    * @param path
-    * @throws IOException
-    * @throws InterruptedException 
-    */ 
-   /** public void WatchService(String path) throws IOException, InterruptedException
-    {
-        WatchService watcher = FileSystems.getDefault().newWatchService();
-        Paths.get(path).register(watcher, StandardWatchEventKinds.ENTRY_CREATE,
-                                          StandardWatchEventKinds.ENTRY_DELETE,
-                                          StandardWatchEventKinds.ENTRY_MODIFY);
-        while(true)
-        {
-            WatchKey key = watcher.take();
-            System.out.println("change");
-            for(WatchEvent<?> event : key.pollEvents())
-                System.out.println("Kind: "+event.kind()+", Path: "+event.context());
-            key.reset();
-        }
-        
-    }*/  
-    
-    
-    
-     /**
-    * Noch nicht einsatzfähig
-    * @param path
-    * @throws IOException
-    * @throws InterruptedException 
-    */ 
-   /** public void WatchService(String path) throws IOException, InterruptedException
-    {
-        WatchService watcher = FileSystems.getDefault().newWatchService();
-        Paths.get(path).register(watcher, StandardWatchEventKinds.ENTRY_CREATE,
-                                          StandardWatchEventKinds.ENTRY_DELETE,
-                                          StandardWatchEventKinds.ENTRY_MODIFY);
-        while(true)
-        {
-            WatchKey key = watcher.take();
-            System.out.println("change");
-            for(WatchEvent<?> event : key.pollEvents())
-                System.out.println("Kind: "+event.kind()+", Path: "+event.context());
-            key.reset();
-        }
-        
-    }*/  
-    
-    
-    
     /**
      *
      * @param IP
@@ -319,41 +278,74 @@ public class fileSystem{
     }
     
     /**
-     * Funktion zum Senden deiner Daten 
-     * @param IP
-     * @return 
-     */
-    public String outGoingList (String IP)
+    * Funktion zum Senden deiner Daten 
+    * @param IP
+    * @return 
+    * @throws java.io.FileNotFoundException 
+    */
+    public String outGoingList (String IP) throws FileNotFoundException, IOException
     {
         String output = "";
         try
         {
            for (Path entry: fileSystem.get(find(clients,IP)))
            {
-               output += IP+"#"+entry + " \n";
+               output += IP+"--##--"+entry + "\n";
            }
+           fos = new FileOutputStream(outGoingList);
+           ObjectOutputStream o = new ObjectOutputStream(fos);
+           o.writeObject(output);
         }
-        catch (DirectoryIteratorException ex) 
+        catch (IOException e) 
         {
-           // I/O error encounted during the iteration, the cause is an IOException
-           //throw ex.getCause();
-       }
+            System.err.println(e);
+        }
+        finally
+        {
+            try
+            {
+                fos.close();
+            }
+            catch(Exception e)
+            {              
+                e.printStackTrace();
+            }
+        }
         return output;
     }   
     
-    /**
-     * 
-     * @throws fileSystemException 
-     */
-    public void mergeList(String inComingList) throws fileSystemException
+    public void mergeList(String inComingList) throws fileSystemException, FileNotFoundException, IOException, ClassNotFoundException
     {
+        try
+        {
+            fis = new FileInputStream(outGoingList);
+            ObjectInputStream o =new ObjectInputStream(fis);
+            inComingList = (String) o.readObject();
+        }
+        catch(IOException e)
+        {
+            System.err.println(e);
+        }
+        catch(ClassNotFoundException e)    
+        {
+            System.err.println(e);
+        }
+        finally
+        {
+            try
+            {
+               fis.close(); 
+            }
+            catch(Exception e)
+            {}
+        }
         List<Path> result = new ArrayList<>();
         String[] parts = inComingList.split("\n");
         for(int count=0;count<parts.length;count++)
         {
             String[] seperatedString = parts[count].split("--##--",2);
             String path = seperatedString[1];
-            Path finalPath = Paths.get(seperatedString[1]);
+            Path finalPath = Paths.get(path);
             String IP = seperatedString[0];
             result.add(finalPath);
             try
