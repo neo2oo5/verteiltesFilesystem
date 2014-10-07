@@ -9,6 +9,7 @@ package network;
  * Used Libraries
  */
 import fileSystem.fileSystemException;
+import gui.Config;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,7 +43,7 @@ public class Interfaces
         {
 
             String IPv4target = null;
-            IPv4target = getIPv4Address.getIPv4Address();
+            IPv4target = Config.getCurrentIp();
             if (IPv4target.isEmpty())
             {
             } else
@@ -195,19 +196,19 @@ public class Interfaces
     public static boolean inerfaceStartProgram() throws UnknownHostException
     {
         boolean succes = false;
-
+        getIPv4Address.setIPv4Address();
         /**
          * start the server
          */
         StartClientServer.startServer();
         String ip = null;
-        ip = getIPv4Address.getIPv4Address();
+        ip = Config.getCurrentIp();
         /**
          * success if an IP was found with CheckWhoIsOnline
          */
         if (ip != null)
         {
-            System.out.println("Ihre IP: " + ip);
+            out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 2);
             Thread cwio = new Thread(new CheckWhoIsOnline(ip));
             cwio.start();
             succes = true;

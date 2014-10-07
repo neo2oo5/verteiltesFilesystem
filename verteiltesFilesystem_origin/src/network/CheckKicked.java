@@ -6,6 +6,7 @@
 package network;
 
 import fileSystem.fileSystemException;
+import gui.Config;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -32,7 +33,7 @@ public class CheckKicked
         {
 
             String searchedip = null;
-            searchedip = getIPv4Address.getIPv4Address();
+            searchedip = Config.getCurrentIp();
 
             String iplist = substructure.PathHelper.getFile("IPs.txt");
 

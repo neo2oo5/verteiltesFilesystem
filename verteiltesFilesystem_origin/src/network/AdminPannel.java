@@ -6,6 +6,7 @@
 package network;
 
 import fileSystem.fileSystemException;
+import gui.Config;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +46,7 @@ public class AdminPannel
             String iplist = substructure.PathHelper.getFile("IPs.txt");
             int anzahl = 0;
             String anServer = null;
-            String ownIP = network.getIPv4Address.getIPv4Address();
+            String ownIP = Config.getCurrentIp();
             // check ob schon einer eingeloggt
             in = new BufferedReader(new FileReader(iplist));
             String ip = null;
@@ -147,7 +148,7 @@ public class AdminPannel
         }
         int anzahl = 0;
         String anServer = null;
-        String ownIP = network.getIPv4Address.getIPv4Address();
+        String ownIP = Config.getCurrentIp();
         // check ob schon einer eingeloggt
         BufferedReader in = null;
         try
@@ -180,7 +181,7 @@ public class AdminPannel
     public static void adminKickUser(String ipToKick) throws UnknownHostException
     {
         String ownIP = null;
-        ownIP = network.getIPv4Address.getIPv4Address();
+        ownIP = Config.getCurrentIp();
         if (ipToKick.equals(ownIP))
         {
             out.print("Sie können sich nicht selbst Kicken!", 3);

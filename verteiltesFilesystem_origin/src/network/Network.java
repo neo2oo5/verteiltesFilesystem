@@ -5,6 +5,7 @@
  */
 package network;
 
+import gui.Config;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Network
     {
         
         
-        String IPListe = getIPv4Address.getIPv4Address();
+        String IPListe = Config.getCurrentIp();
         
         System.out.println("Liste: " + IPListe);
     }
