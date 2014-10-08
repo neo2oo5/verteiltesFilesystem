@@ -139,7 +139,7 @@ public class CheckWhoIsOnline implements Runnable
                     String pathDBneuerOrdner = null;
                     try
                     {
-                        pathDBneuerOrdner = substructure.PathHelper.getFile("System/tmp/");
+                        pathDBneuerOrdner = substructure.PathHelper.getFolder("tmp");
                     } catch (fileSystemException ex)
                     {
                         out.print("(CheckWhoIsOnline) " + ex, 2);
