@@ -50,7 +50,6 @@ public class Handler implements Runnable
     {
         try
         {
-            out.print("Server empf. was");
             /**
              * get the output and buffer the input
              */
@@ -74,6 +73,7 @@ public class Handler implements Runnable
                 {
                     String[] args = s.split(Pattern.quote("#entf#"));
                     int anz = args.length - 1;
+                    out.print("Server empf. was: " + args[anz]);
                     /**
                      * file.rename handler
                      */

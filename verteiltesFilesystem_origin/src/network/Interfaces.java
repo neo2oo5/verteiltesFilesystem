@@ -342,7 +342,7 @@ public class Interfaces
     {
         out.print("(interfaceNewClient) start");
         String doWhat = "newClient";
-        String[] args = new String[4];
+        String[] args = new String[3];
         args[0] = clientIP;
         args[1] = ownIP;
         args[2] = doWhat;
