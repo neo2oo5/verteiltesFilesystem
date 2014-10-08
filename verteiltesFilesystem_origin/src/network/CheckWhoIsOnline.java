@@ -102,49 +102,53 @@ public class CheckWhoIsOnline implements Runnable
              */
             if (reachable)
             {
+                if (!uebIP.equals(ipv4))
+                {
+                    String pathDBneuerOrdner = null;
+                    try
+                    {
+                        pathDBneuerOrdner = substructure.PathHelper.getFile("");
+                    } catch (fileSystemException ex)
+                    {
+                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try
+                    {
+                        out.print("asdasdasdadsadasd", 3);
+                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
+                    } catch (UnknownHostException ex)
+                    {
+                        out.print("fehler--------------CheckWIO", 2);
+                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
                 try
                 {
-//                     if(!uebIP.equals(ipv4)){
-//                         String pathDBneuerOrdner = substructure.PathHelper.getFile("");
-//                         try
-//                         {
-//                             out.print("asdasdasdadsadasd", 3);
-//                             Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
-//                         } catch (UnknownHostException ex)
-//                         {
-//                             out.print("fehler--------------CheckWIO", 2);
-//                             Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-//                         }
-//                     }
-                    /**
-                     * path and name for the found IP
-                     */
-                    if (!uebIP.equals(ipv4))
-                    {
-                        path = substructure.PathHelper.getFile("IPs.txt");
-                        file = new File(path);
-
-                        try
-                        {
-                            writer = new FileWriter(file, true);
-
-                            writer.write(uebIP);
-                            writer.write(System.getProperty("line.separator"));
-                            writer.flush();
-                            writer.close();
-                            /**
-                             * catch exceptions
-                             */
-                        } catch (IOException e)
-                        {
-                            out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
-                        }
-                    }
+                    path = substructure.PathHelper.getFile("IPs.txt");
                 } catch (fileSystemException ex)
                 {
-                    out.print("(CheckWhoIsOnline - run) : " + ex.toString(), 2);
-
+                    out.print("fehler--------------CheckWIO", 2);
                 }
+
+                file = new File(path);
+
+                try
+                {
+                    writer = new FileWriter(file, true);
+
+                    writer.write(uebIP);
+                    writer.write(System.getProperty("line.separator"));
+                    writer.flush();
+                    writer.close();
+                    /**
+                     * catch exceptions
+                     */
+                } catch (IOException e)
+                {
+                    out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                }
+
             }
             /**
              * jump to the next address in the network
