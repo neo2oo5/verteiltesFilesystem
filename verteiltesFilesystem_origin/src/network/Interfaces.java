@@ -41,6 +41,8 @@ public class Interfaces
         if (kicked)
         {
             out.print("You get Kicked from Network", 3);
+        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
         } else
         {
             String IPv4target = null;
@@ -109,6 +111,8 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileRename) : " + "You get Kicked from Network", 3);
+        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
         } else
         {
             /* interface to rename a file with the necessary values */
@@ -138,7 +142,10 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileDelete) : " + "You get Kicked from Network", 3);
-        } else
+        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
+        }
+        else
         {
             /**
              * interface to delete a file/directory
@@ -168,6 +175,8 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileCreate) : " + "You get Kicked from Network", 3);
+        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
         } else
         {
             /**
