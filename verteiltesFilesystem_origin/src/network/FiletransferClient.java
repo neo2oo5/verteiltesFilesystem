@@ -8,7 +8,8 @@ package network;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.Socket;
-import substructure.PathHelper;
+
+import substructure.GUIOutput;
 
 /**
  *
@@ -16,8 +17,11 @@ import substructure.PathHelper;
  */
 public class FiletransferClient
 {
+    
+    static GUIOutput out = GUIOutput.getInstance();
 
   public static void FileTransferClient(String[] args) throws Exception {
+      out.print("FileTransferClient startet",1);
     Socket sock = new Socket(args[0], 123456);
     byte[] mybytearray = new byte[1024];
     InputStream is = sock.getInputStream();

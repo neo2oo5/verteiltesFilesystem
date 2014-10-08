@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import substructure.GUIOutput;
 
 /**
  *
@@ -23,8 +24,10 @@ import java.util.logging.Logger;
 public class FiletransferServer
 {
 
+    static GUIOutput out = GUIOutput.getInstance();
     public static void FiletransferServer(String[] args) throws IOException
     {
+      out.print("FileTransferClient startet",1);
         ServerSocket servsock = new ServerSocket(123456);
         String file = null;
         try
