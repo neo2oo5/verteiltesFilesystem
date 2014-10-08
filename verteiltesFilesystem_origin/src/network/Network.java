@@ -23,7 +23,6 @@ public class Network
 
         StartClientServer.startServer();
         System.out.println("Start des tests");
-        Interfaces.interfaceFileTransfer("10.8.0.10",  "/home/xoxoxo/Dokumente", "C:\\Users\\Lamparari\\Documents", "backup.sh.log");
         System.out.println("Ende des tests");
     }
 }

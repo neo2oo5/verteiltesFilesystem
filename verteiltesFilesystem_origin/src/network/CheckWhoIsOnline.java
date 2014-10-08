@@ -49,7 +49,7 @@ public class CheckWhoIsOnline implements Runnable
     {
         try
         {
-            sleep(200000);
+            sleep(2000);
         } catch (InterruptedException ex)
         {
         out.print("(CheckWhoIsOnline) Sleep Error", 2);
@@ -142,23 +142,21 @@ public class CheckWhoIsOnline implements Runnable
                         pathDBneuerOrdner = substructure.PathHelper.getFile("");
                     } catch (fileSystemException ex)
                     {
-                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                        out.print("(CheckWhoIsOnline) " + ex, 2);
                     }
                     try
                     {
-                        out.print("asdasdasdadsadasd", 3);
-                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
+                        Interfaces.interfaceFileTransfer(uebIP, pathDBneuerOrdner, "myFileList.ser");
                     } catch (UnknownHostException ex)
                     {
-                        out.print("fehler--------------CheckWIO", 2);
-                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                        out.print("(CheckWhoIsOnline) " + ex, 2);
                     }
                     try
                     {
                         path = substructure.PathHelper.getFile("IPs.txt");
                     } catch (fileSystemException ex)
                     {
-                        out.print("fehler--------------CheckWIO", 2);
+                        out.print("(CheckWhoIsOnline) " + ex, 2);
                     }
                 }
 
@@ -167,7 +165,6 @@ public class CheckWhoIsOnline implements Runnable
              * jump to the next address in the network
              */
             endung++;
-            System.out.println("->" + endung);
 
         }
         out.print("(CheckWhoIsOnline) Initialisierung der Rechner im Lokalen Netzwerk abgeschlossen", 1);

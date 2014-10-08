@@ -34,7 +34,7 @@ public class Interfaces
     // attr.
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws UnknownHostException
+    public static int interfaceFileTransfer(String IPv4, String targetPath, String filename) throws UnknownHostException
     {
 
         boolean kicked = false;
