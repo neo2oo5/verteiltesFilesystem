@@ -36,7 +36,7 @@ public class FiletransferServer
             file = substructure.PathHelper.getFile(args[0]);
         } catch (fileSystemException ex)
         {
-            Logger.getLogger(FiletransferServer.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(FileTransferServer) " + ex, 2);
         }
         File myFile = new File(file);
         while (true)

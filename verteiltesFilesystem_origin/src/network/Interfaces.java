@@ -71,8 +71,7 @@ public class Interfaces
                     FiletransferClient.FileTransferClient(args2);
                 } catch (Exception ex)
                 {
-                    out.print(".........", 3);
-                    Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
+                    out.print("(Interfaces) newClient " + ex, 3);
                 }
 
             }
