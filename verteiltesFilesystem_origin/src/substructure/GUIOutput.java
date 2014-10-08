@@ -11,7 +11,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import java.io.*;
+import static java.lang.Thread.sleep;
+import java.text.DateFormat.Field;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.*;
 /**
  *
@@ -25,10 +35,11 @@ public class GUIOutput extends Output{
     protected static final Color D_White   = Color.getHSBColor( 0.000f, 0.000f, 0.753f );
     protected static final Color B_Black   = Color.getHSBColor( 0.000f, 0.000f, 0.502f );
     private static GUIOutput instance = null;
-    private ArrayList<String> log = new ArrayList( );
-    JFrame f;
-    ColorPane pane;
-    JScrollPane spane;
+    private List<String> log = Collections.synchronizedList(new ArrayList<String>());
+    private List<String> queue = Collections.synchronizedList(new ArrayList<String>());
+    JFrame f = new JFrame("Log");
+    ColorPane pane = new ColorPane();;
+    JScrollPane spane = new JScrollPane(pane);
     
     
     public static GUIOutput getInstance() {
@@ -45,8 +56,7 @@ public class GUIOutput extends Output{
     
     private GUIOutput()
     {
-         f = new JFrame("Log");
-         pane = new ColorPane();
+
          f.setPreferredSize(new Dimension(600, 400));
          f.setSize(600, 400);
          f.setVisible(false);
@@ -95,7 +105,7 @@ public class GUIOutput extends Output{
                 pane.setText("");
                 setText(pane);
                 pane.validate();
-                spane = new JScrollPane(pane);
+                
                 spane.validate();
                 f.setContentPane(spane);
                // f.pack();
@@ -109,33 +119,55 @@ public class GUIOutput extends Output{
     
     private void setText(ColorPane pane)
     {   
-
-        for(String p : log){
+        synchronized (queue) { 
+            synchronized (log) { 
+                for(String p : log){
             
            /* p = p.toString().replace(ANSI_RED, "")
                                  .replace(ANSI_YELLOW, "")
                                  .replace(ANSI_GREEN, "");*/
-            if(p.contains(ANSI_RED))
-            {   
-                pane.append(getANSIColor(ANSI_RED), p.toString().replace(ANSI_RED, "") + "\n");
-            }
-            
-            else if(p.contains(ANSI_YELLOW))
-            {   
-                pane.append(getANSIColor(ANSI_YELLOW), p.toString().replace(ANSI_YELLOW, "") + "\n");
-            }
-          
-            else if(p.contains(ANSI_GREEN))
-            {   
-                pane.append(getANSIColor(ANSI_GREEN), p.toString().replace(ANSI_GREEN, "") + "\n");
-            }
           
             
-            
+             
+                    if(p.contains(ANSI_RED))
+                    {   
+                        queue.add(ANSI_RED.toString() + "--##--" + p.toString().replace(ANSI_RED, "") + "\n");
+                    }
+
+                    else if(p.contains(ANSI_YELLOW))
+                    {   
+                        queue.add(ANSI_YELLOW.toString() + "--##--" +  p.toString().replace(ANSI_YELLOW, "") + "\n");
+                    }
+
+                    else if(p.contains(ANSI_GREEN))
+                    {   
+                        queue.add(ANSI_GREEN.toString() + "--##--" +  p.toString().replace(ANSI_GREEN, "") + "\n");
+                    }
+                    
+                    
+                                            for(int i=0; i < queue.size(); i++)
+                                            {
+                                                String tmp[] = queue.get(i).split(Pattern.quote("--##--"));
+                                                
+                                                pane.append(getANSIColor(tmp[0]), tmp[1]);
+                                            }
+                                        
+                }
+            }
+            //  pane.append(getANSIColor(ANSI_GREEN), p.toString().replace(ANSI_GREEN, "") + "\n");
         }
         
       
     }
+    
+   
+   public void refreshGuiLog()
+   {
+       
+       pane.validate();
+       spane.validate();
+       f.revalidate();
+   }
    
     
 

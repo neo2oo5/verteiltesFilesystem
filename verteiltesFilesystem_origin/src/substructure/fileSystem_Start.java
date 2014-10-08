@@ -10,12 +10,8 @@ import fileSystem.fileSystemException;
 import gui.*;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.plaf.ColorUIResource;
-import network.getIPv4Address;
+
 
 /**
  *
@@ -46,7 +42,7 @@ public class fileSystem_Start
          * den modelevel geaendert werden
          *
          */
-        //network.Interfaces.inerfaceStartProgram();
+        network.Interfaces.inerfaceStartProgram();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -97,6 +93,8 @@ public class fileSystem_Start
 
                 //start scheduler
                 new substructure.runTimeUpdater();
+                
+               
 
             }
         });
@@ -113,13 +111,10 @@ public class fileSystem_Start
         {
             try
             {
-                c.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
+                c.setnewFileSystem(Config.getCurrentIp(), Config.getRootDir());
             } catch (fileSystemException ex)
             {
                 out.print("Lokales FileSystem konnte nicht Indexiert werden");
-            } catch (UnknownHostException ex)
-            {
-                out.print("(fileSystem_Start) - startSequence : " + ex.toString(), 2);
             }
         }
     }

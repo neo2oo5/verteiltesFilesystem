@@ -28,6 +28,8 @@ public class runTimeUpdater {
         
         timer.schedule(new GUIScheduler(), 1000, 10000 );
         
+        timer.schedule(new GUILog(), 1000, 5000 );
+        
         out.print("runTimeUpdater gestarted");
     }
     
@@ -54,6 +56,18 @@ public class runTimeUpdater {
         @Override public void run()
         {
            substructure.fileSystem_Start.gUI.setOnOffState();
+           
+        }
+    }
+    
+    class GUILog extends TimerTask
+    {
+        @Override public void run()
+        {
+           if(out != null)
+           {
+            out.refreshGuiLog();
+           }
         }
     }
 }
