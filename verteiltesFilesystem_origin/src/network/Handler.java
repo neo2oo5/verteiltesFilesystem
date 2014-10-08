@@ -96,9 +96,7 @@ public class Handler implements Runnable
                         System.out.println("Create successfull?: " + createFile);
                     } else if (args[anz].equals("FileTransfer"))
                     {
-                        System.out.println("test1");
-                        boolean transferFile = FileTransfer.FT(args);
-                        System.out.println("Transfer successfull?: " + transferFile);
+                        FiletransferServer.FiletransferServer(args);
                     } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
                         File file = new File(substructure.PathHelper.getFile("admin.loggedin"));

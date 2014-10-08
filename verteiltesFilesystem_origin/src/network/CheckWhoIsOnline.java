@@ -65,7 +65,7 @@ public class CheckWhoIsOnline implements Runnable
             /**
              * write the found IP's in our address table
              */
-            if (reachable)
+            if (reachable && !uebIP.equals(ipv4))
             {
                 try
                 {
