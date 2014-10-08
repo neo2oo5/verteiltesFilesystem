@@ -43,19 +43,23 @@ public class fileSystem
     private static String outGoingList = "System/myFileList.ser";
     InputStream fis = null;
 	
-	private fileSystem()
+    public static int find (String[] array , String name) 
+    {  
+      return Arrays.asList(array).indexOf(name);  
+    }
+  
+    private fileSystem()
     {
        //DUMMY
     }
 	
-
     public static fileSystem getInstance() 
-	{
+    {
         return fileSystemHolder.INSTANCE;
     }
 	
-	private static class fileSystemHolder 
-	{
+    private static class fileSystemHolder 
+    {
         private static final fileSystem INSTANCE = new fileSystem();
     }
 	
@@ -118,26 +122,26 @@ public class fileSystem
         }
     }
 	
-	public List<Path> get(String IP)
+    public List<Path> get(String IP)
     {
         return fileSystem.get(find(clients, IP));
     }
 	
-	public String[] getAllIps()
+    public String[] getAllIps()
     {
         return this.clients;
     }
 	
-	public int getClientCount()
+    public int getClientCount()
     {
         return this.clientscount;
     }
 	
-	public String fileSystemToString (String IP)
+    public String fileSystemToString (String IP)
     {
         String out ="";
         try
-		{	
+	{	
            for (Path entry: fileSystem.get(find(clients,IP)))
            {
                        out += entry + " \n";
@@ -145,8 +149,8 @@ public class fileSystem
            
            
         } 
-	    catch (DirectoryIteratorException ex) 
-	    {
+	catch (DirectoryIteratorException ex) 
+	{
            // I/O error encounted during the iteration, the cause is an IOException
            //throw ex.getCause();
         }
@@ -184,19 +188,19 @@ public class fileSystem
         return output;
     } 	
 	
-	public void renameOutGoingObject() throws IOException, fileSystemException
+    public void renameOutGoingObject() throws IOException, fileSystemException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.move(path, path.resolveSibling("InComingList"));
     }
 	
-	public void delteOutGoingObject() throws fileSystemException, IOException
+    public void delteOutGoingObject() throws fileSystemException, IOException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.delete(path);
     }
 	
-	public void mergeList(String inComingList) throws fileSystemException, FileNotFoundException, IOException, ClassNotFoundException
+    public void mergeList(String inComingList) throws fileSystemException, FileNotFoundException, IOException, ClassNotFoundException
     {
         try
         {
@@ -220,8 +224,8 @@ public class fileSystem
             }
             catch(Exception e)
             {
-				//Dummy
-			}
+		//Dummy
+            }
         }
         List<Path> result = new ArrayList<>();
         String[] parts = inComingList.split("\n");
@@ -246,16 +250,10 @@ public class fileSystem
         }
     }
 	
-	public void deleteInComingObject() throws IOException, fileSystemException
+    public void deleteInComingObject() throws IOException, fileSystemException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.delete(path);
     }
-
-	/******************************************************* Helper *****************************************************************************/
     
-    public static int find (String[] array , String name) 
-    {  
-      return Arrays.asList(array).indexOf(name);  
-    }
 }
