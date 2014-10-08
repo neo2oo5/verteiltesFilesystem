@@ -136,30 +136,30 @@ public class CheckWhoIsOnline implements Runnable
                     Interfaces.interfaceNewClient(uebIP, ipv4);
                     out.print("(CheckWhoIsOnline) eigene IP in Liste des gefundenen Rechners eingetragen: " + uebIP, 1);
 
-//                    String pathDBneuerOrdner = null;
-//                    try
-//                    {
-//                        pathDBneuerOrdner = substructure.PathHelper.getFile("");
-//                    } catch (fileSystemException ex)
-//                    {
-//                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-////                    try
-////                    {
-////                        out.print("asdasdasdadsadasd", 3);
-////                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
-////                    } catch (UnknownHostException ex)
-////                    {
-////                        out.print("fehler--------------CheckWIO", 2);
-////                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-////                    }
-//                    try
-//                    {
-//                        path = substructure.PathHelper.getFile("IPs.txt");
-//                    } catch (fileSystemException ex)
-//                    {
-//                        out.print("fehler--------------CheckWIO", 2);
-//                    }
+                    String pathDBneuerOrdner = null;
+                    try
+                    {
+                        pathDBneuerOrdner = substructure.PathHelper.getFile("");
+                    } catch (fileSystemException ex)
+                    {
+                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try
+                    {
+                        out.print("asdasdasdadsadasd", 3);
+                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
+                    } catch (UnknownHostException ex)
+                    {
+                        out.print("fehler--------------CheckWIO", 2);
+                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try
+                    {
+                        path = substructure.PathHelper.getFile("IPs.txt");
+                    } catch (fileSystemException ex)
+                    {
+                        out.print("fehler--------------CheckWIO", 2);
+                    }
                 }
 
             }
