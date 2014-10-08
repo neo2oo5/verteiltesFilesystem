@@ -315,7 +315,7 @@ public class fileSystem{
     }   
     
     
-    public void delteObject() throws IOException
+    public void delteOutGoingObject() throws IOException
     {
         String file = System.getProperty("user.dir");
         file = file+"/System/myFileList.ser";
@@ -325,11 +325,31 @@ public class fileSystem{
     }
     
     
+    public void deleteInComingObject() throws IOException
+    {
+        String file = System.getProperty("user.dir");
+        file = file+"/System/myFileList.ser";
+        System.out.println(file);
+        Path path = Paths.get(file);
+        Files.delete(path);
+    }
+    
+    
+    public void renameOutGoingObject() throws IOException
+    {
+        String file = System.getProperty("user.dir");
+        file = file+"/System/myFileList.ser";
+        System.out.println(file);
+        Path path = Paths.get(file);
+        Files.move(path, path.resolveSibling("InComingList"));
+    }
+    
+    
     public void mergeList(String inComingList) throws fileSystemException, FileNotFoundException, IOException, ClassNotFoundException
     {
         try
         {
-            fis = new FileInputStream(outGoingList);
+            fis = new FileInputStream(inComingList);
             ObjectInputStream o =new ObjectInputStream(fis);
             inComingList = (String) o.readObject();
         }
