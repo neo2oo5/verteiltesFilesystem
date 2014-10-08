@@ -121,7 +121,7 @@ public class GUIOutput extends Output{
     {   
         synchronized (queue) { 
             synchronized (log) { 
-                for(String p : log){
+                for(int i = 0; i < log.size(); i++){
             
            /* p = p.toString().replace(ANSI_RED, "")
                                  .replace(ANSI_YELLOW, "")
@@ -129,28 +129,30 @@ public class GUIOutput extends Output{
           
             
              
-                    if(p.contains(ANSI_RED))
+                    if(log.get(i).contains(ANSI_RED))
                     {   
-                        queue.add(ANSI_RED.toString() + "--##--" + p.toString().replace(ANSI_RED, "") + "\n");
+                        queue.add(ANSI_RED.toString() + "--##--" + log.get(i).toString().replace(ANSI_RED, "") + "\n");
                     }
 
-                    else if(p.contains(ANSI_YELLOW))
+                    else if(log.get(i).contains(ANSI_YELLOW))
                     {   
-                        queue.add(ANSI_YELLOW.toString() + "--##--" +  p.toString().replace(ANSI_YELLOW, "") + "\n");
+                        queue.add(ANSI_YELLOW.toString() + "--##--" +  log.get(i).toString().replace(ANSI_YELLOW, "") + "\n");
                     }
 
-                    else if(p.contains(ANSI_GREEN))
+                    else if(log.get(i).contains(ANSI_GREEN))
                     {   
-                        queue.add(ANSI_GREEN.toString() + "--##--" +  p.toString().replace(ANSI_GREEN, "") + "\n");
+                        queue.add(ANSI_GREEN.toString() + "--##--" +  log.get(i).toString().replace(ANSI_GREEN, "") + "\n");
                     }
                     
                     
-                                            for(int i=0; i < queue.size(); i++)
+                                            for(int y= 0; y < queue.size(); y++)
                                             {
-                                                String tmp[] = queue.get(i).split(Pattern.quote("--##--"));
+                                                String tmp[] = queue.get(y).split(Pattern.quote("--##--"));
                                                 
                                                 pane.append(getANSIColor(tmp[0]), tmp[1]);
                                             }
+                                            
+                    log.remove(i);
                                         
                 }
             }
