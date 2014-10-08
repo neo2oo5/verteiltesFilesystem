@@ -337,4 +337,15 @@ public class Interfaces
             out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
         }
     }
+
+    public static void interfaceNewClient(String clientIP, String ownIP)
+    {
+        
+                String doWhat = "newClient";
+                String[] args = new String[4];
+                args[0] = clientIP;
+                args[1] = clientIP;
+                args[2] = doWhat;
+                StartClientServer.startClient(args);
+    }
 }

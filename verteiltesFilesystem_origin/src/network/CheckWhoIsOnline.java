@@ -106,6 +106,26 @@ public class CheckWhoIsOnline implements Runnable
                 if (!uebIP.equals(ipv4))
                 {
                     out.print("(CheckWhoIsOnline) Folgende IP im Lokalen Netzwerk gefunden: " + uebIP, 1);
+
+                    file = new File(path);
+
+                    try
+                    {
+                        writer = new FileWriter(file, true);
+
+                        writer.write(uebIP);
+                        writer.write(System.getProperty("line.separator"));
+                        writer.flush();
+                        writer.close();
+                        /**
+                         * catch exceptions
+                         */
+                    } catch (IOException e)
+                    {
+                        out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                    }
+                    Interfaces.interfaceNewClient(uebIP, ipv4);
+                    
                     String pathDBneuerOrdner = null;
                     try
                     {
@@ -123,33 +143,15 @@ public class CheckWhoIsOnline implements Runnable
                         out.print("fehler--------------CheckWIO", 2);
                         Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                try
-                {
-                    path = substructure.PathHelper.getFile("IPs.txt");
-                } catch (fileSystemException ex)
-                {
-                    out.print("fehler--------------CheckWIO", 2);
+                    try
+                    {
+                        path = substructure.PathHelper.getFile("IPs.txt");
+                    } catch (fileSystemException ex)
+                    {
+                        out.print("fehler--------------CheckWIO", 2);
+                    }
+
                 }
-
-                file = new File(path);
-
-                try
-                {
-                    writer = new FileWriter(file, true);
-
-                    writer.write(uebIP);
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
-                    writer.close();
-                    /**
-                     * catch exceptions
-                     */
-                } catch (IOException e)
-                {
-                    out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
-                }
-                }
-
 
             }
             /**

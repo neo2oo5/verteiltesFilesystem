@@ -254,6 +254,36 @@ public class Handler implements Runnable
                                 }
                             }
                         }
+                    } else if (args[anz].equals("newClient"))
+                    {
+                        String iplist = null;
+                        System.out.println("eint : " + args[1]);
+                        try
+                        {
+                            iplist = substructure.PathHelper.getFile("IPs.txt");
+                        } catch (fileSystemException ex)
+                        {
+                            out.print("(Handler - run -> ChangeOwnIP) : " + ex.toString(), 2);
+                        }
+                        File file = new File(iplist);
+                        FileWriter writerNewClient;
+
+                        try
+                        {
+                            writerNewClient = new FileWriter(file, true);
+
+                            writerNewClient.write(args[1]);
+                            writerNewClient.write(System.getProperty("line.separator"));
+                            writerNewClient.flush();
+                            writerNewClient.close();
+                            /**
+                             * catch exceptions
+                             */
+                        } catch (IOException e)
+                        {
+                            out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                        }
+                       
                     }
                 }
                 reader.close();
