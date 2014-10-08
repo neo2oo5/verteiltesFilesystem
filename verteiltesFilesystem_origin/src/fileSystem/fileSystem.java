@@ -45,7 +45,7 @@ public class fileSystem{
     private String  token;
     private String workingDir = System.getProperty("user.dir");
     OutputStream fos = null;
-    private static String outGoingList = "myObjs.ser";
+    private static String outGoingList = "System/myObjs.ser";
     InputStream fis = null;
    
     
@@ -313,6 +313,17 @@ public class fileSystem{
         }
         return output;
     }   
+    
+    
+    public void delteObject() throws IOException
+    {
+        String file = System.getProperty("user.dir");
+        file = file+"/System/myFileList.ser";
+        System.out.println(file);
+        Path path = Paths.get(file);
+        Files.delete(path);
+    }
+    
     
     public void mergeList(String inComingList) throws fileSystemException, FileNotFoundException, IOException, ClassNotFoundException
     {
