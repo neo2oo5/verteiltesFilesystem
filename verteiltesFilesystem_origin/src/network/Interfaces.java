@@ -346,6 +346,9 @@ public class Interfaces
         args[0] = clientIP;
         args[1] = ownIP;
         args[2] = doWhat;
+        out.print("0-" + args[0]);
+        out.print("1-" + args[1]);
+        out.print("2-" + args[2]);
         StartClientServer.startClient(args);
     }
 }

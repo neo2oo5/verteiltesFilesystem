@@ -12,6 +12,7 @@ import fileSystem.fileSystemException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -46,10 +47,16 @@ public class CheckWhoIsOnline implements Runnable
     @Override
     public void run()
     {
+        try
+        {
+            sleep(1000);
+        } catch (InterruptedException ex)
+        {
+        out.print("(CheckWhoIsOnline) Sleep Error", 2);
+        }
         out.print("(CheckWhoIsOnline) Starte Initialisierung der Rechner im Lokalen Netzwerk", 1);
         out.print("(CheckWhoIsOnline) Ihre IP: " + ipv4, 1);
         int anzahl = 0;
-        int endung = 0;
         boolean reachable = false;
         /**
          * initiate the IP format
@@ -94,6 +101,7 @@ public class CheckWhoIsOnline implements Runnable
         /**
          * check wich ip is online in the network
          */
+        int endung = 0;
         while (endung < 256)
         {
             String uebIP = uIP + endung;
@@ -127,32 +135,31 @@ public class CheckWhoIsOnline implements Runnable
                     out.print("(CheckWhoIsOnline) IP in Liste eingetragen: " + uebIP, 1);
                     Interfaces.interfaceNewClient(uebIP, ipv4);
                     out.print("(CheckWhoIsOnline) eigene IP in Liste des gefundenen Rechners eingetragen: " + uebIP, 1);
-                    
-                    String pathDBneuerOrdner = null;
-                    try
-                    {
-                        pathDBneuerOrdner = substructure.PathHelper.getFile("");
-                    } catch (fileSystemException ex)
-                    {
-                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try
-                    {
-                        out.print("asdasdasdadsadasd", 3);
-                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
-                    } catch (UnknownHostException ex)
-                    {
-                        out.print("fehler--------------CheckWIO", 2);
-                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try
-                    {
-                        path = substructure.PathHelper.getFile("IPs.txt");
-                    } catch (fileSystemException ex)
-                    {
-                        out.print("fehler--------------CheckWIO", 2);
-                    }
 
+//                    String pathDBneuerOrdner = null;
+//                    try
+//                    {
+//                        pathDBneuerOrdner = substructure.PathHelper.getFile("");
+//                    } catch (fileSystemException ex)
+//                    {
+//                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+////                    try
+////                    {
+////                        out.print("asdasdasdadsadasd", 3);
+////                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
+////                    } catch (UnknownHostException ex)
+////                    {
+////                        out.print("fehler--------------CheckWIO", 2);
+////                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+////                    }
+//                    try
+//                    {
+//                        path = substructure.PathHelper.getFile("IPs.txt");
+//                    } catch (fileSystemException ex)
+//                    {
+//                        out.print("fehler--------------CheckWIO", 2);
+//                    }
                 }
 
             }
@@ -160,6 +167,7 @@ public class CheckWhoIsOnline implements Runnable
              * jump to the next address in the network
              */
             endung++;
+            System.out.println("->" + endung);
 
         }
         out.print("(CheckWhoIsOnline) Initialisierung der Rechner im Lokalen Netzwerk abgeschlossen", 1);
@@ -182,7 +190,7 @@ public class CheckWhoIsOnline implements Runnable
         try
         {
             SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
-            socket.connect(sockaddr, 50);
+            socket.connect(sockaddr, 200);
 
         } catch (IOException ex)
         {

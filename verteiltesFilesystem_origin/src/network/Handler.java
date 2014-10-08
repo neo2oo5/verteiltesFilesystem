@@ -50,6 +50,7 @@ public class Handler implements Runnable
     {
         try
         {
+            out.print("Server empf. was");
             /**
              * get the output and buffer the input
              */
