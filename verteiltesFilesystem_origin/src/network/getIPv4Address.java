@@ -31,7 +31,7 @@ public class getIPv4Address
      *
      * @throws java.net.UnknownHostException
      */
-    public static ArrayList<String> getIPv4Address() throws UnknownHostException
+    public static String getIPv4Address() throws UnknownHostException
     {
 
         ArrayList<String> IPListe = new ArrayList<String>();
