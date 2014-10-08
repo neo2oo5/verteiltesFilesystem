@@ -73,7 +73,6 @@ public class Handler implements Runnable
                 {
                     String[] args = s.split(Pattern.quote("#entf#"));
                     int anz = args.length - 1;
-                    out.print("Server empf. was: " + args[anz]);
                     /**
                      * file.rename handler
                      */
@@ -257,9 +256,8 @@ public class Handler implements Runnable
                         }
                     } else if (args[anz].equals("newClient"))
                     {
-                        out.print("(Handler) newClient start");
+                        out.print("(Handler) newClient eintrag: " + args[0]);
                         String iplist = null;
-                        System.out.println("eint : " + args[1]);
                         try
                         {
                             iplist = substructure.PathHelper.getFile("IPs.txt");
@@ -274,7 +272,7 @@ public class Handler implements Runnable
                         {
                             writerNewClient = new FileWriter(file, true);
 
-                            writerNewClient.write(args[1]);
+                            writerNewClient.write(args[0]);
                             writerNewClient.write(System.getProperty("line.separator"));
                             writerNewClient.flush();
                             writerNewClient.close();
@@ -286,6 +284,7 @@ public class Handler implements Runnable
                             out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
                         }
                        
+                        out.print("(Handler) newClient abgeschlossen");
                     }
                 }
                 reader.close();
