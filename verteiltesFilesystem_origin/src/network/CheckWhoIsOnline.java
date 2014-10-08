@@ -46,7 +46,8 @@ public class CheckWhoIsOnline implements Runnable
     @Override
     public void run()
     {
-        out.print("Starte Initialisierung der Rechner im Lokalen Netzwerk", 1);
+        out.print("(CheckWhoIsOnline) Starte Initialisierung der Rechner im Lokalen Netzwerk", 1);
+        out.print("(CheckWhoIsOnline) Ihre IP: " + ipv4, 1);
         int anzahl = 0;
         int endung = 0;
         boolean reachable = false;
@@ -104,6 +105,7 @@ public class CheckWhoIsOnline implements Runnable
             {
                 if (!uebIP.equals(ipv4))
                 {
+                    out.print("(CheckWhoIsOnline) Folgende IP im Lokalen Netzwerk gefunden: " + uebIP, 1);
                     String pathDBneuerOrdner = null;
                     try
                     {
@@ -156,7 +158,7 @@ public class CheckWhoIsOnline implements Runnable
             endung++;
 
         }
-        out.print("Initialisierung der Rechner im Lokalen Netzwerk abgeschlossen", 1);
+        out.print("(CheckWhoIsOnline) Initialisierung der Rechner im Lokalen Netzwerk abgeschlossen", 1);
     }
 
     /**
