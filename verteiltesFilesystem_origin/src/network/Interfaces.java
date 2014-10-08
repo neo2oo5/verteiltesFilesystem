@@ -20,6 +20,8 @@ import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -41,8 +43,6 @@ public class Interfaces
         if (kicked)
         {
             out.print("You get Kicked from Network", 3);
-        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
-            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
         } else
         {
             String IPv4target = null;
@@ -53,51 +53,25 @@ public class Interfaces
             {
                 // do ...
                 String doWhat = "FileTransfer";
-                String[] args = new String[6];
+                String[] args = new String[3];
                 args[0] = IPv4;
                 args[1] = filename; // quelle
-                args[2] = targetPath; // ziel
-                args[3] = filename;
-                args[4] = IPv4target;
-                args[5] = doWhat;
+                args[2] = doWhat;
                 
-                out.print("David___ " + args[0],3);
-                out.print("David___ " + args[1],3);
-                out.print("David___ " + args[2],3);
-                out.print("David___ " + args[3],3);
-                out.print("David___ " + args[4],3);
-                out.print("David___ " + args[5],3);
-
-                String datei = args[0] + args[2];
-                File file = new File(datei);
-                FileTransfer.FileProvider fileProvider = new FileTransfer.FileProvider(file, 1718);
-
-                FileTransfer.FileFetcher fileFetcher = new FileTransfer.FileFetcher(args[3], 1718, args);
-                ExecutorService executorService = Executors.newFixedThreadPool(2);
-                executorService.execute(fileProvider);
-                executorService.execute(fileFetcher);
-
-                executorService.shutdown();
-
-//                File target = new File(args[2]);
-//                target.mkdirs();
-//                StartClientServer.startClient(args);
+                StartClientServer.startClient(args);
+                
+                String[] args2 = new String[2];
+                args2[0] = IPv4;
+                args2[1] = filename; // quelle
                 try
                 {
-                    sleep(100);
-                } catch (InterruptedException ex)
+                    FiletransferClient.FileTransferClient(args2);
+                } catch (Exception ex)
                 {
-                    out.print("(Interface - FileTransfer) : " + ex.toString(), 2);
+                    out.print(".........", 3);
+                    Logger.getLogger(Interfaces.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                String dateiCheck = args[0] + args[2];
-                File fileCheck = new File(dateiCheck);
-                if (fileCheck.exists())
-                {
-                    out.print("(Interface - FileTransfer) : " + "File transfer complete", 1);
-                } else
-                {
-                    out.print("(Interface - FileTransfer) : " + "File transfer not complete", 1);
-                }
+
             }
         }
         return 1;
@@ -175,8 +149,6 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileCreate) : " + "You get Kicked from Network", 3);
-        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
-            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
         } else
         {
             /**
