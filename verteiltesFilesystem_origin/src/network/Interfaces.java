@@ -32,7 +32,6 @@ public class Interfaces
 {
 
     // attr.
-
     static GUIOutput out = GUIOutput.getInstance();
 
     public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws UnknownHostException
@@ -52,17 +51,17 @@ public class Interfaces
             } else
             {
                 out.print("Interface", 3);
-                
+
                 // do ...
                 String doWhat = "FileTransfer";
                 String[] args = new String[3];
                 args[0] = IPv4;
                 args[1] = filename; // quelle
                 args[2] = doWhat;
-                
+
                 out.print("start Server", 3);
                 StartClientServer.startClient(args);
-                
+
                 out.print("start client", 3);
                 String[] args2 = new String[2];
                 args2[0] = IPv4;
@@ -89,8 +88,9 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileRename) : " + "You get Kicked from Network", 3);
-        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
-            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
+        } else if (CheckWhoIsOnline.PingServer(IPv4) == false)
+        {
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
         } else
         {
             /* interface to rename a file with the necessary values */
@@ -120,10 +120,10 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileDelete) : " + "You get Kicked from Network", 3);
-        } else if(CheckWhoIsOnline.PingServer(IPv4) == false){
-            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);            
-        }
-        else
+        } else if (CheckWhoIsOnline.PingServer(IPv4) == false)
+        {
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
+        } else
         {
             /**
              * interface to delete a file/directory
@@ -199,9 +199,9 @@ public class Interfaces
         /**
          * success if an IP was found with CheckWhoIsOnline
          */
+        out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 1);
         if (ip != null)
         {
-            out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 2);
             Thread cwio = new Thread(new CheckWhoIsOnline(ip));
             cwio.start();
             succes = true;

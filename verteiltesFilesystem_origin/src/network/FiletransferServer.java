@@ -25,9 +25,10 @@ public class FiletransferServer
 {
 
     static GUIOutput out = GUIOutput.getInstance();
+
     public static void FiletransferServer(String[] args) throws IOException
     {
-      out.print("FileTransferClient startet",1);
+        out.print("FileTransferClient startet", 1);
         ServerSocket servsock = new ServerSocket(1718);
         String file = null;
         try

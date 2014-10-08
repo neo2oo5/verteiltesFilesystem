@@ -65,21 +65,22 @@ public class CheckWhoIsOnline implements Runnable
             /**
              * write the found IP's in our address table
              */
-            if (reachable && !uebIP.equals(ipv4))
+            if (reachable)
             {
                 try
                 {
-                    String pathDBneuerOrdner = substructure.PathHelper.getFile("");
-                    try
-                    {
-                        out.print("asdasdasdadsadasd", 3);
-                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
-                    } catch (UnknownHostException ex)
-                    {
-                        out.print("fehler--------------CheckWIO",2);
-                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
+                     if(!uebIP.equals(ipv4)){
+                         String pathDBneuerOrdner = substructure.PathHelper.getFile("");
+                         try
+                         {
+                             out.print("asdasdasdadsadasd", 3);
+                             Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
+                         } catch (UnknownHostException ex)
+                         {
+                             out.print("fehler--------------CheckWIO", 2);
+                             Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                         }
+                     }
                     /**
                      * path and name for the found IP
                      */
