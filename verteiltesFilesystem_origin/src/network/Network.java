@@ -21,10 +21,9 @@ public class Network
     public static void main(String[] args) throws InterruptedException, IOException
     {
 
-        Interfaces.inerfaceStartProgram();
-        System.out.println("gestartet");
-        String IPListe = Config.getCurrentIp();
-
-        System.out.println("Liste: " + IPListe);
+        StartClientServer.startServer();
+        System.out.println("Start des tests");
+        Interfaces.interfaceFileTransfer("10.8.0.10",  "/home/xoxoxo/Dokumente", "C:\\Users\\Lamparari\\Documents", "backup.sh.log");
+        System.out.println("Ende des tests");
     }
 }

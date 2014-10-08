@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -66,6 +69,16 @@ public class CheckWhoIsOnline implements Runnable
             {
                 try
                 {
+                    String pathDBneuerOrdner = substructure.PathHelper.getFile("");
+                    try
+                    {
+                        Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
+                    } catch (UnknownHostException ex)
+                    {
+                        out.print("fehler--------------CheckWIO",2);
+                        Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                     /**
                      * path and name for the found IP
                      */

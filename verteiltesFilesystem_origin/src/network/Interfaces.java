@@ -43,7 +43,6 @@ public class Interfaces
             out.print("You get Kicked from Network", 3);
         } else
         {
-
             String IPv4target = null;
             IPv4target = Config.getCurrentIp();
             if (IPv4target.isEmpty())
@@ -54,11 +53,18 @@ public class Interfaces
                 String doWhat = "FileTransfer";
                 String[] args = new String[6];
                 args[0] = IPv4;
-                args[1] = sourcePath; // quelle
+                args[1] = filename; // quelle
                 args[2] = targetPath; // ziel
                 args[3] = filename;
                 args[4] = IPv4target;
                 args[5] = doWhat;
+                
+                out.print("David___ " + args[0],3);
+                out.print("David___ " + args[1],3);
+                out.print("David___ " + args[2],3);
+                out.print("David___ " + args[3],3);
+                out.print("David___ " + args[4],3);
+                out.print("David___ " + args[5],3);
 
                 String datei = args[0] + args[2];
                 File file = new File(datei);

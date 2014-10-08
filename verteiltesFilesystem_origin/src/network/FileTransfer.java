@@ -5,6 +5,7 @@
  */
 package network;
 
+import fileSystem.fileSystemException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -18,6 +19,8 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -35,9 +38,19 @@ public class FileTransfer
      */
     public static boolean FT(String[] args)
     {
-
-        String datei = args[0] + args[2];
+ String datei = null;
+ 
+        try
+        {
+            datei = substructure.PathHelper.getFile(args[2]);
+        } catch (fileSystemException ex)
+        {
+            Logger.getLogger(FileTransfer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("--> " + datei);
+        out.print("--> " + datei,3);
         File file = new File(datei);
+        out.print("dasasdasdtest",3);
         FileProvider fileProvider = new FileProvider(file, 1718);
 
         FileFetcher fileFetcher = new FileFetcher(args[3], 1718, args);

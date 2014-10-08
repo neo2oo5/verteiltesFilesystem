@@ -208,6 +208,7 @@ public class Handler implements Runnable
                         {
                             if (ip.equals(args[0]))
                             {
+                                System.out.println("--" + args[1]);
                                 newIPList[anzahl++] = args[1];
                             } else
                             {
