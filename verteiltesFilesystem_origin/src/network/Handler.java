@@ -256,6 +256,7 @@ public class Handler implements Runnable
                         }
                     } else if (args[anz].equals("newClient"))
                     {
+                        out.print("(Handler) newClient start");
                         String iplist = null;
                         System.out.println("eint : " + args[1]);
                         try

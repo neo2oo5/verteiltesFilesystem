@@ -340,12 +340,12 @@ public class Interfaces
 
     public static void interfaceNewClient(String clientIP, String ownIP)
     {
-        
-                String doWhat = "newClient";
-                String[] args = new String[4];
-                args[0] = clientIP;
-                args[1] = clientIP;
-                args[2] = doWhat;
-                StartClientServer.startClient(args);
+        out.print("(interfaceNewClient) start");
+        String doWhat = "newClient";
+        String[] args = new String[4];
+        args[0] = clientIP;
+        args[1] = ownIP;
+        args[2] = doWhat;
+        StartClientServer.startClient(args);
     }
 }
