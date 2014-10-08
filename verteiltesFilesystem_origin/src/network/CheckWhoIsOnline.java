@@ -53,6 +53,41 @@ public class CheckWhoIsOnline implements Runnable
         /**
          * initiate the IP format
          */
+        String path = null;
+        try
+        {
+            path = substructure.PathHelper.getFile("IPs.txt");
+        } catch (fileSystemException ex)
+        {
+            out.print("(CheckWhoIsOnline) - Pfad nicht gefunden", 3);
+        }
+        File file = new File(path);
+
+        /**
+         * write the IP in the address table
+         */
+        FileWriter writer;
+        try
+        {
+            if (++anzahl == 1)
+            {
+                writer = new FileWriter(file, false);
+            } else
+            {
+                writer = new FileWriter(file, true);
+            }
+
+            writer.write(ipv4);
+            writer.write(System.getProperty("line.separator"));
+            writer.flush();
+            writer.close();
+            /**
+             * catch exceptions
+             */
+        } catch (IOException e)
+        {
+            out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+        }
         String[] sip = ipv4.split(Pattern.quote("."));
         String uIP = sip[0] + "." + sip[1] + "." + sip[2] + ".";
         /**
@@ -69,48 +104,41 @@ public class CheckWhoIsOnline implements Runnable
             {
                 try
                 {
-                     if(!uebIP.equals(ipv4)){
-                         String pathDBneuerOrdner = substructure.PathHelper.getFile("");
-                         try
-                         {
-                             out.print("asdasdasdadsadasd", 3);
-                             Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
-                         } catch (UnknownHostException ex)
-                         {
-                             out.print("fehler--------------CheckWIO", 2);
-                             Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-                         }
-                     }
+//                     if(!uebIP.equals(ipv4)){
+//                         String pathDBneuerOrdner = substructure.PathHelper.getFile("");
+//                         try
+//                         {
+//                             out.print("asdasdasdadsadasd", 3);
+//                             Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
+//                         } catch (UnknownHostException ex)
+//                         {
+//                             out.print("fehler--------------CheckWIO", 2);
+//                             Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+//                         }
+//                     }
                     /**
                      * path and name for the found IP
                      */
-                    String path = substructure.PathHelper.getFile("IPs.txt");
-                    File file = new File(path);
-
-                    /**
-                     * write the IP in the address table
-                     */
-                    FileWriter writer;
-                    try
+                    if (!uebIP.equals(ipv4))
                     {
-                        if (++anzahl == 1)
-                        {
-                            writer = new FileWriter(file, false);
-                        } else
+                        path = substructure.PathHelper.getFile("IPs.txt");
+                        file = new File(path);
+
+                        try
                         {
                             writer = new FileWriter(file, true);
-                        }
 
-                        writer.write(uebIP);
-                        writer.write(System.getProperty("line.separator"));
-                        writer.flush();
-                        writer.close();
-                        /**
-                         * catch exceptions
-                         */
-                    } catch (IOException e)
-                    {
-                        out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                            writer.write(uebIP);
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                            writer.close();
+                            /**
+                             * catch exceptions
+                             */
+                        } catch (IOException e)
+                        {
+                            out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                        }
                     }
                 } catch (fileSystemException ex)
                 {
