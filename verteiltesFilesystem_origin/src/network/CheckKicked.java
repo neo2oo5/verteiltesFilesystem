@@ -45,7 +45,7 @@ public class CheckKicked
                 FileWriter writer;
                 while ((ip = in.readLine()) != null)
                 {
-                    if (ip == searchedip)
+                    if (ip.equals(searchedip))
                     {
                         kicked = false;
                     }
