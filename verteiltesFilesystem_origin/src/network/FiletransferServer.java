@@ -28,7 +28,7 @@ public class FiletransferServer
     public static void FiletransferServer(String[] args) throws IOException
     {
       out.print("FileTransferClient startet",1);
-        ServerSocket servsock = new ServerSocket(123456);
+        ServerSocket servsock = new ServerSocket(1718);
         String file = null;
         try
         {

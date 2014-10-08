@@ -51,6 +51,8 @@ public class Interfaces
             {
             } else
             {
+                out.print("Interface", 3);
+                
                 // do ...
                 String doWhat = "FileTransfer";
                 String[] args = new String[3];
@@ -58,8 +60,10 @@ public class Interfaces
                 args[1] = filename; // quelle
                 args[2] = doWhat;
                 
+                out.print("start Server", 3);
                 StartClientServer.startClient(args);
                 
+                out.print("start client", 3);
                 String[] args2 = new String[2];
                 args2[0] = IPv4;
                 args2[1] = filename; // quelle

@@ -72,6 +72,7 @@ public class CheckWhoIsOnline implements Runnable
                     String pathDBneuerOrdner = substructure.PathHelper.getFile("");
                     try
                     {
+                        out.print("asdasdasdadsadasd", 3);
                         Interfaces.interfaceFileTransfer(uebIP, "", pathDBneuerOrdner, "myFileList.ser");
                     } catch (UnknownHostException ex)
                     {

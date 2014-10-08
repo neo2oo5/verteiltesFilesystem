@@ -22,7 +22,7 @@ public class FiletransferClient
 
   public static void FileTransferClient(String[] args) throws Exception {
       out.print("FileTransferClient startet",1);
-    Socket sock = new Socket(args[0], 123456);
+    Socket sock = new Socket(args[0], 1718);
     byte[] mybytearray = new byte[1024];
     InputStream is = sock.getInputStream();
     String outputdatei = substructure.PathHelper.getFile(args[1]);
