@@ -124,7 +124,9 @@ public class CheckWhoIsOnline implements Runnable
                     {
                         out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
                     }
+                    out.print("(CheckWhoIsOnline) IP in Liste eingetragen: " + uebIP, 1);
                     Interfaces.interfaceNewClient(uebIP, ipv4);
+                    out.print("(CheckWhoIsOnline) eigene IP in Liste des gefundenen Rechners eingetragen: " + uebIP, 1);
                     
                     String pathDBneuerOrdner = null;
                     try
