@@ -121,8 +121,6 @@ public class CheckWhoIsOnline implements Runnable
                         out.print("fehler--------------CheckWIO", 2);
                         Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-
                 try
                 {
                     path = substructure.PathHelper.getFile("IPs.txt");
@@ -148,6 +146,8 @@ public class CheckWhoIsOnline implements Runnable
                 {
                     out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
                 }
+                }
+
 
             }
             /**
