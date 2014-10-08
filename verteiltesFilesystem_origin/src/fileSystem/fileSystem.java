@@ -29,19 +29,14 @@ import substructure.GUIOutput;
 
 public class fileSystem
 {
-    private static  GUIOutput out =  GUIOutput.getInstance();
-    private final List<List<Path>> fileSystem = new ArrayList<>();
-    private int clientscount            = 0;
-    private String clients[]            = new String[100];
-    private String[] newElementList        = new String[100];
-    private boolean isLocked            = false;
-    private boolean isInterrupted       = false;
-    private String  whoLocked;
-    private String  token;
-    private String workingDir = System.getProperty("user.dir");
-    OutputStream fos = null;
-    private static String outGoingList = "System/myFileList.ser";
-    InputStream fis = null;
+    OutputStream                    fos            = null;
+    InputStream                     fis            = null;
+    private static  GUIOutput       out            = GUIOutput.getInstance();
+    private static String           outGoingList   = "System/myFileList.ser";
+    private final List<List<Path>>  fileSystem     = new ArrayList<>();
+    private int                     clientscount   = 0;
+    private String                  workingDir     = System.getProperty("user.dir");
+    private String                  clients[]      = new String[100];
 	
     public static int find (String[] array , String name) 
     {  
