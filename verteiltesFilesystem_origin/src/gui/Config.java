@@ -13,9 +13,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import network.getIPv4Address;
 import substructure.GUIOutput;
@@ -26,19 +29,80 @@ import substructure.GUIOutput;
  */
 public class Config
 {
-    static  GUIOutput out =  GUIOutput.getInstance();
-    static fileSystem c = fileSystem.getInstance();
-    static JLabel folderL, pathL, logL;
-    JPanel configP;
-    static JButton folderB, logB;
-    static String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR", currentIP=null;
-    
+    private static  GUIOutput out =  GUIOutput.getInstance();
+    private static fileSystem c = fileSystem.getInstance();
+    private static JLabel folderL, pathL, logL, ipName[] = new JLabel[100];
+    private JPanel configP, interfaceP;
+    private static JButton folderB, logB, netAdapter[] = new JButton[100];
+    private static ButtonGroup netAdapterG = new ButtonGroup();
+    private static final String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR";
+    private static String  currentIP=null;
+    private static final ArrayList ipList = new ArrayList<String[]>();
     /**
      *
      * @param Pane
      */
     public Config(javax.swing.JTabbedPane Pane)
     {
+        
+         createNetAdapterPanel();
+        createFilechooserAndLogComponents();
+        
+       
+        
+        
+        
+        
+       
+        
+        Pane.addTab("Config", configP);
+    }
+    
+    private void createNetAdapterPanel()
+    {
+         ArrayList<String> ips = getIPList();
+        
+            interfaceP = new JPanel();
+            interfaceP.setVisible(true);
+            interfaceP.setSize(new Dimension(500, 250));
+         
+            int x = 0;
+            int y = 5;
+            int width = 200;
+            int height = 20;
+            for(int i = 0; i < ips.size(); i++)
+            {
+                String[] tmp = (String[]) ipList.get(i);
+                
+                ipName[i] = new JLabel();
+                ipName[i].setText(tmp[0]);
+                ipName[i].setBounds(x, y += 20, width, height);
+                ipName[i].setVisible(true);
+                interfaceP.add(ipName[i]);
+                
+                netAdapter[i] = new JButton();
+                netAdapter[i].setText(tmp[1]);
+                netAdapter[i].setBounds(x, y += 20, width, height);
+                netAdapter[i].setActionCommand(tmp[1]);
+                netAdapter[i].addActionListener(new InterfacelListener());
+                netAdapter[i].setVisible(true);
+                netAdapterG.add(netAdapter[i]);
+                interfaceP.add(netAdapter[i]);
+                
+            }
+            
+            
+            
+            
+            
+    }
+    
+    private void createFilechooserAndLogComponents()
+    {
+        
+         /*
+                * Filechooser
+                */
         folderL = new JLabel("Aktueller Pfad: ");
         
         if(isRootDir())
@@ -49,13 +113,13 @@ public class Config
         {
             pathL   = new JLabel(getRootDir());
         }
-        
+       
         folderB = new JButton("Ordner wählen");
-        
         logL    = new JLabel("Zeige Logfile: ");
         logB    = new JButton("Aus");
-        
         configP = new JPanel();
+        configP.setVisible(true);
+        configP.setSize(new Dimension(1024, 900));
         
         folderB.setActionCommand("folder");
         logB.setActionCommand("log");
@@ -68,7 +132,7 @@ public class Config
         GridBagConstraints cons = new GridBagConstraints();
         cons.insets = new Insets(5, 5, 5, 5);
 
-         cons.gridwidth = GridBagConstraints.REMAINDER;
+        cons.gridwidth = GridBagConstraints.REMAINDER;
         //add Components to Panel
         
         configP.add(folderL, cons);
@@ -80,8 +144,7 @@ public class Config
         configP.add(logL, cons);
         configP.add(logB, cons);
         
-        
-        Pane.addTab("Config", configP);
+        configP.add(interfaceP);
     }
     
     /**
@@ -177,13 +240,10 @@ public class Config
                                         
                                         try
                                         {
-                                            c.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
+                                            c.setnewFileSystem(Config.getCurrentIp(), Config.getRootDir());
                                         } catch (fileSystemException ex)
                                         {
                                             out.print("Lokales FileSystem konnte nicht Indexiert werden");
-                                        } catch (UnknownHostException ex)
-                                        {
-                                            out.print("(fileSystem_Start) - startSequence : " + ex.toString(), 2);
                                         }
 
                                     } catch (IOException io) {
@@ -218,6 +278,25 @@ public class Config
         return currentIP;
     }
     
+    static public ArrayList<String> getIPList()
+    {
+        String[] AdapterName = null;
+        try {
+            ArrayList<String> ips = getIPv4Address.getIPv4Address();
+            
+            for(int i=0; i < ips.size(); i++)
+            {
+                AdapterName = ips.get(i).split(Pattern.quote("/"));
+                ipList.add(AdapterName);
+            }
+ 
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return ipList;
+    }
+    
     private static  class ConfigListener implements ActionListener {
 
         public ConfigListener() {
@@ -248,5 +327,32 @@ public class Config
         
   
         
+    }
+
+    private static class InterfacelListener implements ActionListener {
+
+        public InterfacelListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String cmd = e.getActionCommand();
+            ArrayList<String> ips = getIPList();
+            
+            for(int i = 0; i < ips.size(); i++)
+            {
+                String[] tmp = (String[]) ipList.get(i);
+                if(tmp[1].equals(cmd))
+                {
+                    try {
+                        
+                        network.Interfaces.InterfaceChangeOwnIP(getCurrentIp(), tmp[1]);
+                    } catch (UnknownHostException ex) {
+                        out.print("IP konnte nicht geändert werden.",3);
+                    }
+                }
+            }
+          
+        }
     }
 }

@@ -7,7 +7,6 @@ package gui;
 
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
-import static gui.Config.out;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,7 +21,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import network.getIPv4Address;
 import substructure.GUIOutput;
 
 /**
@@ -231,13 +229,10 @@ public class GUI extends javax.swing.JFrame
             try
             {
                 fileSystem fs = fileSystem.getInstance();
-                fs.setnewFileSystem(getIPv4Address.getIPv4Address(), Config.getRootDir());
+                fs.setnewFileSystem(Config.getCurrentIp(), Config.getRootDir());
             } catch (fileSystemException ex)
             {
                 out.print("(GUI-Z227) lokales fileySystem konnte nicht eingelesen werden");
-            } catch (UnknownHostException ex)
-            {
-                out.print("(GUI) - jTabbedPane5MouseClicked : " + ex.toString(), 2);
             }
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
         }
@@ -263,10 +258,16 @@ public class GUI extends javax.swing.JFrame
             case "Config":
                 break;
             case "Explorer":
-                if (!Config.isRootDir())
+        {
+            try {
+                if (!Config.isRootDir() == true && network.Interfaces.inerfaceNetworkOnline() == true )
                 {
                     explorer.addTab(jTabbedPane5, ActiveTabIndex);
                 }
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
                 break;
             case "Admin":
                 if (admin != null)

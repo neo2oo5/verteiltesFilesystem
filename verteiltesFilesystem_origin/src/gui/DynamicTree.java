@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.List;
@@ -52,14 +53,9 @@ public class DynamicTree extends JPanel implements MouseListener
     protected static JTree tree;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private static GUIOutput out = GUIOutput.getInstance();
-    private JPopupMenu popup;
-    private JMenuItem menuItemFileDownload, menuItemFileDelete, menuItemFileCreate, menuItemFileRename;
+
     private static JLabel loadingl;
     JScrollPane scrollPane;
-    private static String CFI_CMD = "createFile";    
-    private static String RFI_CMD = "removeFile";    
-    private static String DFI_CMD = "downloadFile";
-    private static String REFI_CMD = "renameFile";
     private static String downloadFolder   = "Downloads";
 
         
@@ -72,20 +68,22 @@ public class DynamicTree extends JPanel implements MouseListener
             
 		
 
-		rootNode = new DefaultMutableTreeNode("Root Node");
-		treeModel = new DefaultTreeModel(rootNode);
-
-		tree = new JTree(treeModel);
-		tree.setEditable(false);
-		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-		tree.setShowsRootHandles(true);
-
-                
-		scrollPane = new JScrollPane(tree);
-                tree.addMouseListener(this);
-                
-                
-                if(Config.isRootDir())
+        
+            rootNode = new DefaultMutableTreeNode("Root Node");
+            treeModel = new DefaultTreeModel(rootNode);
+            
+            tree = new JTree(treeModel);
+            tree.setEditable(false);
+            tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+            tree.setShowsRootHandles(true);
+            
+            
+            scrollPane = new JScrollPane(tree);
+            tree.addMouseListener(this);
+            
+            try {   
+                out.print("online: " + network.Interfaces.inerfaceNetworkOnline());
+                if(Config.isRootDir() == false && network.Interfaces.inerfaceNetworkOnline() == false)
                 {
                     try {
                         ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
@@ -95,14 +93,17 @@ public class DynamicTree extends JPanel implements MouseListener
                     } catch (fileSystemException ex) {
                         out.print(ex.toString());
                     }
-                    
-                    
-                    
+
+
+
                 }
                 else
                 {
                     Pane.addTab("Explorer", scrollPane);
                 }
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(DynamicTree.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
         
     /**

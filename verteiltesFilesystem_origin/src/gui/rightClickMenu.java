@@ -94,7 +94,7 @@ public class rightClickMenu
                     //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
                     if (currentNode.isLeaf() == false)
                     {
-                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Ordner Name?"));
+                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Datei Name?"));
                         DynamicTree.treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
                                 //netzwerk ordner hinzufueg funktion
 
