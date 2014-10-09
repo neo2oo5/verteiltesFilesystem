@@ -10,6 +10,9 @@ import fileSystem.fileSystemException;
 import gui.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.ColorUIResource;
 
@@ -101,8 +104,13 @@ public class fileSystem_Start
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
                         {
-                            network.Interfaces.InterfaceExitProg();
-                            System.exit(0);
+                            try {
+                                network.Interfaces.InterfaceExitProg();
+                                out.print("Client wird beendet");
+                                System.exit(0);
+                            } catch (UnknownHostException ex) {
+                                Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                     }
                 });

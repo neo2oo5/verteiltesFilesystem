@@ -215,48 +215,48 @@ public class CheckWhoIsOnline implements Runnable
                             out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
                         }
                         // Datei umbenennen
-                            fileSystem fs = fileSystem.getInstance();
-                        try
-                        {
-                            fs.renameOutGoingObject();
-                        } catch (IOException ex)
-                        {
-                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
-                        } catch (fileSystemException ex)
-                        {
-                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
-                        }
-                        // mergen
-                        String inComingList = null;
-                        try {
-                            inComingList = substructure.PathHelper.getFile("inComingList.ser");
-                        } catch (fileSystemException ex) {
-                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
-                        }
-                        try
-                        {
-                            fs.mergeList(inComingList);
-                        } catch (fileSystemException ex)
-                        {
-                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IOException ex)
-                        {
-                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ClassNotFoundException ex)
-                        {
-                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        try
-                        {
-                            // Datei Löschen
-                            fs.deleteInComingObject();
-                        } catch (IOException ex)
-                        {
-                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
-                        } catch (fileSystemException ex)
-                        {
-                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
-                        }
+//                            fileSystem fs = fileSystem.getInstance();
+//                        try
+//                        {
+//                            fs.renameOutGoingObject();
+//                        } catch (IOException ex)
+//                        {
+//                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+//                        } catch (fileSystemException ex)
+//                        {
+//                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+//                        }
+//                        // mergen
+//                        String inComingList = null;
+//                        try {
+//                            inComingList = substructure.PathHelper.getFile("inComingList.ser");
+//                        } catch (fileSystemException ex) {
+//                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+//                        }
+//                        try
+//                        {
+//                            fs.mergeList(inComingList);
+//                        } catch (fileSystemException ex)
+//                        {
+//                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+//                        } catch (IOException ex)
+//                        {
+//                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+//                        } catch (ClassNotFoundException ex)
+//                        {
+//                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                        try
+//                        {
+//                            // Datei Löschen
+//                            fs.deleteInComingObject();
+//                        } catch (IOException ex)
+//                        {
+//                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+//                        } catch (fileSystemException ex)
+//                        {
+//                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+//                        }
                     }
                 }
 
