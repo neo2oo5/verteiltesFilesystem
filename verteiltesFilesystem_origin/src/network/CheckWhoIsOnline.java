@@ -49,7 +49,7 @@ public class CheckWhoIsOnline implements Runnable
     {
         try
         {
-            sleep(2000);
+            sleep(20000);
         } catch (InterruptedException ex)
         {
         out.print("(CheckWhoIsOnline) Sleep Error", 2);
