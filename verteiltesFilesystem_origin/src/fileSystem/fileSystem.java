@@ -32,7 +32,7 @@ public class fileSystem
     OutputStream                    fos            = null;
     InputStream                     fis            = null;
     private static  GUIOutput       out            = GUIOutput.getInstance();
-    private static String           outGoingList   = "System/myFileList.ser";
+    private static String           outGoingList   = "System/tmp/myFileList.ser";
     private final List<List<Path>>  fileSystem     = new ArrayList<>();
     private int                     clientscount   = 0;
     private String                  workingDir     = System.getProperty("user.dir");
