@@ -22,7 +22,7 @@ import substructure.GUIOutput;
 public class BroadcastAnswering implements Runnable
 {
 
-    private static final int ECHO_PORT = 1818;
+    private static final int ECHO_PORT = 1919;
     static GUIOutput out = GUIOutput.getInstance();
 
     @Override
