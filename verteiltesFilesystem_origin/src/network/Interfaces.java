@@ -66,7 +66,7 @@ public class Interfaces
                 String[] args2 = new String[3];
                 args2[0] = IPv4;
                 args2[1] = filename; // name
-                args2[2] = "tmp"; // zielordner
+                args2[2] = targetPath; // zielordner
                 try
                 {
                     FiletransferClient.FileTransferClient(args2);

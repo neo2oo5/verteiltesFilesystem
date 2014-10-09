@@ -27,7 +27,7 @@ public class FiletransferClient
         Socket sock = new Socket(args[0], 1718);
         byte[] mybytearray = new byte[1024];
         InputStream is = sock.getInputStream();
-        String path = substructure.PathHelper.getFolder(args[2])+args[1];
+        String path = args[2]+args[1];
         String outputdatei = path;
         FileOutputStream fos = new FileOutputStream(path);
         BufferedOutputStream bos = new BufferedOutputStream(fos);
