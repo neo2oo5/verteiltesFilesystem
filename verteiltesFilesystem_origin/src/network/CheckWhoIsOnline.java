@@ -8,8 +8,12 @@ package network;
 /**
  * Used Libraries
  */
+import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
@@ -115,48 +119,131 @@ public class CheckWhoIsOnline implements Runnable
                 {
                     out.print("(CheckWhoIsOnline) Folgende IP im Lokalen Netzwerk gefunden: " + uebIP, 1);
 
-                    file = new File(path);
-
+                    // check ob bereits in liste
+                    String iplist = null;
                     try
                     {
-                        writer = new FileWriter(file, true);
-
-                        writer.write(uebIP);
-                        writer.write(System.getProperty("line.separator"));
-                        writer.flush();
-                        writer.close();
-                        /**
-                         * catch exceptions
-                         */
-                    } catch (IOException e)
-                    {
-                        out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
-                    }
-                    out.print("(CheckWhoIsOnline) IP in Liste eingetragen: " + uebIP, 1);
-                    Interfaces.interfaceNewClient(uebIP, ipv4);
-                    out.print("(CheckWhoIsOnline) eigene IP in Liste des gefundenen Rechners eingetragen: " + uebIP, 1);
-
-                    String pathDBneuerOrdner = null;
-                    try
-                    {
-                        pathDBneuerOrdner = substructure.PathHelper.getFolder("tmp");
+                        iplist = substructure.PathHelper.getFile("IPs.txt");
                     } catch (fileSystemException ex)
                     {
-                        out.print("(CheckWhoIsOnline) " + ex, 2);
+                        out.print("(CheckWhoIsOnline) : " + ex.toString(), 2);
                     }
+                    int anz = 0;
+                    String anServer = null;
+                    // check ob schon einer eingeloggt
+                    BufferedReader in = null;
                     try
                     {
-                        Interfaces.interfaceFileTransfer(uebIP, pathDBneuerOrdner, "myFileList.ser");
-                    } catch (UnknownHostException ex)
+                        in = new BufferedReader(new FileReader(iplist));
+                    } catch (FileNotFoundException ex)
                     {
-                        out.print("(CheckWhoIsOnline) " + ex, 2);
+                        out.print("(CheckWhoIsOnline) : " + ex.toString(), 2);
                     }
+                    String ip = null;
+                    boolean chkVorhanden = false;
                     try
                     {
-                        path = substructure.PathHelper.getFile("IPs.txt");
-                    } catch (fileSystemException ex)
+                        while ((ip = in.readLine()) != null)
+                        {
+                            if (ip.equals(uebIP))
+                            {
+                                chkVorhanden = true;
+                            }
+                        }
+                    } catch (IOException ex)
                     {
-                        out.print("(CheckWhoIsOnline) " + ex, 2);
+                        out.print("(CheckWhoIsOnline) : " + ex.toString(), 2);
+                    }
+                    // falls noch nicht in eigener liste
+                    if (!chkVorhanden)
+                    {
+                        // solange noch datei inComingList.ser existiert warten
+                        boolean chk = false;
+                        while (!chk)
+                        {
+                            try
+                            {
+                                String fileCheck = substructure.PathHelper.getFile("inComingList.ser");
+                                try
+                                {
+                                    out.print("(CheckWhoIsOnline) inComingList.ser - Existiert noch, Warten bis andere Aktion Fertig ", 1);
+                                    sleep(100);
+                                } catch (InterruptedException ex)
+                                {
+                                    out.print("(CheckWhoIsOnline) Sleep fehlgeschlagen " + ex, 2);
+                                }
+
+                            } catch (fileSystemException ex)
+                            {
+                                chk = true;
+                            }
+                        }
+                        file = new File(path);
+
+                        try
+                        {
+                            writer = new FileWriter(file, true);
+
+                            writer.write(uebIP);
+                            writer.write(System.getProperty("line.separator"));
+                            writer.flush();
+                            writer.close();
+                            /**
+                             * catch exceptions
+                             */
+                        } catch (IOException e)
+                        {
+                            out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                        }
+                        out.print("(CheckWhoIsOnline) IP in Liste eingetragen: " + uebIP, 1);
+                        Interfaces.interfaceNewClient(uebIP, ipv4);
+                        out.print("(CheckWhoIsOnline) eigene IP in Liste des gefundenen Rechners eingetragen: " + uebIP, 1);
+
+                        String pathDBneuerOrdner = null;
+                        try
+                        {
+                            pathDBneuerOrdner = substructure.PathHelper.getFolder("tmp");
+                        } catch (fileSystemException ex)
+                        {
+                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+                        }
+                        try
+                        {
+                            Interfaces.interfaceFileTransfer(uebIP, pathDBneuerOrdner, "myFileList.ser");
+                        } catch (UnknownHostException ex)
+                        {
+                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+                        }
+                        // Datei umbenennen
+                        try
+                        {
+                            fileSystem.renameOutGoingObject();
+                        } catch (IOException ex)
+                        {
+                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+                        } catch (fileSystemException ex)
+                        {
+                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+                        }
+                        // mergen
+                        String inComingList;
+                        try {
+                            inComingList = substructure.PathHelper.getFile("inComingList.ser");
+                        } catch (fileSystemException ex) {
+                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+                        }
+                        fileSystem.mergeList(inComingList);
+                        try
+                        {
+                            // Datei Löschen
+                            fileSystem.deleteInComingObject();
+                        } catch (IOException ex)
+                        {
+                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+                        } catch (fileSystemException ex)
+                        {
+                            out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
+                        }
                     }
                 }
 
