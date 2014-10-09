@@ -96,9 +96,7 @@ public class Handler implements Runnable
                         System.out.println("Create successfull?: " + createFile);
                     } else if (args[anz].equals("FileTransfer"))
                     {
-                        System.out.println("test1");
-                        boolean transferFile = FileTransfer.FT(args);
-                        System.out.println("Transfer successfull?: " + transferFile);
+                        FiletransferServer.FileTransferServer(args);
                     } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
                         File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
@@ -208,6 +206,7 @@ public class Handler implements Runnable
                         {
                             if (ip.equals(args[0]))
                             {
+                                System.out.println("--" + args[1]);
                                 newIPList[anzahl++] = args[1];
                             } else
                             {
@@ -255,6 +254,37 @@ public class Handler implements Runnable
                                 }
                             }
                         }
+                    } else if (args[anz].equals("newClient"))
+                    {
+                        out.print("(Handler) newClient eintrag: " + args[0]);
+                        String iplist = null;
+                        try
+                        {
+                            iplist = substructure.PathHelper.getFile("IPs.txt");
+                        } catch (fileSystemException ex)
+                        {
+                            out.print("(Handler - run -> ChangeOwnIP) : " + ex.toString(), 2);
+                        }
+                        File file = new File(iplist);
+                        FileWriter writerNewClient;
+
+                        try
+                        {
+                            writerNewClient = new FileWriter(file, true);
+
+                            writerNewClient.write(args[0]);
+                            writerNewClient.write(System.getProperty("line.separator"));
+                            writerNewClient.flush();
+                            writerNewClient.close();
+                            /**
+                             * catch exceptions
+                             */
+                        } catch (IOException e)
+                        {
+                            out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
+                        }
+                       
+                        out.print("(Handler) newClient abgeschlossen");
                     }
                 }
                 reader.close();

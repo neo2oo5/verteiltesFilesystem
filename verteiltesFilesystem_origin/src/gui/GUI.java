@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import substructure.GUIOutput;
 
+
 /**
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
@@ -45,6 +46,7 @@ public class GUI extends javax.swing.JFrame
 
         initComponents();
         owninitComponents();
+        
     }
 
     public void setOnOffState()

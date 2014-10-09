@@ -20,6 +20,8 @@ import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -30,10 +32,9 @@ public class Interfaces
 {
 
     // attr.
-
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static int interfaceFileTransfer(String IPv4, String sourcePath, String targetPath, String filename) throws UnknownHostException
+    public static int interfaceFileTransfer(String IPv4, String targetPath, String filename) throws UnknownHostException
     {
 
         boolean kicked = false;
@@ -43,53 +44,37 @@ public class Interfaces
             out.print("You get Kicked from Network", 3);
         } else
         {
-
             String IPv4target = null;
             IPv4target = Config.getCurrentIp();
             if (IPv4target.isEmpty())
             {
             } else
             {
+                out.print("Interface", 3);
+
                 // do ...
                 String doWhat = "FileTransfer";
-                String[] args = new String[6];
+                String[] args = new String[3];
                 args[0] = IPv4;
-                args[1] = sourcePath; // quelle
-                args[2] = targetPath; // ziel
-                args[3] = filename;
-                args[4] = IPv4target;
-                args[5] = doWhat;
+                args[1] = filename; // name
+                args[2] = doWhat;
 
-                String datei = args[0] + args[2];
-                File file = new File(datei);
-                FileTransfer.FileProvider fileProvider = new FileTransfer.FileProvider(file, 1718);
+                out.print("start Server", 3);
+                StartClientServer.startClient(args);
 
-                FileTransfer.FileFetcher fileFetcher = new FileTransfer.FileFetcher(args[3], 1718, args);
-                ExecutorService executorService = Executors.newFixedThreadPool(2);
-                executorService.execute(fileProvider);
-                executorService.execute(fileFetcher);
-
-                executorService.shutdown();
-
-//                File target = new File(args[2]);
-//                target.mkdirs();
-//                StartClientServer.startClient(args);
+                out.print("start client", 3);
+                String[] args2 = new String[3];
+                args2[0] = IPv4;
+                args2[1] = filename; // name
+                args2[2] = targetPath; // zielordner
                 try
                 {
-                    sleep(100);
-                } catch (InterruptedException ex)
+                    FiletransferClient.FileTransferClient(args2);
+                } catch (Exception ex)
                 {
-                    out.print("(Interface - FileTransfer) : " + ex.toString(), 2);
+                    out.print("(Interfaces) newClient " + ex, 3);
                 }
-                String dateiCheck = args[0] + args[2];
-                File fileCheck = new File(dateiCheck);
-                if (fileCheck.exists())
-                {
-                    out.print("(Interface - FileTransfer) : " + "File transfer complete", 1);
-                } else
-                {
-                    out.print("(Interface - FileTransfer) : " + "File transfer not complete", 1);
-                }
+
             }
         }
         return 1;
@@ -103,6 +88,9 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileRename) : " + "You get Kicked from Network", 3);
+        } else if (CheckWhoIsOnline.PingServer(IPv4) == false)
+        {
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
         } else
         {
             /* interface to rename a file with the necessary values */
@@ -132,6 +120,9 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileDelete) : " + "You get Kicked from Network", 3);
+        } else if (CheckWhoIsOnline.PingServer(IPv4) == false)
+        {
+            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
         } else
         {
             /**
@@ -208,9 +199,9 @@ public class Interfaces
         /**
          * success if an IP was found with CheckWhoIsOnline
          */
+        out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 1);
         if (ip != null)
         {
-            out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 2);
             Thread cwio = new Thread(new CheckWhoIsOnline(ip));
             cwio.start();
             succes = true;
@@ -345,5 +336,19 @@ public class Interfaces
         {
             out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
         }
+    }
+
+    public static void interfaceNewClient(String clientIP, String ownIP)
+    {
+        out.print("(interfaceNewClient) start");
+        String doWhat = "newClient";
+        String[] args = new String[3];
+        args[0] = clientIP;
+        args[1] = ownIP;
+        args[2] = doWhat;
+        out.print("0-" + args[0]);
+        out.print("1-" + args[1]);
+        out.print("2-" + args[2]);
+        StartClientServer.startClient(args);
     }
 }

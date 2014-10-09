@@ -192,7 +192,7 @@ public class rightClickMenu
                         out.print("(Download) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
                         try
                         {
-                            Interfaces.interfaceFileTransfer(args[0], args[1], args[2], args[3]);
+                            Interfaces.interfaceFileTransfer(args[0], args[3], args[1]);
                         } catch (UnknownHostException ex)
                         {
                             out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);

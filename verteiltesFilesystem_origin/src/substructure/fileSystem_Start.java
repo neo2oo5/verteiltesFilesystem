@@ -10,6 +10,7 @@ import fileSystem.fileSystemException;
 import gui.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.ColorUIResource;
 
 
@@ -87,6 +88,24 @@ public class fileSystem_Start
                 gUI = new GUI();
                 gUI.setVisible(true);
                 gUI.setOnOffState();
+                
+                
+                /*
+                                *
+                                */
+                gUI.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        if (JOptionPane.showConfirmDialog(gUI, 
+                            "Are you sure to close this window?", "Really Closing?", 
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+                        {
+                            network.Interfaces.InterfaceExitProg();
+                            System.exit(0);
+                        }
+                    }
+                });
 
                 //initiate startSequence
                 startSequence();
