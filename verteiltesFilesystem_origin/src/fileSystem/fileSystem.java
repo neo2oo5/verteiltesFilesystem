@@ -32,7 +32,7 @@ public class fileSystem
     OutputStream                    fos            = null;
     InputStream                     fis            = null;
     private static  GUIOutput       out            = GUIOutput.getInstance();
-    private static String           outGoingList   = "System/tmp/myFileList.ser";
+    private static String           outGoingList   = "System/myFileList.ser";
     private final List<List<Path>>  fileSystem     = new ArrayList<>();
     private int                     clientscount   = 0;
     private String                  workingDir     = System.getProperty("user.dir");
@@ -183,15 +183,27 @@ public class fileSystem
         return output;
     } 	
 	
-    public void renameOutGoingObject() throws IOException, fileSystemException
-    {
-        Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
-        Files.move(path, path.resolveSibling("InComingList"));
-    }
-	
     public void delteOutGoingObject() throws fileSystemException, IOException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
+        Files.delete(path);
+    }
+    
+    public void renameOutGoingObject() throws IOException, fileSystemException
+    {
+        Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
+        String newFolderOrFile = substructure.PathHelper.getFolder("tmp");
+        Path newPath = Paths.get(newFolderOrFile);
+        Files.move(path, newPath.resolve(path.getFileName()));
+        newFolderOrFile = newFolderOrFile + "/myFileList.ser";
+        newPath = Paths.get(newFolderOrFile);
+        Files.move(newPath, newPath.resolveSibling("inComingList"));
+        delteOutGoingObject();
+    }	
+    
+    public void deleteInComingObject() throws IOException, fileSystemException
+    {
+        Path path = Paths.get(substructure.PathHelper.getFile("inComingList.ser"));
         Files.delete(path);
     }
 	
@@ -243,12 +255,7 @@ public class fileSystem
                 clientscount++;
             }
         }
+        deleteInComingObject();
     }
-	
-    public void deleteInComingObject() throws IOException, fileSystemException
-    {
-        Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
-        Files.delete(path);
-    }
-    
+
 }
