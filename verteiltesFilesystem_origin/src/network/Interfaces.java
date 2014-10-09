@@ -56,16 +56,17 @@ public class Interfaces
                 String doWhat = "FileTransfer";
                 String[] args = new String[3];
                 args[0] = IPv4;
-                args[1] = filename; // quelle
+                args[1] = filename; // name
                 args[2] = doWhat;
 
                 out.print("start Server", 3);
                 StartClientServer.startClient(args);
 
                 out.print("start client", 3);
-                String[] args2 = new String[2];
+                String[] args2 = new String[3];
                 args2[0] = IPv4;
-                args2[1] = filename; // quelle
+                args2[1] = filename; // name
+                args2[2] = "tmp"; // zielordner
                 try
                 {
                     FiletransferClient.FileTransferClient(args2);
