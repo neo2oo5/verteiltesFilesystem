@@ -12,6 +12,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -28,29 +31,39 @@ public class BroadcastBroadcaster implements Runnable
     public void run()
     {
         DatagramSocket udpSocket = null;
+        out.print("(BroadcastBroadcaster) startet", 1);
         try
         {
-            out.print("(BroadcastBroadcaster) startet", 1);
             udpSocket = new DatagramSocket(ECHO_PORT);
-            udpSocket.setBroadcast(true);
-            byte[] buffer = new String("Ist da jemand ?").getBytes();
-            InetAddress byName = InetAddress.getByName(Config.getCurrentIp());
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, byName, ECHO_PORT);
-            System.out.println("Sende Nachricht.");
-            udpSocket.send(packet);
-
-        } catch (SocketTimeoutException e)
+        } catch (SocketException ex)
         {
-            e.printStackTrace();
-        } catch (SocketException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            udpSocket.close();
+            Logger.getLogger(BroadcastBroadcaster.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try
+        {
+            udpSocket.setBroadcast(true);
+        } catch (SocketException ex)
+        {
+            Logger.getLogger(BroadcastBroadcaster.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        byte[] buffer = new String("Ist da jemand ?").getBytes();
+        InetAddress byName = null;
+        try
+        {
+            byName = InetAddress.getByName(Config.getCurrentIp());
+        } catch (UnknownHostException ex)
+        {
+            Logger.getLogger(BroadcastBroadcaster.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, byName, ECHO_PORT);
+        System.out.println("Sende Nachricht.");
+        try
+        {
+            udpSocket.send(packet);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(BroadcastBroadcaster.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

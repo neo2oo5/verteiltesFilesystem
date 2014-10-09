@@ -11,6 +11,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -27,30 +29,37 @@ public class BroadcastAnswering implements Runnable
     public void run()
     {
         DatagramSocket udpSocket = null;
+
         try
         {
             udpSocket = new DatagramSocket(ECHO_PORT);
+        } catch (SocketException ex)
+        {
+            Logger.getLogger(BroadcastAnswering.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try
+        {
             udpSocket.setBroadcast(true);
-            while (true)
+        } catch (SocketException ex)
+        {
+            Logger.getLogger(BroadcastAnswering.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        while (true)
+        {
+            out.print("(BroadcastAnswering) startet", 1);
+            byte[] buffer = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            try
             {
-                out.print("(BroadcastAnswering) startet", 1);
-                byte[] buffer = new byte[1024];
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 udpSocket.receive(packet);
-                InetAddress sendeAdresse = packet.getAddress();
-                System.out.print("Nachricht von " + Config.getCurrentIp() + ":");
-                System.out.println(new String(packet.getData(), 0, packet.getLength()));
-
+            } catch (IOException ex)
+            {
+                Logger.getLogger(BroadcastAnswering.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SocketException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            udpSocket.close();
+            InetAddress sendeAdresse = packet.getAddress();
+            System.out.print("Nachricht von " + Config.getCurrentIp() + ":");
+            System.out.println(new String(packet.getData(), 0, packet.getLength()));
+
         }
     }
 }
