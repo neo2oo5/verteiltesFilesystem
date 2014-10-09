@@ -35,14 +35,14 @@ public class BroadcastAnswering implements Runnable
             udpSocket = new DatagramSocket(ECHO_PORT);
         } catch (SocketException ex)
         {
-            out.print("(BroadcastAnswering) " + ex.toString(), 3);
+            out.print("(BroadcastAnswering) Zeile 38 " + ex.toString(), 3);
         }
         try
         {
             udpSocket.setBroadcast(true);
         } catch (SocketException ex)
         {
-            out.print("(BroadcastAnswering) " + ex.toString(), 3);
+            out.print("(BroadcastAnswering) Zeile 45 " + ex.toString(), 3);
         }
         while (true)
         {
@@ -54,7 +54,7 @@ public class BroadcastAnswering implements Runnable
                 udpSocket.receive(packet);
             } catch (IOException ex)
             {
-                out.print("(BroadcastAnswering) " + ex.toString(), 3);
+                out.print("(BroadcastAnswering) Zeile 57 " + ex.toString(), 3);
             }
             InetAddress sendeAdresse = packet.getAddress();
             System.out.print("Nachricht von " + Config.getCurrentIp() + ":");

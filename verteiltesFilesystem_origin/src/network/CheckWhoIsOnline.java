@@ -51,13 +51,6 @@ public class CheckWhoIsOnline implements Runnable
     @Override
     public void run()
     {
-        try
-        {
-            sleep(20000);
-        } catch (InterruptedException ex)
-        {
-        out.print("(CheckWhoIsOnline) Sleep Error", 2);
-        }
         out.print("(CheckWhoIsOnline) Starte Initialisierung der Rechner im Lokalen Netzwerk", 1);
         out.print("(CheckWhoIsOnline) Ihre IP: " + ipv4, 1);
         int anzahl = 0;
@@ -101,6 +94,7 @@ public class CheckWhoIsOnline implements Runnable
             out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
         }
         Thread bc = new Thread(new BroadcastBroadcaster());
+        bc.setName("BroadcastBroadcaster");
         bc.start();
       
 //        String[] sip = ipv4.split(Pattern.quote("."));

@@ -197,6 +197,7 @@ public class Interfaces
         String ip = null;
         ip = Config.getCurrentIp();
         Thread ba = new Thread(new BroadcastAnswering());
+        ba.setName("BroadcastAnswering");
         ba.start();
         /**
          * success if an IP was found with CheckWhoIsOnline
@@ -205,6 +206,7 @@ public class Interfaces
         if (ip != null)
         {
             Thread cwio = new Thread(new CheckWhoIsOnline(ip));
+            cwio.setName("cwio");
             cwio.start();
             succes = true;
         }

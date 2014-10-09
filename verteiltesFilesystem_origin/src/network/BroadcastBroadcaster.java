@@ -37,14 +37,14 @@ public class BroadcastBroadcaster implements Runnable
             udpSocket = new DatagramSocket(ECHO_PORT);
         } catch (SocketException ex)
         {
-        out.print("(BroadcastBroadcaster) " + ex.toString(), 3);
+        out.print("(BroadcastBroadcaster) Zeile 40" + ex.toString(), 3);
         }
         try
         {
             udpSocket.setBroadcast(true);
         } catch (SocketException ex)
         {
-        out.print("(BroadcastBroadcaster) " + ex.toString(), 3);
+        out.print("(BroadcastBroadcaster) Zeile 47 " + ex.toString(), 3);
         }
         byte[] buffer = new String("Ist da jemand ?").getBytes();
         InetAddress byName = null;
@@ -53,7 +53,7 @@ public class BroadcastBroadcaster implements Runnable
             byName = InetAddress.getByName(Config.getCurrentIp());
         } catch (UnknownHostException ex)
         {
-        out.print("(BroadcastBroadcaster) " + ex.toString(), 3);
+        out.print("(BroadcastBroadcaster) Zeile 56 " + ex.toString(), 3);
         }
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length, byName, ECHO_PORT);
         System.out.println("Sende Nachricht.");
@@ -62,7 +62,7 @@ public class BroadcastBroadcaster implements Runnable
             udpSocket.send(packet);
         } catch (IOException ex)
         {
-        out.print("(BroadcastBroadcaster) " + ex.toString(), 3);
+        out.print("(BroadcastBroadcaster) Zeile 65 " + ex.toString(), 3);
         }
 
     }
