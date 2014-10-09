@@ -385,6 +385,23 @@ public class Interfaces
         {
             out.print("(Interfaces - Exit) : " + ex.toString(), 2);
         }
+        String pathExit = null;
+        try
+        {
+            pathExit = substructure.PathHelper.getFile("IPs.txt");
+        } catch (fileSystemException ex)
+        {
+            out.print("(CheckWhoIsOnline) - Pfad nicht gefunden", 3);
+        }
+        File fileExit = new File(pathExit);
+        FileWriter writerExit;
+        try
+        {
+            writerExit = new FileWriter(fileExit, false);
+        } catch (IOException ex)
+        {
+            out.print("(CheckWhoIsOnline)" + ex.toString(), 3);
+        }
     }
 
     public static void interfaceNewClient(String clientIP, String ownIP)
