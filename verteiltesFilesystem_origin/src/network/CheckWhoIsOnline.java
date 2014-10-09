@@ -215,9 +215,10 @@ public class CheckWhoIsOnline implements Runnable
                             out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
                         }
                         // Datei umbenennen
+                            fileSystem fs = fileSystem.getInstance();
                         try
                         {
-                            fileSystem.renameOutGoingObject();
+                            fs.renameOutGoingObject();
                         } catch (IOException ex)
                         {
                             out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
@@ -226,17 +227,29 @@ public class CheckWhoIsOnline implements Runnable
                             out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
                         }
                         // mergen
-                        String inComingList;
+                        String inComingList = null;
                         try {
                             inComingList = substructure.PathHelper.getFile("inComingList.ser");
                         } catch (fileSystemException ex) {
                             out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
                         }
-                        fileSystem.mergeList(inComingList);
+                        try
+                        {
+                            fs.mergeList(inComingList);
+                        } catch (fileSystemException ex)
+                        {
+                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (IOException ex)
+                        {
+                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex)
+                        {
+                            Logger.getLogger(CheckWhoIsOnline.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         try
                         {
                             // Datei Löschen
-                            fileSystem.deleteInComingObject();
+                            fs.deleteInComingObject();
                         } catch (IOException ex)
                         {
                             out.print("(CheckWhoIsOnline) " + ex.toString(), 2);
