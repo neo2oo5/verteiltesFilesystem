@@ -12,21 +12,25 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import substructure.GUIOutput;
 
 /**
  *
  * @author Lamparari
  */
-public class BroadcastBroadcaster
+public class BroadcastBroadcaster implements Runnable
 {
 
-    private static final int ECHO_PORT = 1337;
+    private static final int ECHO_PORT = 1818;
+    static GUIOutput out = GUIOutput.getInstance();
 
-    public static void startBroadcast()
+    @Override
+    public void run()
     {
         DatagramSocket udpSocket = null;
         try
         {
+            out.print("(BroadcastBroadcaster) startet", 1);
             udpSocket = new DatagramSocket(ECHO_PORT);
             udpSocket.setBroadcast(true);
             byte[] buffer = new String("Ist da jemand ?").getBytes();

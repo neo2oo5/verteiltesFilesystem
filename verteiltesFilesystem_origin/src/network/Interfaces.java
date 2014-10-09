@@ -196,7 +196,8 @@ public class Interfaces
         StartClientServer.startServer();
         String ip = null;
         ip = Config.getCurrentIp();
-        BroadcastAnswering.BroadcastAnswering();
+        Thread ba = new Thread(new BroadcastAnswering());
+        ba.start();
         /**
          * success if an IP was found with CheckWhoIsOnline
          */

@@ -100,7 +100,9 @@ public class CheckWhoIsOnline implements Runnable
         {
             out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
         }
-        BroadcastBroadcaster.startBroadcast();
+        Thread bc = new Thread(new BroadcastBroadcaster());
+        bc.start();
+      
 //        String[] sip = ipv4.split(Pattern.quote("."));
 //        String uIP = sip[0] + "." + sip[1] + "." + sip[2] + ".";
 //        /**

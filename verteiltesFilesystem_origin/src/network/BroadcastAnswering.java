@@ -11,17 +11,20 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import substructure.GUIOutput;
 
 /**
  *
  * @author Lamparari
  */
-public class BroadcastAnswering
+public class BroadcastAnswering implements Runnable
 {
 
-    private static final int ECHO_PORT = 1337;
+    private static final int ECHO_PORT = 1818;
+    static GUIOutput out = GUIOutput.getInstance();
 
-    public static void BroadcastAnswering()
+    @Override
+    public void run()
     {
         DatagramSocket udpSocket = null;
         try
@@ -30,6 +33,7 @@ public class BroadcastAnswering
             udpSocket.setBroadcast(true);
             while (true)
             {
+                out.print("(BroadcastAnswering) startet", 1);
                 byte[] buffer = new byte[1024];
                 DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 udpSocket.receive(packet);
