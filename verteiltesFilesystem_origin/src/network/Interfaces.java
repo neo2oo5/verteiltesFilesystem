@@ -196,6 +196,7 @@ public class Interfaces
         StartClientServer.startServer();
         String ip = null;
         ip = Config.getCurrentIp();
+        BroadcastAnswering.BroadcastAnswering();
         /**
          * success if an IP was found with CheckWhoIsOnline
          */
