@@ -338,6 +338,51 @@ public class Interfaces
         }
     }
 
+    public static void InterfaceExitProg() throws UnknownHostException
+    {
+        String ownIP = Config.getCurrentIp();
+        String iplist = null;
+        try
+        {
+            iplist = substructure.PathHelper.getFile("IPs.txt");
+        } catch (fileSystemException ex)
+        {
+            out.print("(Interfaces - Exit) : " + ex.toString(), 2);
+        }
+        int anzahl = 0;
+        String anServer = null;
+        // check ob schon einer eingeloggt
+        BufferedReader in = null;
+        try
+        {
+            in = new BufferedReader(new FileReader(iplist));
+        } catch (FileNotFoundException ex)
+        {
+            out.print("(Interfaces - Exit) : " + ex.toString(), 2);
+        }
+        String ip = null;
+        FileWriter writer;
+        try
+        {
+            while ((ip = in.readLine()) != null)
+            {
+                if (!ip.equals(ownIP))
+                {
+                    String doWhat = "AdminKickUser";
+                    String[] args = new String[3];
+                    args[0] = ip;
+                    args[1] = ownIP;
+                    args[2] = doWhat;
+                    StartClientServer.startClient(args);
+                }
+
+            }
+        } catch (IOException ex)
+        {
+            out.print("(Interfaces - Exit) : " + ex.toString(), 2);
+        }
+    }
+
     public static void interfaceNewClient(String clientIP, String ownIP)
     {
         out.print("(interfaceNewClient) start");
@@ -346,9 +391,6 @@ public class Interfaces
         args[0] = clientIP;
         args[1] = ownIP;
         args[2] = doWhat;
-        out.print("0-" + args[0]);
-        out.print("1-" + args[1]);
-        out.print("2-" + args[2]);
         StartClientServer.startClient(args);
     }
 }
