@@ -368,7 +368,7 @@ public class Interfaces
             {
                 if (!ip.equals(ownIP))
                 {
-                    String doWhat = "AdminKickUser";
+                    String doWhat = "Exit";
                     String[] args = new String[3];
                     args[0] = ip;
                     args[1] = ownIP;

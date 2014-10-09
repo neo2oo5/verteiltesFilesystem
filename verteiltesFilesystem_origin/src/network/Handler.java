@@ -180,6 +180,66 @@ public class Handler implements Runnable
                                 }
                             }
                         }
+                    }  else if (args[anz].equals("Exit"))
+                    {
+                        out.print("-> args[0] = " + args[0], 3);
+                        out.print("-> args[1] = " + args[1], 3);
+                        String iplist = substructure.PathHelper.getFile("IPs.txt");
+                        int anzahl = 0;
+                        String anServer = null;
+                        BufferedReader inFile = null;
+                        inFile = new BufferedReader(new FileReader(iplist));
+                        String ip = null;
+                        String newIPList[] = null;
+                        while ((ip = inFile.readLine()) != null)
+                        {
+                            if (!ip.equals(args[0]))
+                            {
+                                //speichern
+                                newIPList[anzahl++] = ip;
+                            }
+
+                        }
+
+                        File file = new File(iplist);
+
+                        /**
+                         * write the IP in the address table
+                         */
+                        FileWriter writerNeu;
+                        int i = 0;
+                        if (anzahl == 0)
+                        {
+                            writerNeu = new FileWriter(file, false);
+                        } else
+                        {
+                            while (i <= anzahl)
+                            {
+                                try
+                                {
+                                    if (i == 0)
+                                    {
+                                        writerNeu = new FileWriter(file, false);
+                                    } else
+                                    {
+                                        writerNeu = new FileWriter(file, true);
+                                    }
+
+                                    writerNeu.write(newIPList[i]);
+                                    writerNeu.write(System.getProperty("line.separator"));
+                                    writerNeu.flush();
+                                    writerNeu.close();
+                                    i++;
+                                    /**
+                                     * catch exceptions
+                                     */
+                                } catch (IOException e)
+                                {
+
+                                    out.print("(Handler - run -> AdminKickUser) : " + e.toString(), 2);
+                                }
+                            }
+                        }
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
                         String iplist = null;
