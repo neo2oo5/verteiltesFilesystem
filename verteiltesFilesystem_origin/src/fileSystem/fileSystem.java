@@ -48,16 +48,27 @@ public class fileSystem
        //DUMMY
     }
 	
-    public static fileSystem getInstance() 
-    {
-        return fileSystemHolder.INSTANCE;
-    }
-	
     private static class fileSystemHolder 
     {
-        private static final fileSystem INSTANCE = new fileSystem();
+        private static fileSystem INSTANCE = new fileSystem();
     }
-	
+    
+    
+    public static fileSystem getInstance() 
+    {
+        if(fileSystemHolder.INSTANCE==null)
+        {
+            synchronized(fileSystemHolder.INSTANCE)
+            {
+                if(fileSystemHolder.INSTANCE==null)
+                {
+                    fileSystemHolder.INSTANCE = new fileSystem();
+                }
+            }
+        }
+        return fileSystemHolder.INSTANCE;
+    }
+		
     private List <Path> initFS(Path Path) throws IOException
     {
         Deque<Path> stack = new ArrayDeque<>();
@@ -95,13 +106,11 @@ public class fileSystem
     public void setnewFileSystem(String IP, String path) throws fileSystemException
     {
         try
-		{
+        {
              Path finalPath = Paths.get(path);
              try
-			 {
-               
-                 fileSystem.set(find(clients, IP), initFS(finalPath));
-                 
+             {  
+                 fileSystem.set(find(clients, IP), initFS(finalPath));      
              }
              catch(ArrayIndexOutOfBoundsException e)
              {
@@ -110,7 +119,6 @@ public class fileSystem
                  clientscount++;
              }
         }
-     
         catch(Exception e)
         {
             e.printStackTrace();
