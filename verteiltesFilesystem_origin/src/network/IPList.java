@@ -61,8 +61,8 @@ public class IPList
     {
         boolean ipFound = false;
         
-        ArrayList<String> IPList = getIPList();
-        ListIterator<String> li = IPList.listIterator();
+        ArrayList<String> IPListe = getIPList();
+        ListIterator<String> li = IPListe.listIterator();
         while (li.hasNext()){
             if(li.toString().equals(searchedIP)) ipFound = true;
         }
@@ -72,8 +72,8 @@ public class IPList
     public static boolean replaceIP(String searchedIP, String toReplaceIP)
     {
         boolean ipFound = false;
-        ArrayList<String> IPList = getIPList();
-        ListIterator<String> li = IPList.listIterator();
+        ArrayList<String> IPListe = getIPList();
+        ListIterator<String> li = IPListe.listIterator();
         while (li.hasNext())
         {
             if(!li.toString().equals(searchedIP))InsertIpInList(li.toString());

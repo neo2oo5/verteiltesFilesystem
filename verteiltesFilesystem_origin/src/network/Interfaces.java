@@ -16,12 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -37,11 +32,10 @@ public class Interfaces
     public static int interfaceFileTransfer(String IPv4, String targetPath, String filename) throws UnknownHostException
     {
 
-        boolean kicked = false;
-        kicked = CheckKicked.checkKicked();
+        boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("You get Kicked from Network", 3);
+            out.print("Network Offline or You get Kicked from Network", 3);
         } else
         {
             String IPv4target = null;
@@ -50,8 +44,6 @@ public class Interfaces
             {
             } else
             {
-                out.print("Interface", 3);
-
                 // do ...
                 String doWhat = "FileTransfer";
                 String[] args = new String[3];
@@ -82,12 +74,10 @@ public class Interfaces
 
     public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename) throws UnknownHostException
     {
-
-        boolean kicked = false;
-        kicked = CheckKicked.checkKicked();
+        boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("(Interface - FileRename) : " + "You get Kicked from Network", 3);
+            out.print("(Interface - FileRename) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (CheckWhoIsOnline_old.PingServer(IPv4) == false)
         {
             out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
@@ -115,11 +105,10 @@ public class Interfaces
     public static int interfaceFileDelete(String IPv4, String sourcePath, String filename) throws UnknownHostException
     {
 
-        boolean kicked = false;
-        kicked = CheckKicked.checkKicked();
+        boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("(Interface - FileDelete) : " + "You get Kicked from Network", 3);
+            out.print("(Interface - FileDelete) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (CheckWhoIsOnline_old.PingServer(IPv4) == false)
         {
             out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
@@ -148,11 +137,10 @@ public class Interfaces
     public static int interfaceFileCreate(String IPv4, String sourcePath, String filename) throws UnknownHostException
     {
 
-        boolean kicked = false;
-        kicked = CheckKicked.checkKicked();
+        boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("(Interface - FileCreate) : " + "You get Kicked from Network", 3);
+            out.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
         } else
         {
             /**
@@ -190,12 +178,8 @@ public class Interfaces
     {
         boolean succes = false;
         getIPv4Address.setIPv4Address();
-        /**
-         * start the server
-         */
         StartClientServer.startServer();
-        String ip = null;
-        ip = Config.getCurrentIp();
+        String ip = Config.getCurrentIp();
         IPList.InsertIpInList(ip);
         return true;
     }
@@ -207,11 +191,10 @@ public class Interfaces
     {
 
         boolean online = false;
-        boolean kicked = false;
-        kicked = CheckKicked.checkKicked();
+        boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("(Interface - NetworkOnline) : " + "You get Kicked from Network", 3);
+            out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
         } else
         {
 

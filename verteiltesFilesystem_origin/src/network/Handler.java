@@ -11,18 +11,12 @@ package network;
 import fileSystem.fileSystemException;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -121,7 +115,7 @@ public class Handler implements Runnable
                     {
                         IPList.replaceIP(args[0], null);
                         out.print("(Handler) Exit: " + args[0] + " get kicked");
-                    }  else if (args[anz].equals("Exit"))
+                    } else if (args[anz].equals("Exit"))
                     {
                         IPList.replaceIP(args[0], null);
                         out.print("(Handler) Exit: " + args[0] + " get removed");

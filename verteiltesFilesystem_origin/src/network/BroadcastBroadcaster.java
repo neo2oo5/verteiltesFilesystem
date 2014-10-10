@@ -43,29 +43,28 @@ public class BroadcastBroadcaster implements Runnable
             DatagramPacket packetsend = new DatagramPacket(buffer, buffer.length, InetAddress.getByName("192.168.0.255"), ECHO_PORT);
             out.print("Sende Nachricht.");
             udpSocket.send(packetsend);
-            
-            
+
             //empfängt ip der anderen
             buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             udpSocket.setSoTimeout(10000);
             udpSocket.receive(packet);
- 
-            
-             int i = 0;
+
+            int i = 0;
             do
             {
-                try {
-                     udpSocket.receive(packet);
-                     out.print("Antwort von " + packet.getAddress().getHostAddress() + ":");
-                     out.print(new String(packet.getData(), 0, packet.getLength()));
-                     IPFile.setIPtoFile(new String(packet.getData(), 0, packet.getLength()));
-                     break;
-                } catch (SocketTimeoutException e) {
-                    
-                    out.print("(BroadcastBroadcaster Versuch " +i+") " + e.toString());
-                    
-                   
+                try
+                {
+                    udpSocket.receive(packet);
+                    out.print("Antwort von " + packet.getAddress().getHostAddress() + ":");
+                    out.print(new String(packet.getData(), 0, packet.getLength()));
+                    IPFile.setIPtoFile(new String(packet.getData(), 0, packet.getLength()));
+                    break;
+                } catch (SocketTimeoutException e)
+                {
+
+                    out.print("(BroadcastBroadcaster Versuch " + i + ") " + e.toString());
+
                     try
                     {
                         sleep(1000);
@@ -73,12 +72,11 @@ public class BroadcastBroadcaster implements Runnable
                     {
                         Logger.getLogger(BroadcastBroadcaster.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                   i++;
-                   
+                    i++;
+
                 }
-            }while(i<=3);
-            
-            
+            } while (i <= 3);
+
         } catch (SocketException ex)
         {
             out.print("(BroadcastBroadcaster) Zeile 52" + ex.toString(), 3);
@@ -90,14 +88,14 @@ public class BroadcastBroadcaster implements Runnable
         } catch (IOException ex)
         {
             out.print("(BroadcastBroadcaster) Zeile 65 " + ex.toString(), 3);
-        }finally
+        } finally
         {
-           if(udpSocket != null)
-           {
-               udpSocket.close();
-           }
-           
-           out.print("Whois Client wird beendet");
+            if (udpSocket != null)
+            {
+                udpSocket.close();
+            }
+
+            out.print("Whois Client wird beendet");
         }
 
     }
