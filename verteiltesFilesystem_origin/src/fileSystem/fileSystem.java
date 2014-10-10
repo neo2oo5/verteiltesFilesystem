@@ -1,11 +1,3 @@
-/*
-* Docs:
-* http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html
-* http://openjdk.java.net/projects/nio/javadoc/java/nio/file/DirectoryStream.html
-* Bildet die Dateisysteme nach als Liste (Singelton Klasse)
-* Fehlende Funktionen: 
- */
-
 package fileSystem;
 
 
@@ -26,7 +18,14 @@ import java.util.Deque;
 import java.util.LinkedList;
 import substructure.GUIOutput;
 
-
+/**
+ * Grundklasse welche ein Dateisystem als Liste nachbildet(Singelton Klasse)
+ * Dokumente:
+ * http://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html
+ * http://openjdk.java.net/projects/nio/javadoc/java/nio/file/DirectoryStream.html
+ * bekannte Fehler: Exceptions werden weitergeworfen muessen noch abgefangen werden
+ * @author Daniel Gauditz
+ */
 public class fileSystem
 {
     OutputStream                    fos            = null;
@@ -37,30 +36,46 @@ public class fileSystem
     private int                     clientscount   = 0;
     private String                  workingDir     = System.getProperty("user.dir");
     private String                  clients[]      = new String[100];
-	
+    
+    /**
+     * Helper Funktion 
+     * @param array
+     * @param name
+     * @return Liste mit Integer welcher die Stelle angibt
+     *         bei der String name zum ersten mal auftaucht
+     */
     public static int find (String[] array , String name) 
     {  
       return Arrays.asList(array).indexOf(name);  
     }
-  
+    
+    /**
+     * Funktion welche die Instanzierung von außen verhindert
+     */
     private fileSystem()
     {
-       //DUMMY
     }
 	
+    /**
+     * Funktion welche die einigartige Instanz generiert
+     */
     private static class fileSystemHolder 
     {
         private static fileSystem INSTANCE = new fileSystem();
     }
     
-    
+    /**
+     * Lazy Loading mit unsynchronisierter getinstance()-Methode
+     * aber mit synchronisierter Instanzierung und doppeltem Null-Check
+     * @return fileSystem Instanz zurueck
+     */
     public static fileSystem getInstance() 
     {
-        if(fileSystemHolder.INSTANCE==null)
+        if(fileSystemHolder.INSTANCE == null)
         {
             synchronized(fileSystemHolder.INSTANCE)
             {
-                if(fileSystemHolder.INSTANCE==null)
+                if(fileSystemHolder.INSTANCE == null)
                 {
                     fileSystemHolder.INSTANCE = new fileSystem();
                 }
@@ -68,7 +83,13 @@ public class fileSystem
         }
         return fileSystemHolder.INSTANCE;
     }
-		
+	
+    /**
+     * Funktion welche rekursiv Ordner durchsucht mit Hilfe eines Stacks
+     * @param Path
+     * @return gibt Ergebnise der Durchsuchung zurueck 
+     * @throws IOException 
+     */
     private List <Path> initFS(Path Path) throws IOException
     {
         Deque<Path> stack = new ArrayDeque<>();
@@ -87,7 +108,6 @@ public class fileSystem
                     else
                     {
                         result.add(entry);
-                        String newElement = entry.toString();
                     }
                 }
             }
@@ -103,6 +123,12 @@ public class fileSystem
         return result;
     }
 	
+    /**
+     * Erzeugt das Abbild des FileSystems
+     * @param IP
+     * @param path
+     * @throws fileSystemException 
+     */
     public void setnewFileSystem(String IP, String path) throws fileSystemException
     {
         try
@@ -125,32 +151,49 @@ public class fileSystem
         }
     }
 	
+    /**
+     * Hilfsfunktion
+     * @param IP
+     * @return gibt einen bestimmte IP zurueck
+     */
     public List<Path> get(String IP)
     {
         return fileSystem.get(find(clients, IP));
     }
 	
+    /**
+     * Hilfsfunktion
+     * @return gibt alle IPs zurueck
+     */
     public String[] getAllIps()
     {
         return this.clients;
     }
 	
+    /**
+     * Hilfsfunktion
+     * @return gibt die Anzahl der Clienten zurueck
+     */
     public int getClientCount()
     {
         return this.clientscount;
     }
 	
-    public String fileSystemToString (String IP)
+    /**
+     * Funktion die einen String aus dem FileSystem erzeugt
+     * welcher dieses abbildet
+     * @param IP
+     * @return FileSystem als String
+     */
+    public String fileSystemToString (String IP) //Nachfragen ob benoetigt
     {
-        String out ="";
+        String out = "";
         try
 	{	
            for (Path entry: fileSystem.get(find(clients,IP)))
            {
-                       out += entry + " \n";
-           }
-           
-           
+               out += entry + "\n";
+           }          
         } 
 	catch (DirectoryIteratorException ex) 
 	{
@@ -160,6 +203,17 @@ public class fileSystem
         return out;
     }
 	
+    /**
+     * Funktion welche das FileSystem in einem String abspeichert 
+     * (sieht so aus lokale Ip --##-- absoluter Pfad    --##-- ist das Trenn
+     * zeichen)
+     * diesen serialisiert und ihn in der Datei myFile.ser abspeichert
+     * Die Datei liegt in Projektordner/System
+     * @param IP
+     * @return FileSystem abgebildet in einen String
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public String outGoingList (String IP) throws FileNotFoundException, IOException
     {
         String output = "";
@@ -191,12 +245,25 @@ public class fileSystem
         return output;
     } 	
 	
+    /**
+     * Funktion um die Datei myFileList.ser zu loeschen
+     * @throws fileSystemException
+     * @throws IOException 
+     */
     public void delteOutGoingObject() throws fileSystemException, IOException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.delete(path);
     }
     
+    /**
+     * Funktion welche myFileList.ser erst in den Ordner 
+     * ProjectFolder/System/tmp kopiert dort in inComingList.ser
+     * umbenennt und dann myFileList.ser mit Hilfe von deleteOutGOingObject()
+     * im Ordner ProjectFolder/System loescht
+     * @throws IOException
+     * @throws fileSystemException 
+     */
     public void renameOutGoingObject() throws IOException, fileSystemException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
@@ -209,12 +276,28 @@ public class fileSystem
         delteOutGoingObject();
     }	
     
+    /**
+     * Funktion welche inComingList.ser aus ProjectFolder/System/tmp loescht
+     * @throws IOException
+     * @throws fileSystemException 
+     */
     public void deleteInComingObject() throws IOException, fileSystemException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("inComingList.ser"));
         Files.delete(path);
     }
 	
+    /**
+     * Funktion welche aus dem serialisierten Datei inComingList.ser 
+     * das FileSystem eines anderen Clienten ausliest und mit dem lokalen 
+     * Dateisystem verbindet, so dass man auch dessen Daten im Explorer 
+     * einsehen kann
+     * @param inComingList
+     * @throws fileSystemException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     public void mergeList(String inComingList) throws fileSystemException, FileNotFoundException, IOException, ClassNotFoundException
     {
         try
