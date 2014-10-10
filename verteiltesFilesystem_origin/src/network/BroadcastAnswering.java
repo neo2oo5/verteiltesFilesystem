@@ -23,7 +23,7 @@ import substructure.GUIOutput;
 public class BroadcastAnswering  extends Thread
 {
 
-    private static final int ECHO_PORT = 1919;
+    private static final int ECHO_PORT = 5555;
     
     static GUIOutput out = GUIOutput.getInstance();
     Thread client = null;
@@ -48,6 +48,7 @@ public class BroadcastAnswering  extends Thread
                     {
                            if(!client.isAlive())
                            {
+                               out.print("WhoIs Server gestartet");
                                byte[] buffer = new byte[1024];
                                packet = new DatagramPacket(buffer, buffer.length);
 

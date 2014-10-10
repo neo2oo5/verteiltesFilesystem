@@ -38,7 +38,7 @@ public class CheckWhoIsOnline extends  Thread {
     
     public Thread client()
     { //sent Broadcast
-        out.print("WhoIs Client gestartet");
+        
         Thread ba = new Thread(new BroadcastBroadcaster());
         ba.setName("BroadcastBroadcaster");
         ba.start();
@@ -50,7 +50,7 @@ public class CheckWhoIsOnline extends  Thread {
     {   
         //receives broadcast
       
-        out.print("WhoIs Server gestartet");
+        
         BroadcastAnswering ba = new BroadcastAnswering(client);
         ba.setName("BroadcastAnswering");
         ba.start();

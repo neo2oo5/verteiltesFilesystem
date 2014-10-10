@@ -196,25 +196,7 @@ public class Interfaces
         StartClientServer.startServer();
         String ip = null;
         ip = Config.getCurrentIp();
-        
-        new CheckWhoIsOnline();
-       // Thread ba = new Thread(new BroadcastBroadcaster());
-       // ba.setName("BroadcastBroadcaster");
-       // ba.start();
-        /**
-         * success if an IP was found with CheckWhoIsOnline
-         */
-      /*  out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 1);
-        if (ip != null)
-        {
-            Thread cwio = new Thread(new CheckWhoIsOnline_old(ip));
-            cwio.setName("cwio");
-            cwio.start();
-            succes = true;
-        }*/
-        /**
-         * tell the client that the connection to the server was successful
-         */
+        IPList.InsertIpInList(ip);
         return true;
     }
 
