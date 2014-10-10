@@ -116,22 +116,24 @@ public class Handler implements Runnable
                         network.AdminPannel.setLoggedin(true);
                     } else if (args[anz].equals("AdminMessage"))
                     {
-                        out.print(args[0], 1);
+                        out.print("(Handler) AdminMessage: " + args[0], 1);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
                         IPList.replaceIP(args[0], null);
+                        out.print("(Handler) Exit: " + args[0] + " get kicked");
                     }  else if (args[anz].equals("Exit"))
                     {
                         IPList.replaceIP(args[0], null);
+                        out.print("(Handler) Exit: " + args[0] + " get removed");
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
                         IPList.replaceIP(args[0], args[1]);
                         gui.Config.setCurrentIp(args[1]);
+                        out.print("(Handler) ChangeOwnIP: " + args[0] + "to" + args[1]);
                     } else if (args[anz].equals("newClient"))
                     {
-                        out.print("(Handler) newClient eintrag: " + args[0]);
                         IPList.InsertIpInList(args[0]);
-                        out.print("(Handler) newClient abgeschlossen");
+                        out.print("(Handler) newClient eintrag: " + args[0]);
                     }
                 }
                 reader.close();
