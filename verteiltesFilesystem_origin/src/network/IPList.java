@@ -60,34 +60,11 @@ public class IPList
     public static boolean SearchIP(String searchedIP)
     {
         boolean ipFound = false;
-        BufferedReader inFile = null;
-        try
-        {
-            GetIPListPath();
-            inFile = new BufferedReader(new FileReader(ipListPath));
-            String ip = null;
-            while ((ip = inFile.readLine()) != null)
-            {
-                if (ip.equals(searchedIP))
-                {
-                    ipFound = true;
-                }
-            }
-        } catch (FileNotFoundException ex)
-        {
-            out.print("(SearchIP) " + ex.toString(), 3);
-        } catch (IOException ex)
-        {
-            out.print("(SearchIP) " + ex.toString(), 3);
-        } finally
-        {
-            try
-            {
-                inFile.close();
-            } catch (IOException ex)
-            {
-                out.print("(SearchIP) " + ex.toString(), 3);
-            }
+        
+        ArrayList<String> IPList = getIPList();
+        ListIterator<String> li = IPList.listIterator();
+        while (li.hasNext()){
+            if(li.toString().equals(searchedIP)) ipFound = true;
         }
         return ipFound;
     }
@@ -95,41 +72,40 @@ public class IPList
     public static boolean replaceIP(String searchedIP, String toReplaceIP)
     {
         boolean ipFound = false;
+        BufferedReader inFile = null;
+        ArrayList<String> IPList = getIPList();
+        ListIterator<String> li = IPList.listIterator();
+        while (li.hasNext())
+        {
+            InsertIpInList(li.toString());
+        }
+
+        return ipFound;
+    }
+
+    public static ArrayList<String> getIPList()
+    {
+        ArrayList<String> IPList = new ArrayList<>();
         try
         {
             BufferedReader inFile = null;
-            ArrayList<String> IPList = new ArrayList<>();
 
             GetIPListPath();
             inFile = new BufferedReader(new FileReader(ipListPath));
             String ip = null;
             while ((ip = inFile.readLine()) != null)
             {
-                if (ip.equals(searchedIP))
-                {
-                    if(!toReplaceIP.equals(null)) IPList.add(toReplaceIP);
-                    ipFound = true;
-                } else
-                {
-                    IPList.add(ip);
-                }
+                IPList.add(ip);
             }
             inFile.close();
-            File file = new File(ipListPath);
-            writer = new FileWriter(file, false);
-            ListIterator<String> li = IPList.listIterator();
-            while (li.hasNext())
-            {
-                InsertIpInList(li.toString());
-            }
         } catch (FileNotFoundException ex)
         {
-                out.print("(replaceIP) " + ex.toString(), 3);
+            out.print("(replaceIP) " + ex.toString(), 3);
         } catch (IOException ex)
         {
-                out.print("(replaceIP) " + ex.toString(), 3);
+            out.print("(replaceIP) " + ex.toString(), 3);
         }
-        return ipFound;
+        return IPList;
     }
 
 }
