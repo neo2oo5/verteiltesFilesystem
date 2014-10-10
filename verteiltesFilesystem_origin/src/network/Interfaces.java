@@ -88,7 +88,7 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileRename) : " + "You get Kicked from Network", 3);
-        } else if (CheckWhoIsOnline.PingServer(IPv4) == false)
+        } else if (CheckWhoIsOnline_old.PingServer(IPv4) == false)
         {
             out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
         } else
@@ -120,7 +120,7 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileDelete) : " + "You get Kicked from Network", 3);
-        } else if (CheckWhoIsOnline.PingServer(IPv4) == false)
+        } else if (CheckWhoIsOnline_old.PingServer(IPv4) == false)
         {
             out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
         } else
@@ -180,7 +180,7 @@ public class Interfaces
         /**
          * interface to get every client IP in the network
          */
-        return CheckWhoIsOnline.PingServer(IPv4);
+        return CheckWhoIsOnline_old.PingServer(IPv4);
     }
 
     /**
@@ -196,20 +196,26 @@ public class Interfaces
         StartClientServer.startServer();
         String ip = null;
         ip = Config.getCurrentIp();
+        
+        new CheckWhoIsOnline();
+       // Thread ba = new Thread(new BroadcastBroadcaster());
+       // ba.setName("BroadcastBroadcaster");
+       // ba.start();
         /**
          * success if an IP was found with CheckWhoIsOnline
          */
-        out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 1);
+      /*  out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 1);
         if (ip != null)
         {
-            Thread cwio = new Thread(new CheckWhoIsOnline(ip));
+            Thread cwio = new Thread(new CheckWhoIsOnline_old(ip));
+            cwio.setName("cwio");
             cwio.start();
             succes = true;
-        }
+        }*/
         /**
          * tell the client that the connection to the server was successful
          */
-        return succes;
+        return true;
     }
 
     /**
@@ -381,6 +387,24 @@ public class Interfaces
         {
             out.print("(Interfaces - Exit) : " + ex.toString(), 2);
         }
+        String pathExit = null;
+        try
+        {
+            pathExit = substructure.PathHelper.getFile("IPs.txt");
+        } catch (fileSystemException ex)
+        {
+            out.print("(CheckWhoIsOnline) - Pfad nicht gefunden", 3);
+        }
+        File fileExit = new File(pathExit);
+        FileWriter writerExit;
+        try
+        {
+            writerExit = new FileWriter(fileExit, false);
+        } catch (IOException ex)
+        {
+            out.print("(CheckWhoIsOnline)" + ex.toString(), 3);
+        }
+        CheckWhoIsOnline.serverClose();
     }
 
     public static void interfaceNewClient(String clientIP, String ownIP)

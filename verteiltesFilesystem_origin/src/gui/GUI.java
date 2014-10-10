@@ -84,7 +84,7 @@ public class GUI extends javax.swing.JFrame
         /*Set Admin Defaults*/
         AdminConfigPanel.setVisible(false);
         AdminLoginPanel.setVisible(true);
-        // admin = new Admin(AdminConfigPanel, AdminLoginPanel);
+        admin = new Admin(AdminConfigPanel, AdminLoginPanel);
 
         /*Create required Tabs*/
         new otherTab(jTabbedPane5);

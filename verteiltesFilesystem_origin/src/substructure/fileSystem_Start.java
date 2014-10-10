@@ -84,8 +84,8 @@ public class fileSystem_Start
             public void run()
             {
                 //set UI Defaults
-                javax.swing.UIManager.put("nimbusBase", new ColorUIResource(0, 0, 0));
-                javax.swing.UIManager.put("textForeground", new ColorUIResource(255, 69, 0));
+               // javax.swing.UIManager.put("nimbusBase", new ColorUIResource(0, 0, 0));
+                //javax.swing.UIManager.put("textForeground", new ColorUIResource(255, 69, 0));
 
                 //start GUI
                 gUI = new GUI();

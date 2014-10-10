@@ -11,18 +11,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import java.io.*;
-import static java.lang.Thread.sleep;
-import java.text.DateFormat.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
 /**
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
@@ -34,20 +29,34 @@ public class GUIOutput extends Output{
     protected static final Color D_Green   = Color.getHSBColor( 0.333f, 1.000f, 0.502f );
     protected static final Color D_White   = Color.getHSBColor( 0.000f, 0.000f, 0.753f );
     protected static final Color B_Black   = Color.getHSBColor( 0.000f, 0.000f, 0.502f );
-    private static GUIOutput instance = null;
     private List<String> log = Collections.synchronizedList(new ArrayList<String>());
     private List<String> queue = Collections.synchronizedList(new ArrayList<String>());
-    JFrame f = new JFrame("Log");
-    ColorPane pane = new ColorPane();;
+
+    ColorPane pane = new ColorPane();
     JScrollPane spane = new JScrollPane(pane);
+    JFrame f = new JFrame("Log");
     
     
-    public static GUIOutput getInstance() {
-      if(instance == null) {
-         instance = new GUIOutput();
-      }
-      return instance;
-   }
+    private static class GUIOutputHolder 
+    {
+        private static GUIOutput INSTANCE = new GUIOutput();
+    }
+    
+    
+    public static GUIOutput getInstance() 
+    {
+        if(GUIOutputHolder.INSTANCE==null)
+        {
+            synchronized(GUIOutputHolder.INSTANCE)
+            {
+                if(GUIOutputHolder.INSTANCE==null)
+                {
+                    GUIOutputHolder.INSTANCE = new GUIOutput();
+                }
+            }
+        }
+        return GUIOutputHolder.INSTANCE;
+    }
     
     public void setVisible(boolean e)
     {
@@ -60,6 +69,7 @@ public class GUIOutput extends Output{
          f.setPreferredSize(new Dimension(600, 400));
          f.setSize(600, 400);
          f.setVisible(false);
+         f.setContentPane(spane);
   
     }
   
@@ -68,7 +78,7 @@ public class GUIOutput extends Output{
     {
         try {
 		BufferedReader in = new BufferedReader(new FileReader(substructure.PathHelper.getFile(Logfile)));
-		String line;
+		String line = new String();
                
 		while ((line = in.readLine()) != null) {
 			log.add(line);
@@ -104,10 +114,9 @@ public class GUIOutput extends Output{
            
                 pane.setText("");
                 setText(pane);
-                pane.validate();
                 
-                spane.validate();
-                f.setContentPane(spane);
+                refreshGuiLog();
+                
                // f.pack();
                 
                 
@@ -165,10 +174,14 @@ public class GUIOutput extends Output{
    
    public void refreshGuiLog()
    {
+       spane.repaint();
        
-       pane.validate();
-       spane.validate();
-       f.revalidate();
+       pane.repaint();
+       
+       //pane.validate();
+       //spane.validate();
+      
+       
    }
    
     

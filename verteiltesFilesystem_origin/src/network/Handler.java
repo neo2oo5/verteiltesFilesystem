@@ -20,6 +20,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Iterator;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -242,78 +245,18 @@ public class Handler implements Runnable
                         }
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
-                        String iplist = null;
-                        try
-                        {
-                            iplist = substructure.PathHelper.getFile("IPs.txt");
-                        } catch (fileSystemException ex)
-                        {
-                            out.print("(Handler - run -> ChangeOwnIP) : " + ex.toString(), 2);
-                        }
-                        int anzahl = 0;
-                        String anServer = null;
-                        BufferedReader inFile = null;
-                        try
-                        {
-                            inFile = new BufferedReader(new FileReader(iplist));
-                        } catch (FileNotFoundException ex)
-                        {
-                            out.print("(Handler - run -> ChangeOwnIP) : " + ex.toString(), 2);
-                        }
-                        String ip = null;
-                        String newIPList[] = null;
-                        while ((ip = inFile.readLine()) != null)
-                        {
-                            if (ip.equals(args[0]))
-                            {
-                                System.out.println("--" + args[1]);
-                                newIPList[anzahl++] = args[1];
-                            } else
-                            {
-                                //speichern
-                                newIPList[anzahl++] = ip;
-                            }
-
-                        }
-
-                        File file = new File(iplist);
-
                         /**
-                         * write the IP in the address table
-                         */
-                        FileWriter writerNeu;
-                        int i = 0;
-                        if (anzahl == 0)
-                        {
-                            writerNeu = new FileWriter(file, false);
-                        } else
-                        {
-                            while (i <= anzahl)
-                            {
-                                try
-                                {
-                                    if (i == 0)
-                                    {
-                                        writerNeu = new FileWriter(file, false);
-                                    } else
-                                    {
-                                        writerNeu = new FileWriter(file, true);
-                                    }
+                                                * write the IP in the address table
+                                                */
+                        out.print("changeIp" + args[0]);
+                        out.print("changeIp" + args[1]);
+                        IPFile.setIPtoFile(args[1]);
+                        gui.Config.setCurrentIp(args[1]);
+                        IPFile.removeIPfromFile(gui.Config.getCurrentIp());
+                        
+                        
 
-                                    writerNeu.write(newIPList[i]);
-                                    writerNeu.write(System.getProperty("line.separator"));
-                                    writerNeu.flush();
-                                    writerNeu.close();
-                                    i++;
-                                    /**
-                                     * catch exceptions
-                                     */
-                                } catch (IOException e)
-                                {
-                                    out.print("(Handler - run -> ChangeOwnIP) : " + e.toString(), 2);
-                                }
-                            }
-                        }
+                                        
                     } else if (args[anz].equals("newClient"))
                     {
                         out.print("(Handler) newClient eintrag: " + args[0]);
