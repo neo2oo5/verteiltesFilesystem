@@ -72,12 +72,12 @@ public class IPList
     public static boolean replaceIP(String searchedIP, String toReplaceIP)
     {
         boolean ipFound = false;
-        BufferedReader inFile = null;
         ArrayList<String> IPList = getIPList();
         ListIterator<String> li = IPList.listIterator();
         while (li.hasNext())
         {
-            InsertIpInList(li.toString());
+            if(!li.toString().equals(searchedIP))InsertIpInList(li.toString());
+            else InsertIpInList(toReplaceIP);
         }
 
         return ipFound;
