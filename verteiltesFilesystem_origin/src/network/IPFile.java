@@ -67,11 +67,9 @@ public class IPFile {
         
         
         
-      try {
-        PrintWriter p = new PrintWriter (new FileWriter (ipFile));
-        
-        
-            
+      
+       
+
             //write and check ip to File
             for (String itr : IPS) {
                 
@@ -91,19 +89,21 @@ public class IPFile {
             
         }
         
-        for (String itr : IPS) 
-        {
-                p.write(itr);
-                p.write(System.getProperty("line.separator"));
-                p.flush();
+        PrintWriter printWriter = null;
+        try {
+            printWriter = new PrintWriter(new FileWriter(ipFile));
+            Iterator iter = IPS.iterator();
+            while(iter.hasNext() ) {
+                Object o = iter.next();
+                printWriter.println(o);
+            }
+        } catch (IOException e) {
+            out.print("(IPFile-Fehler): "+e.toString());
+        } finally {
+
+                if(printWriter != null) printWriter.close();
+            
         }
-        
-        
-        p.close();
-      }
-      catch (IOException e) {
-        out.print("(IPFile-Fehler): "+e.toString());
-      }
     }
     
     public static void removeIPfromFile(String IP)
@@ -130,28 +130,31 @@ public class IPFile {
 		out.print("(IPFile-Fehler): "+e.toString());
 	}
         
-        
-        
-      try {
-          
-        PrintWriter p = new PrintWriter (new FileWriter (ipFile));
-        IPS.remove(IP);
-            
-        
-        
-        for (String itr : IPS) 
+        for (String ip: IPS)
         {
-                p.write(itr);
-                p.write(System.getProperty("line.separator"));
-                p.flush();
-               
+            if (ip.equals(IP)) 
+            {
+                IPS.remove(ip);
+            }
         }
         
-        
-        p.close();
-      }
-      catch (IOException e) {
-        out.print("(IPFile-Fehler): "+e.toString());
-      }
+      
+          
+        PrintWriter printWriter = null;
+        try {
+            printWriter = new PrintWriter(new FileWriter(ipFile));
+            Iterator iter = IPS.iterator();
+            while(iter.hasNext() ) {
+                Object o = iter.next();
+                printWriter.println(o);
+            }
+        } catch (IOException e) {
+            out.print("(IPFile-Fehler): "+e.toString());
+        } finally {
+
+                if(printWriter != null) printWriter.close();
+            
+        } 
+      
     }
 }

@@ -248,11 +248,12 @@ public class Handler implements Runnable
                         /**
                                                 * write the IP in the address table
                                                 */
-                        out.print("changeIp" + args[0]);
-                        out.print("changeIp" + args[1]);
+                        
+                        
+                        IPFile.removeIPfromFile(args[0]);
                         IPFile.setIPtoFile(args[1]);
                         gui.Config.setCurrentIp(args[1]);
-                        IPFile.removeIPfromFile(gui.Config.getCurrentIp());
+                       
                         
                         
 

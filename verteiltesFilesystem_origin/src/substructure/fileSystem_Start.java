@@ -99,11 +99,11 @@ public class fileSystem_Start
                 gUI.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                        if (JOptionPane.showConfirmDialog(gUI, 
+                       /* if (JOptionPane.showConfirmDialog(gUI, 
                             "Are you sure to close this window?", "Really Closing?", 
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-                        {
+                        {*/
                             try {
                                 network.Interfaces.InterfaceExitProg();
                                 out.print("Client wird beendet");
@@ -112,7 +112,7 @@ public class fileSystem_Start
                                 Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
-                    }
+                    //}
                 });
 
                 //initiate startSequence
