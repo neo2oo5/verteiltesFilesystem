@@ -17,6 +17,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.ListIterator;
+import static network.IPList.getIPList;
 import substructure.GUIOutput;
 
 /**
@@ -182,9 +185,8 @@ public class Interfaces
         String ip = Config.getCurrentIp();
         IPList.InsertIpInList(ip);
         out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 1);
-        
+
         //////// Kevin deine CheckWhoIsOnline Zeile :)
-        
         return true;
     }
 
@@ -201,29 +203,12 @@ public class Interfaces
             out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
         } else
         {
-
-            String iplist = null;
-            try
-            {
-                iplist = substructure.PathHelper.getFile("IPs.txt");
-            } catch (fileSystemException ex)
-            {
-                out.print("(Interface - NetworkOnline) : " + ex.toString(), 2);
-            }
             int anzahl = 0;
-            try
+            ArrayList<String> IPListe = getIPList();
+            ListIterator<String> li = IPListe.listIterator();
+            while (li.hasNext())
             {
-                BufferedReader in = new BufferedReader(new FileReader(iplist));
-                String ip = null;
-                FileWriter writer;
-                while ((ip = in.readLine()) != null)
-                {
-                    anzahl++;
-                }
-
-            } catch (IOException e)
-            {
-                out.print("(Interface - NetworkOnline) : " + e.toString(), 2);
+                anzahl++;
             }
 
             if (anzahl > 1)
@@ -273,106 +258,41 @@ public class Interfaces
 
     public static void InterfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
     {
-        String iplist = null;
-        try
+        ArrayList<String> IPListe = getIPList();
+        ListIterator<String> li = IPListe.listIterator();
+        while (li.hasNext())
         {
-            iplist = substructure.PathHelper.getFile("IPs.txt");
-        } catch (fileSystemException ex)
-        {
-            out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
-        }
-        int anzahl = 0;
-        String anServer = null;
-        // check ob schon einer eingeloggt
-        BufferedReader in = null;
-        try
-        {
-            in = new BufferedReader(new FileReader(iplist));
-        } catch (FileNotFoundException ex)
-        {
-            out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
-        }
-        String ip = null;
-        FileWriter writer;
-        try
-        {
-            while ((ip = in.readLine()) != null)
-            {
-                String doWhat = "ChangeOwnIP";
-                String[] args = new String[4];
-                args[0] = ip;
-                args[1] = oldIP;
-                args[2] = newIP;
-                args[3] = doWhat;
-                StartClientServer.startClient(args);
+            String doWhat = "ChangeOwnIP";
+            String[] args = new String[4];
+            args[0] = li.toString();
+            args[1] = oldIP;
+            args[2] = newIP;
+            args[3] = doWhat;
+            StartClientServer.startClient(args);
 
-            }
-        } catch (IOException ex)
-        {
-            out.print("(Interfaces - InterfaceChangeOwnIP) : " + ex.toString(), 2);
         }
+
     }
 
     public static void InterfaceExitProg() throws UnknownHostException
     {
-        String ownIP = Config.getCurrentIp();
-        String iplist = null;
-        try
-        {
-            iplist = substructure.PathHelper.getFile("IPs.txt");
-        } catch (fileSystemException ex)
-        {
-            out.print("(Interfaces - Exit) : " + ex.toString(), 2);
-        }
-        int anzahl = 0;
-        String anServer = null;
-        // check ob schon einer eingeloggt
-        BufferedReader in = null;
-        try
-        {
-            in = new BufferedReader(new FileReader(iplist));
-        } catch (FileNotFoundException ex)
-        {
-            out.print("(Interfaces - Exit) : " + ex.toString(), 2);
-        }
-        String ip = null;
-        FileWriter writer;
-        try
-        {
-            while ((ip = in.readLine()) != null)
-            {
-                if (!ip.equals(ownIP))
-                {
-                    String doWhat = "Exit";
-                    String[] args = new String[3];
-                    args[0] = ip;
-                    args[1] = ownIP;
-                    args[2] = doWhat;
-                    StartClientServer.startClient(args);
-                }
 
+        ArrayList<String> IPListe = getIPList();
+        ListIterator<String> li = IPListe.listIterator();
+        while (li.hasNext())
+        {
+            if (!li.toString().equals(gui.Config.getCurrentIp()))
+            {
+                String doWhat = "Exit";
+                String[] args = new String[3];
+                args[0] = li.toString();
+                args[1] = gui.Config.getCurrentIp();
+                args[2] = doWhat;
+                StartClientServer.startClient(args);
             }
-        } catch (IOException ex)
-        {
-            out.print("(Interfaces - Exit) : " + ex.toString(), 2);
+
         }
-        String pathExit = null;
-        try
-        {
-            pathExit = substructure.PathHelper.getFile("IPs.txt");
-        } catch (fileSystemException ex)
-        {
-            out.print("(CheckWhoIsOnline) - Pfad nicht gefunden", 3);
-        }
-        File fileExit = new File(pathExit);
-        FileWriter writerExit;
-        try
-        {
-            writerExit = new FileWriter(fileExit, false);
-        } catch (IOException ex)
-        {
-            out.print("(CheckWhoIsOnline)" + ex.toString(), 3);
-        }
+        IPList.InsertIpInList(null);
         CheckWhoIsOnline.serverClose();
     }
 
