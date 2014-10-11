@@ -351,8 +351,8 @@ public class Config
             
             for(int i = 0; i < ips.size(); i++)
             {   String[] tmp = ips.get(i);
-                out.print("cmd"+cmd);
-                out.print("ip"+ tmp[1]);
+                
+            
                 if(tmp[1].equals(cmd))
                 {
                     try {

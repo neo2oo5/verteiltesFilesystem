@@ -97,11 +97,7 @@ public class fileSystem_Start
         {
             public void run()
             {
-                try {
-                    out.print(network.Interfaces.inerfaceNetworkOnline());
-                } catch (UnknownHostException ex) {
-                    Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
-                }
+              
                 //initiate startSequence
                 startSequence();
                 //set UI Defaults

@@ -9,6 +9,7 @@ import fileSystem.fileSystem;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+import network.Interfaces;
 
 /**
  *
@@ -29,6 +30,8 @@ public class runTimeUpdater {
         timer.schedule(new GUIScheduler(), 1000, 10000 );
         
         timer.schedule(new GUILog(), 1000, 5000 );
+        
+        timer.schedule(new syncFileSytems(), 1000, 20000 );
         
         out.print("runTimeUpdater gestarted");
     }
@@ -68,6 +71,14 @@ public class runTimeUpdater {
            {
             out.refreshGuiLog();
            }
+        }
+    }
+    
+    class syncFileSytems extends TimerTask
+    {
+        @Override public void run()
+        {
+           Interfaces.interfaceMergeList();
         }
     }
 }

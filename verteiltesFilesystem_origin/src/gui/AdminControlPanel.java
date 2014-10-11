@@ -68,9 +68,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
     private void createUserlist()
     {
         String ips[] = c.getAllIps();
-        out.print("AdminControlPanel gestartet");
-            
-        out.print("admin clientscount"+c.getClientCount());
+        
         
         
          

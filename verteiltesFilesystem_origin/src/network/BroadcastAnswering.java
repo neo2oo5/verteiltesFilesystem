@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import static network.BroadcastBroadcaster.out;
 import substructure.GUIOutput;
 
 /**
@@ -20,6 +21,7 @@ public class BroadcastAnswering extends Thread
 {
 
     private static final int ECHO_PORT = 5555;
+    private volatile boolean serverClose = true;
 
     static GUIOutput out = GUIOutput.getInstance();
     Thread client = null;
@@ -34,14 +36,13 @@ public class BroadcastAnswering extends Thread
     @Override
     public void run()
     {
-
+        
         try
         {
-            while (true)
+            while (serverClose)
             {
-                if (client != null)
-                {
-                    if (!client.isAlive())
+                
+                    if (client.isInterrupted() || !client.isAlive())
                     {
                         out.print("WhoIs Server gestartet");
                         byte[] buffer = new byte[1024];
@@ -55,7 +56,7 @@ public class BroadcastAnswering extends Thread
                         InetAddress sendeAdresse = packet.getAddress();
                         out.print("Nachricht von " + sendeAdresse.getHostAddress() + ":");
                         out.print(new String(packet.getData(), 0, packet.getLength()));
-                        IPFile.setIPtoFile(sendeAdresse.getHostAddress());
+                        IPList.InsertIpInList(sendeAdresse.getHostAddress());
 
                         //
                         out.print("Sende Antwort.. ");
@@ -64,12 +65,12 @@ public class BroadcastAnswering extends Thread
                         udpSocket.send(packet);
                         out.print("Antwort gesendet!");
                     }
-                }
+                
             }
 
         } catch (IOException ex)
         {
-            out.print("(BroadcastAnswering) Zeile 65 " + ex.toString(), 3);
+            out.print("(BroadcastAnswering) " + ex.toString(), 2);
 
         } finally
         {
@@ -77,18 +78,24 @@ public class BroadcastAnswering extends Thread
             {
                 udpSocket.close();
             }
-
+            
         }
-
+        out.print("Whois Server standart gemäß beendet");
     }
 
     public void closeConnection()
     {
+        serverClose = false;
         if (udpSocket != null)
         {
+            
             udpSocket.close();
+            
+            
         }
+        client.interrupt();
         this.interrupt();
+        
     }
 
 }

@@ -5,6 +5,8 @@
  */
 package network;
 
+import gui.Config;
+import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
 /**
@@ -37,8 +39,6 @@ public class CheckWhoIsOnline extends  Thread {
     public BroadcastAnswering server(Thread client)
     {   
         //receives broadcast
-      
-        
         BroadcastAnswering ba = new BroadcastAnswering(client);
         ba.setName("BroadcastAnswering");
         ba.start();
@@ -46,14 +46,26 @@ public class CheckWhoIsOnline extends  Thread {
         return ba;
     }
     
+    public static String getBroadcastAdress()
+    {
+        String broadcastAdress = Config.getCurrentIp();
+       // out.print();
+        broadcastAdress = broadcastAdress.substring(0, broadcastAdress.lastIndexOf("."));
+        return broadcastAdress += ".255";
+        
+    }
     
     
-    public static void serverClose()
+    
+    public static Thread serverClose()
     {
         if(server != null)
         {
             server.closeConnection();
+            return server;
         }
+        
+        return null;
     }
             
 }

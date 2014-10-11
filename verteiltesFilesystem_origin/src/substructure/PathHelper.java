@@ -48,7 +48,17 @@ public class PathHelper{
     
     public static String getFile(String file) throws fileSystemException
     {  
-        Path fPath = Paths.get(setPath(file));
+        Path fPath;
+        
+        if(file.length() > 0)
+        {
+            fPath = Paths.get(setPath(file) +File.separator);
+        }
+        else
+        {
+            fPath = Paths.get(setPath(file));
+        }
+        
         if(Files.exists(fPath))
         {
             return setPath(file);

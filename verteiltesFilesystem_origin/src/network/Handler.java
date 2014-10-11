@@ -122,8 +122,8 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
                         IPList.replaceIP(args[0], args[1]);
-                        gui.Config.setCurrentIp(args[1]);
-                        out.print("(Handler) ChangeOwnIP: " + args[0] + "to" + args[1]);
+                        
+                        out.print("(Handler) ChangeOwnIP: " + args[0] + " to " + args[1]);
                     } else if (args[anz].equals("newClient"))
                     {
                         IPList.InsertIpInList(args[0]);

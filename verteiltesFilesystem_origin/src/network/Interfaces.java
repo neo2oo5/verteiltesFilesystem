@@ -17,9 +17,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static network.AdminPannel.out;
 import static network.IPList.getIPList;
 import substructure.GUIOutput;
@@ -188,7 +191,8 @@ public class Interfaces
         IPList.InsertIpInList(ip);
         out.print("(Interface) - StartProgram -> Ihre IP: " + ip);
 
-        //////// Kevin deine CheckWhoIsOnline Zeile :)
+        
+        new CheckWhoIsOnline();
         return true;
     }
 
@@ -255,6 +259,8 @@ public class Interfaces
 
     public static void InterfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
     {
+        gui.Config.setCurrentIp(newIP);
+        
          ArrayList<String> IPList = getIPList();
          
         for(String ip: IPList)
@@ -268,6 +274,28 @@ public class Interfaces
             StartClientServer.startClient(args);
 
         }
+        
+        Thread server = CheckWhoIsOnline.serverClose();
+        boolean trigger = true;
+        
+        while(trigger)
+        {
+            if(server == null)
+            {
+                trigger = false;
+                new CheckWhoIsOnline();
+            }
+            else if(server.isInterrupted() || !server.isAlive())
+            {
+                trigger = false;
+                new CheckWhoIsOnline();
+            }
+            
+            
+            
+        }
+        
+        
 
     }
 
@@ -304,9 +332,21 @@ public class Interfaces
 
     public static void interfaceMergeList()
     {
-        out.print("(interfaceMergeList) start");
-        fileSystem fs = fileSystem.getInstance();
-        fs.mergeList();
-        out.print("(interfaceMergeList) Fertig");
+        Thread fs = null;
+        
+        boolean trigger = true;
+        
+        while(trigger)
+        {
+            if(fs == null)
+            {
+             fs = new syncFilesystems();
+            }
+            else if(fs.isInterrupted() || !fs.isAlive())
+            {
+                trigger = false;
+                new CheckWhoIsOnline();
+            }
+        }
     }
 }

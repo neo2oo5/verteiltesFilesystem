@@ -33,7 +33,7 @@ public class Admin
      */
     public Admin(JPanel configpanel, JPanel loginpanel)
      {
-         out.print("Admin Konstruktor");
+         
          apanel = new AdminControlPanel(loginpanel);
          
         

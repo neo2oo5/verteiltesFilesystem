@@ -1,0 +1,15 @@
+
+
+GUI:
+Kevin Bonner
+Julian Simon
+
+Datenbank:
+Daniel Gauditz
+Matthäus Piechowiak
+Dennis Kupfer
+
+Netwerk:
+David Lampa
+Michael Marchand
+Fréderic Merten
