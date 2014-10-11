@@ -83,9 +83,10 @@ public class GUI extends javax.swing.JFrame
         add(statel);
 
         /*Set Admin Defaults*/
-        AdminConfigPanel.setVisible(false);
+        
+        AdminConfigPanel.setVisible(true);
         AdminLoginPanel.setVisible(true);
-        admin = new Admin(AdminConfigPanel, AdminLoginPanel);
+        //admin = new Admin(AdminConfigPanel, AdminLoginPanel);
 
         /*Create required Tabs*/
         new otherTab(jTabbedPane5);
@@ -139,6 +140,8 @@ public class GUI extends javax.swing.JFrame
                 jTabbedPane5MouseClicked(evt);
             }
         });
+
+        AdminLoginPanel.setEnabled(false);
 
         AdminLoginSent.setText("Anmelden");
         AdminLoginSent.addMouseListener(new java.awt.event.MouseAdapter() {

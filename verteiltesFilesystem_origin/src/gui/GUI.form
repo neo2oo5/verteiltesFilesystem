@@ -90,6 +90,9 @@
           </Layout>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="AdminLoginPanel">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
