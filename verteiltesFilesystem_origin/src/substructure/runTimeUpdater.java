@@ -31,7 +31,7 @@ public class runTimeUpdater {
         
         timer.schedule(new GUILog(), 1000, 5000 );
         
-        timer.schedule(new syncFileSytems(), 1000, 20000 );
+        timer.schedule(new syncFileSytems(), 1000, 60000 );
         
         out.print("runTimeUpdater gestarted");
     }

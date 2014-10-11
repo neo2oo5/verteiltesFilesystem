@@ -8,6 +8,7 @@ package network;
 import gui.Config;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
+import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -27,13 +28,13 @@ public class BroadcastBroadcaster implements Runnable
 
     private static final int ECHO_PORT = 5555;
     static GUIOutput out = GUIOutput.getInstance();
-    private volatile boolean closeClient = true;
+    private static volatile boolean closeClient = true;
+    DatagramSocket udpSocket = null;
 
     @Override
     public void run()
     {
         out.print("WhoIs Client gestartet");
-        DatagramSocket udpSocket = null;
         out.print("(BroadcastBroadcaster) startet", 1);
         try
         {
@@ -50,8 +51,8 @@ public class BroadcastBroadcaster implements Runnable
             //empfängt ip der anderen
             buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            udpSocket.setSoTimeout(5000);
-            udpSocket.receive(packet);
+            
+            //udpSocket.receive(packet);
 
             int i = 0;
              while (closeClient)
@@ -70,6 +71,7 @@ public class BroadcastBroadcaster implements Runnable
                 
                 try
                 {
+                    udpSocket.setSoTimeout(10000);
                     udpSocket.receive(packet);
                     out.print("Antwort von " + packet.getAddress().getHostAddress() + ":");
                     out.print(new String(packet.getData(), 0, packet.getLength()));
@@ -86,24 +88,27 @@ public class BroadcastBroadcaster implements Runnable
                     } catch (InterruptedException ex)
                     {
                         out.print("(Interrupted) WhoIs Client wird beendet");
+                        closeClient = false;
                         udpSocket.close();
                     }
                     i++;
 
                 }
-            };
+            }
+            
 
         } catch (SocketException ex)
         {
-            out.print("(BroadcastBroadcaster) " + ex.toString(), 3);
+            out.print("(BroadcastBroadcaster) " + ex.toString(), 2);
+            ex.printStackTrace();
 
-        } catch (UnknownHostException ex)
+        }catch (UnknownHostException ex)
         {
-            out.print("(BroadcastBroadcaster) " + ex.toString(), 3);
+            out.print("(BroadcastBroadcaster) " + ex.toString(), 2);
 
         } catch (IOException ex)
         {
-            out.print("(BroadcastBroadcaster) " + ex.toString(), 3);
+            out.print("(BroadcastBroadcaster) " + ex.toString(), 2);
         } finally
         {
             if (udpSocket != null)
@@ -113,6 +118,15 @@ public class BroadcastBroadcaster implements Runnable
 
             
         }
+        
+         if (udpSocket != null)
+        {
+                udpSocket.close();
+        }
         out.print("Whois Client standart gemäß beendet");
     }
+    
+   
+    
+    
 }

@@ -42,7 +42,7 @@ public class BroadcastAnswering extends Thread
             while (serverClose)
             {
                 
-                    if (client.isInterrupted() || !client.isAlive())
+                    if (client.isAlive() == false)
                     {
                         out.print("WhoIs Server gestartet");
                         byte[] buffer = new byte[1024];
@@ -80,6 +80,11 @@ public class BroadcastAnswering extends Thread
             }
             
         }
+        
+        if (udpSocket != null)
+        {
+                udpSocket.close();
+        }
         out.print("Whois Server standart gemäß beendet");
     }
 
@@ -88,13 +93,10 @@ public class BroadcastAnswering extends Thread
         serverClose = false;
         if (udpSocket != null)
         {
-            
             udpSocket.close();
-            
-            
         }
         client.interrupt();
-        this.interrupt();
+        
         
     }
 

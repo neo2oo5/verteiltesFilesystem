@@ -290,9 +290,6 @@ public class Interfaces
                 trigger = false;
                 new CheckWhoIsOnline();
             }
-            
-            
-            
         }
         
         
@@ -345,7 +342,7 @@ public class Interfaces
             else if(fs.isInterrupted() || !fs.isAlive())
             {
                 trigger = false;
-                new CheckWhoIsOnline();
+                fs = new syncFilesystems();
             }
         }
     }
