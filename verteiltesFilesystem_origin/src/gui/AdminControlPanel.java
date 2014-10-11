@@ -9,8 +9,12 @@ import fileSystem.fileSystem;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 import javax.swing.*;
+import network.Interfaces;
 
 /**
  *
@@ -189,6 +193,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
             {
                 if(ips[i].equals(cmd))
                 {
+                    Interfaces.inerfaceAdminKickUser(ips[i]);
                     new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: "+ ips[i]+" wurde aus dem Netzwerk entfernt");
                     userlist.remove(usersL[i]);
                     userlist.remove(usersB[i]);
@@ -199,8 +204,13 @@ public class AdminControlPanel extends javax.swing.JPanel {
             
             if(logoutCMD.equals(cmd))
             {
-               AdminControlPanel.adminControlPanel.setVisible(false);
-               AdminControlPanel.adminloginPanel.setVisible(true);
+                try {
+                    Interfaces.inerfaceAdminLogout();
+                    AdminControlPanel.adminControlPanel.setVisible(false);
+                    AdminControlPanel.adminloginPanel.setVisible(true);
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(AdminControlPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
             

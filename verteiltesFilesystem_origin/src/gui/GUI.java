@@ -238,23 +238,15 @@ public class GUI extends javax.swing.JFrame
                 fs.setnewFileSystem(Config.getCurrentIp(), Config.getRootDir());
             } catch (fileSystemException ex)
             {
-                out.print("(GUI-Z227) lokales fileySystem konnte nicht eingelesen werden");
+                out.print("(GUI-TabChange) lokales fileySystem konnte nicht eingelesen werden");
             }
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
         }
 
-        try
-        {
+        
             /*check Network state*/
-            if (network.Interfaces.inerfaceNetworkOnline() == true)
-            {
-                state.setGreen();
-                statel.setText("Online");
-            }
-        } catch (UnknownHostException ex)
-        {
-            out.print("(GUI) - jTabbedPane5MouseClicked : " + ex.toString(), 2);
-        }
+            setOnOffState();
+        
 
         ActiveTabIndex = jTabbedPane5.getSelectedIndex();
         out.print("Panel: " + jTabbedPane5.getTitleAt(ActiveTabIndex) + " wurde geöffnet");

@@ -14,6 +14,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import network.Interfaces;
 import substructure.GUIOutput;
 
 /**
@@ -61,7 +62,7 @@ public class Admin
         String propusername="";
         String proppassword="";
         
-        if(username == null && username.isEmpty() && password == null && password.isEmpty())
+        if(username == null && username.isEmpty() && password == null && password.isEmpty() && Interfaces.inerfaceAdminLogin())
         {
             out.print("Keine Login Daten!");
             return false;
@@ -92,7 +93,7 @@ public class Admin
         
         if(username.equals(propusername) && password.equals(proppassword))
         {
-            
+            Interfaces.inerfaceIAmAdmin();
             out.print("Login erfolgreich");
             return true;
         }
