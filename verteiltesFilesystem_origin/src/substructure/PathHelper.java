@@ -73,7 +73,17 @@ public class PathHelper{
     
     public static String getFolder(String folder)  throws fileSystemException
     {
-        Path fPath = Paths.get(setPath(folder) + File.separator);
+        Path fPath;
+        
+        if(folder.length() > 0)
+        {
+            fPath = Paths.get(setPath(folder) +File.separator);
+        }
+        else
+        {
+            fPath = Paths.get(setPath(folder));
+        }
+        
         if(Files.exists(fPath))
         {
             return setPath(folder) + File.separator;

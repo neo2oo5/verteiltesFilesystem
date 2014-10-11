@@ -17,13 +17,13 @@ import substructure.GUIOutput;
  */
 public class syncFilesystems extends Thread {
     
-    private String tmpFolder ="", filename = "inComingList.ser";
+    private String fullPath ="", filename = "inComingList.ser";
     private static GUIOutput out = GUIOutput.getInstance();
     
     public syncFilesystems()
     {
         try {
-            tmpFolder = substructure.PathHelper.getFolder("");
+            fullPath = substructure.PathHelper.getFile(filename);
         } catch (fileSystemException ex) {
             out.print(ex.toString());
         }
@@ -56,7 +56,7 @@ public class syncFilesystems extends Thread {
     private boolean downloadFSbyIP(String IP)
     {
         try {
-            Interfaces.interfaceFileTransfer(IP, tmpFolder, filename);
+            Interfaces.interfaceFileTransfer(IP, fullPath, filename);
         } catch (UnknownHostException ex) {
             out.print(ex.toString());
             return false;
