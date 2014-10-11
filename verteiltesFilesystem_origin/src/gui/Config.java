@@ -37,7 +37,7 @@ public class Config
     private static ButtonGroup netAdapterG = new ButtonGroup();
     private static final String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR";
     private static String  currentIP=null;
-    private static final ArrayList ipList = new ArrayList<String[]>();
+    
     /**
      *
      * @param Pane
@@ -60,7 +60,7 @@ public class Config
     
     private void createNetAdapterPanel()
     {
-         ArrayList<String> ips = getIPList();
+         ArrayList<String[]> ips = getIPList();
         
             interfaceP = new JPanel();
             interfaceP.setVisible(true);
@@ -72,7 +72,7 @@ public class Config
             int height = 20;
             for(int i = 0; i < ips.size(); i++)
             {
-                String[] tmp = (String[]) ipList.get(i);
+                String[] tmp = ips.get(i);
                 
                 ipName[i] = new JLabel();
                 ipName[i].setText(tmp[0]);
@@ -278,9 +278,12 @@ public class Config
         return currentIP;
     }
     
-    static public ArrayList<String> getIPList()
+    static public ArrayList<String[]> getIPList()
     {
+        ArrayList<String[]> ipList = new ArrayList<>();
         String[] AdapterName = null;
+        
+        
         try {
             ArrayList<String> ips = getIPv4Address.getIPv4Address();
             
@@ -344,11 +347,12 @@ public class Config
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
-            ArrayList<String> ips = getIPList();
+            ArrayList<String[]> ips = getIPList();
             
             for(int i = 0; i < ips.size(); i++)
-            {
-                String[] tmp = (String[]) ipList.get(i);
+            {   String[] tmp = ips.get(i);
+                out.print("cmd"+cmd);
+                out.print("ip"+ tmp[1]);
                 if(tmp[1].equals(cmd))
                 {
                     try {

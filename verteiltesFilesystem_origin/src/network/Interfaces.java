@@ -254,8 +254,9 @@ public class Interfaces
 
     public static void InterfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
     {
+         ArrayList<String> IPList = getIPList();
          
-        for(String ip: getIPList())
+        for(String ip: IPList)
         {
             String doWhat = "ChangeOwnIP";
             String[] args = new String[4];

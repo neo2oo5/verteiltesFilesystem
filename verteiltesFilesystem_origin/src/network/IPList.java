@@ -14,6 +14,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -50,7 +52,6 @@ public class IPList
             if(IPtoInsert == null)
             {
                 FileWriter writer = new FileWriter(file, false);
-                writer.write("");
                 writer.close();
                 
             }
@@ -88,17 +89,38 @@ public class IPList
         return ipFound;
     }
 
-    public static boolean replaceIP(String searchedIP, String toReplaceIP)
+    public static void replaceIP(String searchedIP, String toReplaceIP)
     {
-        boolean ipFound = false;
-        
-        for(String ip: getIPList())
-        {
-            if(ip.equals(searchedIP))InsertIpInList(toReplaceIP);
-            else InsertIpInList(ip);
-        }
+        FileWriter writer = null;
+        try {
+            
+            ArrayList<String> IPList = getIPList();
+            
+            IPList.add(toReplaceIP);
+            IPList.remove(searchedIP);
+            
+            ipListPath = GetIPListPath();
+            File file = new File(ipListPath);
+            writer = new FileWriter(file, false);
 
-        return ipFound;
+            for(String ip: IPList)
+            { 
+                writer.write(ip);  
+            }   
+ 
+        } catch (IOException ex) {
+            out.print(ex.toString());
+            
+        } finally {
+            try {
+                writer.close();
+                
+            } catch (IOException ex) {
+                out.print(ex.toString());
+            }
+        }
+        
+        
     }
 
     public static ArrayList<String> getIPList()
