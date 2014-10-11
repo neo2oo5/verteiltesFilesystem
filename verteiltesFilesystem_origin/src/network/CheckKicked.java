@@ -23,43 +23,6 @@ public class CheckKicked
 
     public static boolean checkKicked() throws UnknownHostException
     {
-
-        /**
-         * falls gekickt wurden
-         */
-        boolean kicked = true;
-
-        try
-        {
-
-            String searchedip = null;
-            searchedip = Config.getCurrentIp();
-
-            String iplist = substructure.PathHelper.getFile("IPs.txt");
-
-            int anzahl = 0;
-            try
-            {
-                BufferedReader in = new BufferedReader(new FileReader(iplist));
-                String ip = null;
-                FileWriter writer;
-                while ((ip = in.readLine()) != null)
-                {
-                    if (ip.equals(searchedip))
-                    {
-                        kicked = false;
-                    }
-                }
-
-            } catch (IOException e)
-            {
-                out.print("(CheckKicked - checkKicked) : " + e.toString(), 2);
-            }
-
-        } catch (fileSystemException ex)
-        {
-            out.print("(CheckKicked - checkKicked) : " + ex.toString(), 2);
-        }
-        return kicked;
+        return !IPList.SearchIP(Config.getCurrentIp());
     }
 }

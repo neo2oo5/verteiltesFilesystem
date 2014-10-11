@@ -38,19 +38,16 @@ public class FileTransfer
      */
     public static boolean FT(String[] args)
     {
- String datei = null;
- 
+        String datei = null;
+
         try
         {
             datei = substructure.PathHelper.getFile(args[2]);
         } catch (fileSystemException ex)
         {
-            Logger.getLogger(FileTransfer.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(FileTransfer) FT " + ex.toString(), 3);
         }
-        System.out.println("--> " + datei);
-        out.print("--> " + datei,3);
         File file = new File(datei);
-        out.print("dasasdasdtest",3);
         FileProvider fileProvider = new FileProvider(file, 1718);
 
         FileFetcher fileFetcher = new FileFetcher(args[3], 1718, args);
@@ -189,24 +186,9 @@ public class FileTransfer
 
             overallBytesTransfered += bytesTransfered;
 
-            if (verbose)
-            {
-                System.out.printf(
-                        "overall bytes transfered: %s progress %s%%\n",
-                        overallBytesTransfered, Math
-                        .round(overallBytesTransfered
-                                / ((double) lengthInBytes) * 100.0));
-            }
-
         }
         time += System.currentTimeMillis();
 
-        if (verbose)
-        {
-            System.out.printf("Transfered: %s bytes in: %s s -> %s kbytes/s",
-                    overallBytesTransfered, time / 1000,
-                    (overallBytesTransfered / 1024.0) / (time / 1000.0));
-        }
     }
 
 }

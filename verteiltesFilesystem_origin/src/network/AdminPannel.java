@@ -6,7 +6,6 @@
 package network;
 
 import fileSystem.fileSystemException;
-import gui.Config;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,6 +14,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.ListIterator;
 import substructure.GUIOutput;
 
 /**
@@ -40,44 +41,17 @@ public class AdminPannel
     public static void adminCheckLogin()
     {
 
-        BufferedReader in = null;
-        try
+        ArrayList<String> IPListe = IPList.getIPList();
+        ListIterator<String> li = IPListe.listIterator();
+        String ownIP = gui.Config.getCurrentIp();
+        while (li.hasNext())
         {
-            String iplist = substructure.PathHelper.getFile("IPs.txt");
-            int anzahl = 0;
-            String anServer = null;
-            String ownIP = Config.getCurrentIp();
-            // check ob schon einer eingeloggt
-            in = new BufferedReader(new FileReader(iplist));
-            String ip = null;
-            FileWriter writer;
-            while ((ip = in.readLine()) != null)
-            {
-
-                String doWhat = "CheckAdminLoggedin";
-                String[] args = new String[3];
-                args[0] = ip;
-                args[1] = ownIP;
-                args[2] = doWhat;
-                StartClientServer.startClient(args);
-
-            }
-        } catch (FileNotFoundException ex)
-        {
-            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-        } catch (IOException | fileSystemException ex)
-        {
-            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-        } finally
-        {
-            try
-            {
-                in.close();
-
-            } catch (IOException ex)
-            {
-                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-            }
+            String doWhat = "CheckAdminLoggedin";
+            String[] args = new String[3];
+            args[0] = li.toString();
+            args[1] = ownIP;
+            args[2] = doWhat;
+            StartClientServer.startClient(args);
         }
     }
 
@@ -138,91 +112,40 @@ public class AdminPannel
 
     public static void message(String msg) throws UnknownHostException
     {
-        String iplist = null;
-        try
+        ArrayList<String> IPListe = IPList.getIPList();
+        ListIterator<String> li = IPListe.listIterator();
+        String ownIP = gui.Config.getCurrentIp();
+        while (li.hasNext())
         {
-            iplist = substructure.PathHelper.getFile("IPs.txt");
-        } catch (fileSystemException ex)
-        {
-            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-        }
-        int anzahl = 0;
-        String anServer = null;
-        String ownIP = Config.getCurrentIp();
-        // check ob schon einer eingeloggt
-        BufferedReader in = null;
-        try
-        {
-            in = new BufferedReader(new FileReader(iplist));
-        } catch (FileNotFoundException ex)
-        {
-            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-        }
-        String ip = null;
-        FileWriter writer;
-        try
-        {
-            while ((ip = in.readLine()) != null)
-            {
-                String doWhat = "AdminMessage";
-                String[] args = new String[3];
-                args[0] = ip;
-                args[1] = msg;
-                args[2] = doWhat;
-                StartClientServer.startClient(args);
 
-            }
-        } catch (IOException ex)
-        {
-            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+            String doWhat = "AdminMessage";
+            String[] args = new String[3];
+            args[0] = li.toString();
+            args[1] = msg;
+            args[2] = doWhat;
+            StartClientServer.startClient(args);
         }
     }
 
     public static void adminKickUser(String ipToKick) throws UnknownHostException
     {
-        String ownIP = null;
-        ownIP = Config.getCurrentIp();
+        String ownIP = gui.Config.getCurrentIp();
         if (ipToKick.equals(ownIP))
         {
             out.print("Sie können sich nicht selbst Kicken!", 3);
         } else
         {
-            String iplist = null;
-            try
-            {
-                iplist = substructure.PathHelper.getFile("IPs.txt");
-            } catch (fileSystemException ex)
-            {
-                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-            }
-            int anzahl = 0;
-            String anServer = null;
-            // check ob schon einer eingeloggt
-            BufferedReader in = null;
-            try
-            {
-                in = new BufferedReader(new FileReader(iplist));
-            } catch (FileNotFoundException ex)
-            {
-                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-            }
-            String ip = null;
-            FileWriter writer;
-            try
-            {
-                while ((ip = in.readLine()) != null)
-                {
-                    String doWhat = "AdminKickUser";
-                    String[] args = new String[3];
-                    args[0] = ip;
-                    args[1] = ipToKick;
-                    args[2] = doWhat;
-                    StartClientServer.startClient(args);
 
-                }
-            } catch (IOException ex)
+            ArrayList<String> IPListe = IPList.getIPList();
+            ListIterator<String> li = IPListe.listIterator();
+            while (li.hasNext())
             {
-                out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+                String doWhat = "AdminKickUser";
+                String[] args = new String[3];
+                args[0] = li.toString();
+                args[1] = ipToKick;
+                args[2] = doWhat;
+                StartClientServer.startClient(args);
             }
         }
     }
@@ -237,7 +160,6 @@ public class AdminPannel
         {
             out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
         }
-        boolean exists = file.exists();
-        return exists;
+        return file.exists();
     }
 }
