@@ -147,6 +147,7 @@ public class fileSystem
                  clients[clientscount] = IP;
                  clientscount++;
              }
+             outGoingList(IP);
         }
         catch(Exception e)
         {
@@ -253,7 +254,7 @@ public class fileSystem
      * @throws fileSystemException
      * @throws IOException 
      */
-    public void delteOutGoingObject() throws fileSystemException, IOException
+    public void deleteLocalObject() throws fileSystemException, IOException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.delete(path);
@@ -267,16 +268,11 @@ public class fileSystem
      * @throws IOException
      * @throws fileSystemException 
      */
-    public void renameOutGoingObject() throws IOException, fileSystemException
+    public void renameLocalObject() throws IOException, fileSystemException
     {
         Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
-        String newFolderOrFile = substructure.PathHelper.getFolder("tmp");
-        Path newPath = Paths.get(newFolderOrFile);
-        Files.move(path, newPath.resolve(path.getFileName()));
-        newFolderOrFile = newFolderOrFile + "/myFileList.ser";
-        newPath = Paths.get(newFolderOrFile);
-        Files.move(newPath, newPath.resolveSibling("inComingList"));
-        delteOutGoingObject();
+        Files.move(path, path.resolveSibling("inComingList"));
+        deleteLocalObject();
     }	
     
     /**
@@ -367,7 +363,6 @@ public class fileSystem
                 clientscount++;
             }
         }
-        deleteInComingObject();
     }
 
 }
