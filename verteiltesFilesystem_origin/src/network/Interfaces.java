@@ -181,6 +181,10 @@ public class Interfaces
         StartClientServer.startServer();
         String ip = Config.getCurrentIp();
         IPList.InsertIpInList(ip);
+        out.print("(Interface) - StartProgram -> Ihre IP: " + ip, 1);
+        
+        //////// Kevin deine CheckWhoIsOnline Zeile :)
+        
         return true;
     }
 

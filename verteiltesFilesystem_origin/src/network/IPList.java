@@ -25,18 +25,17 @@ public class IPList
 {
 
     static GUIOutput out = GUIOutput.getInstance();
-    private static String ipListPath = null;
-    private static FileWriter writer = null;
+    private static String ipListPath;
 
-    public static void GetIPListPath()
+    public static String GetIPListPath()
     {
         try
         {
-            ipListPath = PathHelper.getFile("IPs.txt");
-            out.print("NUR FÜR TESTS - IP PFAD: " + ipListPath, 1);
+            return PathHelper.getFile("IPs.txt");
         } catch (fileSystemException ex)
         {
             out.print("(GetIPListPath) " + ex.toString(), 3);
+            return null;
         }
     }
 
@@ -44,9 +43,9 @@ public class IPList
     {
         try
         {
-            GetIPListPath();
+            ipListPath = GetIPListPath();
             File file = new File(ipListPath);
-            writer = new FileWriter(file, true);
+            FileWriter writer = new FileWriter(file, true);
             writer.write(IPtoInsert);
             writer.write(System.getProperty("line.separator"));
             writer.flush();
@@ -90,7 +89,7 @@ public class IPList
         {
             BufferedReader inFile = null;
 
-            GetIPListPath();
+            ipListPath = GetIPListPath();
             inFile = new BufferedReader(new FileReader(ipListPath));
             String ip = null;
             while ((ip = inFile.readLine()) != null)
