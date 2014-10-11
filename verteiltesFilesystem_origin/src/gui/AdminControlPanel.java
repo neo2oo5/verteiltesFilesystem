@@ -46,6 +46,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
             setSize(new Dimension(500, 500));
             revalidate();
             repaint();
+            
     }
     
     /**
@@ -54,8 +55,11 @@ public class AdminControlPanel extends javax.swing.JPanel {
     public void refreshUserlist()
     {
         createUserlist();
+       
         revalidate();
         repaint();
+        
+        
     }
     /*
         *   Create Userlist on the AdminControlPanel
@@ -76,6 +80,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
             int height = 20;
             for(int i = 0; i < c.getClientCount(); i++)
             {
+                
                 usersL[i] = new JLabel();
                 usersL[i].setText("user"+i+": "+ ips[i]);
                 usersL[i].setBounds(x, y += 20, width, height);
@@ -86,10 +91,13 @@ public class AdminControlPanel extends javax.swing.JPanel {
                 usersB[i].setText("Aus Netzwerk entfernen");
                 usersB[i].setBounds(x, y += 20, width, height);
                 usersB[i].setActionCommand(ips[i]);
-                usersB[i].addActionListener(new AdminControlListener());
+               // usersB[i].addActionListener(new AdminControlListener());
                 usersB[i].setVisible(true);
                 userlist.add(usersB[i]);
+               
             }
+            
+            
     } 
            
    

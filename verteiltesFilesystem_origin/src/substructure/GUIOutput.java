@@ -36,6 +36,9 @@ public class GUIOutput extends Output{
     JScrollPane spane = new JScrollPane(pane);
     JFrame f = new JFrame("Log");
     
+    private static boolean visible = true;
+ 
+    
     
     private static class GUIOutputHolder 
     {
@@ -61,6 +64,12 @@ public class GUIOutput extends Output{
     public void setVisible(boolean e)
     {
         f.setVisible(e);
+        visible = e;
+    }
+    
+    public boolean getVisible()
+    {
+        return visible;
     }
     
     private GUIOutput()
@@ -105,20 +114,22 @@ public class GUIOutput extends Output{
     @Override
     public void out(Object msg, int mode, int debug)
     {
+        
+        if(visible)
+        {
             setLogfile();
             super.out(msg, mode, debug);
             System.out.flush();
             readLogfile();
-           
-            
-           
-                pane.setText("");
-                setText(pane);
-                
-                refreshGuiLog();
-                
-               // f.pack();
-                
+
+            pane.setText("");
+            setText(pane);
+            refreshGuiLog();
+        }
+        else
+        {
+            super.out(msg, mode, debug);
+        }
                 
             
            
@@ -183,6 +194,7 @@ public class GUIOutput extends Output{
       
        
    }
+   
    
     
 

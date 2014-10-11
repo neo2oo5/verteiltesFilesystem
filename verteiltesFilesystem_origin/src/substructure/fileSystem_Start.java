@@ -46,7 +46,21 @@ public class fileSystem_Start
          * den modelevel geaendert werden
          *
          */
-        network.Interfaces.inerfaceStartProgram();
+        out.setVisible(false);
+        
+        
+      //  Config.setCurrentIp("127.0.0.1");
+        
+        
+        
+    /**
+         *  Startet die Netzwerkverbindung
+         */
+    network.Interfaces.inerfaceStartProgram();
+    
+    
+    
+    
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -83,6 +97,13 @@ public class fileSystem_Start
         {
             public void run()
             {
+                try {
+                    out.print(network.Interfaces.inerfaceNetworkOnline());
+                } catch (UnknownHostException ex) {
+                    Logger.getLogger(fileSystem_Start.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                //initiate startSequence
+                startSequence();
                 //set UI Defaults
                // javax.swing.UIManager.put("nimbusBase", new ColorUIResource(0, 0, 0));
                 //javax.swing.UIManager.put("textForeground", new ColorUIResource(255, 69, 0));
@@ -115,8 +136,7 @@ public class fileSystem_Start
                     //}
                 });
 
-                //initiate startSequence
-                startSequence();
+                
 
                 //start scheduler
                 new substructure.runTimeUpdater();

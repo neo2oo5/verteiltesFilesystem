@@ -23,6 +23,7 @@ public class CheckKicked
 
     public static boolean checkKicked() throws UnknownHostException
     {
+        
         return !IPList.SearchIP(Config.getCurrentIp());
     }
 }

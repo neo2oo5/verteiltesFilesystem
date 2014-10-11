@@ -45,6 +45,7 @@ public class GUI extends javax.swing.JFrame
     {
 
         initComponents();
+        
         owninitComponents();
         
     }
@@ -90,9 +91,9 @@ public class GUI extends javax.swing.JFrame
         new otherTab(jTabbedPane5);
 
         new Config(jTabbedPane5);
-
+        
         explorer = new Explorer(jTabbedPane5);
-
+        
         /*Set Icon Image*/
         BufferedImage image = null;
         try

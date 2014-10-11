@@ -65,10 +65,7 @@ public class DynamicTree extends JPanel implements MouseListener
          */
 	public DynamicTree(javax.swing.JTabbedPane Pane) 
         {
-            
-		
 
-        
             rootNode = new DefaultMutableTreeNode("Root Node");
             treeModel = new DefaultTreeModel(rootNode);
             
@@ -102,8 +99,10 @@ public class DynamicTree extends JPanel implements MouseListener
                     Pane.addTab("Explorer", scrollPane);
                 }
             } catch (UnknownHostException ex) {
-                Logger.getLogger(DynamicTree.class.getName()).log(Level.SEVERE, null, ex);
+                
+               out.print(ex.toString());
             }
+            
 	}
         
     /**

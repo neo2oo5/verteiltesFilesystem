@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import static network.AdminPannel.out;
 import static network.IPList.getIPList;
 import substructure.GUIOutput;
 
@@ -195,23 +196,19 @@ public class Interfaces
      */
     public static boolean inerfaceNetworkOnline() throws UnknownHostException
     {
-
+        
         boolean online = false;
         boolean kicked = CheckKicked.checkKicked();
+        
+        //boolean kicked = true;
         if (kicked)
         {
             out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
         } else
         {
-            int anzahl = 0;
-            ArrayList<String> IPListe = getIPList();
-            ListIterator<String> li = IPListe.listIterator();
-            while (li.hasNext())
-            {
-                anzahl++;
-            }
+            
 
-            if (anzahl > 1)
+            if (getIPList().size() > 1)
             {
                 online = true;
             } else
@@ -220,6 +217,7 @@ public class Interfaces
             }
 
         }
+        
         return online;
     }
 

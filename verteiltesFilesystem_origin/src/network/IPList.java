@@ -43,13 +43,16 @@ public class IPList
     {
         try
         {
-            ipListPath = GetIPListPath();
-            File file = new File(ipListPath);
-            FileWriter writer = new FileWriter(file, true);
-            writer.write(IPtoInsert);
-            writer.write(System.getProperty("line.separator"));
-            writer.flush();
-            writer.close();
+            if(!SearchIP(IPtoInsert))
+            {
+                ipListPath = GetIPListPath();
+                File file = new File(ipListPath);
+                FileWriter writer = new FileWriter(file, true);
+                writer.write(IPtoInsert);
+                writer.write(System.getProperty("line.separator"));
+                writer.flush();
+                writer.close();
+            }
         } catch (IOException ex)
         {
             out.print("(InsertIpInList) " + ex.toString(), 3);
@@ -61,10 +64,15 @@ public class IPList
         boolean ipFound = false;
         
         ArrayList<String> IPListe = getIPList();
-        ListIterator<String> li = IPListe.listIterator();
-        while (li.hasNext()){
-            if(li.toString().equals(searchedIP)) ipFound = true;
+
+        for(String ip: IPListe)
+        {
+            if(ip.equals(searchedIP))
+            {
+                ipFound = true;
+            }
         }
+        
         return ipFound;
     }
 

@@ -36,8 +36,9 @@ public class Admin
          out.print("Admin Konstruktor");
          apanel = new AdminControlPanel(loginpanel);
          
-         
+        
          configpanel.add(apanel);
+        
        
         
      }

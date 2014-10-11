@@ -319,8 +319,15 @@ public class Config
                 }
                 else
                 {
-                    logB.setText("An");
-                    out.setVisible(true);
+                    if(out.getVisible())
+                    {
+                        logB.setText("An");
+                        out.setVisible(true);
+                    }
+                    else
+                    {
+                        new GuiPromptHelper(GuiPromptHelper.showWarning, "GUILog wurde in den Start Parameter deaktiviert");
+                    }
                 }
             }
         }

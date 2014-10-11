@@ -32,12 +32,8 @@ public class Explorer
      */
     public Explorer(javax.swing.JTabbedPane Pane)
     {     
-        
-       
-        
-            treePanel = new DynamicTree(Pane);
+            treePanel = new DynamicTree(Pane); 
             
-        
     }
     
     /**
