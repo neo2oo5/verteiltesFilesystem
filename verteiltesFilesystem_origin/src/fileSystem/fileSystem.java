@@ -16,7 +16,10 @@ import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
+import substructure.PathHelper;
 
 /**
  * Grundklasse welche ein Dateisystem als Liste nachbildet(Singelton Klasse)
@@ -281,10 +284,19 @@ public class fileSystem
      * @throws IOException
      * @throws fileSystemException 
      */
-    public void deleteInComingObject() throws IOException, fileSystemException
+    public void deleteInComingObject()
     {
-        Path path = Paths.get(substructure.PathHelper.getFile("inComingList.ser"));
-        Files.delete(path);
+        try
+        {
+            Path path = Paths.get(substructure.PathHelper.getFile("inComingList.ser"));
+            Files.delete(path);
+        } catch (fileSystemException ex)
+        {
+            out.print("(fileSystem - deleteInComingObject) : " + ex.toString(), 3);
+        } catch (IOException ex)
+        {
+            out.print("(fileSystem - deleteInComingObject) : " + ex.toString(), 3);
+        }
     }
 	
     /**
@@ -298,21 +310,30 @@ public class fileSystem
      * @throws IOException
      * @throws ClassNotFoundException 
      */
-    public void mergeList(String inComingList) throws fileSystemException, FileNotFoundException, IOException, ClassNotFoundException
+    public void mergeList()
     {
+        String inComingList = null;
         try
         {
+            inComingList = PathHelper.getFile("inComingList.ser");
+        } catch (fileSystemException ex)
+        {
+            out.print("(fileSystem - mergeList) : " + ex.toString(), 3);
+        }
+        try
+        {
+            
             fis = new FileInputStream(inComingList);
             ObjectInputStream o =new ObjectInputStream(fis);
             inComingList = (String) o.readObject();
         }
         catch(IOException e)
         {
-            System.err.println(e);
+            out.print("(fileSystem - mergeList) : " + e.toString(), 3);
         }
         catch(ClassNotFoundException e)    
         {
-            System.err.println(e);
+            out.print("(fileSystem - mergeList) : " + e.toString(), 3);
         }
         finally
         {
