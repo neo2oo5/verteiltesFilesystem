@@ -199,8 +199,6 @@ public class Interfaces
         
         boolean online = false;
         boolean kicked = CheckKicked.checkKicked();
-        
-        //boolean kicked = true;
         if (kicked)
         {
             out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
