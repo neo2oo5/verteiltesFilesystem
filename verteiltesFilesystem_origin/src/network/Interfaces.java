@@ -8,6 +8,7 @@ package network;
 /**
  * Used Libraries
  */
+import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import gui.Config;
 import java.io.BufferedReader;
@@ -298,5 +299,13 @@ public class Interfaces
         args[1] = ownIP;
         args[2] = doWhat;
         StartClientServer.startClient(args);
+    }
+
+    public static void interfaceMergeList()
+    {
+        out.print("(interfaceMergeList) start");
+        fileSystem fs = fileSystem.getInstance();
+        fs.mergeList();
+        out.print("(interfaceMergeList) Fertig");
     }
 }
