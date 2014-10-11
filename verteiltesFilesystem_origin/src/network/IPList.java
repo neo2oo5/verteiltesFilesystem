@@ -43,15 +43,27 @@ public class IPList
     {
         try
         {
-            if(!SearchIP(IPtoInsert))
+            ipListPath = GetIPListPath();
+            File file = new File(ipListPath);
+            
+            
+            if(IPtoInsert == null)
             {
-                ipListPath = GetIPListPath();
-                File file = new File(ipListPath);
-                FileWriter writer = new FileWriter(file, true);
-                writer.write(IPtoInsert);
-                writer.write(System.getProperty("line.separator"));
-                writer.flush();
+                FileWriter writer = new FileWriter(file, false);
+                writer.write("");
                 writer.close();
+                
+            }
+            else
+            {
+                if(!SearchIP(IPtoInsert))
+                {
+                    FileWriter writer = new FileWriter(file, true);
+                    writer.write(IPtoInsert);
+                    writer.write(System.getProperty("line.separator"));
+                    writer.flush();
+                    writer.close();
+                }
             }
         } catch (IOException ex)
         {
@@ -79,12 +91,11 @@ public class IPList
     public static boolean replaceIP(String searchedIP, String toReplaceIP)
     {
         boolean ipFound = false;
-        ArrayList<String> IPListe = getIPList();
-        ListIterator<String> li = IPListe.listIterator();
-        while (li.hasNext())
+        
+        for(String ip: getIPList())
         {
-            if(li.toString().equals(searchedIP))InsertIpInList(toReplaceIP);
-            else InsertIpInList(li.toString());
+            if(ip.equals(searchedIP))InsertIpInList(toReplaceIP);
+            else InsertIpInList(ip);
         }
 
         return ipFound;

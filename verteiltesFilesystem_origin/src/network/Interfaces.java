@@ -254,13 +254,12 @@ public class Interfaces
 
     public static void InterfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
     {
-        ArrayList<String> IPListe = getIPList();
-        ListIterator<String> li = IPListe.listIterator();
-        while (li.hasNext())
+         
+        for(String ip: getIPList())
         {
             String doWhat = "ChangeOwnIP";
             String[] args = new String[4];
-            args[0] = li.toString();
+            args[0] = ip;
             args[1] = oldIP;
             args[2] = newIP;
             args[3] = doWhat;
@@ -273,15 +272,13 @@ public class Interfaces
     public static void InterfaceExitProg() throws UnknownHostException
     {
 
-        ArrayList<String> IPListe = getIPList();
-        ListIterator<String> li = IPListe.listIterator();
-        while (li.hasNext())
+        for(String ip: getIPList())
         {
-            if (!li.toString().equals(gui.Config.getCurrentIp()))
+            if (!ip.equals(gui.Config.getCurrentIp()))
             {
                 String doWhat = "Exit";
                 String[] args = new String[3];
-                args[0] = li.toString();
+                args[0] = ip;
                 args[1] = gui.Config.getCurrentIp();
                 args[2] = doWhat;
                 StartClientServer.startClient(args);
