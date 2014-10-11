@@ -8,8 +8,10 @@ package network;
 import gui.Config;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,11 +20,21 @@ import java.util.ArrayList;
 public class Network
 {
 
-    public static void main(String[] args) throws InterruptedException, IOException
+    public static void main(String[] args)
     {
 
-        StartClientServer.startServer();
-        System.out.println("Start des tests");
-        System.out.println("Ende des tests");
+        try
+        {
+            Interfaces.inerfaceStartProgram();
+
+            System.out.println("jetzt");
+            String ip = gui.Config.getCurrentIp();
+            System.out.println("IP: " + ip);
+            Interfaces.InterfaceChangeOwnIP(ip, "klappt");
+        } catch (UnknownHostException ex)
+        {
+            System.out.println("_____FEHLER________");
+        }
+        System.out.println("fertig");
     }
 }

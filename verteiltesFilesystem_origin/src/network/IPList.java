@@ -75,8 +75,8 @@ public class IPList
         ListIterator<String> li = IPListe.listIterator();
         while (li.hasNext())
         {
-            if(!li.toString().equals(searchedIP))InsertIpInList(li.toString());
-            else InsertIpInList(toReplaceIP);
+            if(li.toString().equals(searchedIP))InsertIpInList(toReplaceIP);
+            else InsertIpInList(li.toString());
         }
 
         return ipFound;
