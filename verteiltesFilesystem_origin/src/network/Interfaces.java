@@ -37,7 +37,7 @@ public class Interfaces
     // attr.
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static int interfaceFileTransfer(String IPv4, String targetPath, String filename) throws UnknownHostException
+    public static int interfaceFileTransfer(String IPv4, String targetPath, String filename, String clientFilename) throws UnknownHostException
     {
 
         boolean kicked = CheckKicked.checkKicked();
@@ -65,7 +65,7 @@ public class Interfaces
                 out.print("start client", 3);
                 String[] args2 = new String[3];
                 args2[0] = IPv4;
-                args2[1] = filename; // name
+                args2[1] = clientFilename; // name
                 args2[2] = targetPath; // zielordner
                 try
                 {
