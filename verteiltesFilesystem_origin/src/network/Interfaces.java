@@ -53,8 +53,9 @@ public class Interfaces
                     
                     
                     String doWhat = "FileSize";
-                    String[] args = new String[3];
+                    String[] args = new String[4];
                     args[0] = IPv4;
+                    args[1] = IPv4target;
                     args[1] = filename; // name
                     args[2] = doWhat;
                     StartClientServer.startClient(args);
