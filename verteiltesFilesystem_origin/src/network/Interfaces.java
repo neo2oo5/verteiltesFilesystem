@@ -309,7 +309,7 @@ public class Interfaces
 
         }
         IPList.clearList();
-        
+        inerfaceAdminLogout();
     }
 
     public static void interfaceNewClient(String clientIP, String ownIP)
