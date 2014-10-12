@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import substructure.GUIOutput;
 
@@ -22,6 +20,18 @@ import substructure.GUIOutput;
 public class FiletransferClient
 {
 
+    static int filesize = 0;
+    
+    public static int getFilesize()
+    {
+        return filesize;
+    }
+
+    public static void setFilesize(int filesize)
+    {
+        FiletransferClient.filesize = filesize;
+    }
+    
     static GUIOutput out = GUIOutput.getInstance();
 
     public static boolean FileTransferClient(String[] args)
@@ -30,7 +40,7 @@ public class FiletransferClient
         {
             out.print("FileTransferClient startet", 1);
             Socket sock = new Socket(args[0], 1718);
-            byte[] mybytearray = new byte[1024];
+            byte[] mybytearray = new byte[getFilesize()];
             InputStream is = sock.getInputStream();
             String path = args[2] + args[1];
             String outputdatei = path;

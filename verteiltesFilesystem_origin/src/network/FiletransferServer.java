@@ -51,4 +51,21 @@ public class FiletransferServer
             sock.close();
         }
     }
+
+    public static int fileSize(String[] args)
+    {
+        int fileSize = 0;
+        try
+        {
+            String file = null;
+            file = substructure.PathHelper.getFile(args[0]);
+            File myFile = new File(file);
+            fileSize = (int) myFile.length();
+        } catch (fileSystemException ex)
+        {
+            out.print("(FileTransferServer - fileSize) " + ex, 2);
+        }
+        return fileSize;
+        
+    }
 }
