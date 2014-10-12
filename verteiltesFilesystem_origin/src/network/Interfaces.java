@@ -49,20 +49,31 @@ public class Interfaces
                 {
                     String targetPath = PathHelper.getFolder("Downloads");
                     // do ...
-                    String doWhat = "FileTransfer";
+                    
+                    
+                    
+                    String doWhat = "FileSize";
                     String[] args = new String[3];
                     args[0] = IPv4;
                     args[1] = filename; // name
                     args[2] = doWhat;
+                    StartClientServer.startClient(args);
+                    
+                    
+                    String doWhat2 = "FileTransfer";
+                    String[] args2 = new String[3];
+                    args2[0] = IPv4;
+                    args2[1] = filename; // name
+                    args2[2] = doWhat;
                     
                     out.print("start Server", 1);
                     StartClientServer.startClient(args);
                     
                     out.print("start client", 1);
-                    String[] args2 = new String[3];
-                    args2[0] = IPv4;
-                    args2[1] = clientFilename; // name
-                    args2[2] = targetPath; // zielordner
+                    String[] args3 = new String[3];
+                    args3[0] = IPv4;
+                    args3[1] = clientFilename; // name
+                    args3[2] = targetPath; // zielordner
                     if(FiletransferClient.FileTransferClient(args2)) succesful = true;
                     
                 } catch (fileSystemException ex)
@@ -298,7 +309,7 @@ public class Interfaces
 
         }
         IPList.clearList();
-        
+        inerfaceAdminLogout();
     }
 
     public static void interfaceNewClient(String clientIP, String ownIP)

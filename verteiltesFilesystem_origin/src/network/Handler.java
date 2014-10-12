@@ -134,12 +134,29 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
                         IPList.replaceIP(args[0], args[1]);
-                        
+
                         out.print("(Handler) ChangeOwnIP: " + args[0] + " to " + args[1]);
                     } else if (args[anz].equals("newClient"))
                     {
                         IPList.InsertIpInList(args[0]);
                         out.print("(Handler) newClient eintrag: " + args[0]);
+                    } else if (args[anz].equals("FileSize"))
+                    {
+                        int filesize = FiletransferServer.fileSize(args);
+                        String fs = String.valueOf(filesize);
+
+                        String doWhat = "AntwortFileSize";
+                        String[] argsNeu = new String[3];
+                        argsNeu[0] = args[0];
+                        argsNeu[1] = fs;
+                        argsNeu[2] = doWhat;
+                        StartClientServer.startClient(argsNeu);
+
+                    } else if (args[anz].equals("AntwortFileSize"))
+                    {
+                        String stringZahl = args[0];
+                        int intZahl = Integer.parseInt(stringZahl);
+                        FiletransferClient.setFilesize(intZahl);
                     }
                 }
                 reader.close();
