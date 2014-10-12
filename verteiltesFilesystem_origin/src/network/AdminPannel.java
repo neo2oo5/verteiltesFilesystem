@@ -156,13 +156,15 @@ public class AdminPannel
     public static boolean IAmAdmin()
     {
         File file = null;
+        boolean check = false;
         try
         {
             file = new File(substructure.PathHelper.getFile("admin.loggedin"));
+            check = file.exists();
         } catch (fileSystemException ex)
         {
-            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
+            check = false;
         }
-        return file.exists();
+        return check;
     }
 }

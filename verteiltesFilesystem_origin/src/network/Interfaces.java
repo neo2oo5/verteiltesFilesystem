@@ -309,7 +309,8 @@ public class Interfaces
 
         }
         IPList.clearList();
-        if(AdminPannel.IAmAdmin() == true) interfaceAdminLogout();
+        boolean admin = interfaceIAmAdmin();
+        if(admin) interfaceAdminLogout();
     }
 
     public static void interfaceNewClient(String clientIP, String ownIP)
