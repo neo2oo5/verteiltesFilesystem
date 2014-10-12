@@ -21,7 +21,7 @@ public class FiletransferClient
 
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static void FileTransferClient(String[] args) throws Exception
+    public static boolean FileTransferClient(String[] args) throws Exception
     {
         out.print("FileTransferClient startet", 1);
         Socket sock = new Socket(args[0], 1718);
@@ -35,5 +35,7 @@ public class FiletransferClient
         bos.write(mybytearray, 0, bytesRead);
         bos.close();
         sock.close();
+        
+        return true;
     }
 }
