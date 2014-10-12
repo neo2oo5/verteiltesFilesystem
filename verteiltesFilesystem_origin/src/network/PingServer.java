@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import static network.CheckWhoIsOnline_old.out;
+import substructure.GUIOutput;
+
 
 /**
  *
@@ -17,6 +18,8 @@ import static network.CheckWhoIsOnline_old.out;
  */
 public class PingServer
 {
+    static GUIOutput out = GUIOutput.getInstance();
+    
     public static boolean PingServer(String checkIP)
     {
         /**

@@ -10,10 +10,13 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import substructure.GUIOutput;
 import javax.swing.*;
+import network.IPList;
 import network.Interfaces;
 
 /**
@@ -22,7 +25,7 @@ import network.Interfaces;
  */
 public class AdminControlPanel extends javax.swing.JPanel {
     
-    private  GUIOutput out =  GUIOutput.getInstance();
+    private static GUIOutput out =  GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
     private static JLabel[] usersL  = new JLabel[100];
     private static JButton[] usersB = new JButton[100];
@@ -71,7 +74,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
        */
     private void createUserlist()
     {
-        String ips[] = c.getAllIps();
+        List<String> ips = IPList.getIPList();
         
         
         
@@ -80,11 +83,12 @@ public class AdminControlPanel extends javax.swing.JPanel {
             int y = 5;
             int width = 200;
             int height = 20;
-            for(int i = 0; i < c.getClientCount(); i++)
+            for(int i = 0; i < ips.size(); i++)
             {
+                String ip = ips.get(i);
                 
                 usersL[i] = new JLabel();
-                usersL[i].setText("user"+i+": "+ ips[i]);
+                usersL[i].setText("user"+i+": "+ ip);
                 usersL[i].setBounds(x, y += 20, width, height);
                 usersL[i].setVisible(true);
                 userlist.add(usersL[i]);
@@ -92,8 +96,8 @@ public class AdminControlPanel extends javax.swing.JPanel {
                 usersB[i] = new JButton();
                 usersB[i].setText("Aus Netzwerk entfernen");
                 usersB[i].setBounds(x, y += 20, width, height);
-                usersB[i].setActionCommand(ips[i]);
-               // usersB[i].addActionListener(new AdminControlListener());
+                usersB[i].setActionCommand(ip);
+                usersB[i].addActionListener(new AdminControlListener());
                 usersB[i].setVisible(true);
                 userlist.add(usersB[i]);
                
@@ -187,14 +191,16 @@ public class AdminControlPanel extends javax.swing.JPanel {
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
             
-            String ips[] = c.getAllIps();
+            List<String> ips = IPList.getIPList();
             
-            for(int i = 0; i < c.getClientCount(); i++)
+            for(int i = 0; i < ips.size(); i++)
             {
-                if(ips[i].equals(cmd))
+                String ip = ips.get(i);
+              // out.print("ip: " + ip + " cmd: " + cmd);
+                if(cmd.equals(ip))
                 {
-                    Interfaces.inerfaceAdminKickUser(ips[i]);
-                    new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: "+ ips[i]+" wurde aus dem Netzwerk entfernt");
+                    Interfaces.inerfaceAdminKickUser(ip);
+                    new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: "+ ip +" wurde aus dem Netzwerk entfernt");
                     userlist.remove(usersL[i]);
                     userlist.remove(usersB[i]);
               

@@ -13,6 +13,7 @@ import gui.Config;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import static network.IPList.getIPList;
 import substructure.GUIOutput;
 import substructure.PathHelper;
@@ -173,7 +174,7 @@ public class Interfaces
         /**
          * interface to get every client IP in the network
          */
-        return CheckWhoIsOnline_old.PingServer(IPv4);
+        return PingServer.PingServer(IPv4);
     }
 
     /**
@@ -258,7 +259,7 @@ public class Interfaces
     {
         gui.Config.setCurrentIp(newIP);
         
-         ArrayList<String> IPList = getIPList();
+         List<String> IPList = getIPList();
          
         for(String ip: IPList)
         {
@@ -321,13 +322,18 @@ public class Interfaces
         {
             if(fs == null)
             {
-             fs = new syncFilesystems();
+                fs = new syncFilesystems();
             }
-            else if(fs.isInterrupted() || !fs.isAlive())
+            else if(!fs.isAlive())
             {
                 trigger = false;
                 fs = new syncFilesystems();
             }
         }
+    }
+    
+    public static void interfaceRestartMulticast()
+    {
+        new CheckWhoIsOnline();
     }
 }

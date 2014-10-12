@@ -1,5 +1,6 @@
 package network;
 
+import gui.Config;
 import java.io.*;
 import java.net.*;
 import java.util.logging.Level;
@@ -18,7 +19,7 @@ public class SSDPNetworkClient implements Runnable {
       final int port = 1900; // standard port for SSDP
       socket = new MulticastSocket(port); 
       socket.setReuseAddress(true);
-      socket.setSoTimeout(1000);
+      socket.setSoTimeout(25000);
       socket.joinGroup(multicastAddress);
       
       
@@ -55,14 +56,15 @@ public class SSDPNetworkClient implements Runnable {
   
    private void dumpPacket(DatagramPacket packet) throws IOException {
     String addr = packet.getAddress().getHostAddress();
-    System.out.println("Response from: " + addr);
+    //System.out.println("Response from: " + addr);
     //adresse in liste eintrage
     ByteArrayInputStream in = new ByteArrayInputStream(packet.getData(), 0, packet.getLength());
-    if(checkifFileSystem(in))
+    if(checkifFileSystem(in) && !addr.equals(Config.getCurrentIp()) && !IPList.SearchIP(addr))
     {
         //in ip liste eintragen
         IPList.InsertIpInList(addr);
-        System.out.print("Folgende IP in Liste eingetragen: " + addr);
+        PingServer.PingServer(addr);
+        System.out.print("Folgende IP in Liste eingetragen: " + addr + "\n");
     }
   }
 

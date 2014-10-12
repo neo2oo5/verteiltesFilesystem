@@ -7,12 +7,15 @@ package network;
 
 import fileSystem.fileSystemException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +44,7 @@ public class IPList
         }
     }
 
-    public static void InsertIpInList(String IPtoInsert)
+    public static synchronized void InsertIpInList(String IPtoInsert)
     {
         try
         {
@@ -52,18 +55,21 @@ public class IPList
             if(IPtoInsert == null)
             {
                 FileWriter writer = new FileWriter(file, false);
-                writer.close();
+               writer.close();
                 
             }
             else
             {
                 if(!SearchIP(IPtoInsert))
                 {
-                    FileWriter writer = new FileWriter(file, true);
-                    writer.write(IPtoInsert);
-                    writer.write(System.getProperty("line.separator"));
-                    writer.flush();
-                    writer.close();
+                   BufferedWriter fw = new BufferedWriter(new FileWriter(file, true));
+                    synchronized (fw) {
+                        fw.write(IPtoInsert);
+                        fw.newLine();
+                        //writer.write(System.getProperty("line.separator"));
+                    }
+                    fw.flush();
+                    fw.close();
                 }
             }
         } catch (IOException ex)
@@ -76,7 +82,7 @@ public class IPList
     {
         boolean ipFound = false;
         
-        ArrayList<String> IPListe = getIPList();
+        List<String> IPListe = getIPList();
 
         for(String ip: IPListe)
         {
@@ -89,12 +95,51 @@ public class IPList
         return ipFound;
     }
 
-    public static void replaceIP(String searchedIP, String toReplaceIP)
+    public static synchronized void removeIP(String searchedIP)
     {
-        FileWriter writer = null;
+        BufferedWriter fw   = null;
         try {
             
-            ArrayList<String> IPList = getIPList();
+            List<String> IPList = getIPList();
+            
+            
+            IPList.remove(searchedIP);
+            
+            ipListPath = GetIPListPath();
+            File file = new File(ipListPath);
+            fw = new BufferedWriter(new FileWriter(file, false));
+
+            for(String ip: IPList)
+            { 
+                                
+                fw.write(ip);
+                fw.newLine();
+                
+                    
+                
+            }   
+ 
+        } catch (IOException ex) {
+            out.print(ex.toString());
+            
+        } finally {
+            try {
+                fw.flush();
+                fw.close();
+                
+            } catch (IOException ex) {
+                out.print(ex.toString());
+            }
+        }
+    }
+    
+    
+    public static synchronized void replaceIP(String searchedIP, String toReplaceIP)
+    {
+        FileWriter writer   = null;
+        try {
+            
+            List<String> IPList = getIPList();
             
             IPList.add(toReplaceIP);
             IPList.remove(searchedIP);
@@ -105,7 +150,11 @@ public class IPList
 
             for(String ip: IPList)
             { 
-                writer.write(ip);  
+                                
+                writer.write(ip);
+                
+                    
+                
             }   
  
         } catch (IOException ex) {
@@ -123,7 +172,7 @@ public class IPList
         
     }
 
-    public static ArrayList<String> getIPList()
+    public static List<String> getIPList()
     {
         ArrayList<String> IPList = new ArrayList<>();
         try
@@ -145,7 +194,7 @@ public class IPList
         {
             out.print("(replaceIP) " + ex.toString(), 3);
         }
-        return IPList;
+        return Collections.synchronizedList(IPList);
     }
 
 }

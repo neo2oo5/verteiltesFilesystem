@@ -15,17 +15,31 @@ import substructure.GUIOutput;
  */
 public class CheckWhoIsOnline extends  Thread {
     
-    
+    private Thread multicast = null;
     private static GUIOutput out = GUIOutput.getInstance();
     
     public CheckWhoIsOnline()
     {
-        Thread ba = new Thread(new SSDPNetworkClient());
-        ba.setName("Multicast");
-        ba.start();
+        restartMulticast();
     }
     
-    
+    private void restartMulticast()
+    {
+        if(multicast == null)
+        {
+            multicast = new Thread(new SSDPNetworkClient());
+            multicast.setName("Multicast");
+            multicast.start();
+        }
+        else
+        {
+        
+            if(!multicast.isAlive())
+            {
+                multicast.start();
+            }
+        }
+    }
     
    
     

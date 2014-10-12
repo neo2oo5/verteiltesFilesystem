@@ -9,6 +9,7 @@ import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import substructure.GUIOutput;
 
 /**
@@ -17,7 +18,7 @@ import substructure.GUIOutput;
  */
 public class syncFilesystems extends Thread {
     
-    private String fullPath ="", filename = "inComingList.ser";
+    private String fullPath ="", filename = "myFileList.ser";
     private static GUIOutput out = GUIOutput.getInstance();
     
     public syncFilesystems()
@@ -34,7 +35,7 @@ public class syncFilesystems extends Thread {
     {
         out.print("(syncFileSystems) start");
         
-        ArrayList<String> ips = IPList.getIPList();
+        List<String> ips = IPList.getIPList();
         
         for(String ip : ips)
         {

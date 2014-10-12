@@ -15,6 +15,7 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 import substructure.GUIOutput;
 
@@ -41,14 +42,15 @@ public class AdminPannel
     public static void adminCheckLogin()
     {
 
-        ArrayList<String> IPListe = IPList.getIPList();
-        ListIterator<String> li = IPListe.listIterator();
+        
         String ownIP = gui.Config.getCurrentIp();
-        while (li.hasNext())
+        List<String> IPListe = IPList.getIPList();
+            
+            for(String ip: IPListe)
         {
             String doWhat = "CheckAdminLoggedin";
             String[] args = new String[3];
-            args[0] = li.toString();
+            args[0] = ip;
             args[1] = ownIP;
             args[2] = doWhat;
             StartClientServer.startClient(args);
@@ -112,15 +114,16 @@ public class AdminPannel
 
     public static void message(String msg) throws UnknownHostException
     {
-        ArrayList<String> IPListe = IPList.getIPList();
-        ListIterator<String> li = IPListe.listIterator();
+        
         String ownIP = gui.Config.getCurrentIp();
-        while (li.hasNext())
+        List<String> IPListe = IPList.getIPList();
+            
+            for(String ip: IPListe)
         {
 
             String doWhat = "AdminMessage";
             String[] args = new String[3];
-            args[0] = li.toString();
+            args[0] = ip;
             args[1] = msg;
             args[2] = doWhat;
             StartClientServer.startClient(args);
@@ -136,13 +139,13 @@ public class AdminPannel
         } else
         {
 
-            ArrayList<String> IPListe = IPList.getIPList();
-            ListIterator<String> li = IPListe.listIterator();
-            while (li.hasNext())
+            List<String> IPListe = IPList.getIPList();
+            
+            for(String ip: IPListe)
             {
                 String doWhat = "AdminKickUser";
                 String[] args = new String[3];
-                args[0] = li.toString();
+                args[0] = ip;
                 args[1] = ipToKick;
                 args[2] = doWhat;
                 StartClientServer.startClient(args);

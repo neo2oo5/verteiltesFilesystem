@@ -113,11 +113,11 @@ public class Handler implements Runnable
                         out.print("(Handler) AdminMessage: " + args[0], 1);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
-                        IPList.replaceIP(args[0], null);
+                        IPList.removeIP(args[0]);
                         out.print("(Handler) Exit: " + args[0] + " get kicked");
                     } else if (args[anz].equals("Exit"))
                     {
-                        IPList.replaceIP(args[0], null);
+                        IPList.InsertIpInList(null);
                         out.print("(Handler) Exit: " + args[0] + " get removed");
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
