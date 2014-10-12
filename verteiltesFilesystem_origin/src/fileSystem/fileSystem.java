@@ -316,7 +316,7 @@ public class fileSystem
         String inComingList = null;
         try
         {
-            inComingList = PathHelper.getFile("Downloads/myFileList.ser");
+            inComingList = PathHelper.getFile("Downloads\\inComingList.ser");
         } catch (fileSystemException ex)
         {
             out.print("(fileSystem - mergeList) : " + ex.toString(), 3);
