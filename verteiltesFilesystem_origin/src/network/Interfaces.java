@@ -45,7 +45,9 @@ public class Interfaces
         if (kicked)
         {
             out.print("Network Offline or You get Kicked from Network", 3);
-        } else
+        } else if(PingServer.PingServer(IPv4) == false){
+            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
+        }else
         {
             String IPv4target = null;
             IPv4target = Config.getCurrentIp();
@@ -92,9 +94,8 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileRename) : " + "Network Offline or You get Kicked from Network", 3);
-        } else if (CheckWhoIsOnline_old.PingServer(IPv4) == false)
-        {
-            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
+        } else if(PingServer.PingServer(IPv4) == false){
+            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
             /* interface to rename a file with the necessary values */
@@ -123,10 +124,9 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileDelete) : " + "Network Offline or You get Kicked from Network", 3);
-        } else if (CheckWhoIsOnline_old.PingServer(IPv4) == false)
-        {
-            out.print("(Interface - FileDelete) : " + "Client nicht verfügbar", 3);
-        } else
+        } else if(PingServer.PingServer(IPv4) == false){
+            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
+        }else
         {
             /**
              * interface to delete a file/directory
@@ -155,6 +155,8 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
+        } else if(PingServer.PingServer(IPv4) == false){
+            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
             /**
