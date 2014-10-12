@@ -297,7 +297,7 @@ public class Interfaces
             }
 
         }
-        IPList.InsertIpInList(null);
+        IPList.clearList();
         
     }
 

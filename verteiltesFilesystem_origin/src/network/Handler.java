@@ -117,7 +117,7 @@ public class Handler implements Runnable
                         out.print("(Handler) Exit: " + args[0] + " get kicked");
                     } else if (args[anz].equals("Exit"))
                     {
-                        IPList.InsertIpInList(null);
+                        IPList.removeIP(args[0]);
                         out.print("(Handler) Exit: " + args[0] + " get removed");
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {

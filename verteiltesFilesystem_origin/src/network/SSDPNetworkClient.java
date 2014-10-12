@@ -61,10 +61,21 @@ public class SSDPNetworkClient implements Runnable {
     ByteArrayInputStream in = new ByteArrayInputStream(packet.getData(), 0, packet.getLength());
     if(checkifFileSystem(in) && !addr.equals(Config.getCurrentIp()) && !IPList.SearchIP(addr))
     {
+        
+        String Cnetmask = Config.getCurrentIp();
+        Cnetmask = Cnetmask.substring(0, Cnetmask.lastIndexOf("."));
+        
+        String netmask = addr;
+        netmask = netmask.substring(0, netmask.lastIndexOf("."));
+        
+        System.out.print("Current: " + Cnetmask + " empf Net:" + netmask );
         //in ip liste eintragen
-        IPList.InsertIpInList(addr);
-        PingServer.PingServer(addr);
-        System.out.print("Folgende IP in Liste eingetragen: " + addr + "\n");
+        if(Cnetmask.equals(netmask))
+        {
+            IPList.InsertIpInList(addr);
+            PingServer.PingServer(addr);
+            System.out.print("Folgende IP in Liste eingetragen: " + addr + "\n");
+        }
     }
   }
 

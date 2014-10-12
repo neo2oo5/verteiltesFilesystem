@@ -46,36 +46,60 @@ public class IPList
 
     public static synchronized void InsertIpInList(String IPtoInsert)
     {
+        BufferedWriter fw = null;
         try
         {
             ipListPath = GetIPListPath();
             File file = new File(ipListPath);
             
             
-            if(IPtoInsert == null)
-            {
-                FileWriter writer = new FileWriter(file, false);
-               writer.close();
+            
+              
                 
-            }
-            else
-            {
+            
+            
                 if(!SearchIP(IPtoInsert))
                 {
-                   BufferedWriter fw = new BufferedWriter(new FileWriter(file, true));
+                   fw = new BufferedWriter(new FileWriter(file, true));
                     synchronized (fw) {
                         fw.write(IPtoInsert);
                         fw.newLine();
+                        fw.flush();
                         //writer.write(System.getProperty("line.separator"));
                     }
-                    fw.flush();
-                    fw.close();
+                    
                 }
-            }
+            
         } catch (IOException ex)
         {
             out.print("(InsertIpInList) " + ex.toString(), 3);
         }
+        finally
+        {
+            
+            try {
+                if(fw != null)
+                {
+                    fw.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(IPList.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public static void clearList()
+    {
+        ipListPath = GetIPListPath();
+        File file = new File(ipListPath);
+        FileWriter writer;
+        try {
+            writer = new FileWriter(file, false);
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(IPList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     public static boolean SearchIP(String searchedIP)
