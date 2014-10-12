@@ -5,18 +5,20 @@ import java.io.*;
 import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import substructure.GUIOutput;
 
 public class SSDPNetworkClient implements Runnable {
-    MulticastSocket socket ;
+    MulticastSocket socket;
+    final int port = 1900;
+    static GUIOutput out = GUIOutput.getInstance();
   /**
    * UPNP/SSDP client to demonstrate the usage of UDP multicast sockets.
    * @throws IOException
    */
   public void multicast() throws IOException {
     try {
-      InetAddress multicastAddress = InetAddress.getByName("239.255.255.250"); 
-      // multicast address for SSDP
-      final int port = 1900; // standard port for SSDP
+      InetAddress multicastAddress = InetAddress.getByName("239.255.255.250");
+      // standard port for SSDP
       socket = new MulticastSocket(port); 
       socket.setReuseAddress(true);
       socket.setSoTimeout(25000);
@@ -29,14 +31,14 @@ public class SSDPNetworkClient implements Runnable {
       DatagramPacket hi = new DatagramPacket(txbuf, txbuf.length,
           multicastAddress, port);
       socket.send(hi);
-      System.out.println("SSDP alive sent");
+      out.print("(SSDPNetwork) SSDP alive sent");
       
       // send discover
       txbuf = DISCOVER_MESSAGE_ROOTDEVICE.getBytes("UTF-8");
       hi = new DatagramPacket(txbuf, txbuf.length,
           multicastAddress, port);
       socket.send(hi);
-      System.out.println("SSDP discover sent");
+      out.print("(SSDPNetwork) SSDP discover sent");
 
       //empfange
     do {
@@ -46,7 +48,7 @@ public class SSDPNetworkClient implements Runnable {
         dumpPacket(packet);
       } while (true); // should leave loop by SocketTimeoutException
     } catch (SocketTimeoutException e) {
-      System.out.println("Timeout");
+        out.print("(SSDPNetwork) Timeout");
       if(socket != null)
       {
           socket.close();
@@ -74,7 +76,7 @@ public class SSDPNetworkClient implements Runnable {
         {
             IPList.InsertIpInList(addr);
             PingServer.PingServer(addr);
-            System.out.print("Folgende IP in Liste eingetragen: " + addr + "\n");
+            out.print("(SSDPNetwork) Folgende IP in Liste eingetragen: " + addr + "\n");
         }
     }
   }

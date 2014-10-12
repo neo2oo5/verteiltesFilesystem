@@ -62,12 +62,23 @@ public class syncFilesystems implements Runnable {
     private boolean downloadFSbyIP(String IP)
     {
         try {
-            Interfaces.interfaceFileTransfer(IP, filename, filename);
+            boolean trigger = true;
+            do
+            {
+                if(Interfaces.interfaceFileTransfer(IP, filename, filename))
+                {
+                    trigger = false;
+                }
+                
+            }while(trigger);
+            
+            return true;
+        
         } catch (UnknownHostException ex) {
             out.print(ex.toString());
             return false;
         }
         
-        return true;
+        
     }
 }

@@ -139,20 +139,25 @@ public class fileSystem
              Path finalPath = Paths.get(path);
              try
              {  
-                 fileSystem.set(find(clients, IP), initFS(finalPath));      
+                 fileSystem.set(find(clients, IP), initFS(finalPath));
+                 
              }
              catch(ArrayIndexOutOfBoundsException e)
              {
                  fileSystem.add(clientscount, initFS(finalPath));
                  clients[clientscount] = IP;
                  clientscount++;
+                 
              }
+             
              outGoingList(IP);
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
+        
+        
     }
 	
     /**
