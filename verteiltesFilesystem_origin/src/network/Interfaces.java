@@ -47,7 +47,8 @@ public class Interfaces
             {
                 try
                 {
-                    String targetPath = PathHelper.getFolder("Downloads");
+                    String targetPath = PathHelper.getFile("Downloads");
+                    out.print("path---- " + targetPath, 3);
                     // do ...
                     
                     
