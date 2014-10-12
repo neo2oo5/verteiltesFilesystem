@@ -93,9 +93,9 @@ public class CheckWhoIsOnline_old implements Runnable
         {
             out.print("(CheckWhoIsOnline - run) : " + e.toString(), 2);
         }
-        Thread bc = new Thread(new BroadcastBroadcaster());
-        bc.setName("BroadcastBroadcaster");
-        bc.start();
+//        Thread bc = new Thread(new BroadcastBroadcaster());
+//        bc.setName("BroadcastBroadcaster");
+//        bc.start();
       
         String[] sip = ipv4.split(Pattern.quote("."));
         String uIP = sip[0] + "." + sip[1] + "." + sip[2] + ".";
