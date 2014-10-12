@@ -322,14 +322,18 @@ public class Interfaces
         {
             if(fs == null)
             {
-                fs = new syncFilesystems();
+                trigger = false;
+                fs = new Thread(new syncFilesystems());
             }
             else if(!fs.isAlive())
             {
                 trigger = false;
-                fs = new syncFilesystems();
+                fs = new Thread(new syncFilesystems());
             }
         }
+        
+        fs.setName("(syncFilesystems)");
+        fs.start();
     }
     
     public static void interfaceRestartMulticast()

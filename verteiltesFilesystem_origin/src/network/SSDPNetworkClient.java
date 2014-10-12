@@ -68,7 +68,7 @@ public class SSDPNetworkClient implements Runnable {
         String netmask = addr;
         netmask = netmask.substring(0, netmask.lastIndexOf("."));
         
-        System.out.print("Current: " + Cnetmask + " empf Net:" + netmask );
+        
         //in ip liste eintragen
         if(Cnetmask.equals(netmask))
         {

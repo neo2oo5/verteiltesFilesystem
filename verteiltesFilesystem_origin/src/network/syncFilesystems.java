@@ -7,6 +7,7 @@ package network;
 
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
+import gui.Config;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import substructure.GUIOutput;
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
-public class syncFilesystems extends Thread {
+public class syncFilesystems implements Runnable {
     
     private String fullPath ="", filename = "myFileList.ser";
     private static GUIOutput out = GUIOutput.getInstance();
@@ -28,6 +29,7 @@ public class syncFilesystems extends Thread {
         } catch (fileSystemException ex) {
             out.print(ex.toString());
         }
+
     }
     
     @Override
@@ -39,14 +41,17 @@ public class syncFilesystems extends Thread {
         
         for(String ip : ips)
         {
-            if(downloadFSbyIP(ip))
+            if(PingServer.PingServer(ip) && !ip.equals(Config.getCurrentIp()))
             {
-                fileSystem fs = fileSystem.getInstance();
-                fs.mergeList();
-            }
-            else
-            {
-                out.print("Ein sync Fehler mit folgender IP trat auf: "+ip);
+                if(downloadFSbyIP(ip))
+                {
+                    fileSystem fs = fileSystem.getInstance();
+                    fs.mergeList();
+                }
+                else
+                {
+                    out.print("Ein sync Fehler mit folgender IP trat auf: "+ip);
+                }
             }
         }
         
