@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import static network.AdminPannel.out;
 import static network.IPList.getIPList;
 import substructure.GUIOutput;
+import substructure.PathHelper;
 
 /**
  *
@@ -37,7 +38,7 @@ public class Interfaces
     // attr.
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static int interfaceFileTransfer(String IPv4, String targetPath, String filename, String clientFilename) throws UnknownHostException
+    public static int interfaceFileTransfer(String IPv4, String filename, String clientFilename) throws UnknownHostException
     {
 
         boolean kicked = CheckKicked.checkKicked();
@@ -52,27 +53,32 @@ public class Interfaces
             {
             } else
             {
-                // do ...
-                String doWhat = "FileTransfer";
-                String[] args = new String[3];
-                args[0] = IPv4;
-                args[1] = filename; // name
-                args[2] = doWhat;
-
-                out.print("start Server", 3);
-                StartClientServer.startClient(args);
-
-                out.print("start client", 3);
-                String[] args2 = new String[3];
-                args2[0] = IPv4;
-                args2[1] = clientFilename; // name
-                args2[2] = targetPath; // zielordner
                 try
                 {
+                    String targetPath = PathHelper.getFolder("Downloads");
+                    // do ...
+                    String doWhat = "FileTransfer";
+                    String[] args = new String[3];
+                    args[0] = IPv4;
+                    args[1] = filename; // name
+                    args[2] = doWhat;
+                    
+                    out.print("start Server", 1);
+                    StartClientServer.startClient(args);
+                    
+                    out.print("start client", 1);
+                    String[] args2 = new String[3];
+                    args2[0] = IPv4;
+                    args2[1] = clientFilename; // name
+                    args2[2] = targetPath; // zielordner
                     FiletransferClient.FileTransferClient(args2);
+                    
+                } catch (fileSystemException ex)
+                {
+                        out.print("(Interfaces) FileTransfer " + ex, 3);
                 } catch (Exception ex)
                 {
-                    out.print("(Interfaces) newClient " + ex, 3);
+                        out.print("(Interfaces) FileTransfer " + ex, 3);
                 }
 
             }

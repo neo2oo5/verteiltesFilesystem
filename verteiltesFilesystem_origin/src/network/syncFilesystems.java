@@ -56,7 +56,7 @@ public class syncFilesystems extends Thread {
     private boolean downloadFSbyIP(String IP)
     {
         try {
-            Interfaces.interfaceFileTransfer(IP, fullPath, filename, filename);
+            Interfaces.interfaceFileTransfer(IP, filename, filename);
         } catch (UnknownHostException ex) {
             out.print(ex.toString());
             return false;
