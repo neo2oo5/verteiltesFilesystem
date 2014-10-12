@@ -54,7 +54,7 @@ public class GUI extends javax.swing.JFrame
     {
         try
         {
-            if (network.Interfaces.inerfaceNetworkOnline() == true)
+            if (network.Interfaces.interfaceNetworkOnline() == true)
             {
                 state.setGreen();
                 statel.setText("Online");
@@ -258,7 +258,7 @@ public class GUI extends javax.swing.JFrame
             case "Explorer":
         {
             try {
-                if (!Config.isRootDir() == true && network.Interfaces.inerfaceNetworkOnline() == true )
+                if (!Config.isRootDir() == true && network.Interfaces.interfaceNetworkOnline() == true )
                 {
                     explorer.addTab(jTabbedPane5, ActiveTabIndex);
                 }

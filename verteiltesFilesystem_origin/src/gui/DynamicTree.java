@@ -79,8 +79,8 @@ public class DynamicTree extends JPanel implements MouseListener
             tree.addMouseListener(this);
             
             try {   
-                out.print("online: " + network.Interfaces.inerfaceNetworkOnline());
-                if(Config.isRootDir() == false && network.Interfaces.inerfaceNetworkOnline() == false)
+                out.print("online: " + network.Interfaces.interfaceNetworkOnline());
+                if(Config.isRootDir() == false && network.Interfaces.interfaceNetworkOnline() == false)
                 {
                     try {
                         ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));

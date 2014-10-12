@@ -357,7 +357,7 @@ public class Config
                 {
                     try {
                         
-                        network.Interfaces.InterfaceChangeOwnIP(getCurrentIp(), tmp[1]);
+                        network.Interfaces.interfaceChangeOwnIP(getCurrentIp(), tmp[1]);
                     } catch (UnknownHostException ex) {
                         out.print("IP konnte nicht geändert werden.",3);
                     }

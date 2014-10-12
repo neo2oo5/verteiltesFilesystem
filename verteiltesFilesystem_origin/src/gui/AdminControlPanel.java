@@ -199,7 +199,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
               // out.print("ip: " + ip + " cmd: " + cmd);
                 if(cmd.equals(ip))
                 {
-                    Interfaces.inerfaceAdminKickUser(ip);
+                    Interfaces.interfaceAdminKickUser(ip);
                     new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: "+ ip +" wurde aus dem Netzwerk entfernt");
                     userlist.remove(usersL[i]);
                     userlist.remove(usersB[i]);
@@ -211,7 +211,7 @@ public class AdminControlPanel extends javax.swing.JPanel {
             if(logoutCMD.equals(cmd))
             {
                 try {
-                    Interfaces.inerfaceAdminLogout();
+                    Interfaces.interfaceAdminLogout();
                     AdminControlPanel.adminControlPanel.setVisible(false);
                     AdminControlPanel.adminloginPanel.setVisible(true);
                 } catch (UnknownHostException ex) {
