@@ -28,9 +28,9 @@ public class Interfaces
     // attr.
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static int interfaceFileTransfer(String IPv4, String filename, String clientFilename) throws UnknownHostException
+    public static boolean interfaceFileTransfer(String IPv4, String filename, String clientFilename) throws UnknownHostException
     {
-
+        boolean succesful = false;
         boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
@@ -63,7 +63,7 @@ public class Interfaces
                     args2[0] = IPv4;
                     args2[1] = clientFilename; // name
                     args2[2] = targetPath; // zielordner
-                    FiletransferClient.FileTransferClient(args2);
+                    if(FiletransferClient.FileTransferClient(args2)) succesful = true;
                     
                 } catch (fileSystemException ex)
                 {
@@ -75,7 +75,7 @@ public class Interfaces
 
             }
         }
-        return 1;
+        return succesful;
     }
 
     public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename) throws UnknownHostException

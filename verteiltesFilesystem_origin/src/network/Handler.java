@@ -113,8 +113,20 @@ public class Handler implements Runnable
                         out.print("(Handler) AdminMessage: " + args[0], 1);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
-                        IPList.removeIP(args[0]);
-                        out.print("(Handler) Exit: " + args[0] + " get kicked");
+                        String ownIP = gui.Config.getCurrentIp();
+                    
+                        if (args[0].equals(ownIP))
+                        {
+                            IPList.clearList();
+                            IPList.InsertIpInList(ownIP);
+                            out.print("(Handler) you removed from network by an admin");
+                            
+                        }
+                        else
+                        {
+                            IPList.removeIP(args[0]);
+                            out.print("(Handler) Exit: " + args[0] + " get kicked");
+                        }
                     } else if (args[anz].equals("Exit"))
                     {
                         IPList.removeIP(args[0]);
