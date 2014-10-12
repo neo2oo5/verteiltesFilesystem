@@ -66,17 +66,17 @@ public class Interfaces
                     String[] args2 = new String[3];
                     args2[0] = IPv4;
                     args2[1] = filename; // name
-                    args2[2] = doWhat;
+                    args2[2] = doWhat2;
                     
                     out.print("start Server", 1);
-                    StartClientServer.startClient(args);
+                    StartClientServer.startClient(args2);
                     
                     out.print("start client", 1);
                     String[] args3 = new String[3];
                     args3[0] = IPv4;
                     args3[1] = clientFilename; // name
                     args3[2] = targetPath; // zielordner
-                    if(FiletransferClient.FileTransferClient(args2)) succesful = true;
+                    if(FiletransferClient.FileTransferClient(args3)) succesful = true;
                     
                 } catch (fileSystemException ex)
                 {
