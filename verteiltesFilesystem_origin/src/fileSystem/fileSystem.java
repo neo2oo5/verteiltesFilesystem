@@ -107,10 +107,25 @@ public class fileSystem implements Runnable
          }
     }
     
-    
-    
-    
-	
+    /**
+     * Ueberprueft ob das File nicht groeßer als 50 MB ist.
+     * @param entry
+     * @return false wenn zu groß true wenn ok
+     */
+    private boolean checkFileSize(Path entry)
+    {
+        File file = new File(entry.toString());
+        long fileSize = file.length();
+        if(fileSize>(5*Math.pow(10,7)))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    	
     /**
      * Funktion welche rekursiv Ordner durchsucht mit Hilfe eines Stacks
      * @param Path
@@ -137,7 +152,15 @@ public class fileSystem implements Runnable
                         }
                         else
                         {
-                            result.add(entry);
+                            if(checkFileSize(entry) == false)
+                            {
+                                out.print("(fileSystem - checkFileSize) : nicht "
+                                        + "indexiert -->" + entry, 2);
+                            }
+                            else
+                            {
+                                result.add(entry);
+                            }
                         }
                     }
                 }
