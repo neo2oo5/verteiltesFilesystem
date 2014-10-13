@@ -11,6 +11,7 @@ package gui.Explorer;
 import java.util.*;
 import java.nio.file.*;
 import fileSystem.fileSystem;
+import static gui.Explorer.DynamicTree.rootNode;
 import java.io.*;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
@@ -56,39 +57,42 @@ public class Explorer
         //c.run();
     }
     
- public static void initExplorerTree(List<Path> fs,  String IP) throws IOException
-        {
-            treePanel.clear();
-            
-            List<String> tmp = new ArrayList<>();
-            for (int i = 0; i < fs.size(); i++) {
-                
-                //System.out.print(fs.get(i).toString().substring(0, 1));
-                
-                if(fs.get(i).toString().substring(0, 1).equals("/"))
-                {
-                    tmp.add(IP + fs.get(i).toString());
-                }
-                else
-                {
-                    tmp.add(IP + File.separator + String.valueOf(fs.get(i)).replaceAll(Pattern.quote("\\"), File.separator));
-                }
-            }
-            
-            try {
-                //Created the Tree Structure in Explorer
-                for (int i = 0; i < tmp.size(); i++) {
-                   
-                   treePanel.buildTreeFromString(tmp.get(i).toString());
-                   
-                }
-                
+    public static void initExplorerTree(List<Path> fs,  String IP) throws IOException
+   {
 
-           } catch (DirectoryIteratorException ex) {
-               // I/O error encounted during the iteration, the cause is an IOException
-               throw ex.getCause();
+       treePanel.beginReload();
+
+       List<String> tmp = new ArrayList<>();
+       for (int i = 0; i < fs.size(); i++) {
+
+           //System.out.print(fs.get(i).toString().substring(0, 1));
+
+           if(fs.get(i).toString().substring(0, 1).equals("/"))
+           {
+               tmp.add(IP + fs.get(i).toString());
            }
+           else
+           {
+               tmp.add(IP + File.separator + String.valueOf(fs.get(i)).replaceAll(Pattern.quote("\\"), File.separator));
+           }
+       }
+
+       try 
+       {
+            //Created the Tree Structure in Explorer
+            for (int i = 0; i < tmp.size(); i++) {
+
+               treePanel.buildTreeFromString(tmp.get(i).toString());
+
+            }
+
+        } catch (DirectoryIteratorException ex) {
+            // I/O error encounted during the iteration, the cause is an IOException
+            throw ex.getCause();
         }
+       
+       treePanel.endReload();
+   }
     
 
     

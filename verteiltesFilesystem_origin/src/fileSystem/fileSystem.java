@@ -105,7 +105,7 @@ public class fileSystem implements Runnable
         while(!stack.isEmpty())
         {
             Path path = stack.pop();
-            if(!Files.isHidden(path))
+            if(!Files.isHidden(path) && Files.isWritable(path))
             {
                 try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))
                 {

@@ -7,8 +7,11 @@ package substructure;
 
 import fileSystem.fileSystem;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import network.Interfaces;
 
 /**
@@ -80,7 +83,14 @@ public class runTimeUpdater {
     {
         @Override public void run()
         {
-           Interfaces.interfaceMergeList();
+            try {
+                if(Interfaces.interfaceNetworkOnline())
+                {
+                    Interfaces.interfaceMergeList();
+                }
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(runTimeUpdater.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

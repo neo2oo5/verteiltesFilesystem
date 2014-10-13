@@ -46,7 +46,7 @@ public class ExplorerHelper {
     public static String[] getNetOperationData(DefaultMutableTreeNode currentNode, String targetPath)
     {
         String  path    = getPath(currentNode);
-        String result[] = null;
+        String result[] = new String[5];
        
             
         result[0]       = path.substring(0, path.indexOf("/")); //IP

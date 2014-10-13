@@ -26,7 +26,7 @@ class JTreeModelListener implements TreeModelListener {
   }
 
   public void treeNodesInserted(TreeModelEvent e) {
-    System.out.println(e.getTreePath().toString());
+    //System.out.println(e.getTreePath().toString());
   }
 
   public void treeNodesRemoved(TreeModelEvent e) {
@@ -34,6 +34,6 @@ class JTreeModelListener implements TreeModelListener {
   }
 
   public void treeStructureChanged(TreeModelEvent e) {
-    System.out.println(e.getTreePath().toString());
+    //System.out.println(e.getTreePath().toString());
   }
 }
