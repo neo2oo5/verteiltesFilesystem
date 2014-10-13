@@ -10,6 +10,7 @@ package network;
  */
 import fileSystem.fileSystemException;
 import gui.Config;
+import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -47,33 +48,24 @@ public class Interfaces
             {
                 try
                 {
-                    String targetPath = PathHelper.getFolder("Downloads");
+                    String targetPath = PathHelper.getFile("Downloads");
+                    targetPath += File.separator;
+                    out.print("path---- " + targetPath, 1);
                     // do ...
-                    
-                    
-                    
-                    String doWhat = "FileSize";
+                    String doWhat = "FileTransfer";
                     String[] args = new String[3];
                     args[0] = IPv4;
                     args[1] = filename; // name
                     args[2] = doWhat;
-                    StartClientServer.startClient(args);
-                    
-                    
-                    String doWhat2 = "FileTransfer";
-                    String[] args2 = new String[3];
-                    args2[0] = IPv4;
-                    args2[1] = filename; // name
-                    args2[2] = doWhat;
                     
                     out.print("start Server", 1);
                     StartClientServer.startClient(args);
                     
                     out.print("start client", 1);
-                    String[] args3 = new String[3];
-                    args3[0] = IPv4;
-                    args3[1] = clientFilename; // name
-                    args3[2] = targetPath; // zielordner
+                    String[] args2 = new String[3];
+                    args2[0] = IPv4;
+                    args2[1] = clientFilename; // name
+                    args2[2] = targetPath; // zielordner
                     if(FiletransferClient.FileTransferClient(args2)) succesful = true;
                     
                 } catch (fileSystemException ex)
@@ -191,7 +183,7 @@ public class Interfaces
     /**
      * method to start the interfaces
      */
-    public static boolean inerfaceStartProgram() throws UnknownHostException
+    public static boolean interfaceStartProgram() throws UnknownHostException
     {
         boolean succes = false;
         getIPv4Address.setIPv4Address();
@@ -208,7 +200,7 @@ public class Interfaces
     /**
      * method to start the interfaces
      */
-    public static boolean inerfaceNetworkOnline() throws UnknownHostException
+    public static boolean interfaceNetworkOnline() throws UnknownHostException
     {
         
         boolean online = false;
@@ -233,12 +225,12 @@ public class Interfaces
         return online;
     }
 
-    public static boolean inerfaceAdminLogin()
+    public static boolean interfaceAdminLogin()
     {
         return AdminPannel.adminLogin();
     }
 
-    public static boolean inerfaceAdminLogout() throws UnknownHostException
+    public static boolean interfaceAdminLogout() throws UnknownHostException
     {
         try
         {
@@ -250,7 +242,7 @@ public class Interfaces
         return false;
     }
 
-    public static void inerfaceAdminKickUser(String ipToKick)
+    public static void interfaceAdminKickUser(String ipToKick)
     {
         try
         {
@@ -261,12 +253,12 @@ public class Interfaces
         }
     }
 
-    public static boolean inerfaceIAmAdmin()
+    public static boolean interfaceIAmAdmin()
     {
         return AdminPannel.IAmAdmin();
     }
 
-    public static void InterfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
+    public static void interfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
     {
         gui.Config.setCurrentIp(newIP);
         
@@ -292,7 +284,7 @@ public class Interfaces
 
     }
 
-    public static void InterfaceExitProg() throws UnknownHostException
+    public static void interfaceExitProg() throws UnknownHostException
     {
 
         for(String ip: getIPList())
@@ -309,7 +301,8 @@ public class Interfaces
 
         }
         IPList.clearList();
-        inerfaceAdminLogout();
+        boolean admin = interfaceIAmAdmin();
+        if(admin) interfaceAdminLogout();
     }
 
     public static void interfaceNewClient(String clientIP, String ownIP)

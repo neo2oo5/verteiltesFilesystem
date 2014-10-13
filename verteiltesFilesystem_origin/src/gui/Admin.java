@@ -62,7 +62,7 @@ public class Admin
         String propusername="";
         String proppassword="";
         
-        if(username == null && username.isEmpty() && password == null && password.isEmpty() && Interfaces.inerfaceAdminLogin())
+        if(username == null && username.isEmpty() && password == null && password.isEmpty() && Interfaces.interfaceAdminLogin())
         {
             out.print("Keine Login Daten!");
             return false;
@@ -93,7 +93,7 @@ public class Admin
         
         if(username.equals(propusername) && password.equals(proppassword))
         {
-            Interfaces.inerfaceIAmAdmin();
+            Interfaces.interfaceIAmAdmin();
             out.print("Login erfolgreich");
             return true;
         }

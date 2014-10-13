@@ -23,18 +23,18 @@ public class Network
     public static void main(String[] args)
     {
 
-        try
-        {
-            Interfaces.inerfaceStartProgram();
-
-            System.out.println("jetzt");
-            String ip = gui.Config.getCurrentIp();
-            System.out.println("IP: " + ip);
-            Interfaces.InterfaceChangeOwnIP(ip, "klappt");
-        } catch (UnknownHostException ex)
-        {
-            System.out.println("_____FEHLER________");
-        }
-        System.out.println("fertig");
+//        try
+//        {
+//            Interfaces.inerfaceStartProgram();
+//
+//            System.out.println("jetzt");
+//            String ip = gui.Config.getCurrentIp();
+//            System.out.println("IP: " + ip);
+//            Interfaces.InterfaceChangeOwnIP(ip, "klappt");
+//        } catch (UnknownHostException ex)
+//        {
+//            System.out.println("_____FEHLER________");
+//        }
+//        System.out.println("fertig");
     }
 }

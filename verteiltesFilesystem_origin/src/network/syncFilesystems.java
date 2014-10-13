@@ -65,7 +65,7 @@ public class syncFilesystems implements Runnable {
             boolean trigger = true;
             do
             {
-                if(Interfaces.interfaceFileTransfer(IP, filename, filename))
+                if(Interfaces.interfaceFileTransfer(IP, filename, "inComingList.ser"))
                 {
                     trigger = false;
                 }

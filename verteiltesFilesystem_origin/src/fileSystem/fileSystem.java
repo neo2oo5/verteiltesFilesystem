@@ -1,6 +1,7 @@
 package fileSystem;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -316,25 +317,28 @@ public class fileSystem
         String inComingList = null;
         try
         {
-            inComingList = PathHelper.getFile("Downloads/myFileList.ser");
+            inComingList = PathHelper.getFile("Downloads" + File.separator + "inComingList.ser");
         } catch (fileSystemException ex)
         {
             out.print("(fileSystem - mergeList) : " + ex.toString(), 3);
         }
+      
         try
         {
             
             fis = new FileInputStream(inComingList);
+             
             ObjectInputStream o =new ObjectInputStream(fis);
+           
             inComingList = (String) o.readObject();
+            o.close();
+            fis.close();
+           
+           
         }
-        catch(IOException e)
+        catch(Exception e)
         {
-            out.print("(fileSystem - mergeList) : " + e.toString(), 3);
-        }
-        catch(ClassNotFoundException e)    
-        {
-            out.print("(fileSystem - mergeList) : " + e.toString(), 3);
+            e.printStackTrace();
         }
         finally
         {
@@ -345,29 +349,41 @@ public class fileSystem
             catch(Exception e)
             {
 		//Dummy
+                 
             }
         }
+       
         List<Path> result = new ArrayList<>();
         String[] parts = inComingList.split("\n");
-        for(int count=0;count<parts.length;count++)
+        
+        for(int count=0 ;count < parts.length ;count++)
         {
-            String[] seperatedString = parts[count].split("--##--",2);
-            String path = seperatedString[1];
-            Path finalPath = Paths.get(path);
-            String IP = seperatedString[0];
-            result.add(finalPath);
-            try
+            if(parts[count].length() > 0)
             {
-                fileSystem.remove(find(clients, seperatedString[0]));
-                fileSystem.add(find(clients, IP), result);
-            }
-            catch(ArrayIndexOutOfBoundsException e)
-            {
-                fileSystem.add(clientscount,result);
-                clients[clientscount] = IP;
-                clientscount++;
+                String[] seperatedString = parts[count].split("--##--",2);
+
+                if(seperatedString.length > 0)
+                {
+                    
+                    String path = seperatedString[1];
+                    Path finalPath = Paths.get(path);
+                    String IP = seperatedString[0];
+                    result.add(finalPath);
+                    try
+                    {
+                        fileSystem.remove(find(clients, seperatedString[0]));
+                        fileSystem.add(find(clients, IP), result);
+                    }
+                    catch(ArrayIndexOutOfBoundsException e)
+                    {
+                        fileSystem.add(clientscount,result);
+                        clients[clientscount] = IP;
+                        clientscount++;
+                    }
+                }
             }
         }
+        
     }
 
 }

@@ -56,7 +56,7 @@ public class fileSystem_Start
     /**
          *  Startet die Netzwerkverbindung
          */
-    network.Interfaces.inerfaceStartProgram();
+    network.Interfaces.interfaceStartProgram();
     
     
     
@@ -122,7 +122,7 @@ public class fileSystem_Start
                             JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
                         {*/
                             try {
-                                network.Interfaces.InterfaceExitProg();
+                                network.Interfaces.interfaceExitProg();
                                 out.print("Client wird beendet");
                                 System.exit(0);
                             } catch (UnknownHostException ex) {

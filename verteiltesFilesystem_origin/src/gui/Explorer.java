@@ -12,6 +12,7 @@ import java.util.*;
 import java.nio.file.*;
 import fileSystem.fileSystem;
 import java.io.*;
+import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
 
@@ -57,15 +58,20 @@ public class Explorer
     
  public static void initExplorerTree(List<Path> fs,  String IP) throws IOException
         {
+            treePanel.clear();
+            
             List<String> tmp = new ArrayList<>();
             for (int i = 0; i < fs.size(); i++) {
+                
+                //System.out.print(fs.get(i).toString().substring(0, 1));
+                
                 if(fs.get(i).toString().substring(0, 1).equals("/"))
                 {
                     tmp.add(IP + fs.get(i).toString());
                 }
                 else
                 {
-                    tmp.add(IP + File.separator + fs.get(i).toString());
+                    tmp.add(IP + File.separator + String.valueOf(fs.get(i)).replaceAll(Pattern.quote("\\"), File.separator));
                 }
             }
             

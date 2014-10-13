@@ -27,7 +27,7 @@ public class runTimeUpdater {
         // Update Explorer Folder structure
         timer.schedule(new JTreeCreator(), 1000, 5000 );
         
-        timer.schedule(new GUIScheduler(), 1000, 10000 );
+        timer.schedule(new GUIScheduler(), 1000, 2000 );
         
         timer.schedule(new GUILog(), 1000, 5000 );
         

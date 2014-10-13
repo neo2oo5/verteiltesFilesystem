@@ -21,18 +21,6 @@ import substructure.GUIOutput;
  */
 public class FiletransferClient
 {
-
-    static int filesize = 0;
-    
-    public static int getFilesize()
-    {
-        return filesize;
-    }
-
-    public static void setFilesize(int filesize)
-    {
-        FiletransferClient.filesize = filesize;
-    }
     
     static GUIOutput out = GUIOutput.getInstance();
 
@@ -42,9 +30,10 @@ public class FiletransferClient
         {
             out.print("FileTransferClient startet", 1);
             Socket sock = new Socket(args[0], 1718);
-            byte[] mybytearray = new byte[getFilesize()];
+            byte[] mybytearray = new byte[1000000];
             InputStream is = sock.getInputStream();
             String path = args[2] + args[1];
+            out.print("_____ " + path, 1);
             String outputdatei = path;
             FileOutputStream fos = new FileOutputStream(path);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
