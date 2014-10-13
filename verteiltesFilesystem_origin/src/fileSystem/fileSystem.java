@@ -36,7 +36,7 @@ public class fileSystem implements Runnable
     private static String           outGoingList   = "System/myFileList.ser";
     private final List<List<Path>>  fileSystem     = new ArrayList<>();
     private int                     clientscount   = 0;
-    private String                  workingDir     = System.getProperty("user.dir");
+    private String                  workingDir = System.getProperty("user.dir");
     private String                  clients[]      = new String[100];
     
     /**
@@ -97,14 +97,27 @@ public class fileSystem implements Runnable
     public boolean isAccessDenied(String path)
     {
          File file = new File(path);
-         if(!file.canWrite())
-         {
-             return true;
-         }
-         else
+         if(file.canWrite())
          {
              return false;
          }
+         else
+         {
+             return true;
+         }
+    }
+    
+    private boolean isFolerToLarge(String Path)
+    {
+        int folderSize = new File(Path).list().length;
+        if(folderSize<50)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
     
     /**
@@ -142,20 +155,29 @@ public class fileSystem implements Runnable
             Path path = stack.pop();
             if(!Files.isHidden(path) && Files.isWritable(path))
             {
-                try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))
+                try (DirectoryStream<Path> stream =
+                        Files.newDirectoryStream(path))
                 {
                     for(Path entry : stream)
                     {
                         if (Files.isDirectory(entry))
                         {
-                            stack.push(entry);
+                            if(isFolerToLarge(entry.toString()) == false)
+                            {
+                                out.print("(fileSystem - isFolderToLarge) "
+                                        + ": nicht indexiert -->" + entry, 2);
+                            }
+                            else
+                            {
+                                stack.push(entry);
+                            }
                         }
                         else
                         {
                             if(checkFileSize(entry) == false)
                             {
-                                out.print("(fileSystem - checkFileSize) : nicht "
-                                        + "indexiert -->" + entry, 2);
+                                out.print("(fileSystem - checkFileSize) : "
+                                        + "nicht indexiert -->" + entry, 2);
                             }
                             else
                             {
@@ -180,7 +202,8 @@ public class fileSystem implements Runnable
      * @param path
      * @throws fileSystemException 
      */
-    public void setnewFileSystem(String IP, String path) throws fileSystemException
+    public void setnewFileSystem(String IP, String path) 
+            throws fileSystemException
     {
         try
         {
@@ -254,7 +277,8 @@ public class fileSystem implements Runnable
         } 
 	catch (DirectoryIteratorException ex) 
 	{
-           // I/O error encounted during the iteration, the cause is an IOException
+           // I/O error encounted during the iteration, the 
+            //cause is an IOException
            //throw ex.getCause();
         }
         return out;
@@ -271,7 +295,8 @@ public class fileSystem implements Runnable
      * @throws FileNotFoundException
      * @throws IOException 
      */
-    public String outGoingList (String IP) throws FileNotFoundException, IOException
+    public String outGoingList (String IP) 
+            throws FileNotFoundException, IOException
     {
         String output = "";
         try
@@ -309,7 +334,8 @@ public class fileSystem implements Runnable
      */
     public void deleteLocalObject() throws fileSystemException, IOException
     {
-        Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
+        Path path = 
+                Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.delete(path);
     }
     
@@ -323,7 +349,8 @@ public class fileSystem implements Runnable
      */
     public void renameLocalObject() throws IOException, fileSystemException
     {
-        Path path = Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
+        Path path = 
+                Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.move(path, path.resolveSibling("inComingList"));
         deleteLocalObject();
     }	
@@ -337,14 +364,18 @@ public class fileSystem implements Runnable
     {
         try
         {
-            Path path = Paths.get(substructure.PathHelper.getFile("inComingList.ser"));
+            Path path =
+                    Paths.get
+        (substructure.PathHelper.getFile("inComingList.ser"));
             Files.delete(path);
         } catch (fileSystemException ex)
         {
-            out.print("(fileSystem - deleteInComingObject) : " + ex.toString(), 3);
+            out.print("(fileSystem - deleteInComingObject) : " 
+                    + ex.toString(), 3);
         } catch (IOException ex)
         {
-            out.print("(fileSystem - deleteInComingObject) : " + ex.toString(), 3);
+            out.print("(fileSystem - deleteInComingObject) : " 
+                    + ex.toString(), 3);
         }
     }
 	
@@ -353,9 +384,6 @@ public class fileSystem implements Runnable
      * das FileSystem eines anderen Clienten ausliest und mit dem lokalen 
      * Dateisystem verbindet, so dass man auch dessen Daten im Explorer 
      * einsehen kann
-     * @param inComingList
-     * @throws fileSystemException
-     * @throws FileNotFoundException
      * @throws IOException
      * @throws ClassNotFoundException 
      */
@@ -364,7 +392,8 @@ public class fileSystem implements Runnable
         String inComingList = null;
         try
         {
-            inComingList = PathHelper.getFile("Downloads" + File.separator + "inComingList.ser");
+            inComingList = PathHelper.getFile("Downloads"
+                    + File.separator + "inComingList.ser");
         } catch (fileSystemException ex)
         {
             out.print("(fileSystem - mergeList) : " + ex.toString(), 3);
