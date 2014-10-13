@@ -6,11 +6,13 @@
 
 package gui.Explorer;
 
+import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import gui.Config;
 import substructure.GUIOutput;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.regex.Pattern;
@@ -22,6 +24,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -38,6 +41,7 @@ public class DynamicTree extends JPanel
     public static JTree tree;
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private static GUIOutput out = GUIOutput.getInstance();
+    
 
     private static JLabel loadingl;
     private String lastOpenedNode = "";
@@ -109,7 +113,7 @@ public class DynamicTree extends JPanel
            * 
            * @param str The string to build the tree from
            */
-    public void buildTreeFromString( final String str) {
+    public void buildTreeFromString(DefaultMutableTreeNode parent, final String str) {
         // Fetch the root node
        // DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         String [] strings;
@@ -120,7 +124,7 @@ public class DynamicTree extends JPanel
 
         // Create a node object to use for traversing down the tree as it 
         // is being created
-        DefaultMutableTreeNode node = rootNode;
+        DefaultMutableTreeNode node = parent;
 
         // Iterate of the string array
         for (String s: strings) {
@@ -172,6 +176,7 @@ public class DynamicTree extends JPanel
         lastOpenedNode = lastOpenedNode();
         rootNode.removeAllChildren();
         
+         
     }
      
     public void endReload()
@@ -179,6 +184,7 @@ public class DynamicTree extends JPanel
         
        treeModel.reload();
        expandtoLastOpenNode();
+       System.out.print(lastOpenedNode);
         
         
     }
@@ -209,27 +215,44 @@ public class DynamicTree extends JPanel
     
     public void expandtoLastOpenNode() {
         int row = 0;
-        DefaultMutableTreeNode node = rootNode;
-        
         String [] strings = lastOpenedNode.split(Pattern.quote(System.getProperty("file.separator")));
+        DefaultMutableTreeNode node;
+        DefaultMutableTreeNode tmpNode;
+        int level = 0;
+        int childcount = 0;
+        
+        node = rootNode;
         
         for(String s: strings)
         {
+            childcount = node.getChildCount();
             
-            // Look for the index of a node at the current level that
-            // has a value equal to the current string
-            int index = childIndex(node, s);
+           // System.out.print(childcount);
             
-            //System.out.print(s + " index: "+ index +"\n");
-            // Index less than 0, this is a new node not currently present on the tree
-            if (index < 0) {
-                // Node exist
-               row++;
-               tree.expandRow(row);
+            
+            //iterate current Node
+            for(int i = 0; i < childcount; i++)
+            {   
+                //save current node to tmpNode
+                 tmpNode = (DefaultMutableTreeNode) node.getChildAt(i);
+                
+                
+                System.out.print("-----string: "+s+"-----tmpnode: "+tmpNode.getUserObject()+"\n" );
+                if(tmpNode.getUserObject().equals(s))
+                {
+                    //level++;
+                    tree.expandRow(node.getLevel());
+                    node = (DefaultMutableTreeNode) node.getChildAt(i);
+                    
+                }
             }
             
             
+         //   System.out.print(s + "\n");
             
+               //
+            
+   
         }
         
         

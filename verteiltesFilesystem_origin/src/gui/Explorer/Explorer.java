@@ -14,7 +14,9 @@ import fileSystem.fileSystem;
 import static gui.Explorer.DynamicTree.rootNode;
 import java.io.*;
 import java.util.regex.Pattern;
+import javax.swing.tree.DefaultMutableTreeNode;
 import substructure.GUIOutput;
+import substructure.PathHelper;
 
 
 
@@ -25,8 +27,9 @@ import substructure.GUIOutput;
 public class Explorer
 {
     private static GUIOutput out =  GUIOutput.getInstance();
-    private fileSystem c = fileSystem.getInstance();
+    private static fileSystem c = fileSystem.getInstance();
     private static DynamicTree treePanel;
+    
     /**
      *
      * @param Pane
@@ -48,48 +51,88 @@ public class Explorer
         treePanel.addTab(Pane, index);
     }
     
-    private void startRefreshTimer()
+    private static List<String> changePathSeperator(String IP)
     {
         
+       List<Path> fs = c.get(IP);
         
-        
-       // JTreeCreator c = new JTreeCreator();
-        //c.run();
-    }
-    
-    public static void initExplorerTree(List<Path> fs,  String IP) throws IOException
-   {
-
-       treePanel.beginReload();
-
        List<String> tmp = new ArrayList<>();
        for (int i = 0; i < fs.size(); i++) {
-
+           
+           String path = fs.get(i).toString();
            //System.out.print(fs.get(i).toString().substring(0, 1));
+           String tmps="";
+           
+           if(path.length() > 0)
+           {
+                if(path.substring(0, 1).equals("/"))
+                {
+                    //linux pfade anpassen zu
+                    if(PathHelper.getOSName() == "Windows")
+                    {
+                        path = path.substring(1, path.length());
+                        tmps = IP + path.replace("/", "\\");
+                    }
+                    else
+                    {
+                        tmps = path.substring(1, path.length());
+                    }
 
-           if(fs.get(i).toString().substring(0, 1).equals("/"))
-           {
-               tmp.add(IP + fs.get(i).toString());
-           }
-           else
-           {
-               tmp.add(IP + File.separator + String.valueOf(fs.get(i)).replaceAll(Pattern.quote("\\"), File.separator));
+                }
+                else
+                {
+                    //windows pfade anpassen zu
+                    if(PathHelper.getOSName() == "Linux")
+                    {
+                        tmps = path.replace("\\", "/");
+                    }
+                    else
+                    {
+                        tmps = path;
+                    }
+                }
+                
+                
+                tmp.add(tmps);
            }
        }
+       
+       return tmp;
+    }
+    
+    public static void initExplorerTree() 
+   {
 
-       try 
-       {
-            //Created the Tree Structure in Explorer
-            for (int i = 0; i < tmp.size(); i++) {
+        treePanel.beginReload();
 
-               treePanel.buildTreeFromString(tmp.get(i).toString());
+        List<String> tmp;
 
-            }
+        
+       
+        String ips[] = c.getAllIps();
+        
+        
 
-        } catch (DirectoryIteratorException ex) {
-            // I/O error encounted during the iteration, the cause is an IOException
-            throw ex.getCause();
-        }
+         for(int z = 0; z < c.getClientCount(); z++)
+         {
+             
+
+            tmp = changePathSeperator(ips[z]);
+
+            
+
+            DefaultMutableTreeNode parent = treePanel.addObject(rootNode, ips[z]);
+
+
+             //Created the Tree Structure in Explorer
+             for (int i = 0; i < tmp.size(); i++) {
+
+                treePanel.buildTreeFromString(parent, tmp.get(i).toString());
+
+             }
+         }
+
+       
        
        treePanel.endReload();
    }

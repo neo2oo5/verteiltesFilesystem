@@ -30,7 +30,7 @@ public class FiletransferClient
         {
             out.print("FileTransferClient startet", 1);
             Socket sock = new Socket(args[0], 1718);
-            byte[] mybytearray = new byte[1000000000];
+            byte[] mybytearray = new byte[100000000];
             InputStream is = sock.getInputStream();
             String path = args[2] + args[1];
             String outputdatei = path;

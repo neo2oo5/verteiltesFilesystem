@@ -45,17 +45,10 @@ public class runTimeUpdater {
         
         @Override public void run()
         {
-            String ips[] = c.getAllIps();
-
-            for(int i = 0; i < c.getClientCount(); i++)
-            {
-                try {
-
-                    gui.Explorer.Explorer.initExplorerTree(c.get(ips[i]), ips[i]);
-                } catch (IOException ex) {
-                   // out.print(ex, 3);
-                }
-            }
+           
+            gui.Explorer.Explorer.initExplorerTree();
+                
+            
         }    
     }
     

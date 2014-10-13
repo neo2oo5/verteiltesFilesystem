@@ -21,24 +21,40 @@ public class PathHelper{
     static GUIOutput out =  GUIOutput.getInstance();
     private static String SysDir = System.getProperty("user.dir") + File.separator + "System" + File.separator;
     
-    private static String getOSName()
+    public static String getOSName()
     {
-        return System.getProperty("os.name");
+        String os = System.getProperty("os.name");
+        
+        if(os.contains("Linux"))
+        {
+            return  "Linux";
+        }
+        else if(os.contains("Mac"))
+        {
+
+            return  "Mac";
+        }
+        else if(os.contains("Windows"))
+        {
+            return  "Windows";
+        }
+        
+        return null;
     }
     
 
  private static String setPath(String Node)
     {
-            if(getOSName().contains("Linux"))
+            if(getOSName().equals("Linux"))
             {
                 return  SysDir + Node;
             }
-            else if(getOSName().contains("Mac"))
+            else if(getOSName().equals("Mac"))
             {
                 
                 return  SysDir + Node;
             }
-            else if(getOSName().contains("Windows"))
+            else if(getOSName().equals("Windows"))
             {
                 return  SysDir + Node;
             }  
