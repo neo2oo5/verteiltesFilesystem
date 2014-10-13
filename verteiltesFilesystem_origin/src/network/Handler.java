@@ -17,6 +17,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -45,16 +47,23 @@ public class Handler implements Runnable
     @Override
     public void run()
     {
+        /**
+         * get the output and buffer the input
+         */
+        OutputStream outPS = null;
         try
         {
-            /**
-             * get the output and buffer the input
-             */
-            OutputStream outPS = client.getOutputStream();
-            BufferedReader reader;
-            /**
-             * convert to a string and write into an outputsteam
-             */
+            outPS = client.getOutputStream();
+        } catch (IOException ex)
+        {
+            out.print("(Handler - run) : " + ex.toString(), 2);
+        }
+        BufferedReader reader;
+        /**
+         * convert to a string and write into an outputsteam
+         */
+        if (outPS != null)
+        {
             try (PrintWriter writer = new PrintWriter(outPS))
             {
                 /**
@@ -114,15 +123,14 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("AdminKickUser"))
                     {
                         String ownIP = gui.Config.getCurrentIp();
-                    
+
                         if (args[0].equals(ownIP))
                         {
                             IPList.clearList();
                             IPList.InsertIpInList(ownIP);
                             out.print("(Handler) you removed from network by an admin");
-                            
-                        }
-                        else
+
+                        } else
                         {
                             IPList.removeIP(args[0]);
                             out.print("(Handler) Exit: " + args[0] + " get kicked");
@@ -148,13 +156,13 @@ public class Handler implements Runnable
             } catch (fileSystemException ex)
             {
                 out.print("(Handler - run) : " + ex.toString(), 2);
+            } catch (IOException ex)
+            {
+                out.print("(Handler - run - if) : " + ex.toString(), 2);
             }
-            /**
-             * catch exceptions and logg them
-             */
-        } catch (IOException ex)
-        {
-            out.print("(Handler - run) : " + ex.toString(), 2);
         }
+        /**
+         * catch exceptions and logg them
+         */
     }
 }
