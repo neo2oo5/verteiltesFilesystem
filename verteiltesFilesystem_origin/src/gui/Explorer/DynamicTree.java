@@ -4,36 +4,20 @@
  * and open the template in the editor.
  */
 
-package gui;
+package gui.Explorer;
 
 import fileSystem.fileSystemException;
-import java.awt.Color;
+import gui.Config;
 import substructure.GUIOutput;
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
 import java.net.UnknownHostException;
-import java.nio.file.Path;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -44,7 +28,7 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
-public class DynamicTree extends JPanel implements MouseListener
+public class DynamicTree extends JPanel
 {
 
 
@@ -56,7 +40,7 @@ public class DynamicTree extends JPanel implements MouseListener
 
     private static JLabel loadingl;
     JScrollPane scrollPane;
-    private static String downloadFolder   = "Downloads";
+    
 
         
     /**
@@ -68,6 +52,8 @@ public class DynamicTree extends JPanel implements MouseListener
 
             rootNode = new DefaultMutableTreeNode("Root Node");
             treeModel = new DefaultTreeModel(rootNode);
+            treeModel.addTreeModelListener(new JTreeModelListener());
+            
             
             tree = new JTree(treeModel);
             tree.setEditable(false);
@@ -76,7 +62,7 @@ public class DynamicTree extends JPanel implements MouseListener
             
             
             scrollPane = new JScrollPane(tree);
-            tree.addMouseListener(this);
+            tree.addMouseListener(new JTreeMouseListener());
             
             try {   
                 out.print("online: " + network.Interfaces.interfaceNetworkOnline());
@@ -288,114 +274,10 @@ public class DynamicTree extends JPanel implements MouseListener
 		return childNode;
 	}
         
-    public static String getPath(DefaultMutableTreeNode path)
-    {
-        String jTreeVarSelectedPath = "";
-        Object[] paths = path.getPath();
-        for (int i=1; i<paths.length; i++) {
-            jTreeVarSelectedPath += paths[i];
-            if (i+1 <paths.length ) {
-                jTreeVarSelectedPath += File.separator;
-            }
-        }
-        
-        return jTreeVarSelectedPath;
-    }
     
-    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode)
-    {
-        try {
-            return getNetOperationData(currentNode, substructure.PathHelper.getFolder(downloadFolder));
-        } catch (fileSystemException ex) {
-            out.print(ex.toString());
-        }
-            return null;
-    }
     
-    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode, String targetPath)
-    {
-        String  path    = getPath(currentNode);
-        String result[] = null;
-       
-            
-        result[0]       = path.substring(0, path.indexOf("/")); //IP
-        result[1]   = path.substring(path.lastIndexOf("/")+1, path.length()); //filename
-        result[2]  = path.substring(path.indexOf("/"), path.lastIndexOf("/")); //sourcePath
-        result[3]  = targetPath; //targetPath
-        
-        
-        return   result;
-    }
-    //open Popupmenu
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        
-        if(e.getButton() == 3)
-        {
-            showMenu(e);
-        }
-        
-    }
-
-    /**
-     * Create Rightclick Menu
-     * @param e
-     */
-    public void showMenu(MouseEvent e)
-    {
-      new rightClickMenu(e);
-       
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
         
-	class MyTreeModelListener implements TreeModelListener 
-        {
-		public void treeNodesChanged(TreeModelEvent e) 
-                {
-			DefaultMutableTreeNode node;
-			node = (DefaultMutableTreeNode) (e.getTreePath().getLastPathComponent());
-
-			int index = e.getChildIndices()[0];
-			node = (DefaultMutableTreeNode) (node.getChildAt(index));
-		}
-
-		public void treeNodesInserted(TreeModelEvent e) 
-                {
-                    out.print("DynamicJTree: Node wurde eingefuegt ", 1);
-		}
-
-		public void treeNodesRemoved(TreeModelEvent e) 
-                {
-                    out.print("DynamicJTree: Node wurde entfernt", 1);
-		}
-
-		public void treeStructureChanged(TreeModelEvent e) 
-                {
-                    
-                    out.print("DynamicJTree: ", 1);
-		}
-                
-                
-	}
+	
         
 }

@@ -17,8 +17,6 @@ import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -30,11 +28,11 @@ import substructure.PathHelper;
  * bekannte Fehler: Exceptions werden weitergeworfen muessen noch abgefangen werden
  * @author Daniel Gauditz
  */
-public class fileSystem
+public class fileSystem implements Runnable
 {
     OutputStream                    fos            = null;
     InputStream                     fis            = null;
-    private static  GUIOutput       out            = GUIOutput.getInstance();
+    private final  GUIOutput        out            = GUIOutput.getInstance();
     private static String           outGoingList   = "System/myFileList.ser";
     private final List<List<Path>>  fileSystem     = new ArrayList<>();
     private int                     clientscount   = 0;
@@ -56,9 +54,14 @@ public class fileSystem
     /**
      * Funktion welche die Instanzierung von außen verhindert
      */
-    private fileSystem()
+    
+    
+    @Override public void run()
     {
+      out.print("FileSystem Thread gestartet");
+      getInstance();
     }
+
 	
     /**
      * Funktion welche die einigartige Instanz generiert
@@ -101,28 +104,29 @@ public class fileSystem
         stack.push(Path);
         while(!stack.isEmpty())
         {
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(stack.pop()))
+            Path path = stack.pop();
+            if(!Files.isHidden(path))
             {
-                for(Path entry : stream)
+                try (DirectoryStream<Path> stream = Files.newDirectoryStream(path))
                 {
-                    if (Files.isDirectory(entry))
+                    for(Path entry : stream)
                     {
-                        stack.push(entry);
-                    }
-                    else
-                    {
-                        result.add(entry);
+                        if (Files.isDirectory(entry))
+                        {
+                            stack.push(entry);
+                        }
+                        else
+                        {
+                            result.add(entry);
+                        }
                     }
                 }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch(NoSuchFileException e)
-            {
-                out.print("Pfad existiert nicht");
-            }
-            catch(AccessDeniedException e)
-            {
-                out.print("Sie haben für diesen Pfad keine Berechtigung");
-            }
+            
         }
         return result;
     }
@@ -384,6 +388,14 @@ public class fileSystem
             }
         }
         
+    }
+    
+    public boolean isAccessDenied(String path)
+    {
+         File file = new File(path);
+         return  !file.canWrite();
+        
+   
     }
 
 }

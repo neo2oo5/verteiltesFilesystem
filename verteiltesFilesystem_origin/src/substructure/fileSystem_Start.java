@@ -48,7 +48,10 @@ public class fileSystem_Start
          */
         out.setVisible(false);
         
-        
+        Thread t1 = new Thread( new fileSystem() );
+        t1.setName("FileSystem");
+        t1.start();
+
       //  Config.setCurrentIp("127.0.0.1");
         
         
@@ -147,10 +150,15 @@ public class fileSystem_Start
     static private void startSequence()
     {
         
-        if (Config.isRootDir())
+        if (!Config.isRootDir())
         {
             Config.filechooser();
-        } else
+        } 
+        else if(c.isAccessDenied(Config.getRootDir()))
+        {
+            Config.filechooser();
+        }
+        else
         {
             try
             {

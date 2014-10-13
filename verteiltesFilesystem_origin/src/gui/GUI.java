@@ -5,6 +5,7 @@
  */
 package gui;
 
+import gui.Explorer.*;
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import java.awt.Color;
@@ -230,7 +231,7 @@ public class GUI extends javax.swing.JFrame
          *
          *
          */
-        if (!Config.isRootDir())
+        if (Config.isRootDir())
         {
             try
             {
@@ -258,7 +259,7 @@ public class GUI extends javax.swing.JFrame
             case "Explorer":
         {
             try {
-                if (!Config.isRootDir() == true && network.Interfaces.interfaceNetworkOnline() == true )
+                if (Config.isRootDir() == true && network.Interfaces.interfaceNetworkOnline() == true )
                 {
                     explorer.addTab(jTabbedPane5, ActiveTabIndex);
                 }

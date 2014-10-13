@@ -31,7 +31,7 @@ public class Config
 {
     private static  GUIOutput out =  GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
-    private static JLabel folderL, pathL, logL, ipName[] = new JLabel[100];
+    private static JLabel folderL, pathL = new JLabel(), logL, ipName[] = new JLabel[100];
     private JPanel configP, interfaceP;
     private static JButton folderB, logB, netAdapter[] = new JButton[100];
     private static ButtonGroup netAdapterG = new ButtonGroup();
@@ -107,11 +107,11 @@ public class Config
         
         if(isRootDir())
         {
-            pathL   = new JLabel("Pfad");
+            pathL.setText("Pfad");
         }
         else
         {
-            pathL   = new JLabel(getRootDir());
+            pathL.setText(getRootDir());
         }
        
         folderB = new JButton("Ordner wählen");
@@ -160,7 +160,7 @@ public class Config
                 
                 // load a properties file
                 prop.load(new FileReader(substructure.PathHelper.getFile(configFile)));
-                return prop.getProperty(value).isEmpty();
+                return !prop.getProperty(value).isEmpty();
                 
                 
             } catch (FileNotFoundException ex) {
@@ -168,13 +168,13 @@ public class Config
             } catch (IOException ex) {
                 out.print("(Config.java) " + ex.toString());
             } catch (NullPointerException ex) {
-                out.print("(Config.java) " + ex.toString());
-                return true;
+                //out.print("(Config.java) " + ex.toString());
+                return false;
             } catch (fileSystemException ex) { 
              Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
          } 
             
-            return false;
+            return true;
             
         }
 
@@ -209,11 +209,29 @@ public class Config
      */
     static public void filechooser()
     {
-        /*
+        boolean trigger = true;
+        do{   
+            String tmpPath = createFileChooser();
+            
+            if(tmpPath.length() > 0)
+            {
+                trigger = c.isAccessDenied(tmpPath);
+            }
+            else
+            {
+                trigger = true;
+            }
+                
+        }while(trigger);
+    }
+    
+    static private String createFileChooser()
+    {
+      /*
                                 *   Erstellt ordner auswahl
                                 *  speichert Pfad in config.properties
                                 */
-
+                                String getPath = "";
                                 JFileChooser jfc = new javax.swing.JFileChooser(".");
                                 jfc.setApproveButtonText("Auswählen");
                                 jfc.setDialogTitle("Bitte Verzeichnis auswählen");
@@ -221,7 +239,7 @@ public class Config
                                 int auswahl = jfc.showOpenDialog(new JFrame());
                                 if (auswahl == JFileChooser.APPROVE_OPTION)
                                 {
-                                    String getPath = jfc.getSelectedFile().getPath();
+                                    getPath = jfc.getSelectedFile().getPath();
                                     pathL.setText(getPath);
                                     //out.print(Path);
 
@@ -238,13 +256,7 @@ public class Config
                                         // save properties to project root folder
                                         prop.store(new FileWriter(substructure.PathHelper.getFile(configFile)), null);
                                         
-                                        try
-                                        {
-                                            c.setnewFileSystem(Config.getCurrentIp(), Config.getRootDir());
-                                        } catch (fileSystemException ex)
-                                        {
-                                            out.print("Lokales FileSystem konnte nicht Indexiert werden");
-                                        }
+                                       
 
                                     } catch (IOException io) {
 
@@ -266,6 +278,8 @@ public class Config
                                     new GuiPromptHelper(GuiPromptHelper.showWarning, "Ohne ausgewählten Pfad wird der Client sich nicht"
                                             + " ins Netz einwählen");
                                 }
+                                
+                                return getPath;
     }
     
      static public void setCurrentIp(String IP)

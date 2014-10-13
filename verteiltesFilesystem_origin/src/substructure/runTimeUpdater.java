@@ -48,7 +48,7 @@ public class runTimeUpdater {
             {
                 try {
 
-                    gui.Explorer.initExplorerTree(c.get(ips[i]), ips[i]);
+                    gui.Explorer.Explorer.initExplorerTree(c.get(ips[i]), ips[i]);
                 } catch (IOException ex) {
                    // out.print(ex, 3);
                 }

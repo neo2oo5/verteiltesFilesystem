@@ -3,16 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package gui.Explorer;
 
-import fileSystem.fileSystemException;
+import gui.Config;
+import gui.GuiPromptHelper;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -25,7 +23,7 @@ import network.*;
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
-public class rightClickMenu
+public class RightClickMenu
 {
 
     private static String CFI_CMD = "createFile";
@@ -41,7 +39,7 @@ public class rightClickMenu
     private JMenuItem menuItemFileDownload, menuItemFileDelete, menuItemFileCreate, menuItemFileRename;
     private GUIOutput out = GUIOutput.getInstance();
 
-    public rightClickMenu(MouseEvent e)
+    public RightClickMenu(MouseEvent e)
     {
         popup = new JPopupMenu();
 
@@ -82,7 +80,7 @@ public class rightClickMenu
             String command = e.getActionCommand(); //To change body of generated methods, choose Tools | Templates.
             TreePath currentSelection = DynamicTree.tree.getSelectionPath();
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
-            String args[] = DynamicTree.getNetOperationData(currentNode);
+            String args[] = ExplorerHelper.getNetOperationData(currentNode);
             
             if(Config.getCurrentIp() == args[0])
             {
