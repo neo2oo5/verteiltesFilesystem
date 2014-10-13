@@ -54,8 +54,6 @@ public class fileSystem implements Runnable
     /**
      * Funktion welche die Instanzierung von außen verhindert
      */
-    
-    
     @Override public void run()
     {
       out.print("FileSystem Thread gestartet");
@@ -90,7 +88,44 @@ public class fileSystem implements Runnable
         }
         return fileSystemHolder.INSTANCE;
     }
-	
+    
+    /**
+     * Schaut ob man auf dem Ordner eine Schreibberechtigung hat
+     * @param path
+     * @return false wenn nein true wenn ja
+     */
+    public boolean isAccessDenied(String path)
+    {
+         File file = new File(path);
+         if(!file.canWrite())
+         {
+             return false;
+         }
+         else
+         {
+             return true;
+         }
+    }
+    
+    /**
+     * Ueberprueft ob das File nicht groeßer als 50 MB ist.
+     * @param entry
+     * @return false wenn zu groß true wenn ok
+     */
+    private boolean checkFileSize(Path entry)
+    {
+        File file = new File(entry.toString());
+        long fileSize = file.length();
+        if(fileSize>(5*Math.pow(10,7)))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    	
     /**
      * Funktion welche rekursiv Ordner durchsucht mit Hilfe eines Stacks
      * @param Path
@@ -117,7 +152,15 @@ public class fileSystem implements Runnable
                         }
                         else
                         {
-                            result.add(entry);
+                            if(checkFileSize(entry) == false)
+                            {
+                                out.print("(fileSystem - checkFileSize) : nicht "
+                                        + "indexiert -->" + entry, 2);
+                            }
+                            else
+                            {
+                                result.add(entry);
+                            }
                         }
                     }
                 }
@@ -332,15 +375,13 @@ public class fileSystem implements Runnable
             
             fis = new FileInputStream(inComingList);
              
-            ObjectInputStream o =new ObjectInputStream(fis);
-           
-            inComingList = (String) o.readObject();
-            o.close();
-            fis.close();
-           
-           
+            try (ObjectInputStream o = new ObjectInputStream(fis))
+            {
+                inComingList = (String) o.readObject();
+            }
+            //fis.close();   
         }
-        catch(Exception e)
+        catch(IOException | ClassNotFoundException e)
         {
             e.printStackTrace();
         }
@@ -386,16 +427,7 @@ public class fileSystem implements Runnable
                     }
                 }
             }
-        }
-        
+        }   
     }
     
-    public boolean isAccessDenied(String path)
-    {
-         File file = new File(path);
-         return  !file.canWrite();
-        
-   
-    }
-
 }

@@ -23,13 +23,13 @@ public class NewMain {
         // TODO code application logic here
         try
             {
-                c.setnewFileSystem("127.0.0.1", "/home/xoxoxo/Dokumente/");
+                c.setnewFileSystem("127.0.0.1", "E:\\Downloads");
             } catch (fileSystemException ex)
             {
                 System.out.print("Lokales FileSystem konnte nicht Indexiert werden");
             }
         
-        c.mergeList();
+        //c.mergeList();
         
         String ips[] = c.getAllIps();
 
