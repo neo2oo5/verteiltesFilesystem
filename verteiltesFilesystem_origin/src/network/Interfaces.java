@@ -50,7 +50,6 @@ public class Interfaces
                 {
                     String targetPath = PathHelper.getFile("Downloads");
                     targetPath += File.separator;
-                    out.print("path---- " + targetPath, 1);
                     // do ...
                     String doWhat = "FileTransfer";
                     String[] args = new String[3];
