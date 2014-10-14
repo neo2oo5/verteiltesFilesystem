@@ -89,6 +89,9 @@ public class fileSystem implements Runnable
         return fileSystemHolder.INSTANCE;
     }
     
+    //Update
+    
+    
     /**
      * Schaut ob man auf dem Ordner eine Schreibberechtigung hat
      * @param path
@@ -99,11 +102,11 @@ public class fileSystem implements Runnable
          File file = new File(path);
          if(file.canWrite())
          {
-             return true;
+             return false;
          }
          else
          {
-             return false;
+             return true;
          }
     }
     
