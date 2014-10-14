@@ -40,16 +40,12 @@ public class FiletransferClient
             Socket sock = new Socket(args[2], 1718);
             byte[] mybytearray = new byte[fs];
             InputStream is = sock.getInputStream();
-            String path = targetPath + args[0];
-            String outputdatei = path;
+            File path = new File(targetPath + args[0]);
+           // String outputdatei = path;
             FileOutputStream fos = new FileOutputStream(path);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-            int bytesRead = 0;
-            while (bytesRead < mybytearray.length)
-            {
-                bytesRead = is.read(mybytearray, 0, mybytearray.length);
+            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
                 bos.write(mybytearray, 0, bytesRead);
-            }
             bos.close();
             sock.close();
 
