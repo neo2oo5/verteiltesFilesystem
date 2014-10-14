@@ -58,13 +58,15 @@ public class FiletransferServer
             out.print("FileTransferServer 2222", 1);
             byte[] mybytearray = new byte[(int) myFile.length()];
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
+            
             bis.read(mybytearray, 0, mybytearray.length);
             OutputStream os = sock.getOutputStream();
             os.write(mybytearray, 0, mybytearray.length);
             os.flush();
             out.print("FileTransferServer 444", 1);
+            
             sock.close();
-
+            servsock.close();
         }
     }
 }
