@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static network.Interfaces.out;
 
 import substructure.GUIOutput;
 
@@ -21,26 +22,32 @@ import substructure.GUIOutput;
  */
 public class FiletransferClient
 {
-    
+
     static GUIOutput out = GUIOutput.getInstance();
     static int fileSize = 0;
 
     public static int getFileSize()
     {
-        return fileSize; 
+        return fileSize;
     }
 
     public static void setFileSize(int fileSize)
     {
         FiletransferClient.fileSize = fileSize;
     }
-    
-    
 
     public static boolean FileTransferClient(String[] args)
     {
         try
         {
+            String doWhat3 = "FileSize";
+            String[] args3 = new String[3];
+            args3[0] = args[0];
+            args3[1] = args[args.length]; // name
+            args3[2] = doWhat3;
+            out.print("start get FileSize", 1);
+            StartClientServer.startClient(args3);
+
             out.print("FileTransferClient startet", 1);
             Socket sock = new Socket(args[0], 1718);
             byte[] mybytearray = new byte[(int) getFileSize()];

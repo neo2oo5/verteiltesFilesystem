@@ -48,6 +48,8 @@ public class Interfaces
             {
                 try
                 {
+                    // do ...
+                    
                     String targetPath = PathHelper.getFile("Downloads");
                     targetPath += File.separator;
                     // do ...
@@ -65,6 +67,7 @@ public class Interfaces
                     args2[0] = IPv4;
                     args2[1] = clientFilename; // name
                     args2[2] = targetPath; // zielordner
+                    args2[1] = filename; // name
                     if(FiletransferClient.FileTransferClient(args2)) succesful = true;
                     
                 } catch (fileSystemException ex)
