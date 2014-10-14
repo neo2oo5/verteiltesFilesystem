@@ -64,42 +64,63 @@ public class Client
              */
             try (PrintWriter writer = new PrintWriter(out))
             {
-                /**
-                 * get the input
-                 */
-                InputStream in = client.getInputStream();
-                /**
-                 * Buffer the input
-                 */
+                 InputStream in = client.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(in));
-
+                // ---------------------
+                
+                
                 writer.write(anServer);
-                /**
-                 * stop to puffer the output of the printwriter
-                 */
                 writer.flush();
-                /**
-                 * close the applications
-                 */
-                reader = new BufferedReader(new InputStreamReader(in));
-                /**
-                 * handler for the file editor interfaces
-                 */
+                
                 String s = null;
-                while ((s = reader.readLine()) != null)
+                while((s = reader.readLine()) != null)
                 {
-                    String[] argsNeu = s.split(Pattern.quote("#entf#"));
-                    int anz = argsNeu.length - 1;
-                    if (argsNeu[anz].equals("FileRename"))
-                    {
-                        System.out.println("-------- geht: " + argsNeu[0]);
-                       int fs = Integer.parseInt(argsNeu[0]);
-                       FiletransferClient.setFileSize(fs);
-                    }
+                   
+                        System.out.println("Client: Empfangen vom Server: " + s);
+
+                        
+                        writer.close();
+                        reader.close();
+                        client.close();
                 }
-                writer.close();
-                reader.close();
-                client.close();
+                
+                
+//                /**
+//                 * get the input
+//                 */
+//                InputStream in = client.getInputStream();
+//                /**
+//                 * Buffer the input
+//                 */
+//                reader = new BufferedReader(new InputStreamReader(in));
+//
+//                writer.write(anServer);
+//                /**
+//                 * stop to puffer the output of the printwriter
+//                 */
+//                writer.flush();
+//                /**
+//                 * close the applications
+//                 */
+//                reader = new BufferedReader(new InputStreamReader(in));
+//                /**
+//                 * handler for the file editor interfaces
+//                 */
+//                String s = null;
+//                while ((s = reader.readLine()) != null)
+//                {
+//                    String[] argsNeu = s.split(Pattern.quote("#entf#"));
+//                    int anz = argsNeu.length - 1;
+//                    if (argsNeu[anz].equals("FileRename"))
+//                    {
+//                        System.out.println("-------- geht: " + argsNeu[0]);
+//                        int fs = Integer.parseInt(argsNeu[0]);
+//                        FiletransferClient.setFileSize(fs);
+//                    }
+//                }
+//                writer.close();
+//                reader.close();
+//                client.close();
 
             }
             /**
