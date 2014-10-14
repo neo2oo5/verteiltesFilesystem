@@ -9,6 +9,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,14 +41,8 @@ public class FiletransferClient
     {
         try
         {
-            String doWhat3 = "fileSize";
-            String[] args3 = new String[3];
-            args3[0] = args[0];
-            args3[1] = args[3]; // name
-            args3[2] = doWhat3;
-            out.print("start get FileSize", 1);
-            StartClientServer.startClient(args3);
-
+            out.print("Sleep startet", 1);
+            sleep(2000);
             out.print("FileTransferClient startet", 1);
             Socket sock = new Socket(args[0], 1718);
             byte[] mybytearray = new byte[(int) getFileSize()];
@@ -64,6 +59,9 @@ public class FiletransferClient
         } catch (IOException ex)
         {
             return false;
+        } catch (InterruptedException ex)
+        {
+            out.print("FTCLient " + ex.toString(), 3);
         }
         return true;
     }

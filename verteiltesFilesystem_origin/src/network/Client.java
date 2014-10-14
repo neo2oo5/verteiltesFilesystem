@@ -40,6 +40,11 @@ public class Client
 
         try
         {
+            int j = 0;
+            while(j < args.length){
+                outTXT.print(j + " - " + args[j], 3);
+                j++;
+            }
             /**
              * initiate the client socket (Port 1717, name = input)
              */

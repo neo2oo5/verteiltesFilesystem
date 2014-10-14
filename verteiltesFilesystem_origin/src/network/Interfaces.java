@@ -54,10 +54,11 @@ public class Interfaces
                     targetPath += File.separator;
                     // do ...
                     String doWhat = "FileTransfer";
-                    String[] args = new String[3];
+                    String[] args = new String[4];
                     args[0] = IPv4;
                     args[1] = filename; // name
-                    args[2] = doWhat;
+                    args[2] = gui.Config.getCurrentIp();
+                    args[3] = doWhat;
                     
                     out.print("start Server", 1);
                     StartClientServer.startClient(args);
