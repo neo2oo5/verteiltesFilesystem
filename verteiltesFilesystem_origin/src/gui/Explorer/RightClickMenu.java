@@ -78,59 +78,58 @@ public class RightClickMenu
         public void actionPerformed(ActionEvent e)
         {
             String command = e.getActionCommand(); //To change body of generated methods, choose Tools | Templates.
-            TreePath currentSelection = DynamicTree.tree.getSelectionPath();
+            TreePath currentSelection = DynamicTree.getTree().getSelectionPath();
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
             String args[] = ExplorerHelper.getNetOperationData(currentNode);
             
-            if(Config.getCurrentIp() == args[0])
+            if(Config.getCurrentIp() == args[0] && currentNode != null)
             {
                 if (CFI_CMD.equals(command))
                 {
 
-                    if (currentSelection != null)
+                    
+
+                    MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
+
+                    //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
+                    if (currentNode.isLeaf() == false)
+                    {
+                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Datei Name?"));
+                        DynamicTree.getTreeModel().insertNodeInto(childNode, currentNode, currentNode.getChildCount());
+                                //netzwerk ordner hinzufueg funktion
+
+
+
+                        if (args != null)
+                        {
+                            try
+                            {
+                                out.print("(Create) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
+                                Interfaces.interfaceFileCreate(args[0], args[2], args[1]);
+                                out.print("datei erstellt");
+                            } catch (UnknownHostException ex)
+                            {
+                                out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
+                            }
+                        }
+
+                    } else
+                    {
+                        new GuiPromptHelper(GuiPromptHelper.showError, fileinFileMSG);
+                    }
+
+                    if (parent != null)
                     {
 
-                        MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
-
-                        //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
-                        if (currentNode.isLeaf() == false)
-                        {
-                            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Datei Name?"));
-                            DynamicTree.treeModel.insertNodeInto(childNode, currentNode, currentNode.getChildCount());
-                                    //netzwerk ordner hinzufueg funktion
-
-                            
-
-                            if (args != null)
-                            {
-                                try
-                                {
-                                    out.print("(Create) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
-                                    Interfaces.interfaceFileCreate(args[0], args[2], args[1]);
-                                    out.print("datei erstellt");
-                                } catch (UnknownHostException ex)
-                                {
-                                    out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
-                                }
-                            }
-
-                        } else
-                        {
-                            new GuiPromptHelper(GuiPromptHelper.showError, fileinFileMSG);
-                        }
-
-                        if (parent != null)
-                        {
-
-                            return;
-                        }
+                        return;
                     }
+                    
                 } else if (RFI_CMD.equals(command))
                 {
 
                     if (currentNode.isLeaf() == true)
                     {
-                        DynamicTree.treeModel.removeNodeFromParent(currentNode);
+                        DynamicTree.getTreeModel().removeNodeFromParent(currentNode);
                         //netzwerk loesch funktion
                         
 

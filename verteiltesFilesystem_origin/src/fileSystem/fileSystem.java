@@ -99,11 +99,11 @@ public class fileSystem implements Runnable
          File file = new File(path);
          if(file.canWrite())
          {
-             return false;
+             return true;
          }
          else
          {
-             return true;
+             return false;
          }
     }
     
