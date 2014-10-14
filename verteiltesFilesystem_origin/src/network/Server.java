@@ -33,7 +33,7 @@ public class Server
         /**
          * Thread pool with a fixed number of threads
          */
-        ExecutorService executor = Executors.newFixedThreadPool(30);
+        ExecutorService executor = Executors.newFixedThreadPool(80);
 
         /**
          * server socket, named "server"
@@ -60,7 +60,6 @@ public class Server
                  * wait for a client request
                  */
                 Socket client = server.accept();
-
                 executor.execute(new Handler(client));
 
             }

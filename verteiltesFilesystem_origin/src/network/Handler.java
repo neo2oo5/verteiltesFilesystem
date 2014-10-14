@@ -33,7 +33,7 @@ public class Handler implements Runnable
 {
 
     private Socket client;
-    static GUIOutput out = GUIOutput.getInstance();
+    static GUIOutput outTxT = GUIOutput.getInstance();
 
     /**
      *
@@ -47,23 +47,19 @@ public class Handler implements Runnable
     @Override
     public void run()
     {
-        /**
-         * get the output and buffer the input
-         */
+
         OutputStream outPS = null;
+
         try
         {
+            /**
+             * get the output and buffer the input
+             */
             outPS = client.getOutputStream();
-        } catch (IOException ex)
-        {
-            out.print("(Handler - run) : " + ex.toString(), 2);
-        }
-        BufferedReader reader;
-        /**
-         * convert to a string and write into an outputsteam
-         */
-        if (outPS != null)
-        {
+            BufferedReader reader;
+            /**
+             * convert to a string and write into an outputsteam
+             */
             try (PrintWriter writer = new PrintWriter(outPS))
             {
                 /**
@@ -99,7 +95,12 @@ public class Handler implements Runnable
                         boolean createFile = Create.createFile(args[0], args[1]);
                     } else if (args[anz].equals("FileTransfer"))
                     {
+                        outTxT.print("------ Handler FT", 3);
                         FiletransferServer.FileTransferServer(args);
+                    } else if (args[anz].equals("FileTransferClient"))
+                    {
+                        outTxT.print("------ Handler FTC ----------", 3);
+                        FiletransferClient.FileTransferClient(args);
                     } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
                         File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
@@ -119,7 +120,7 @@ public class Handler implements Runnable
                         network.AdminPannel.setLoggedin(true);
                     } else if (args[anz].equals("AdminMessage"))
                     {
-                        out.print("(Handler) AdminMessage: " + args[0], 1);
+                        outTxT.print("(Handler) AdminMessage: " + args[0], 1);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
                         String ownIP = gui.Config.getCurrentIp();
@@ -128,26 +129,26 @@ public class Handler implements Runnable
                         {
                             IPList.clearList();
                             IPList.InsertIpInList(ownIP);
-                            out.print("(Handler) you removed from network by an admin");
+                            outTxT.print("(Handler) you removed from network by an admin");
 
                         } else
                         {
                             IPList.removeIP(args[0]);
-                            out.print("(Handler) Exit: " + args[0] + " get kicked");
+                            outTxT.print("(Handler) Exit: " + args[0] + " get kicked");
                         }
                     } else if (args[anz].equals("Exit"))
                     {
                         IPList.removeIP(args[0]);
-                        out.print("(Handler) Exit: " + args[0] + " get removed");
+                        outTxT.print("(Handler) Exit: " + args[0] + " get removed");
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
                         IPList.replaceIP(args[0], args[1]);
 
-                        out.print("(Handler) ChangeOwnIP: " + args[0] + " to " + args[1]);
+                        outTxT.print("(Handler) ChangeOwnIP: " + args[0] + " to " + args[1]);
                     } else if (args[anz].equals("newClient"))
                     {
                         IPList.InsertIpInList(args[0]);
-                        out.print("(Handler) newClient eintrag: " + args[0]);
+                        outTxT.print("(Handler) newClient eintrag: " + args[0]);
                     }
                 }
                 reader.close();
@@ -155,14 +156,27 @@ public class Handler implements Runnable
                 client.close();
             } catch (fileSystemException ex)
             {
-                out.print("(Handler - run) : " + ex.toString(), 2);
+                outTxT.print("(Handler - run) : " + ex.toString(), 2);
             } catch (IOException ex)
             {
-                out.print("(Handler - run - if) : " + ex.toString(), 2);
+                outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
+            }
+        } catch (IOException ex)
+        {
+                outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
+        } finally
+        {
+            try
+            {
+                outPS.close();
+            } catch (IOException ex)
+            {
+                outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
             }
         }
-        /**
-         * catch exceptions and logg them
-         */
     }
+    /**
+     * catch exceptions and logg them
+     */
 }
+

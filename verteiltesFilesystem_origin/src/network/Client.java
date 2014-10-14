@@ -28,7 +28,7 @@ import substructure.GUIOutput;
 public class Client
 {
 
-    static GUIOutput out = GUIOutput.getInstance();
+    static GUIOutput outTxt = GUIOutput.getInstance();
 
     public static void client(String[] args)
     {
@@ -71,7 +71,7 @@ public class Client
                  * Buffer the input
                  */
                 reader = new BufferedReader(new InputStreamReader(in));
-
+                outTxt.print(anServer, 2);
                 writer.write(anServer);
                 /**
                  * stop to puffer the output of the printwriter
@@ -90,7 +90,7 @@ public class Client
              */
         } catch (IOException ex)
         {
-            out.print("(Client - client) : " + ex.toString(), 2);
+            outTxt.print("(Client - client) : " + ex.toString(), 2);
         }
 
     }
