@@ -54,7 +54,8 @@ public class FiletransferServer
             argsClient[4] = "FileTransferClient";
             StartClientServer.startClient(argsClient);
             out.print("Client Start", 1);
-            while (true)
+            boolean transfer = true;
+            while (transfer)
             {
                 Socket sock = servsock.accept();
                 out.print("FileTransferServer 2222", 1);
@@ -69,6 +70,7 @@ public class FiletransferServer
                 
                 sock.close();
                 servsock.close();
+                transfer = false;
             }
         } catch (IOException ex)
         {
