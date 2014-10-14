@@ -12,6 +12,7 @@ import fileSystem.fileSystemException;
 import gui.Config;
 import java.io.File;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +37,10 @@ public class Interfaces
         if (kicked)
         {
             out.print("Network Offline or You get Kicked from Network", 3);
-        } else if(PingServer.PingServer(IPv4) == false){
+        } else if (PingServer.PingServer(IPv4) == false)
+        {
             out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
-        }else
+        } else
         {
             String IPv4target = null;
             IPv4target = Config.getCurrentIp();
@@ -59,10 +61,13 @@ public class Interfaces
                     args[5] = doWhat;
                     out.print("start Server", 1);
                     StartClientServer.startClient(args);
-                    
-                }  catch (Exception ex)
+                    out.print("Sleep Start", 2);
+                    sleep(2000);
+                    return true;
+
+                } catch (Exception ex)
                 {
-                        out.print("(Interfaces) FileTransfer " + ex, 3);
+                    out.print("(Interfaces) FileTransfer " + ex, 3);
                 }
 
             }
@@ -76,7 +81,8 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileRename) : " + "Network Offline or You get Kicked from Network", 3);
-        } else if(PingServer.PingServer(IPv4) == false){
+        } else if (PingServer.PingServer(IPv4) == false)
+        {
             out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
@@ -106,9 +112,10 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileDelete) : " + "Network Offline or You get Kicked from Network", 3);
-        } else if(PingServer.PingServer(IPv4) == false){
+        } else if (PingServer.PingServer(IPv4) == false)
+        {
             out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
-        }else
+        } else
         {
             /**
              * interface to delete a file/directory
@@ -137,7 +144,8 @@ public class Interfaces
         if (kicked)
         {
             out.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
-        } else if(PingServer.PingServer(IPv4) == false){
+        } else if (PingServer.PingServer(IPv4) == false)
+        {
             out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
@@ -181,7 +189,6 @@ public class Interfaces
         IPList.InsertIpInList(ip);
         out.print("(Interface) - StartProgram -> Ihre IP: " + ip);
 
-        
         new CheckWhoIsOnline();
         return true;
     }
@@ -191,7 +198,7 @@ public class Interfaces
      */
     public static boolean interfaceNetworkOnline() throws UnknownHostException
     {
-        
+
         boolean online = false;
         boolean kicked = CheckKicked.checkKicked();
         if (kicked)
@@ -199,7 +206,6 @@ public class Interfaces
             out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
         } else
         {
-            
 
             if (getIPList().size() > 1)
             {
@@ -210,7 +216,7 @@ public class Interfaces
             }
 
         }
-        
+
         return online;
     }
 
@@ -250,10 +256,10 @@ public class Interfaces
     public static void interfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
     {
         gui.Config.setCurrentIp(newIP);
-        
-         List<String> IPList = getIPList();
-         
-        for(String ip: IPList)
+
+        List<String> IPList = getIPList();
+
+        for (String ip : IPList)
         {
             String doWhat = "ChangeOwnIP";
             String[] args = new String[4];
@@ -264,19 +270,15 @@ public class Interfaces
             StartClientServer.startClient(args);
 
         }
-        
-        
+
         new CheckWhoIsOnline();
-        
-        
-        
 
     }
 
     public static void interfaceExitProg() throws UnknownHostException
     {
 
-        for(String ip: getIPList())
+        for (String ip : getIPList())
         {
             if (!ip.equals(gui.Config.getCurrentIp()))
             {
@@ -291,7 +293,10 @@ public class Interfaces
         }
         IPList.clearList();
         boolean admin = interfaceIAmAdmin();
-        if(admin) interfaceAdminLogout();
+        if (admin)
+        {
+            interfaceAdminLogout();
+        }
     }
 
     public static void interfaceNewClient(String clientIP, String ownIP)
@@ -308,27 +313,26 @@ public class Interfaces
     public static void interfaceMergeList()
     {
         Thread fs = null;
-        
+
         boolean trigger = true;
-        
-        while(trigger)
+
+        while (trigger)
         {
-            if(fs == null)
+            if (fs == null)
             {
                 trigger = false;
                 fs = new Thread(new syncFilesystems());
-            }
-            else if(!fs.isAlive())
+            } else if (!fs.isAlive())
             {
                 trigger = false;
                 fs = new Thread(new syncFilesystems());
             }
         }
-        
+
         fs.setName("(syncFilesystems)");
         fs.start();
     }
-    
+
     public static void interfaceRestartMulticast()
     {
         new CheckWhoIsOnline();

@@ -16,7 +16,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
 /**
@@ -29,7 +28,7 @@ import substructure.GUIOutput;
 public class Client
 {
 
-    static GUIOutput outTXT = GUIOutput.getInstance();
+    static GUIOutput outTxt = GUIOutput.getInstance();
 
     public static void client(String[] args)
     {
@@ -40,11 +39,6 @@ public class Client
 
         try
         {
-            int j = 0;
-            while(j < args.length){
-                outTXT.print(j + " - " + args[j], 3);
-                j++;
-            }
             /**
              * initiate the client socket (Port 1717, name = input)
              */
@@ -69,67 +63,34 @@ public class Client
              */
             try (PrintWriter writer = new PrintWriter(out))
             {
+                /**
+                 * get the input
+                 */
                 InputStream in = client.getInputStream();
+                /**
+                 * Buffer the input
+                 */
                 reader = new BufferedReader(new InputStreamReader(in));
-                // ---------------------
-
+                outTxt.print(anServer, 2);
                 writer.write(anServer);
+                /**
+                 * stop to puffer the output of the printwriter
+                 */
                 writer.flush();
+                /**
+                 * close the applications
+                 */
+                writer.close();
+                reader.close();
+                client.close();
 
-                String s = null;
-                while ((s = reader.readLine()) != null)
-                {
-
-                    outTXT.print("Client: Empfangen vom Server: " + s, 3);
-
-                    writer.close();
-                    reader.close();
-                    client.close();
-                }
-
-//                /**
-//                 * get the input
-//                 */
-//                InputStream in = client.getInputStream();
-//                /**
-//                 * Buffer the input
-//                 */
-//                reader = new BufferedReader(new InputStreamReader(in));
-//
-//                writer.write(anServer);
-//                /**
-//                 * stop to puffer the output of the printwriter
-//                 */
-//                writer.flush();
-//                /**
-//                 * close the applications
-//                 */
-//                reader = new BufferedReader(new InputStreamReader(in));
-//                /**
-//                 * handler for the file editor interfaces
-//                 */
-//                String s = null;
-//                while ((s = reader.readLine()) != null)
-//                {
-//                    String[] argsNeu = s.split(Pattern.quote("#entf#"));
-//                    int anz = argsNeu.length - 1;
-//                    if (argsNeu[anz].equals("FileRename"))
-//                    {
-//                        System.out.println("-------- geht: " + argsNeu[0]);
-//                        int fs = Integer.parseInt(argsNeu[0]);
-//                        FiletransferClient.setFileSize(fs);
-//                    }
-//                }
-//                writer.close();
-//                reader.close();
-//                client.close();
             }
             /**
              * catch exceptions and log them
              */
         } catch (IOException ex)
         {
-            outTXT.print("(Client - client) : " + ex.toString(), 2);
+            outTxt.print("(Client - client) : " + ex.toString(), 2);
         }
 
     }

@@ -33,6 +33,7 @@ public class FiletransferClient
     {
         try
         {
+            out.print("_____" + args[0] + "_____" + args[1]  +"_____" + args[2] , 2);
             String targetPath = PathHelper.getFile("Downloads");
             targetPath += File.separator;
             int fs = Integer.parseInt(args[1]);

@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static network.Interfaces.out;
 import substructure.GUIOutput;
 
 /**
@@ -41,6 +42,7 @@ public class FiletransferServer
         File myFile = new File(file);
         while (true)
         {
+            out.print("FileTransferServer startet", 1);
             Socket sock = servsock.accept();
             out.print(myFile.length(), 3);
             byte[] mybytearray = new byte[(int) myFile.length()];
@@ -61,7 +63,7 @@ public class FiletransferServer
             argsClient[3] = args[3]; // ip Server
             argsClient[4] = "FileTransferClient";
             StartClientServer.startClient(argsClient);
-
+            out.print("Client Start", 1);
             sock.close();
         }
     }
