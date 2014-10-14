@@ -27,46 +27,52 @@ public class FiletransferServer
 
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static void FileTransferServer(String[] args) throws IOException
+    public static void FileTransferServer(String[] args)
     {
-        out.print("FileTransferServer startet", 1);
-        ServerSocket servsock = new ServerSocket(1718);
-        String file = null;
         try
         {
-            file = substructure.PathHelper.getFile(args[0]);
-        } catch (fileSystemException ex)
+            out.print("FileTransferServer startet", 1);
+            ServerSocket servsock = new ServerSocket(1718);
+            String file = null;
+            try
+            {
+                file = substructure.PathHelper.getFile(args[0]);
+            } catch (fileSystemException ex)
+            {
+                out.print("(FileTransferServer) " + ex, 2);
+            }
+            File myFile = new File(file);
+            int fsi = (int) myFile.length();
+            StringBuilder sb = new StringBuilder();
+            sb.append(fsi);
+            String strI = sb.toString();
+            String[] argsClient = new String[5];
+            argsClient[0] = args[1]; // IP Client
+            argsClient[1] = args[2]; // neuerName
+            argsClient[2] = strI; // größe datei
+            argsClient[3] = args[3]; // ip Server
+            argsClient[4] = "FileTransferClient";
+            StartClientServer.startClient(argsClient);
+            out.print("Client Start", 1);
+            while (true)
+            {
+                Socket sock = servsock.accept();
+                out.print("FileTransferServer 2222", 1);
+                byte[] mybytearray = new byte[(int) myFile.length()];
+                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
+                
+                bis.read(mybytearray, 0, mybytearray.length);
+                OutputStream os = sock.getOutputStream();
+                os.write(mybytearray, 0, mybytearray.length);
+                os.flush();
+                out.print("FileTransferServer 444", 1);
+                
+                sock.close();
+                servsock.close();
+            }
+        } catch (IOException ex)
         {
-            out.print("(FileTransferServer) " + ex, 2);
-        }
-        File myFile = new File(file);
-        int fsi = (int) myFile.length();
-        StringBuilder sb = new StringBuilder();
-        sb.append(fsi);
-        String strI = sb.toString();
-        String[] argsClient = new String[5];
-        argsClient[0] = args[1]; // IP Client
-        argsClient[1] = args[2]; // neuerName
-        argsClient[2] = strI; // größe datei
-        argsClient[3] = args[3]; // ip Server
-        argsClient[4] = "FileTransferClient";
-        StartClientServer.startClient(argsClient);
-        out.print("Client Start", 1);
-        while (true)
-        {
-            Socket sock = servsock.accept();
-            out.print("FileTransferServer 2222", 1);
-            byte[] mybytearray = new byte[(int) myFile.length()];
-            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
-            
-            bis.read(mybytearray, 0, mybytearray.length);
-            OutputStream os = sock.getOutputStream();
-            os.write(mybytearray, 0, mybytearray.length);
-            os.flush();
-            out.print("FileTransferServer 444", 1);
-            
-            sock.close();
-            servsock.close();
+                out.print("(FileTransferServer) " + ex.toString(), 3);
         }
     }
 }
