@@ -33,20 +33,23 @@ public class FiletransferClient
     {
         try
         {
-            out.print("_____" + args[0] + "_____" + args[1]  +"_____" + args[2] , 2);
+            out.print("_____" + args[0] + "_____" + args[1] + "_____" + args[2], 2);
             String targetPath = PathHelper.getFile("Downloads");
             targetPath += File.separator;
             int fs = Integer.parseInt(args[1]);
             Socket sock = new Socket(args[2], 1718);
             byte[] mybytearray = new byte[fs];
-            out.print("-> " + mybytearray ,3);
             InputStream is = sock.getInputStream();
             String path = targetPath + args[0];
             String outputdatei = path;
             FileOutputStream fos = new FileOutputStream(path);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            bos.write(mybytearray, 0, bytesRead);
+            int bytesRead = 0;
+            while (bytesRead < mybytearray.length)
+            {
+                bytesRead = is.read(mybytearray, 0, mybytearray.length);
+                bos.write(mybytearray, 0, bytesRead);
+            }
             bos.close();
             sock.close();
 
@@ -55,7 +58,7 @@ public class FiletransferClient
             return false;
         } catch (fileSystemException ex)
         {
-            out.print("(FileTransferClient) " + ex.toString(),3);
+            out.print("(FileTransferClient) " + ex.toString(), 3);
         }
         return true;
     }
