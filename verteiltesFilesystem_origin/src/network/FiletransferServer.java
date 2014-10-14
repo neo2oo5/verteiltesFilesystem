@@ -49,24 +49,20 @@ public class FiletransferServer
             OutputStream os = sock.getOutputStream();
             os.write(mybytearray, 0, mybytearray.length);
             os.flush();
+            int fsi = (int) myFile.length();
+            StringBuilder sb = new StringBuilder();
+            sb.append(fsi);
+            String strI = sb.toString();
+
+            String[] argsClient = new String[5];
+            argsClient[0] = args[1]; // IP Client
+            argsClient[1] = args[2]; // neuerName
+            argsClient[2] = strI; // größe datei
+            argsClient[3] = args[3]; // ip Server
+            argsClient[4] = "FileTransferClient";
+            StartClientServer.startClient(argsClient);
+
             sock.close();
         }
-    }
-
-    public static int fileSize(String[] args)
-    {
-        int fileSize = 0;
-        try
-        {
-            String file = null;
-            file = substructure.PathHelper.getFile(args[0]);
-            File myFile = new File(file);
-            fileSize = (int) myFile.length();
-        } catch (fileSystemException ex)
-        {
-            out.print("(FileTransferServer - fileSize) " + ex, 2);
-        }
-        return fileSize;
-        
     }
 }

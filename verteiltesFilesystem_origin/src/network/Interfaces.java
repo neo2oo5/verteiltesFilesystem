@@ -49,33 +49,18 @@ public class Interfaces
                 try
                 {
                     // do ...
-                    
-                    String targetPath = PathHelper.getFile("Downloads");
-                    targetPath += File.separator;
-                    // do ...
                     String doWhat = "FileTransfer";
-                    String[] args = new String[4];
+                    String[] args = new String[6];
                     args[0] = IPv4;
                     args[1] = filename; // name
                     args[2] = gui.Config.getCurrentIp();
-                    args[3] = doWhat;
-                    
+                    args[3] = clientFilename;
+                    args[4] = IPv4;
+                    args[5] = doWhat;
                     out.print("start Server", 1);
                     StartClientServer.startClient(args);
                     
-                    out.print("start client", 1);
-                    String[] args2 = new String[4];
-                    args2[0] = IPv4;
-                    args2[1] = clientFilename; // name
-                    args2[2] = targetPath; // zielordner
-                    args2[3] = filename; // name
-                    out.print("test", 3);
-                    FiletransferClient.FileTransferClient(args2);
-                    
-                } catch (fileSystemException ex)
-                {
-                        out.print("(Interfaces) FileTransfer " + ex, 3);
-                } catch (Exception ex)
+                }  catch (Exception ex)
                 {
                         out.print("(Interfaces) FileTransfer " + ex, 3);
                 }

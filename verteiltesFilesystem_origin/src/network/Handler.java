@@ -79,6 +79,7 @@ public class Handler implements Runnable
                 {
                     String[] args = s.split(Pattern.quote("#entf#"));
                     int anz = args.length - 1;
+                    out.print("HAND " + args[anz], 2);
                     /**
                      * file.rename handler
                      */
@@ -99,18 +100,10 @@ public class Handler implements Runnable
                         boolean createFile = Create.createFile(args[0], args[1]);
                     } else if (args[anz].equals("FileTransfer"))
                     {
-                        int fs = FiletransferServer.fileSize(args);
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(fs);
-                        String strI = sb.toString();
-                        String doWhat = "fileSize";
-                        int nr = (anz - 1);
-                        String[] argsNeu = new String[3];
-                        argsNeu[0] = args[nr];
-                        argsNeu[1] = strI;
-                        argsNeu[2] = doWhat;
-                        StartClientServer.startClient(argsNeu);
                         FiletransferServer.FileTransferServer(args);
+                    } else if (args[anz].equals("FileTransferClient"))
+                    {
+                        FiletransferClient.FileTransferClient(args);
                     } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
                         File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
@@ -158,11 +151,6 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("newClient"))
                     {
                         IPList.InsertIpInList(args[0]);
-                        out.print("(Handler) newClient eintrag: " + args[0]);
-                    } else if (args[anz].equals("fileSize"))
-                    {
-                        int fs = Integer.parseInt(args[0]);
-                        FiletransferClient.setFileSize(fs);
                         out.print("(Handler) newClient eintrag: " + args[0]);
                     }
                 }

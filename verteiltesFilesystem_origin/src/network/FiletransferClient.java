@@ -5,7 +5,9 @@
  */
 package network;
 
+import fileSystem.fileSystemException;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +18,7 @@ import java.util.logging.Logger;
 import static network.Interfaces.out;
 
 import substructure.GUIOutput;
+import substructure.PathHelper;
 
 /**
  *
@@ -25,29 +28,18 @@ public class FiletransferClient
 {
 
     static GUIOutput out = GUIOutput.getInstance();
-    static int fileSize = 0;
-
-    public static int getFileSize()
-    {
-        return fileSize;
-    }
-
-    public static void setFileSize(int fileSize)
-    {
-        FiletransferClient.fileSize = fileSize;
-    }
 
     public static boolean FileTransferClient(String[] args)
     {
         try
         {
-            out.print("Sleep startet", 1);
-            sleep(2000);
-            out.print("FileTransferClient startet", 1);
-            Socket sock = new Socket(args[0], 1718);
-            byte[] mybytearray = new byte[(int) getFileSize()];
+            String targetPath = PathHelper.getFile("Downloads");
+            targetPath += File.separator;
+            int fs = Integer.parseInt(args[1]);
+            Socket sock = new Socket(args[2], 1718);
+            byte[] mybytearray = new byte[fs];
             InputStream is = sock.getInputStream();
-            String path = args[2] + args[1];
+            String path = targetPath + args[0];
             String outputdatei = path;
             FileOutputStream fos = new FileOutputStream(path);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -59,9 +51,9 @@ public class FiletransferClient
         } catch (IOException ex)
         {
             return false;
-        } catch (InterruptedException ex)
+        } catch (fileSystemException ex)
         {
-            out.print("FTCLient " + ex.toString(), 3);
+            Logger.getLogger(FiletransferClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
     }
