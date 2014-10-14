@@ -40,6 +40,19 @@ public class FiletransferServer
             out.print("(FileTransferServer) " + ex, 2);
         }
         File myFile = new File(file);
+        int fsi = (int) myFile.length();
+            StringBuilder sb = new StringBuilder();
+            sb.append(fsi);
+            String strI = sb.toString();
+        out.print("FileTransferServer startet", 1);
+            String[] argsClient = new String[5];
+            argsClient[0] = args[1]; // IP Client
+            argsClient[1] = args[2]; // neuerName
+            argsClient[2] = strI; // größe datei
+            argsClient[3] = args[3]; // ip Server
+            argsClient[4] = "FileTransferClient";
+            StartClientServer.startClient(argsClient);
+            out.print("Client Start", 1);
         while (true)
         {
             Socket sock = servsock.accept();
@@ -51,21 +64,9 @@ public class FiletransferServer
             os.write(mybytearray, 0, mybytearray.length);
             os.flush();
         out.print("FileTransferServer 444", 1);
-            int fsi = (int) myFile.length();
-            StringBuilder sb = new StringBuilder();
-            sb.append(fsi);
-            String strI = sb.toString();
             sock.close();
 
-        out.print("FileTransferServer startet", 1);
-            String[] argsClient = new String[5];
-            argsClient[0] = args[1]; // IP Client
-            argsClient[1] = args[2]; // neuerName
-            argsClient[2] = strI; // größe datei
-            argsClient[3] = args[3]; // ip Server
-            argsClient[4] = "FileTransferClient";
-            StartClientServer.startClient(argsClient);
-            out.print("Client Start", 1);
+            
         }
     }
 }
