@@ -39,6 +39,7 @@ public class FiletransferClient
             int fs = Integer.parseInt(args[1]);
             Socket sock = new Socket(args[2], 1718);
             byte[] mybytearray = new byte[fs];
+            out.print("-> " + mybytearray ,3);
             InputStream is = sock.getInputStream();
             String path = targetPath + args[0];
             String outputdatei = path;
@@ -54,7 +55,7 @@ public class FiletransferClient
             return false;
         } catch (fileSystemException ex)
         {
-            Logger.getLogger(FiletransferClient.class.getName()).log(Level.SEVERE, null, ex);
+            out.print("(FileTransferClient) " + ex.toString(),3);
         }
         return true;
     }
