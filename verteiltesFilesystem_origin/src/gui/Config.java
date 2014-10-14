@@ -105,7 +105,7 @@ public class Config
                 */
         folderL = new JLabel("Aktueller Pfad: ");
         
-        if(isRootDir())
+        if(!isRootDir())
         {
             pathL.setText("Pfad");
         }

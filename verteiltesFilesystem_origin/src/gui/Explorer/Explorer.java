@@ -11,7 +11,6 @@ package gui.Explorer;
 import java.util.*;
 import java.nio.file.*;
 import fileSystem.fileSystem;
-import static gui.Explorer.DynamicTree.rootNode;
 import java.io.*;
 import java.util.regex.Pattern;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -29,16 +28,17 @@ public class Explorer
     private static GUIOutput out =  GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
     private static DynamicTree treePanel;
-    
+    private static javax.swing.JTabbedPane pane;
     /**
      *
      * @param Pane
      * @return
      */
     public Explorer(javax.swing.JTabbedPane Pane)
-    {     
-            treePanel = new DynamicTree(Pane); 
-            
+    {   
+        
+            this.pane = Pane;
+            initExplorerTree();
     }
     
     /**
@@ -100,41 +100,60 @@ public class Explorer
        return tmp;
     }
     
-    public static void initExplorerTree() 
+    public static synchronized void initExplorerTree() 
    {
-
-        treePanel.beginReload();
-
-        List<String> tmp;
-
+       
+       treePanel = new DynamicTree(pane);
         
        
-        String ips[] = c.getAllIps();
-        
-        
-
-         for(int z = 0; z < c.getClientCount(); z++)
-         {
-             
-
-            tmp = changePathSeperator(ips[z]);
-
             
+            
+            List<String> tmp;
 
-            DefaultMutableTreeNode parent = treePanel.addObject(rootNode, ips[z]);
 
 
-             //Created the Tree Structure in Explorer
-             for (int i = 0; i < tmp.size(); i++) {
+            String ips[] = c.getAllIps();
 
-                treePanel.buildTreeFromString(parent, tmp.get(i).toString());
+
+
+             for(int z = 0; z < c.getClientCount(); z++)
+             {
+
+
+                tmp = changePathSeperator(ips[z]);
+
+                int index = treePanel.childIndex(treePanel.getRootNode(), ips[z]);
+                DefaultMutableTreeNode parent;
+                
+                //neue ip
+               // System.out.print(index);
+                if (index < 0) {
+                
+                    parent = treePanel.addObject(treePanel.getRootNode(), ips[z]);
+
+                }
+                //ip existiert bereits
+                else
+                {
+                     parent = treePanel.getObjectAtIndex(treePanel.getRootNode(), index);
+                     //System.out.print(parent.getUserObject());
+                    //parent = treePanel.addObject(entry, ips[z]);
+                    
+                }
+                
+                //Created the Tree Structure in Explorer
+                for (int i = 0; i < tmp.size(); i++) {
+
+                   treePanel.buildTreeFromString(parent, tmp.get(i).toString());
+
+                }
+                
+                treePanel.removeOldFsEntrys(tmp, ips[z]);
 
              }
-         }
 
-       
-       
-       treePanel.endReload();
+          
+        
    }
     
 
