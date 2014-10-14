@@ -148,6 +148,16 @@ public class Handler implements Runnable
                     {
                         IPList.InsertIpInList(args[0]);
                         out.print("(Handler) newClient eintrag: " + args[0]);
+                    } else if (args[anz].equals("fileSize"))
+                    {
+                        int fs = FiletransferServer.fileSize(args);
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(fs);
+                        String strI = sb.toString();
+                        String anClient = strI + "#entf#" + "fileSizeAnswer";
+                        writer.write(anClient);
+                        writer.flush();
+                        out.print("(Handler) fileSize: " + fs);
                     }
                 }
                 reader.close();

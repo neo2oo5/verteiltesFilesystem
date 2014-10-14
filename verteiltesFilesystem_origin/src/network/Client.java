@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
 /**
@@ -80,6 +81,22 @@ public class Client
                 /**
                  * close the applications
                  */
+                reader = new BufferedReader(new InputStreamReader(in));
+                /**
+                 * handler for the file editor interfaces
+                 */
+                String s = null;
+                while ((s = reader.readLine()) != null)
+                {
+                    String[] argsNeu = s.split(Pattern.quote("#entf#"));
+                    int anz = argsNeu.length - 1;
+                    if (argsNeu[anz].equals("FileRename"))
+                    {
+                        System.out.println("-------- geht: " + argsNeu[0]);
+                       int fs = Integer.parseInt(argsNeu[0]);
+                       FiletransferClient.setFileSize(fs);
+                    }
+                }
                 writer.close();
                 reader.close();
                 client.close();

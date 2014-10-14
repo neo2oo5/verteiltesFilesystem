@@ -23,6 +23,19 @@ public class FiletransferClient
 {
     
     static GUIOutput out = GUIOutput.getInstance();
+    static int fileSize = 0;
+
+    public static int getFileSize()
+    {
+        return fileSize; 
+    }
+
+    public static void setFileSize(int fileSize)
+    {
+        FiletransferClient.fileSize = fileSize;
+    }
+    
+    
 
     public static boolean FileTransferClient(String[] args)
     {
@@ -30,7 +43,7 @@ public class FiletransferClient
         {
             out.print("FileTransferClient startet", 1);
             Socket sock = new Socket(args[0], 1718);
-            byte[] mybytearray = new byte[100000000];
+            byte[] mybytearray = new byte[(int) getFileSize()];
             InputStream is = sock.getInputStream();
             String path = args[2] + args[1];
             String outputdatei = path;

@@ -42,6 +42,7 @@ public class FiletransferServer
         while (true)
         {
             Socket sock = servsock.accept();
+            out.print(myFile.length(), 3);
             byte[] mybytearray = new byte[(int) myFile.length()];
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
             bis.read(mybytearray, 0, mybytearray.length);
