@@ -150,6 +150,7 @@ public class Handler implements Runnable
                         out.print("(Handler) newClient eintrag: " + args[0]);
                     } else if (args[anz].equals("fileSize"))
                     {
+                        out.print("FILESIZE", 3);
                         int fs = FiletransferServer.fileSize(args);
                         StringBuilder sb = new StringBuilder();
                         sb.append(fs);
@@ -157,7 +158,6 @@ public class Handler implements Runnable
                         String anClient = strI + "#entf#" + "fileSizeAnswer";
                         writer.write(anClient);
                         writer.flush();
-                        out.print("(Handler) fileSize: " + fs);
                     }
                 }
                 reader.close();

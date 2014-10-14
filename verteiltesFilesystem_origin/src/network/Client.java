@@ -29,7 +29,7 @@ import substructure.GUIOutput;
 public class Client
 {
 
-    static GUIOutput out = GUIOutput.getInstance();
+    static GUIOutput outTXT = GUIOutput.getInstance();
 
     public static void client(String[] args)
     {
@@ -64,27 +64,24 @@ public class Client
              */
             try (PrintWriter writer = new PrintWriter(out))
             {
-                 InputStream in = client.getInputStream();
+                InputStream in = client.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(in));
                 // ---------------------
-                
-                
+
                 writer.write(anServer);
                 writer.flush();
-                
-                String s = null;
-                while((s = reader.readLine()) != null)
-                {
-                   
-                        System.out.println("Client: Empfangen vom Server: " + s);
 
-                        
-                        writer.close();
-                        reader.close();
-                        client.close();
+                String s = null;
+                while ((s = reader.readLine()) != null)
+                {
+
+                    outTXT.print("Client: Empfangen vom Server: " + s, 3);
+
+                    writer.close();
+                    reader.close();
+                    client.close();
                 }
-                
-                
+
 //                /**
 //                 * get the input
 //                 */
@@ -121,14 +118,13 @@ public class Client
 //                writer.close();
 //                reader.close();
 //                client.close();
-
             }
             /**
              * catch exceptions and log them
              */
         } catch (IOException ex)
         {
-            out.print("(Client - client) : " + ex.toString(), 2);
+            outTXT.print("(Client - client) : " + ex.toString(), 2);
         }
 
     }

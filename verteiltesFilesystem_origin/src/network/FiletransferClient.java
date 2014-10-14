@@ -40,10 +40,10 @@ public class FiletransferClient
     {
         try
         {
-            String doWhat3 = "FileSize";
+            String doWhat3 = "fileSize";
             String[] args3 = new String[3];
             args3[0] = args[0];
-            args3[1] = args[args.length]; // name
+            args3[1] = args[3]; // name
             args3[2] = doWhat3;
             out.print("start get FileSize", 1);
             StartClientServer.startClient(args3);
