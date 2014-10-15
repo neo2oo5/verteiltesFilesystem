@@ -38,13 +38,12 @@ public class fileSystem implements Runnable
     private final  GUIOutput        out            = GUIOutput.getInstance();
     private static String           outGoingList   = "System/myFileList.ser";
     private final List<List<Path>>  fileSystem     = new ArrayList<>();
-    
     private String                  workingDir = System.getProperty("user.dir");
     private List<String>            clients        = new ArrayList<>();
     
     /**
      * Helper Funktion 
-     * @param array
+     * @param clients
      * @param name
      * @return Liste mit Integer welcher die Stelle angibt
      *         bei der String name zum ersten mal auftaucht
@@ -103,27 +102,13 @@ public class fileSystem implements Runnable
     public boolean isAccessDenied(String path)
     {
          File file = new File(path);
-         if(file.canWrite())
-         {
-             return false;
-         }
-         else
-         {
-             return true;
-         }
+         return !file.canWrite();
     }
     
     public boolean isFolerToLarge(String Path)
     {
         int folderSize = new File(Path).list().length;
-        if(folderSize<50)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return folderSize >= 50;
     }
     
     /**
@@ -135,14 +120,7 @@ public class fileSystem implements Runnable
     {
         File file = new File(entry.toString());
         long fileSize = file.length();
-        if(fileSize>(5*Math.pow(10,7)))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return fileSize <= (5*Math.pow(10,7));
     }
     	
     /**
@@ -274,27 +252,25 @@ public class fileSystem implements Runnable
     /**
      * Funktion die einen String aus dem FileSystem erzeugt
      * welcher dieses abbildet
-     * @param IP
      * @return FileSystem als String
      */
-    public String fileSystemToString (String IP) //Nachfragen ob benoetigt
+    @Override
+    public String toString()
     {
-        String out = "";
-        try
-	{	
-           for (Path entry: fileSystem.get(find(clients,IP)))
-           {
-               out += entry + "\n";
-           }          
-        } 
-	catch (DirectoryIteratorException ex) 
-	{
-           // I/O error encounted during the iteration, the 
-            //cause is an IOException
-           //throw ex.getCause();
-        }
-        return out;
+        String outGoing="";
+        List<String> ips = getAllIps();
+        for(int z = 0; z < getClientCount(); z++)
+        {
+            List<Path> fs = get(ips.get(z));
+            for (Path f : fs) 
+            {
+                String path = f.toString();
+                outGoing += "IP: " + ips.get(z) + " Path: "+ path+"\n";
+            }
+        }   
+        return outGoing;
     }
+
 	
     /**
      * Funktion welche das FileSystem in einem String abspeichert 
@@ -368,9 +344,7 @@ public class fileSystem implements Runnable
     }	
     
     /**
-     * Funktion welche inComingList.ser aus ProjectFolder/System/tmp loescht
-     * @throws IOException
-     * @throws fileSystemException 
+     * Funktion welche inComingList.ser aus ProjectFolder/System/tmp loescht 
      */
     public void deleteInComingObject()
     {
@@ -380,11 +354,8 @@ public class fileSystem implements Runnable
                     Paths.get
         (substructure.PathHelper.getFile("inComingList.ser"));
             Files.delete(path);
-        } catch (fileSystemException ex)
-        {
-            out.print("(fileSystem - deleteInComingObject) : " 
-                    + ex.toString(), 3);
-        } catch (IOException ex)
+        }
+        catch (fileSystemException | IOException ex)
         {
             out.print("(fileSystem - deleteInComingObject) : " 
                     + ex.toString(), 3);
@@ -395,9 +366,7 @@ public class fileSystem implements Runnable
      * Funktion welche aus dem serialisierten Datei inComingList.ser 
      * das FileSystem eines anderen Clienten ausliest und mit dem lokalen 
      * Dateisystem verbindet, so dass man auch dessen Daten im Explorer 
-     * einsehen kann
-     * @throws IOException
-     * @throws ClassNotFoundException 
+     * einsehen kann 
      */
     public void mergeList()
     {
@@ -442,12 +411,11 @@ public class fileSystem implements Runnable
         List<Path> result = new ArrayList<>();
         String[] parts = inComingList.split("\n");
         
-        for(int count=0 ;count < parts.length ;count++)
+        for (String part : parts)
         {
-            if(parts[count].length() > 0)
+            if (part.length() > 0)
             {
-                String[] seperatedString = parts[count].split("--##--",2);
-
+                String[] seperatedString = part.split("--##--", 2);
                 if(seperatedString.length > 0)
                 {
                     
@@ -470,25 +438,4 @@ public class fileSystem implements Runnable
         }   
     }
     
-    @Override
-    public String toString()
-    {
-        String out="";
-        List<String> ips = getAllIps();
-
-            for(int z = 0; z < getClientCount(); z++)
-             {
-                 List<Path> fs = get(ips.get(z));
-        
-                
-                for (int i = 0; i < fs.size(); i++) {
-
-                    String path = fs.get(i).toString();
-                    
-                    out += "IP: " + ips.get(z) + " Path: "+ path+"\n";
-                }
-             }
-            
-        return out;
-    }
 }
