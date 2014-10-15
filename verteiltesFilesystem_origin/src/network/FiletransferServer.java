@@ -32,6 +32,7 @@ public class FiletransferServer
     {
         try
         {
+            IPList.InsertIpInList(args[2]);
             out.print("FileTransferServer startet", 1);
             ServerSocket servsock = new ServerSocket(1718);
             String file = null;

@@ -23,6 +23,17 @@ public class FiletransferClient
 {
 
     static GUIOutput out = GUIOutput.getInstance();
+    static boolean transferReady = true;
+
+    public static boolean isTransferReady()
+    {
+        return transferReady;
+    }
+
+    public static void setTransferReady(boolean transferReady)
+    {
+        FiletransferClient.transferReady = transferReady;
+    }
 
     /**
      *
@@ -31,6 +42,7 @@ public class FiletransferClient
      */
     public static boolean FileTransferClient(String[] args)
     {
+        setTransferReady(false);
         out.print("FileTransferClient Startet", 1);
         BufferedOutputStream bos = null;
         Socket sock = null;
@@ -66,6 +78,7 @@ public class FiletransferClient
                 out.print("(FileTransferClient) " + ex.toString(), 3);
             }
         }
+        setTransferReady(true);
         return true;
     }
 }
