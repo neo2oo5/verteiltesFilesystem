@@ -488,6 +488,7 @@ public class fileSystem implements Runnable
                     if(PingServer.PingServer(IPtoCheck)==false)
                     {
                         fileSystem.remove(find(clients, IPtoCheck));
+                        clients[i] = null;
                         clientscount--;
                     }
                 }
