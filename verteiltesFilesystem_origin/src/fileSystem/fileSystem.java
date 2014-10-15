@@ -17,6 +17,9 @@ import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import network.PingServer;
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -460,6 +463,36 @@ public class fileSystem implements Runnable
                 }
             }
         }   
+    }
+    
+    /**
+     * Loescht IPs die nicht mehr activ sind
+     */
+    public void deleteOfflineClient()
+    {
+        String IPtoCheck = "";
+        for(int i=0;i<clients.length;i++)
+        {
+            if(!clients[i].equals(null))
+            {
+                IPtoCheck = clients[i];
+                if(PingServer.PingServer(IPtoCheck) == false)
+                {
+                    try
+                    {
+                        wait(5);
+                    } catch (InterruptedException ex)
+                    {
+                        Logger.getLogger(fileSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if(PingServer.PingServer(IPtoCheck)==false)
+                    {
+                        fileSystem.remove(find(clients, IPtoCheck));
+                        clientscount--;
+                    }
+                }
+            }
+        }
     }
     
 }
