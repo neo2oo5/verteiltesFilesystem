@@ -93,9 +93,15 @@ public class Admin
         
         if(username.equals(propusername) && password.equals(proppassword))
         {
-            Interfaces.interfaceIAmAdmin();
-            out.print("Login erfolgreich");
-            return true;
+            boolean loggedin = Interfaces.interfaceAdminLogin();
+            if(loggedin){ 
+                out.print("Login erfolgreich");
+                return true;
+            }
+            else{
+                out.print("Es ist bereits ein Admin angemeldet!");
+                return false;
+            }
         }
         else
         {
