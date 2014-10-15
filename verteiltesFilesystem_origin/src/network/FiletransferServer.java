@@ -37,7 +37,7 @@ public class FiletransferServer
             String file = null;
             try
             {
-                if (args[0] == null)
+                if (args[0].equals("null"))
                 {
                     file = substructure.PathHelper.getFile(args[1]);
                 } else

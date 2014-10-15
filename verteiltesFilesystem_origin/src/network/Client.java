@@ -71,7 +71,6 @@ public class Client
                  * Buffer the input
                  */
                 reader = new BufferedReader(new InputStreamReader(in));
-                outTxt.print(anServer, 2);
                 writer.write(anServer);
                 /**
                  * stop to puffer the output of the printwriter
