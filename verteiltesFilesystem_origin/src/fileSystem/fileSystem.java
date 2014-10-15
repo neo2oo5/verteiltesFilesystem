@@ -61,7 +61,6 @@ public class fileSystem implements Runnable
       out.print("FileSystem Thread gestartet");
       getInstance();
     }
-
 	
     /**
      * Funktion welche die einigartige Instanz generiert
