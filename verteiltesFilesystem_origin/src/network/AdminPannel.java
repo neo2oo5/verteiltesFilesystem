@@ -60,7 +60,6 @@ public class AdminPannel
             args[2] = doWhat;
             StartClientServer.startClient(args);
         }
-        out.print("AdminCheck rdy", 1);
     }
 
     /**
@@ -72,7 +71,6 @@ public class AdminPannel
         adminCheckLogin();
         try
         {
-            out.print("Sleep Start Admin Login", 1);
             sleep(5000);
         } catch (InterruptedException ex)
         {

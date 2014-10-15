@@ -99,7 +99,6 @@ public class Admin
                 return true;
             }
             else{
-                out.print("Es ist bereits ein Admin angemeldet!");
                 return false;
             }
         }

@@ -99,16 +99,22 @@ public class Handler implements Runnable
                         FiletransferClient.FileTransferClient(args);
                     } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
-                        File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
-                        boolean exists = file.exists();
-                        if (exists)
+                        try
                         {
-                            String doWhat = "AntwortAdminLoggedin";
-                            String[] argsNeu = new String[3];
-                            argsNeu[0] = args[0];
-                            argsNeu[1] = "true";
-                            argsNeu[2] = doWhat;
-                            StartClientServer.startClient(argsNeu);
+                            File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
+                            boolean exists = file.exists();
+                            if (exists)
+                            {
+                                String doWhat = "AntwortAdminLoggedin";
+                                String[] argsNeu = new String[3];
+                                argsNeu[0] = args[0];
+                                argsNeu[1] = "true";
+                                argsNeu[2] = doWhat;
+                                StartClientServer.startClient(argsNeu);
+                            }
+                        } catch (fileSystemException ex)
+                        {
+                            // Keine Rückmeldung da nicht von bedeutung
                         }
 
                     } else if (args[anz].equals("AntwortAdminLoggedin"))
@@ -150,16 +156,13 @@ public class Handler implements Runnable
                 reader.close();
                 writer.close();
                 client.close();
-            } catch (fileSystemException ex)
-            {
-                outTxT.print("(Handler - run) : " + ex.toString(), 2);
             } catch (IOException ex)
             {
                 outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
             }
         } catch (IOException ex)
         {
-                outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
+            outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
         } finally
         {
             try
@@ -172,4 +175,3 @@ public class Handler implements Runnable
         }
     }
 }
-
