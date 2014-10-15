@@ -129,7 +129,7 @@ public class fileSystem implements Runnable
      * @return gibt Ergebnise der Durchsuchung zurueck 
      * @throws IOException 
      */
-    private List <Path> initFS(Path Path) throws IOException
+    private List <Path> initFS(Path Path)
     {
         Deque<Path> stack = new ArrayDeque<>();
         final List<Path> result = new LinkedList<>();
@@ -137,45 +137,52 @@ public class fileSystem implements Runnable
         while(!stack.isEmpty())
         {
             Path path = stack.pop();
-            if(!Files.isHidden(path) && Files.isWritable(path))
+            try
             {
-                try (DirectoryStream<Path> stream =
-                        Files.newDirectoryStream(path))
+                if(!Files.isHidden(path) && Files.isWritable(path))
                 {
-                    for(Path entry : stream)
+                    try (DirectoryStream<Path> stream =
+                            Files.newDirectoryStream(path))
                     {
-                        if (Files.isDirectory(entry))
+                        for(Path entry : stream)
                         {
-                            if(isFolerToLarge(entry.toString()) == false)
+                            if (Files.isDirectory(entry))
                             {
-                                out.print("(fileSystem - isFolderToLarge) "
-                                        + ": nicht indexiert -->" + entry, 2);
+                                if(isFolerToLarge(entry.toString()) == false)
+                                {
+                                    out.print("(fileSystem - isFolderToLarge) "
+                                            + ": nicht indexiert -->" 
+                                            + entry, 2);
+                                }
+                                else
+                                {
+                                    stack.push(entry);
+                                }
                             }
                             else
                             {
-                                stack.push(entry);
-                            }
-                        }
-                        else
-                        {
-                            if(checkFileSize(entry) == false)
-                            {
-                                out.print("(fileSystem - checkFileSize) : "
-                                        + "nicht indexiert -->" + entry, 2);
-                            }
-                            else
-                            {
-                                result.add(entry);
+                                if(checkFileSize(entry) == false)
+                                {
+                                    out.print("(fileSystem - checkFileSize) : "
+                                            + "nicht indexiert -->" + entry, 2);
+                                }
+                                else
+                                {
+                                    result.add(entry);
+                                }
                             }
                         }
                     }
+                    catch(IOException ex)
+                    {
+                        out.print("(fileSystem - initFS) : " 
+                                + ex.toString(), 3);
+                    }
                 }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            
+            } catch (IOException ex)
+            {
+                out.print("(fileSystem - initFS) : " + ex.toString(), 3);
+            }  
         }
         return result;
     }
@@ -183,35 +190,23 @@ public class fileSystem implements Runnable
     /**
      * Erzeugt das Abbild des FileSystems
      * @param IP
-     * @param path
-     * @throws fileSystemException 
+     * @param path 
      */
-    public void setnewFileSystem(String IP, String path) 
-            throws fileSystemException
+    public void setNewFileSystem(String IP, String path) 
     {
+        Path finalPath = Paths.get(path);
         try
         {
-             Path finalPath = Paths.get(path);
-             try
-             {  
-                 fileSystem.set(find(clients, IP), initFS(finalPath));
-                 
-             }
-             catch(ArrayIndexOutOfBoundsException e)
-             {
-                 fileSystem.add(clients.size(), initFS(finalPath));
-                 clients.add(IP);
-                 
-             }
-             
-             outGoingList(IP);
+            fileSystem.set(find(clients, IP), initFS(finalPath));  
         }
-        catch(Exception e)
+        catch(ArrayIndexOutOfBoundsException ex)
         {
-            e.printStackTrace();
-        }
-        
-        
+            fileSystem.add(clients.size(), initFS(finalPath));
+            clients.add(IP);
+            out.print("neuer Client hinzugefuegt");
+        }    
+        outGoingList(IP);
+        out.print("fileSystem erfolgreich erstellt");
     }
 	
     /**
@@ -228,7 +223,7 @@ public class fileSystem implements Runnable
     {
         fileSystem.remove(find(clients, IP));
         clients.remove(IP);
-        
+        out.print("IP erfolgreich entfernt");
     }
 	
     /**
@@ -268,6 +263,7 @@ public class fileSystem implements Runnable
                 outGoing += "IP: " + ips.get(z) + " Path: "+ path+"\n";
             }
         }   
+        out.print("FileSystem zu String erfolgreich");
         return outGoing;
     }
 
@@ -279,12 +275,9 @@ public class fileSystem implements Runnable
      * diesen serialisiert und ihn in der Datei myFile.ser abspeichert
      * Die Datei liegt in Projektordner/System
      * @param IP
-     * @return FileSystem abgebildet in einen String
-     * @throws FileNotFoundException
-     * @throws IOException 
+     * @return FileSystem abgebildet in einen String 
      */
     public String outGoingList (String IP) 
-            throws FileNotFoundException, IOException
     {
         String output = "";
         try
@@ -296,9 +289,9 @@ public class fileSystem implements Runnable
            ObjectOutputStream o = new ObjectOutputStream(fos);
            o.writeObject(output);
         }
-        catch (IOException e) 
+        catch (IOException ex) 
         {
-            System.err.println(e);
+            out.print("(fileSystem - outGoingList) : " + ex.toString(), 3);
         }
         finally
         {
@@ -306,11 +299,12 @@ public class fileSystem implements Runnable
             {
                 fos.close();
             }
-            catch(Exception e)
+            catch(IOException ex)
             {              
-                e.printStackTrace();
+                out.print("(fileSystem - OutGoingList) : " + ex.toString(), 3);
             }
         }
+        out.print("myFile.ser erfolgreich erstellt");
         return output;
     } 	
 	
@@ -324,6 +318,7 @@ public class fileSystem implements Runnable
         Path path = 
                 Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.delete(path);
+        out.print("Lokales Objekt erfolgreich geloescht");
     }
     
     /**
@@ -339,6 +334,7 @@ public class fileSystem implements Runnable
         Path path = 
                 Paths.get(substructure.PathHelper.getFile("myFileList.ser"));
         Files.move(path, path.resolveSibling("inComingList"));
+        out.print("Lokales Object erfolgreich umbenannt");
         deleteLocalObject();
     }	
     
@@ -359,6 +355,7 @@ public class fileSystem implements Runnable
             out.print("(fileSystem - deleteInComingObject) : " 
                     + ex.toString(), 3);
         }
+        out.print("Eingehendes Objekt erfolgreich geloescht");
     }
 	
     /**
@@ -387,12 +384,11 @@ public class fileSystem implements Runnable
             try (ObjectInputStream o = new ObjectInputStream(fis))
             {
                 inComingList = (String) o.readObject();
-            }
-            //fis.close();   
+            }  
         }
-        catch(IOException | ClassNotFoundException e)
+        catch(IOException | ClassNotFoundException ex)
         {
-            e.printStackTrace();
+            out.print("(fileSystem - mergeList) : " + ex.toString(), 3);
         }
         finally
         {
@@ -400,10 +396,9 @@ public class fileSystem implements Runnable
             {
                fis.close(); 
             }
-            catch(Exception e)
+            catch(IOException ex)
             {
-		//Dummy
-                 
+                out.print("(fileSystem - mergeList) : " + ex.toString(), 3);
             }
         }
        
@@ -411,7 +406,6 @@ public class fileSystem implements Runnable
         String[] parts = null;
         if(inComingList!= null)
         {
-            //String[] parts = inComingList.split("\n");
             parts = inComingList.split("\n");
         }
         
@@ -440,6 +434,7 @@ public class fileSystem implements Runnable
                 }
             }
         }   
+        out.print("FileSysteme erfolgreich gemerged");
     }
     
 }

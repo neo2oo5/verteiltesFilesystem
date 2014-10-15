@@ -20,14 +20,7 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        try
-            {
-                c.setnewFileSystem("127.0.0.1", "E:\\Downloads");
-            } catch (fileSystemException ex)
-            {
-                System.out.print("Lokales FileSystem konnte nicht Indexiert werden");
-            }
+        c.setNewFileSystem("127.0.0.1", "E:\\Downloads");
         
         //c.mergeList();
         
