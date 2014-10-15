@@ -233,14 +233,8 @@ public class GUI extends javax.swing.JFrame
          */
         if (Config.isRootDir())
         {
-            try
-            {
-                fileSystem fs = fileSystem.getInstance();
-                fs.setnewFileSystem(Config.getCurrentIp(), Config.getRootDir());
-            } catch (fileSystemException ex)
-            {
-                out.print("(GUI-TabChange) lokales fileySystem konnte nicht eingelesen werden");
-            }
+            fileSystem fs = fileSystem.getInstance();
+            fs.setNewFileSystem(Config.getCurrentIp(), Config.getRootDir());
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
         }
 
