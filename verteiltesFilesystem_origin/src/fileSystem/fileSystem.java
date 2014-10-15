@@ -289,10 +289,9 @@ public class fileSystem implements Runnable
         String output = "";
         try
         {
-           for (Path entry: fileSystem.get(find(clients,IP)))
-           {
-               output += IP+"--##--"+entry + "\n";
-           }
+           output = fileSystem.get(find(clients,IP)).stream()
+                   .map((entry) -> IP+"--##--"+entry + "\n")
+                   .reduce(output, String::concat);
            fos = new FileOutputStream(outGoingList);
            ObjectOutputStream o = new ObjectOutputStream(fos);
            o.writeObject(output);
@@ -409,7 +408,12 @@ public class fileSystem implements Runnable
         }
        
         List<Path> result = new ArrayList<>();
-        String[] parts = inComingList.split("\n");
+        String[] parts = null;
+        if(inComingList!= null)
+        {
+            //String[] parts = inComingList.split("\n");
+            parts = inComingList.split("\n");
+        }
         
         for (String part : parts)
         {
