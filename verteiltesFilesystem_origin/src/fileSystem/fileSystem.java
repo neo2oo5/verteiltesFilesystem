@@ -61,6 +61,7 @@ public class fileSystem implements Runnable
       out.print("FileSystem Thread gestartet");
       getInstance();
     }
+
 	
     /**
      * Funktion welche die einigartige Instanz generiert
@@ -281,9 +282,10 @@ public class fileSystem implements Runnable
         String output = "";
         try
         {
-           output = fileSystem.get(find(clients,IP)).stream()
-                   .map((entry) -> IP+"--##--"+entry + "\n")
-                   .reduce(output, String::concat);
+           for (Path entry: fileSystem.get(find(clients,IP)))
+           {
+               output += IP+"--##--"+entry + "\n";
+           }
            fos = new FileOutputStream(outGoingList);
            ObjectOutputStream o = new ObjectOutputStream(fos);
            o.writeObject(output);
