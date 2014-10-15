@@ -20,6 +20,11 @@ public class PingServer
 {
     static GUIOutput out = GUIOutput.getInstance();
     
+    /**
+     *
+     * @param checkIP
+     * @return
+     */
     public static boolean PingServer(String checkIP)
     {
         /**

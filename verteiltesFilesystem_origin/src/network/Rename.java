@@ -20,9 +20,6 @@ public class Rename
      * @param newName
      * @return
      */
-    /**
-     * class to rename an existing file
-     */
     public static boolean renameFile(String path, String oldName, String newName)
     {
         /**

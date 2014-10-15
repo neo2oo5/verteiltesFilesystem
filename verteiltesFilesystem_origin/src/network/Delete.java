@@ -13,13 +13,11 @@ public class Delete
 {
 
     /**
+     * Class to delete a file in a chosen directory
      *
      * @param path
      * @param name
      * @return
-     */
-    /**
-     * Class to delete a file in a chosen directory
      */
     public static boolean deleteFile(String path, String name)
     {
@@ -30,7 +28,7 @@ public class Delete
 
         boolean successful = file.delete();
         /**
-         * return if the file was successfully deleted
+         * return if the file was successfully deleted or not
          */
         return successful;
     }

@@ -17,8 +17,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -95,11 +93,9 @@ public class Handler implements Runnable
                         boolean createFile = Create.createFile(args[0], args[1]);
                     } else if (args[anz].equals("FileTransfer"))
                     {
-                        outTxT.print("------ Handler FT", 3);
                         FiletransferServer.FileTransferServer(args);
                     } else if (args[anz].equals("FileTransferClient"))
                     {
-                        outTxT.print("------ Handler FTC ----------", 3);
                         FiletransferClient.FileTransferClient(args);
                     } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
@@ -175,8 +171,5 @@ public class Handler implements Runnable
             }
         }
     }
-    /**
-     * catch exceptions and logg them
-     */
 }
 

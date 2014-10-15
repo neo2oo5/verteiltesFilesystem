@@ -8,17 +8,12 @@ package network;
 /**
  * Used Libraries
  */
-import fileSystem.fileSystemException;
 import gui.Config;
-import java.io.File;
 import java.io.IOException;
-import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 import static network.IPList.getIPList;
 import substructure.GUIOutput;
-import substructure.PathHelper;
 
 /**
  *
@@ -30,7 +25,17 @@ public class Interfaces
     // attr.
     static GUIOutput out = GUIOutput.getInstance();
 
-    public static boolean interfaceFileTransfer(String IPv4, String filename, String clientFilename) throws UnknownHostException
+    /**
+     *
+     * @param IPv4
+     * @param path // -> null wenn im System ordner über Pathhelper pfad geholt
+     * wird
+     * @param filename
+     * @param clientFilename
+     * @return
+     * @throws UnknownHostException
+     */
+    public static boolean interfaceFileTransfer(String IPv4, String path, String filename, String clientFilename) throws UnknownHostException
     {
         boolean succesful = false;
         boolean kicked = CheckKicked.checkKicked();
@@ -50,19 +55,16 @@ public class Interfaces
             {
                 try
                 {
-                    // do ...
                     String doWhat = "FileTransfer";
-                    String[] args = new String[6];
+                    String[] args = new String[7];
                     args[0] = IPv4;
-                    args[1] = filename; // name
-                    args[2] = gui.Config.getCurrentIp();
-                    args[3] = clientFilename;
-                    args[4] = IPv4;
-                    args[5] = doWhat;
-                    out.print("start Server", 1);
+                    args[1] = path; // path , null => file in System ordner
+                    args[2] = filename; // name
+                    args[3] = gui.Config.getCurrentIp();
+                    args[4] = clientFilename;
+                    args[5] = IPv4;
+                    args[6] = doWhat;
                     StartClientServer.startClient(args);
-                    out.print("Sleep Start", 2);
-                    sleep(2000);
                     return true;
 
                 } catch (Exception ex)
@@ -75,6 +77,15 @@ public class Interfaces
         return succesful;
     }
 
+    /**
+     *
+     * @param IPv4
+     * @param sourcePath
+     * @param oldFilename
+     * @param newFilename
+     * @return
+     * @throws UnknownHostException
+     */
     public static int interfaceFileRename(String IPv4, String sourcePath, String oldFilename, String newFilename) throws UnknownHostException
     {
         boolean kicked = CheckKicked.checkKicked();
@@ -105,6 +116,14 @@ public class Interfaces
         return 1;
     }
 
+    /**
+     *
+     * @param IPv4
+     * @param sourcePath
+     * @param filename
+     * @return
+     * @throws UnknownHostException
+     */
     public static int interfaceFileDelete(String IPv4, String sourcePath, String filename) throws UnknownHostException
     {
 
@@ -121,22 +140,24 @@ public class Interfaces
              * interface to delete a file/directory
              */
             String doWhat = "FileDelete";
-            /**
-             * arguments needed
-             */
             String[] args = new String[4];
             args[0] = IPv4;
             args[1] = sourcePath;
             args[2] = filename;
             args[3] = doWhat;
             StartClientServer.startClient(args);
-            /**
-             * if successfully
-             */
         }
         return 1;
     }
 
+    /**
+     *
+     * @param IPv4
+     * @param sourcePath
+     * @param filename
+     * @return
+     * @throws UnknownHostException
+     */
     public static int interfaceFileCreate(String IPv4, String sourcePath, String filename) throws UnknownHostException
     {
 
@@ -169,6 +190,11 @@ public class Interfaces
         return 1;
     }
 
+    /**
+     *
+     * @param IPv4
+     * @return
+     */
     public static boolean interfaceCheckServerOnline(String IPv4)
     {
         /**
@@ -179,6 +205,9 @@ public class Interfaces
 
     /**
      * method to start the interfaces
+     *
+     * @return
+     * @throws java.net.UnknownHostException
      */
     public static boolean interfaceStartProgram() throws UnknownHostException
     {
@@ -195,6 +224,9 @@ public class Interfaces
 
     /**
      * method to start the interfaces
+     *
+     * @return
+     * @throws java.net.UnknownHostException
      */
     public static boolean interfaceNetworkOnline() throws UnknownHostException
     {
@@ -220,11 +252,19 @@ public class Interfaces
         return online;
     }
 
+    /**
+     *
+     * @return
+     */
     public static boolean interfaceAdminLogin()
     {
         return AdminPannel.adminLogin();
     }
 
+    /**
+     *
+     * @return @throws UnknownHostException
+     */
     public static boolean interfaceAdminLogout() throws UnknownHostException
     {
         try
@@ -237,6 +277,10 @@ public class Interfaces
         return false;
     }
 
+    /**
+     *
+     * @param ipToKick
+     */
     public static void interfaceAdminKickUser(String ipToKick)
     {
         try
@@ -248,11 +292,21 @@ public class Interfaces
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public static boolean interfaceIAmAdmin()
     {
         return AdminPannel.IAmAdmin();
     }
 
+    /**
+     *
+     * @param oldIP
+     * @param newIP
+     * @throws UnknownHostException
+     */
     public static void interfaceChangeOwnIP(String oldIP, String newIP) throws UnknownHostException
     {
         gui.Config.setCurrentIp(newIP);
@@ -275,6 +329,10 @@ public class Interfaces
 
     }
 
+    /**
+     *
+     * @throws UnknownHostException
+     */
     public static void interfaceExitProg() throws UnknownHostException
     {
 
@@ -299,6 +357,11 @@ public class Interfaces
         }
     }
 
+    /**
+     *
+     * @param clientIP
+     * @param ownIP
+     */
     public static void interfaceNewClient(String clientIP, String ownIP)
     {
         out.print("(interfaceNewClient) start");
@@ -310,6 +373,9 @@ public class Interfaces
         StartClientServer.startClient(args);
     }
 
+    /**
+     *
+     */
     public static void interfaceMergeList()
     {
         Thread fs = null;
@@ -333,11 +399,17 @@ public class Interfaces
         fs.start();
     }
 
+    /**
+     *
+     */
     public static void interfaceRestartMulticast()
     {
         CheckWhoIsOnline.dotMulticast();
     }
-    
+
+    /**
+     *
+     */
     public static void interfecDoPingTest()
     {
         CheckWhoIsOnline.doPingTest();
