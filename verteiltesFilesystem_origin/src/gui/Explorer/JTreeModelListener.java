@@ -25,8 +25,8 @@ class JTreeModelListener implements TreeModelListener {
               
           }
 
-           // System.out.println("The user has finished editing the node.");
-          //  System.out.println("New value: " + node.getUserObject());
+          //System.out.println("The user has finished editing the node.");
+          //System.out.println("New value: " + node.getUserObject());
         }
     }
 

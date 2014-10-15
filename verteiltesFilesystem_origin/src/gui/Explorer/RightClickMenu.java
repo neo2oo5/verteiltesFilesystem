@@ -81,132 +81,146 @@ public class RightClickMenu
             TreePath currentSelection = DynamicTree.getTree().getSelectionPath();
             String[] args = new String[5];
             DefaultMutableTreeNode currentNode = null;
+            
             if(currentSelection != null)
             {
                 currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
                 args = ExplorerHelper.getNetOperationData(currentNode);
             }
             
+           System.out.print("selection: "+currentSelection + "node" + currentNode.getUserObject()+" \n");
+           System.out.print("admin: "+Interfaces.interfaceIAmAdmin()+"\n");
             
-            if(Config.getCurrentIp() == args[0] && currentNode != null)
+            
+            if(currentNode != null)
             {
-                if (CFI_CMD.equals(command))
+                if(Interfaces.interfaceIAmAdmin() == true || Config.getCurrentIp() == args[0])
                 {
-
-                    
-
-                    MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
-
-                    //out.print(currentNode.getUserObject() + " " + currentNode.isLeaf());
-                    if (currentNode.isLeaf() == false)
+                    if (CFI_CMD.equals(command))
                     {
-                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Datei Name?"));
-                        DynamicTree.getTreeModel().insertNodeInto(childNode, currentNode, currentNode.getChildCount());
-                                //netzwerk ordner hinzufueg funktion
+
+
+
+                        MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
+
+                        out.print(currentNode.getUserObject() + " " + currentNode.isLeaf()+"\n");
+                        if (currentNode.isLeaf() == false)
+                        {
+                            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(new GuiPromptHelper(GuiPromptHelper.showInput, "Datei Name?"));
+                            DynamicTree.getTreeModel().insertNodeInto(childNode, currentNode, currentNode.getChildCount());
+                                    //netzwerk ordner hinzufueg funktion
+
+
+
+                            if (args != null)
+                            {
+                                try
+                                {
+                                    out.print("(Create) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
+                                    Interfaces.interfaceFileCreate(args[0], args[2], args[1]);
+                                    out.print("datei erstellt");
+                                } catch (UnknownHostException ex)
+                                {
+                                    out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
+                                }
+                            }
+
+                        } else
+                        {
+                            new GuiPromptHelper(GuiPromptHelper.showError, fileinFileMSG);
+                        }
+
+                        if (parent != null)
+                        {
+
+                            return;
+                        }
+
+                    } else if (RFI_CMD.equals(command))
+                    {
+
+                        if (currentNode.isLeaf() == true)
+                        {
+                            DynamicTree.getTreeModel().removeNodeFromParent(currentNode);
+                            //netzwerk loesch funktion
+
+
+                            if (args != null)
+                            {
+                                out.print("(Remove) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
+                                try
+                                {
+                                    Interfaces.interfaceFileDelete(args[0], args[2], args[1]);
+                                } catch (UnknownHostException ex)
+                                {
+                                    out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
+                                }
+                                out.print("datei gelöscht");
+                            }
+                        } else
+                        {
+                            new GuiPromptHelper(GuiPromptHelper.showError, fsDeleteMSG);
+                        }
+
+                    } else if (REFI_CMD.equals(command))
+                    {
+                        System.out.print("rename");
+                        GuiPromptHelper prompt = new GuiPromptHelper(GuiPromptHelper.showInput, "Neuer Name?");
+
+                        currentNode.setUserObject(prompt.toString());
 
 
 
                         if (args != null)
                         {
+                            out.print("(Rename) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
                             try
                             {
-                                out.print("(Create) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
-                                Interfaces.interfaceFileCreate(args[0], args[2], args[1]);
-                                out.print("datei erstellt");
+                                Interfaces.interfaceFileRename(args[0], args[2], args[1], prompt.toString());
                             } catch (UnknownHostException ex)
                             {
                                 out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
                             }
+                            out.print("datei umbenannt");
                         }
-
-                    } else
-                    {
-                        new GuiPromptHelper(GuiPromptHelper.showError, fileinFileMSG);
-                    }
-
-                    if (parent != null)
-                    {
-
-                        return;
-                    }
-                    
-                } else if (RFI_CMD.equals(command))
-                {
-
-                    if (currentNode.isLeaf() == true)
-                    {
-                        DynamicTree.getTreeModel().removeNodeFromParent(currentNode);
-                        //netzwerk loesch funktion
-                        
-
-                        if (args != null)
-                        {
-                            out.print("(Remove) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
-                            try
-                            {
-                                Interfaces.interfaceFileDelete(args[0], args[2], args[1]);
-                            } catch (UnknownHostException ex)
-                            {
-                                out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
-                            }
-                            out.print("datei gelöscht");
-                        }
-                    } else
-                    {
-                        new GuiPromptHelper(GuiPromptHelper.showError, fsDeleteMSG);
-                    }
-
-                } else if (REFI_CMD.equals(command))
-                {
-                    GuiPromptHelper prompt = new GuiPromptHelper(GuiPromptHelper.showInput, "Neuer Name?");
-
-                    currentNode.setUserObject(prompt.toString());
-
-                    
-
-                    if (args != null)
-                    {
-                        out.print("(Rename) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
-                        try
-                        {
-                            Interfaces.interfaceFileRename(args[0], args[2], args[1], prompt.toString());
-                        } catch (UnknownHostException ex)
-                        {
-                            out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
-                        }
-                        out.print("datei umbenannt");
-                    }
-                } 
+                    } 
+                }
             }
             else
             {
-                out.print("Für diese Operation benötigen Sie Admin rechte.");
-            }
-            
-            
-            if (DFI_CMD.equals(command) && currentNode != null)
-            {
-                if (currentNode.isLeaf() == true)
+                if (DFI_CMD.equals(command) && currentNode != null)
                 {
-                    
-
-                    if (args != null)
+                    out.print("download");
+                    if (currentNode.isLeaf() == true)
                     {
-                        out.print("(Download) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3] + "- Filename after Download: " + args[0]+"_"+args[1]);
-                        try
+
+
+                        if (args != null)
                         {
-                            Interfaces.interfaceFileTransfer(args[0], args[1], args[0]+"_"+args[1]);
-                        } catch (UnknownHostException ex)
-                        {
-                            out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
+                            out.print("(Download) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + " targetPath: " + args[3] + "- Filename after Download: " + args[0]+"_"+args[1]);
+                            try
+                            {
+                                Interfaces.interfaceFileTransfer(args[0], args[1], args[1]);
+                            } catch (UnknownHostException ex)
+                            {
+                                out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
+                            }
+                            out.print("datei download beendet");
                         }
-                        out.print("datei download beendet");
+                    } else
+                    {
+                        new GuiPromptHelper(GuiPromptHelper.showError, fsDownloadMSG);
                     }
-                } else
-                {
-                    new GuiPromptHelper(GuiPromptHelper.showError, fsDownloadMSG);
                 }
+                else if(currentNode != null)
+                {
+                   out.print("Für diese Operation benötigen Sie Admin rechte."); 
+                }
+                
             }
+            
+            
+            
 
         }
 

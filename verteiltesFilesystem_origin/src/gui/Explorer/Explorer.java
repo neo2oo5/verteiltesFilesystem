@@ -14,6 +14,7 @@ import fileSystem.fileSystem;
 import java.io.*;
 import java.util.regex.Pattern;
 import javax.swing.tree.DefaultMutableTreeNode;
+import network.PingServer;
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -28,7 +29,6 @@ public class Explorer
     private static GUIOutput out =  GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
     private static DynamicTree treePanel;
-    private static javax.swing.JTabbedPane pane;
     /**
      *
      * @param Pane
@@ -36,9 +36,8 @@ public class Explorer
      */
     public Explorer(javax.swing.JTabbedPane Pane)
     {   
-        
-            this.pane = Pane;
-            initExplorerTree();
+        treePanel = new DynamicTree(Pane);
+            
     }
     
     /**
@@ -51,19 +50,31 @@ public class Explorer
         treePanel.addTab(Pane, index);
     }
     
-    private static List<String> changePathSeperator(String IP)
+    private static void changePathSeperator(String IP, List<String> tmp)
     {
         
        List<Path> fs = c.get(IP);
         
-       List<String> tmp = new ArrayList<>();
+       
        for (int i = 0; i < fs.size(); i++) {
            
            String path = fs.get(i).toString();
-           //System.out.print(fs.get(i).toString().substring(0, 1));
+          
            String tmps="";
            
-           if(path.length() > 0)
+           tmps = convertPath(path, IP);
+         //  System.out.print("IP: "+IP + " Path: " + path+"\n");
+           tmp.add(tmps);
+       }
+       
+       
+    }
+    
+    public static String convertPath(String path, String IP)
+    {
+        String tmps="";
+        
+        if(path.length() > 0)
            {
                 if(path.substring(0, 1).equals("/"))
                 {
@@ -71,7 +82,7 @@ public class Explorer
                     if(PathHelper.getOSName() == "Windows")
                     {
                         path = path.substring(1, path.length());
-                        tmps = IP + path.replace("/", "\\");
+                        tmps = path.replace("/", "\\");
                     }
                     else
                     {
@@ -92,68 +103,81 @@ public class Explorer
                     }
                 }
                 
+                return tmps;
                 
-                tmp.add(tmps);
            }
-       }
-       
-       return tmp;
+        
+        return "";
     }
     
     public static synchronized void initExplorerTree() 
    {
        
-       treePanel = new DynamicTree(pane);
+        
         
        
             
             
-            List<String> tmp;
+            
 
 
 
-            String ips[] = c.getAllIps();
-
-
+            List<String> ips = c.getAllIps();
+            List<String> tmp = new ArrayList<>();
 
              for(int z = 0; z < c.getClientCount(); z++)
              {
+                 
+                 String currentIP = ips.get(z);
+                 tmp.clear();
+                 changePathSeperator(currentIP, tmp);
 
-
-                tmp = changePathSeperator(ips[z]);
-
-                int index = treePanel.childIndex(treePanel.getRootNode(), ips[z]);
-                DefaultMutableTreeNode parent;
                 
-                //neue ip
-               // System.out.print(index);
-                if (index < 0) {
-                
-                    parent = treePanel.addObject(treePanel.getRootNode(), ips[z]);
-
-                }
-                //ip existiert bereits
-                else
-                {
-                     parent = treePanel.getObjectAtIndex(treePanel.getRootNode(), index);
-                     //System.out.print(parent.getUserObject());
-                    //parent = treePanel.addObject(entry, ips[z]);
                     
-                }
+
+               
+
                 
+               // System.out.print(parent.getUserObject()+"\n");
                 //Created the Tree Structure in Explorer
-                for (int i = 0; i < tmp.size(); i++) {
-
-                   treePanel.buildTreeFromString(parent, tmp.get(i).toString());
-
-                }
                 
-                treePanel.removeOldFsEntrys(tmp, ips[z]);
+                    int index = treePanel.childIndex(treePanel.getRootNode(), currentIP);
+                    DefaultMutableTreeNode parent;
+
+                    //neue ip
+                    
+                    if (index < 0) {
+
+                        parent = treePanel.addObject(treePanel.getRootNode(), currentIP);
+
+                    }
+                    //ip existiert bereits
+                    else
+                    {
+                         parent = treePanel.getObjectAtIndex(treePanel.getRootNode(), index);
+                         //System.out.print(parent.getUserObject());
+                        //parent = treePanel.addObject(entry, ips[z]);
+
+                    }
+
+                    for (int i = 0; i < tmp.size(); i++) {
+                      //  System.out.print("index: "+index+" parent: "+ parent.getUserObject()+" string: "+tmp.get(i).toString()+"\n");
+                        treePanel.buildTreeFromString(parent, tmp.get(i).toString());
+                    }
+
+                
+
+
+
+               
+                
+                    treePanel.removeOldFsEntrys(tmp, currentIP);
+                
 
              }
 
           
-        
+             
    }
     
 

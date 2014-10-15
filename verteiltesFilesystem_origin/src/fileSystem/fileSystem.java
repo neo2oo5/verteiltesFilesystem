@@ -35,9 +35,9 @@ public class fileSystem implements Runnable
     private final  GUIOutput        out            = GUIOutput.getInstance();
     private static String           outGoingList   = "System/myFileList.ser";
     private final List<List<Path>>  fileSystem     = new ArrayList<>();
-    private int                     clientscount   = 0;
+    
     private String                  workingDir = System.getProperty("user.dir");
-    private String                  clients[]      = new String[100];
+    private List<String>            clients        = new ArrayList<>();
     
     /**
      * Helper Funktion 
@@ -46,9 +46,9 @@ public class fileSystem implements Runnable
      * @return Liste mit Integer welcher die Stelle angibt
      *         bei der String name zum ersten mal auftaucht
      */
-    public static int find (String[] array , String name) 
+    public static int find (List<String> clients , String name) 
     {  
-      return Arrays.asList(array).indexOf(name);  
+       return clients.indexOf(name);
     }
     
     /**
@@ -218,9 +218,8 @@ public class fileSystem implements Runnable
              }
              catch(ArrayIndexOutOfBoundsException e)
              {
-                 fileSystem.add(clientscount, initFS(finalPath));
-                 clients[clientscount] = IP;
-                 clientscount++;
+                 fileSystem.add(clients.size(), initFS(finalPath));
+                 clients.add(IP);
                  
              }
              
@@ -243,12 +242,19 @@ public class fileSystem implements Runnable
     {
         return fileSystem.get(find(clients, IP));
     }
+    
+    public void remove(String IP)
+    {
+        fileSystem.remove(find(clients, IP));
+        clients.remove(IP);
+        
+    }
 	
     /**
      * Hilfsfunktion
      * @return gibt alle IPs zurueck
      */
-    public String[] getAllIps()
+    public List<String> getAllIps()
     {
         return this.clients;
     }
@@ -259,7 +265,7 @@ public class fileSystem implements Runnable
      */
     public int getClientCount()
     {
-        return this.clientscount;
+        return this.clients.size();
     }
 	
     /**
@@ -453,13 +459,33 @@ public class fileSystem implements Runnable
                     }
                     catch(ArrayIndexOutOfBoundsException e)
                     {
-                        fileSystem.add(clientscount,result);
-                        clients[clientscount] = IP;
-                        clientscount++;
+                        fileSystem.add(clients.size(),result);
+                        clients.add(IP);
                     }
                 }
             }
         }   
     }
     
+    @Override
+    public String toString()
+    {
+        String out="";
+        List<String> ips = getAllIps();
+
+            for(int z = 0; z < getClientCount(); z++)
+             {
+                 List<Path> fs = get(ips.get(z));
+        
+                
+                for (int i = 0; i < fs.size(); i++) {
+
+                    String path = fs.get(i).toString();
+                    
+                    out += "IP: " + ips.get(z) + " Path: "+ path+"\n";
+                }
+             }
+            
+        return out;
+    }
 }

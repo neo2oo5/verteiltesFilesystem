@@ -45,7 +45,6 @@ public class DynamicTree extends JPanel
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private static GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
-    private static boolean started = false;
     
 
     private static JLabel loadingl;
@@ -72,17 +71,30 @@ public class DynamicTree extends JPanel
 
 
         scrollPane = new JScrollPane(tree);
+       
         tree.addMouseListener(new JTreeMouseListener());
 
         try {   
             out.print("online: " + network.Interfaces.interfaceNetworkOnline());
-            if(Config.isRootDir() == false && network.Interfaces.interfaceNetworkOnline() == false)
+            
+            
+            if(Config.isRootDir() == true &&  network.Interfaces.interfaceNetworkOnline() == true)
+            {
+               
+               
+                    Pane.addTab("Explorer", scrollPane);
+               
+                
+            }
+            else
             {
                 try {
                     ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
                     loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
                     loadingl = new JLabel("", loading, JLabel.CENTER);
-                    Pane.addTab("Explorer",loadingl);
+                   
+                        Pane.addTab("Explorer",loadingl);
+                    
                 } catch (fileSystemException ex) {
                     out.print(ex.toString());
                 }
@@ -90,14 +102,7 @@ public class DynamicTree extends JPanel
 
 
             }
-            else 
-            {
-               if(started == false && Config.isRootDir() == true)
-               {
-                    Pane.addTab("Explorer", scrollPane);
-                    started=true;
-               }
-            }
+            
         } catch (UnknownHostException ex) {
 
            out.print(ex.toString());
@@ -417,6 +422,26 @@ public class DynamicTree extends JPanel
         }
 
         toolkit.beep();
+    }
+    
+    
+    public void removeOverIP(String ip)
+    {
+        int childcount = getRootNode().getChildCount();
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        
+        
+        if(childcount > 0)
+        {
+            for(int y=0; y < childcount; y++)
+            {
+                DefaultMutableTreeNode currentchildNode = (DefaultMutableTreeNode) getRootNode().getChildAt(y);
+                if(currentchildNode.getUserObject().toString().equals(ip))
+                {   System.out.print(currentchildNode.getUserObject());
+                    model.removeNodeFromParent(currentchildNode);
+                }
+            }
+        }
     }
 
 	/** 

@@ -31,11 +31,11 @@ public class NewMain {
         
         //c.mergeList();
         
-        String ips[] = c.getAllIps();
+        List<String> ips = c.getAllIps();
 
             for(int i = 0; i < c.getClientCount(); i++)
             {
-                 List<Path>  fs =  c.get(ips[i]);
+                 List<Path>  fs =  c.get(ips.get(i));
                  
                  for (int z = 0; z < fs.size(); z++) {
                      
