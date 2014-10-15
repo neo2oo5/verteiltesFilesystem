@@ -31,27 +31,23 @@ public class FiletransferClient
 
     public static boolean FileTransferClient(String[] args)
     {
+        BufferedOutputStream bos = null;
+        Socket sock = null;
         try
         {
             out.print("_____" + args[0] + "_____" + args[1] + "_____" + args[2], 2);
             String targetPath = PathHelper.getFile("Downloads");
             targetPath += File.separator;
             int fs = Integer.parseInt(args[1]);
-            Socket sock = new Socket(args[2], 1718);
+            sock = new Socket(args[2], 1718);
             byte[] mybytearray = new byte[fs];
             InputStream is = sock.getInputStream();
-            String path = targetPath + args[0];
-            String outputdatei = path;
+            File path = new File(targetPath + args[0]);
+            // String outputdatei = path;
             FileOutputStream fos = new FileOutputStream(path);
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-            int bytesRead = 0;
-            while (bytesRead < mybytearray.length)
-            {
-                bytesRead = is.read(mybytearray, 0, mybytearray.length);
-                bos.write(mybytearray, 0, bytesRead);
-            }
-            bos.close();
-            sock.close();
+            bos = new BufferedOutputStream(fos);
+            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+            bos.write(mybytearray, 0, bytesRead);
 
         } catch (IOException ex)
         {
@@ -59,6 +55,17 @@ public class FiletransferClient
         } catch (fileSystemException ex)
         {
             out.print("(FileTransferClient) " + ex.toString(), 3);
+        } finally
+        {
+
+            try
+            {
+                bos.close();
+                sock.close();
+            } catch (IOException ex)
+            {
+                out.print("(FileTransferClient) " + ex.toString(), 3);
+            }
         }
         return true;
     }

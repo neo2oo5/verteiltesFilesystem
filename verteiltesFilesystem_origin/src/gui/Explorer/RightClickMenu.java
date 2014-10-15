@@ -79,8 +79,14 @@ public class RightClickMenu
         {
             String command = e.getActionCommand(); //To change body of generated methods, choose Tools | Templates.
             TreePath currentSelection = DynamicTree.getTree().getSelectionPath();
-            DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
-            String args[] = ExplorerHelper.getNetOperationData(currentNode);
+            String[] args = new String[5];
+            DefaultMutableTreeNode currentNode = null;
+            if(currentSelection != null)
+            {
+                currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
+                args = ExplorerHelper.getNetOperationData(currentNode);
+            }
+            
             
             if(Config.getCurrentIp() == args[0] && currentNode != null)
             {
@@ -178,7 +184,7 @@ public class RightClickMenu
             }
             
             
-            if (DFI_CMD.equals(command))
+            if (DFI_CMD.equals(command) && currentNode != null)
             {
                 if (currentNode.isLeaf() == true)
                 {

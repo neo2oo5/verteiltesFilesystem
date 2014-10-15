@@ -6,6 +6,8 @@
 package substructure;
 
 import fileSystem.fileSystem;
+import fileSystem.fileSystemException;
+import gui.Config;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Timer;
@@ -28,7 +30,7 @@ public class runTimeUpdater {
 
         // Start in one second then drain every 5 seconds
         // Update Explorer Folder structure
-        timer.schedule(new JTreeCreator(), 1000, 5000 );
+        timer.schedule(new JTreeCreator(), 1000, 2000 );
         
         timer.schedule(new GUIScheduler(), 1000, 2000 );
         
@@ -46,9 +48,8 @@ public class runTimeUpdater {
         @Override public void run()
         {
            
-            gui.Explorer.Explorer.initExplorerTree();
                 
-            
+            gui.Explorer.Explorer.initExplorerTree();
         }    
     }
     

@@ -110,7 +110,7 @@ public class fileSystem implements Runnable
          }
     }
     
-    private boolean isFolerToLarge(String Path)
+    public boolean isFolerToLarge(String Path)
     {
         int folderSize = new File(Path).list().length;
         if(folderSize<50)

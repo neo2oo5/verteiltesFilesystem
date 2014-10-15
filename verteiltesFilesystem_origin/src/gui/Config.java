@@ -215,7 +215,14 @@ public class Config
             
             if(tmpPath.length() > 0)
             {
-                trigger = c.isAccessDenied(tmpPath);
+                if(c.isAccessDenied(tmpPath) == false && c.isFolerToLarge(tmpPath) == false)
+                {
+                    trigger = false;
+                }
+                else
+                {
+                    new GuiPromptHelper(GuiPromptHelper.showWarning, "Config: Der Ordner darf insgesamt nur 50 Dateien mit jeweils max. 50MB haben.");
+                }
             }
             else
             {

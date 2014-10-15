@@ -231,7 +231,7 @@ public class DynamicTree extends JPanel
             for(int y=1; y < nodeList.size(); y++)
             {
                 //System.out.print(nodeList.get(y).getUserObject() + "\n");
-                 model.removeNodeFromParent(nodeList.get(y));
+                model.removeNodeFromParent(nodeList.get(y));
  
             }
    
