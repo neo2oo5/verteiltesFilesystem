@@ -208,7 +208,30 @@ public class fileSystem implements Runnable
         outGoingList(IP);
         out.print("fileSystem erfolgreich erstellt");
     }
-	
+    
+    /**
+     * Funktion fuegt manuel dem FileSystem ein Element zu
+     * @param IP
+     * @param Path 
+     */
+    public void addElement(String IP, String Path)
+    {
+        List<Path> localFileSystem = fileSystem.get(find(clients, IP));
+        localFileSystem.add(Paths.get(Path));
+        fileSystem.set(find(clients,IP), localFileSystem);
+    }
+    
+    /**
+     * Loescht ein Element manuel aus dem FileSystem
+     * @param IP
+     * @param Path 
+     */
+    public void deleteElement(String IP, String Path)
+    {
+        List<Path> localFileSystem = fileSystem.get(find(clients, IP));
+        localFileSystem.remove(Paths.get(Path));
+        fileSystem.set(find(clients,IP), localFileSystem);
+    }
     /**
      * Hilfsfunktion
      * @param IP
@@ -266,7 +289,6 @@ public class fileSystem implements Runnable
         out.print("FileSystem zu String erfolgreich");
         return outGoing;
     }
-
 	
     /**
      * Funktion welche das FileSystem in einem String abspeichert 
@@ -424,7 +446,7 @@ public class fileSystem implements Runnable
                     result.add(finalPath);
                     try
                     {
-                        fileSystem.remove(find(clients, seperatedString[0]));
+                        fileSystem.remove(find(clients, IP));
                         fileSystem.add(find(clients, IP), result);
                     }
                     catch(ArrayIndexOutOfBoundsException e)
