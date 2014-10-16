@@ -11,12 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import static java.lang.Thread.sleep;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static network.Interfaces.out;
-
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -28,14 +23,31 @@ public class FiletransferClient
 {
 
     static GUIOutput out = GUIOutput.getInstance();
+    static boolean transferReady = true;
 
+    public static boolean isTransferReady()
+    {
+        return transferReady;
+    }
+
+    public static void setTransferReady(boolean transferReady)
+    {
+        FiletransferClient.transferReady = transferReady;
+    }
+
+    /**
+     *
+     * @param args
+     * @return
+     */
     public static boolean FileTransferClient(String[] args)
     {
+        setTransferReady(false);
+        out.print("FileTransferClient Startet", 1);
         BufferedOutputStream bos = null;
         Socket sock = null;
         try
         {
-            out.print("_____" + args[0] + "_____" + args[1] + "_____" + args[2], 2);
             String targetPath = PathHelper.getFile("Downloads");
             targetPath += File.separator;
             int fs = Integer.parseInt(args[1]);
@@ -43,7 +55,6 @@ public class FiletransferClient
             byte[] mybytearray = new byte[fs];
             InputStream is = sock.getInputStream();
             File path = new File(targetPath + args[0]);
-            // String outputdatei = path;
             FileOutputStream fos = new FileOutputStream(path);
             bos = new BufferedOutputStream(fos);
             int bytesRead = is.read(mybytearray, 0, mybytearray.length);
@@ -67,6 +78,7 @@ public class FiletransferClient
                 out.print("(FileTransferClient) " + ex.toString(), 3);
             }
         }
+        setTransferReady(true);
         return true;
     }
 }

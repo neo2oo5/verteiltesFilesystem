@@ -6,17 +6,12 @@
 package network;
 
 import fileSystem.fileSystemException;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import substructure.GUIOutput;
 
 /**
@@ -29,24 +24,34 @@ public class AdminPannel
     private static boolean loggedin;
     static GUIOutput out = GUIOutput.getInstance();
 
+    /**
+     *
+     * @return
+     */
     public static boolean isLoggedin()
     {
         return loggedin;
     }
 
+    /**
+     *
+     * @param loggedin
+     */
     public static void setLoggedin(boolean loggedin)
     {
         AdminPannel.loggedin = loggedin;
     }
 
+    /**
+     *
+     */
     public static void adminCheckLogin()
     {
 
-        
         String ownIP = gui.Config.getCurrentIp();
         List<String> IPListe = IPList.getIPList();
-            
-            for(String ip: IPListe)
+
+        for (String ip : IPListe)
         {
             String doWhat = "CheckAdminLoggedin";
             String[] args = new String[3];
@@ -57,17 +62,21 @@ public class AdminPannel
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public static boolean adminLogin()
     {
         adminCheckLogin();
         try
         {
-            sleep(100);
+            sleep(5000);
         } catch (InterruptedException ex)
         {
             out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
         }
-        if (loggedin == false)
+        if (isLoggedin() == false)
         {
             FileWriter writer = null;
             try
@@ -97,6 +106,11 @@ public class AdminPannel
         return true;
     }
 
+    /**
+     *
+     * @return
+     * @throws UnknownHostException
+     */
     public static boolean adminLogout() throws UnknownHostException
     {
         message("Admin Logged out!");
@@ -112,13 +126,18 @@ public class AdminPannel
         return true;
     }
 
+    /**
+     *
+     * @param msg
+     * @throws UnknownHostException
+     */
     public static void message(String msg) throws UnknownHostException
     {
-        
+
         String ownIP = gui.Config.getCurrentIp();
         List<String> IPListe = IPList.getIPList();
-            
-            for(String ip: IPListe)
+
+        for (String ip : IPListe)
         {
 
             String doWhat = "AdminMessage";
@@ -130,6 +149,11 @@ public class AdminPannel
         }
     }
 
+    /**
+     *
+     * @param ipToKick
+     * @throws UnknownHostException
+     */
     public static void adminKickUser(String ipToKick) throws UnknownHostException
     {
         String ownIP = gui.Config.getCurrentIp();
@@ -140,8 +164,8 @@ public class AdminPannel
         {
 
             List<String> IPListe = IPList.getIPList();
-            
-            for(String ip: IPListe)
+
+            for (String ip : IPListe)
             {
                 String doWhat = "AdminKickUser";
                 String[] args = new String[3];
@@ -153,6 +177,10 @@ public class AdminPannel
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public static boolean IAmAdmin()
     {
         File file = null;

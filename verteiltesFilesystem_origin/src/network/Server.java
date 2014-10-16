@@ -27,6 +27,9 @@ public class Server
 
     static GUIOutput out = GUIOutput.getInstance();
 
+    /**
+     *
+     */
     public static void server()
     {
 

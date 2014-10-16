@@ -5,14 +5,8 @@
  */
 package network;
 
-import fileSystem.fileSystemException;
 import gui.Config;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.UnknownHostException;
-import static network.AdminPannel.out;
 
 /**
  *
@@ -21,6 +15,10 @@ import static network.AdminPannel.out;
 public class CheckKicked
 {
 
+    /**
+     *
+     * @return @throws UnknownHostException
+     */
     public static boolean checkKicked() throws UnknownHostException
     {
         return !IPList.SearchIP(Config.getCurrentIp());

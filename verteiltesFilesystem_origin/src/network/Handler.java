@@ -17,8 +17,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import substructure.GUIOutput;
 
@@ -95,24 +93,28 @@ public class Handler implements Runnable
                         boolean createFile = Create.createFile(args[0], args[1]);
                     } else if (args[anz].equals("FileTransfer"))
                     {
-                        outTxT.print("------ Handler FT", 3);
                         FiletransferServer.FileTransferServer(args);
                     } else if (args[anz].equals("FileTransferClient"))
                     {
-                        outTxT.print("------ Handler FTC ----------", 3);
                         FiletransferClient.FileTransferClient(args);
                     } else if (args[anz].equals("CheckAdminLoggedin"))
                     {
-                        File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
-                        boolean exists = file.exists();
-                        if (exists)
+                        try
                         {
-                            String doWhat = "AntwortAdminLoggedin";
-                            String[] argsNeu = new String[3];
-                            argsNeu[0] = args[0];
-                            argsNeu[1] = "true";
-                            argsNeu[2] = doWhat;
-                            StartClientServer.startClient(argsNeu);
+                            File file = new File(substructure.PathHelper.getFile("admin.loggedin"));
+                            boolean exists = file.exists();
+                            if (exists)
+                            {
+                                String doWhat = "AntwortAdminLoggedin";
+                                String[] argsNeu = new String[3];
+                                argsNeu[0] = args[0];
+                                argsNeu[1] = "true";
+                                argsNeu[2] = doWhat;
+                                StartClientServer.startClient(argsNeu);
+                            }
+                        } catch (fileSystemException ex)
+                        {
+                            // Keine Rückmeldung da nicht von bedeutung
                         }
 
                     } else if (args[anz].equals("AntwortAdminLoggedin"))
@@ -121,6 +123,7 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("AdminMessage"))
                     {
                         outTxT.print("(Handler) AdminMessage: " + args[0], 1);
+                        if(args[0].equals("Admin Logged out!")) AdminPannel.setLoggedin(false);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
                         String ownIP = gui.Config.getCurrentIp();
@@ -154,16 +157,13 @@ public class Handler implements Runnable
                 reader.close();
                 writer.close();
                 client.close();
-            } catch (fileSystemException ex)
-            {
-                outTxT.print("(Handler - run) : " + ex.toString(), 2);
             } catch (IOException ex)
             {
                 outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
             }
         } catch (IOException ex)
         {
-                outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
+            outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
         } finally
         {
             try
@@ -175,8 +175,4 @@ public class Handler implements Runnable
             }
         }
     }
-    /**
-     * catch exceptions and logg them
-     */
 }
-

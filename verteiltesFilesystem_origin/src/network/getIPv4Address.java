@@ -29,7 +29,7 @@ public class getIPv4Address
 
     /**
      *
-     * @throws java.net.UnknownHostException
+     * @return @throws java.net.UnknownHostException
      */
     public static ArrayList<String> getIPv4Address() throws UnknownHostException
     {
@@ -68,11 +68,15 @@ public class getIPv4Address
                 }
             }
         }
-        
+
         return IPListe;
-       
+
     }
 
+    /**
+     *
+     * @throws UnknownHostException
+     */
     public static void setIPv4Address() throws UnknownHostException
     {
         /**

@@ -160,13 +160,7 @@ public class fileSystem_Start
         }
         else
         {
-            try
-            {
-                c.setnewFileSystem(Config.getCurrentIp(), Config.getRootDir());
-            } catch (fileSystemException ex)
-            {
-                out.print("Lokales FileSystem konnte nicht Indexiert werden");
-            }
+            c.setNewFileSystem(Config.getCurrentIp(), Config.getRootDir());
         }
     }
 }
