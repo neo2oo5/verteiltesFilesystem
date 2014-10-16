@@ -64,6 +64,11 @@ public class GUIOutput extends Output{
     public void setVisible(boolean e)
     {
         f.setVisible(e);
+        
+    }
+    
+    public void switchOnOff(boolean e)
+    {
         visible = e;
     }
     

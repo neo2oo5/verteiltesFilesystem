@@ -45,8 +45,9 @@ public class fileSystem_Start
          * Wird Standart maeßig in log.txt geschrieben Kann in config.properties
          * den modelevel geaendert werden
          *
+         * switchOnOff: leitet ausgaben auf terminal oder gui log
          */
-        out.setVisible(false);
+        out.switchOnOff(true);
         
         Thread t1 = new Thread( new fileSystem() );
         t1.setName("FileSystem");
