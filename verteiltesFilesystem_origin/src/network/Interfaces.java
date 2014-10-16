@@ -218,7 +218,7 @@ public class Interfaces
         IPList.InsertIpInList(ip);
         out.print("(Interface) - StartProgram -> Ihre IP: " + ip);
 
-        CheckWhoIsOnline.dotMulticast();
+        CheckWhoIsOnline.doMulticast();
         return true;
     }
 
@@ -325,7 +325,7 @@ public class Interfaces
 
         }
 
-        CheckWhoIsOnline.dotMulticast();
+        CheckWhoIsOnline.doMulticast();
 
     }
 
@@ -404,7 +404,7 @@ public class Interfaces
      */
     public static void interfaceRestartMulticast()
     {
-        CheckWhoIsOnline.dotMulticast();
+        CheckWhoIsOnline.doMulticast();
     }
 
     /**

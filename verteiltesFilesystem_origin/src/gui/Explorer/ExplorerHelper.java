@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
 import substructure.GUIOutput;
+import substructure.PathHelper;
 
 /**
  *
@@ -64,7 +65,19 @@ public class ExplorerHelper {
         {
             if(pathfs.toString().contains(result[1]))
             {
-                result[2]  = pathfs.toString(); //sourcePath
+                System.out.print(pathfs.toString()+"\n");
+                 //sourcePath
+                if(path.substring(0, 1).equals("/"))
+                {
+                    //linux pfad
+                    result[2]  = pathfs.toString().substring(0, pathfs.toString().lastIndexOf("/"))+"/";
+
+                }
+                else
+                {
+                    //windows pfad
+                    result[2]  = pathfs.toString().substring(0, pathfs.toString().lastIndexOf("\\"))+"\\";
+                }
             }
         }
         

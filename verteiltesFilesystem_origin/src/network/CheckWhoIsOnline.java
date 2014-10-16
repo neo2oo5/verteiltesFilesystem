@@ -31,12 +31,15 @@ public class CheckWhoIsOnline extends Thread
     /**
      *
      */
-    public static void dotMulticast()
+    public static void doMulticast()
     {
+        multicast = new Thread(new SSDPNetworkClient());
+        multicast.setName("Multicast");
+        
         if (multicast == null)
         {
-            multicast = new Thread(new SSDPNetworkClient());
-            multicast.setName("Multicast");
+            
+            
             multicast.start();
         } else
         {
