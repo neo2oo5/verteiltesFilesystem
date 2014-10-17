@@ -28,7 +28,7 @@ public class fileSystem_Start
     static GUIOutput out = GUIOutput.getInstance();
     static fileSystem c = fileSystem.getInstance();
     public static GUI gUI = null;
-    public static boolean Debug   = true; //nur fuer debug
+    public static boolean Debug   = false; //nur fuer debug
     
 
     /**

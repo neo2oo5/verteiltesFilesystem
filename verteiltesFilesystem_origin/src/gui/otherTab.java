@@ -32,7 +32,8 @@ public class otherTab {
         aboutus.setEditable(false);
         //System.out.print(TabbedPane.getPreferredSize());
 
-
+        info = new JTextArea(loadTabContent("info.txt"));
+        info.setEditable(false);
         
         
         
@@ -40,7 +41,7 @@ public class otherTab {
         
         
         TabbedPane.addTab("Über Uns", aboutus);
-        TabbedPane.addTab("Info", new JTextArea(loadTabContent("info.txt")));
+        TabbedPane.addTab("Info", info);
     }
     
     private String loadTabContent(String file)
