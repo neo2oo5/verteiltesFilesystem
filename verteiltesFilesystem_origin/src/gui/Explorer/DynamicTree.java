@@ -10,7 +10,7 @@ import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import gui.Config;
 import java.awt.EventQueue;
-import substructure.GUIOutput;
+import substructure.*;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -77,14 +77,13 @@ public class DynamicTree extends JPanel
         try {   
             out.print("online: " + network.Interfaces.interfaceNetworkOnline());
             
-            
+            if(fileSystem_Start.Debug == true)
+            {
+                Pane.addTab("Explorer", scrollPane);
+            }
             if(Config.isRootDir() == true &&  network.Interfaces.interfaceNetworkOnline() == true)
             {
-               
-               
-                    Pane.addTab("Explorer", scrollPane);
-               
-                
+                    Pane.addTab("Explorer", scrollPane); 
             }
             else
             {
@@ -98,9 +97,6 @@ public class DynamicTree extends JPanel
                 } catch (fileSystemException ex) {
                     out.print(ex.toString());
                 }
-
-
-
             }
             
         } catch (UnknownHostException ex) {
@@ -210,38 +206,88 @@ public class DynamicTree extends JPanel
                  //create DefaultMultableTreeNode List
                 checkNode(node, nodeList, IP, fsLocal);
 
-                for(int y=0; y < nodeList.size(); y++)
+                
+                for(int i = 0; i< fsLocal.size(); i++)
                 {
-                    for(int i = 0; i< fsLocal.size(); i++)
+                    boolean trigger = false;
+                    for(int y=0; y < nodeList.size(); y++)
                     {
-                        String [] strings;
-                        // Split the string around the delimiter
-
-                        strings = fsLocal.get(i).split(Pattern.quote(System.getProperty("file.separator")));
-                        for(String s: strings)
+                    
+                        String nodePath="";
+                        String fsLocals =  File.separator + fsLocal.get(i);
+                        TreeNode[] path   = nodeList.get(y).getPath();
+                        
+                        for(TreeNode n: path)
                         {
-                            if(s.equals(nodeList.get(y).getUserObject().toString()))
+                            if(!n.toString().equals("Root Node") && !validIP(n.toString())) 
                             {
-                                
-                                nodeList.remove(y);
+                                nodePath += File.separator + n.toString();
                             }
+                            
                         }
+                               
+                    //   System.out.print("node:  "+ nodePath + "\nlocal: " + fsLocals +  "\n");
+        
+                        if(fsLocals.contains(nodePath))
+                        {
+                            nodeList.remove(y);
+
+                            
+                        }
+              
                     }
+                    
+                    
                    
                 }
              
                     
             DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-             
+            
             for(int y=1; y < nodeList.size(); y++)
             {
-                //System.out.print(nodeList.get(y).getUserObject() + "\n");
+               // System.out.print("wird gelöscht: "+nodeList.get(y).getUserObject() + "\n");
+                
+                if(nodeList.get(y).getParent() != null)
+                {
+                    model.removeNodeFromParent((DefaultMutableTreeNode) nodeList.get(y).getParent());
+                }
                 model.removeNodeFromParent(nodeList.get(y));
+                nodeList.remove(y);
  
             }
+            
+         //  System.out.print(c.toString());
    
         
      }
+     
+    public static boolean validIP (String ip) {
+        try {
+            if (ip == null || ip.isEmpty()) {
+                return false;
+            }
+
+            String[] parts = ip.split( "\\." );
+            if ( parts.length != 4 ) {
+                return false;
+            }
+
+            for ( String s : parts ) {
+                int i = Integer.parseInt( s );
+                if ( (i < 0) || (i > 255) ) {
+                    return false;
+                }
+            }
+            if(ip.endsWith(".")) {
+                    return false;
+            }
+
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
      
     public boolean checkNode(DefaultMutableTreeNode Node, List<DefaultMutableTreeNode> nodeList, String IP, List<String> tmp)
     {
@@ -267,6 +313,8 @@ public class DynamicTree extends JPanel
         }
   
     }
+    
+    
      
     public DefaultMutableTreeNode getObjectAtIndex(DefaultMutableTreeNode node, int index)
     {

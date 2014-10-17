@@ -193,19 +193,27 @@ public class AdminControlPanel extends javax.swing.JPanel {
             
             List<String> ips = IPList.getIPList();
             
+            
             for(int i = 0; i < ips.size(); i++)
             {
                 String ip = ips.get(i);
-              // out.print("ip: " + ip + " cmd: " + cmd);
-                if(cmd.equals(ip))
+                if(cmd.equals(Config.getCurrentIp()))
                 {
-                    Interfaces.interfaceAdminKickUser(ip);
-                    new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: "+ ip +" wurde aus dem Netzwerk entfernt");
-                    userlist.remove(usersL[i]);
-                    userlist.remove(usersB[i]);
-              
-                    
+                    new GuiPromptHelper(GuiPromptHelper.showError, "Sie können ihren eigenen Client nicht aus dem Netzwerk entfernen!");
                 }
+                else
+                {
+                    if(cmd.equals(ip))
+                    {
+                        Interfaces.interfaceAdminKickUser(ip);
+                        new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: "+ ip +" wurde aus dem Netzwerk entfernt");
+                        userlist.remove(usersL[i]);
+                        userlist.remove(usersB[i]);
+
+
+                    }
+                }
+                
             }
             
             if(logoutCMD.equals(cmd))

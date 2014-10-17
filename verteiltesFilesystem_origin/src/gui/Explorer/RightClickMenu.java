@@ -56,10 +56,48 @@ public class RightClickMenu
         menuItemFileDelete.setActionCommand(RFI_CMD);
         menuItemFileRename.setActionCommand(REFI_CMD);
 
-        popup.add(menuItemFileDownload);
-        popup.add(menuItemFileCreate);
-        popup.add(menuItemFileDelete);
-        popup.add(menuItemFileRename);
+        
+        
+        
+        TreePath currentSelection = DynamicTree.getTree().getSelectionPath();
+        String[] args = new String[5];
+        DefaultMutableTreeNode currentNode = null;
+
+        if(currentSelection != null)
+        {
+            currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
+            if(currentNode != null)
+            {
+                args = ExplorerHelper.getNetOperationData(currentNode);
+                
+                //eigene IP
+                if(Config.getCurrentIp().equals(args[0]))
+                {
+                    popup.add(menuItemFileCreate);
+                    popup.add(menuItemFileDelete);
+                    popup.add(menuItemFileRename);
+                }
+                else if(Interfaces.interfaceIAmAdmin())
+                {
+                    popup.add(menuItemFileDownload);
+                    popup.add(menuItemFileCreate);
+                    popup.add(menuItemFileDelete);
+                    popup.add(menuItemFileRename);
+                }
+                else if(Interfaces.interfaceIAmAdmin() == false && !Config.getCurrentIp().equals(args[0]))
+                {
+                    popup.add(menuItemFileDownload);
+                }
+                
+                
+                
+            }
+        }
+
+
+
+
+        
 
         popup.show(e.getComponent(), e.getX(), e.getY());
     }
@@ -91,55 +129,36 @@ public class RightClickMenu
                 }
             }
             
-           System.out.print("selection: "+currentSelection + "node" + currentNode.getUserObject()+" \n");
-           System.out.print("admin: "+Interfaces.interfaceIAmAdmin()+"\n");
+           
             
             
-            if(currentNode != null)
+            if(currentNode != null && currentSelection != null)
             {
-                //local operationa
-                if(Config.getCurrentIp() == args[0])
-                {
-                    //datei erstellen
-                    if (CFI_CMD.equals(command))
-                    {
-                        RightClickActions.FileCreate(currentNode, args);
-                    //datei umbenennen
-                    } else if (REFI_CMD.equals(command))
-                    {
-
-                        RightClickActions.FileRename(currentNode, args);
-                    //datei löschen
-                    } else if (RFI_CMD.equals(command))
-                    {
-                        RightClickActions.FileDelete(currentNode, args);
-                    } 
-                }
                 
-                else if(Interfaces.interfaceIAmAdmin() == true)
-                    //datei erstellen
-                    if (CFI_CMD.equals(command))
-                    {
-                        RightClickActions.FileCreate(currentNode, args);
-                    //datei umbenennen
-                    } else if (REFI_CMD.equals(command))
-                    {
+                System.out.print("selection: "+currentSelection + "node" + currentNode.getUserObject()+" \n");
+                System.out.print("admin: "+Interfaces.interfaceIAmAdmin()+"\n");
+           
+                
+                //datei erstellen
+                if (CFI_CMD.equals(command))
+                {
+                    RightClickActions.FileCreate(currentNode, args);
+                //datei umbenennen
+                } else if (REFI_CMD.equals(command))
+                {
 
-                        RightClickActions.FileRename(currentNode, args);
-                    //datei löschen
-                    } else if (RFI_CMD.equals(command))
-                    {
-                        RightClickActions.FileDelete(currentNode, args);
-                    } 
-                    //datei download
-                    else if (DFI_CMD.equals(command) && currentNode != null)
-                    {
-                        RightClickActions.FileDownload(currentNode, args);
-                    }
-                    else if(currentNode != null)
-                    {
-                       out.print("Für diese Operation benötigen Sie Admin rechte."); 
-                    }
+                    RightClickActions.FileRename(currentNode, args);
+                //datei löschen
+                } else if (RFI_CMD.equals(command))
+                {
+                    RightClickActions.FileDelete(currentNode, args);
+                } 
+                //datei download
+                else if (DFI_CMD.equals(command) && currentNode != null)
+                {
+                    RightClickActions.FileDownload(currentNode, args);
+                }
+                    
             }
                
                 

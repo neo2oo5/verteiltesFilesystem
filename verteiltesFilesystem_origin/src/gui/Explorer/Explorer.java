@@ -11,9 +11,11 @@ package gui.Explorer;
 import java.util.*;
 import java.nio.file.*;
 import fileSystem.fileSystem;
+import gui.Config;
 import java.io.*;
 import java.util.regex.Pattern;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import network.PingServer;
 import substructure.GUIOutput;
 import substructure.PathHelper;
@@ -62,7 +64,7 @@ public class Explorer
           
            String tmps="";
            
-           tmps = convertPath(path, IP);
+           tmps = ExplorerHelper.convertPath(path);
          //  System.out.print("IP: "+IP + " Path: " + path+"\n");
            tmp.add(tmps);
        }
@@ -70,51 +72,24 @@ public class Explorer
        
     }
     
-    public static String convertPath(String path, String IP)
-    {
-        String tmps="";
-        
-        if(path.length() > 0)
-           {
-                if(path.substring(0, 1).equals("/"))
-                {
-                    //linux pfade anpassen zu
-                    if(PathHelper.getOSName() == "Windows")
-                    {
-                        path = path.substring(1, path.length());
-                        tmps = path.replace("/", "\\");
-                    }
-                    else
-                    {
-                        tmps = path.substring(1, path.length());
-                    }
-
-                }
-                else
-                {
-                    //windows pfade anpassen zu
-                    if(PathHelper.getOSName() == "Linux")
-                    {
-                        tmps = path.replace("\\", "/");
-                    }
-                    else
-                    {
-                        tmps = path;
-                    }
-                }
-                
-                return tmps;
-                
-           }
-        
-        return "";
-    }
+    
     
     public static synchronized void initExplorerTree() 
    {
        
         
-        
+        if (!Config.isRootDir())
+        {
+            Config.filechooser();
+        } 
+        else if(c.isAccessDenied(Config.getRootDir()))
+        {
+            Config.filechooser();
+        }
+        else
+        {
+            c.setNewFileSystem(Config.getCurrentIp(), Config.getRootDir());
+        }
        
             
             
@@ -133,7 +108,7 @@ public class Explorer
                  changePathSeperator(currentIP, tmp);
 
                 
-                    
+                   
 
                
 
@@ -155,6 +130,9 @@ public class Explorer
                     else
                     {
                          parent = treePanel.getObjectAtIndex(treePanel.getRootNode(), index);
+                         
+                           
+                        
                          //System.out.print(parent.getUserObject());
                         //parent = treePanel.addObject(entry, ips[z]);
 

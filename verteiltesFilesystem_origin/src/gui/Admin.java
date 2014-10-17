@@ -99,6 +99,7 @@ public class Admin
                 return true;
             }
             else{
+                new GuiPromptHelper(GuiPromptHelper.showError, "Ein Admin ist bereits angemeldet!");
                 return false;
             }
         }

@@ -28,6 +28,7 @@ public class fileSystem_Start
     static GUIOutput out = GUIOutput.getInstance();
     static fileSystem c = fileSystem.getInstance();
     public static GUI gUI = null;
+    public static boolean Debug   = true; //nur fuer debug
     
 
     /**
@@ -47,7 +48,7 @@ public class fileSystem_Start
          *
          * switchOnOff: leitet ausgaben auf terminal oder gui log
          */
-        out.switchOnOff(true);
+        out.switchOnOff(false);
         
         Thread t1 = new Thread( new fileSystem() );
         t1.setName("FileSystem");

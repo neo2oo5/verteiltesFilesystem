@@ -55,32 +55,121 @@ public class ExplorerHelper {
         String result[] = new String[5];
         
             
-        result[0]  = path.substring(0, path.indexOf("/")); //IP
+        result[0]  = path.substring(0, path.indexOf(File.separator)); //IP
         List<Path>  fs  =  c.get(result[0]);
-        result[1]  = path.substring(path.lastIndexOf("/")+1, path.length()); //filename
+        result[1]  = path.substring(path.lastIndexOf(File.separator)+1, path.length()); //filename
         
         result[3]  = targetPath; //targetPath
         
         for(Path pathfs: fs)
         {
+            
             if(pathfs.toString().contains(result[1]))
             {
-                System.out.print(pathfs.toString()+"\n");
-                 //sourcePath
-                if(path.substring(0, 1).equals("/"))
-                {
-                    //linux pfad
-                    result[2]  = pathfs.toString().substring(0, pathfs.toString().lastIndexOf("/"))+"/";
+                System.out.print("Path befor: "+pathfs.toString()+"\n");
+                
+                
+                result[2] = convertPath(pathfs.toString(), true);
+                 
+                System.out.print("Path after convert: "+result[2]+"\n");
 
-                }
-                else
+                //linux
+                int index = result[2].lastIndexOf("/");
+                String os = "linux";
+
+                //try if win
+                if(index == -1)
                 {
-                    //windows pfad
-                    result[2]  = pathfs.toString().substring(0, pathfs.toString().lastIndexOf("\\"))+"\\";
+                    index   = result[2].lastIndexOf("\\");
+                    os      = "win";
                 }
+
+
+                if(index != -1)
+                {
+                    if(os.equals("linux"))
+                    {
+                        result[2]  = result[2].substring(0, index)+"/";
+                    }
+                    else if(os.equals("win"))
+                    {
+                        result[2]  = result[2].substring(0, index)+"\\";
+                    }
+                }
+                
+                System.out.print("Path: "+result[2]+"\n");
+                     
+                
             }
         }
         
         return   result;
+    }
+    
+    public static String convertPath(String path)
+    {
+       return convertPath(path, false);
+    }
+    
+    public static String convertPath(String path, boolean forDownload)
+    {
+        String tmps="";
+        
+        if(path.length() > 0)
+           {
+               //windows pfade anpassen zu
+                if(path.contains(":"))
+                {
+                    if(forDownload)
+                    {
+                        //fuer download
+                        tmps = path.replace("/", "\\");
+                        
+                    }
+                    else
+                    {
+                        //fuer jtree
+                        if(PathHelper.getOSName() == "Linux")
+                        {
+                            tmps = path.replace("\\", "/");
+                        }
+                        else
+                        {
+                            tmps = path.replace("/", "\\");
+                        }
+                    }
+                    
+                   
+
+                }
+                //linux pfade anpassen zu
+                else
+                {
+                     if(forDownload)
+                    {
+                        //fuer download
+                        tmps = path.replace("\\", "/");
+                        
+                    }
+                    else
+                    {
+                        if(PathHelper.getOSName() == "Windows")
+                        {
+                            path = path.substring(1, path.length());
+                            tmps = path.replace("/", "\\");
+                        }
+                        else
+                        {
+                            path = path.substring(1, path.length());
+                            tmps = path.replace("\\", "/");
+                        }
+                    }
+                }
+                
+                return tmps;
+                
+           }
+        
+        return "";
     }
 }

@@ -150,9 +150,9 @@ public class fileSystem implements Runnable
                             {
                                 if(isFolerToLarge(entry.toString()) == false)
                                 {
-                                    out.print("(fileSystem - isFolderToLarge) "
+                                   /* out.print("(fileSystem - isFolderToLarge) "
                                             + ": nicht indexiert -->" 
-                                            + entry, 2);
+                                            + entry, 2);*/
                                 }
                                 else
                                 {
@@ -206,7 +206,7 @@ public class fileSystem implements Runnable
             out.print("neuer Client hinzugefuegt");
         }    
         outGoingList(IP);
-        out.print("fileSystem erfolgreich erstellt");
+       // out.print("fileSystem erfolgreich erstellt");
     }
     
     /**
@@ -286,7 +286,7 @@ public class fileSystem implements Runnable
                 outGoing += "IP: " + ips.get(z) + " Path: "+ path+"\n";
             }
         }   
-        out.print("FileSystem zu String erfolgreich");
+        //out.print("FileSystem zu String erfolgreich");
         return outGoing;
     }
 	
@@ -446,8 +446,8 @@ public class fileSystem implements Runnable
                     result.add(finalPath);
                     try
                     {
-                        fileSystem.remove(find(clients, IP));
-                        fileSystem.add(find(clients, IP), result);
+                        
+                        fileSystem.set(find(clients, IP), result);
                     }
                     catch(ArrayIndexOutOfBoundsException e)
                     {
