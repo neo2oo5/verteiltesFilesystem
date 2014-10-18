@@ -67,7 +67,7 @@ public class RightClickMenu
         String[] args = new String[5];
         DefaultMutableTreeNode currentNode = null;
 
-        if(currentSelection != null)
+        if(currentSelection != null && args != null)
         {
             currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
             if(currentNode != null)
