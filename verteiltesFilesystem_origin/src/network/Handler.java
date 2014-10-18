@@ -156,34 +156,35 @@ public class Handler implements Runnable
                      else if (args[anz].equals("arrangePort"))
                     {
                         DynamicPorts dp = DynamicPorts.getInstance();
+                        String[] ipp = args[2].split(Pattern.quote("."));
                         
                         //Bearbeite Anfrage
-                        if(args[2].length()== 5)
+                        if(ipp[2].length()== 1)
                         {
-                            if(args[2].codePointAt(4) == 1)
+                            if(ipp[2].equals("1"))
                             {
 
-                                if(dp.setPort(Integer.valueOf(args[2].substring(0, 3))) != -1 )
+                                if(dp.setPort(ipp[0], Integer.valueOf(ipp[1])) != -1 )
                                 {
                                     //sent ok (port nr)
-                                    dp.arrangePort(args[0], args[2] + "1", true);
-                                    outTxT.print("Port " + args[2].substring(0, 3) + " wurde zum Transfer vorgeschalgen und aktzeptiert");
+                                    dp.arrangePort(args[0], ipp[2] + ".11", true);
+                                    outTxT.print("Port " + ipp[2].substring(0, 3) + " wurde zum Transfer vorgeschalgen und aktzeptiert");
                                 }
                                 else
                                 {
                                     //sent -1
-                                    dp.arrangePort(args[0], args[2] + "0", true);
+                                    dp.arrangePort(args[0], ipp[2] + ".10", true);
                                     outTxT.print("Port " + args[2].substring(0, 3) + " wurde abgelehnt da er schon benutzt wird");
 
                                 }
                             }
                         }
                         // Bearbeite Antwort
-                        else if(args[2].length()== 6)
+                        else if(ipp[2].length()== 2)
                         {
-                            if(args[2].codePointAt(5) == 1)
+                            if(ipp[2].codePointAt(1) == 1)
                             {
-                                if(dp.setPort(Integer.valueOf(args[2].substring(0, 3))) != -1 )
+                                if(dp.setPort(ipp[0], Integer.valueOf(ipp[1])) != -1 )
                                 {
                                     //sent ok (port nr)
                                     outTxT.print("Port " + args[2].substring(0, 3) + " wurde zum Transfer aktzeptiert");

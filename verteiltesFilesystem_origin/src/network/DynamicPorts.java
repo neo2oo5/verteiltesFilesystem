@@ -20,7 +20,7 @@ import substructure.GUIOutput;
 public class DynamicPorts {
     
     
-    private static List<Integer> ports         = new ArrayList<>();
+    private static List<String[]> ports         = new ArrayList<>();
     private static int portRangeMax            = 1750;
     private static int portRangeMin            = 1720;
     private static int index                   = -1;
@@ -43,24 +43,29 @@ public class DynamicPorts {
     {
         
         int rand=0;
-      
+        do
+        {
+            rand = (int) (Math.random() * (portRangeMax - portRangeMin) + portRangeMin);
+        }while(ports.indexOf(rand) == -1);
 
-           rand = (int) (Math.random() * (portRangeMax - portRangeMin) + portRangeMin);
+         
          
 
-        System.out.print("port: " + rand);
+        
         return rand;
         
     }
     
-    public static int setPort(int port)
+    public static int setPort(String ident, int port)
     {
         boolean trigger = true;
+        String[] tmp = new String[2];
+        tmp[0] = ident;
         index = -1;
         
-        for(int p: ports)
+        for(String[] p: ports)
         {
-            if(p == port)
+            if(p[1].equals(String.valueOf(port)))
             {
                 trigger = false;
             }
@@ -68,19 +73,59 @@ public class DynamicPorts {
         
         if(trigger == true)
         {
-            ports.add(port);
-            index = ports.indexOf(port);
+            tmp[1] = String.valueOf(port);
+            ports.add(tmp);
+            
         }
         
         
-        return index;
+        return findPort(port);
     }
     
-    
-    
-    public static int getPort()
+    private static int findPort(int port)
     {
-        return generatingPort();
+        int index = -1;
+        
+        for(String[] p: ports)
+        {
+            if(p[1].equals(String.valueOf(port)))
+            {
+                index = ports.indexOf(p);
+            }
+            
+        }
+        
+        return index;
+        
+    }
+    
+    private static int findIdent(String Ident)
+    {
+        int index = -1;
+        
+        for(String[] p: ports)
+        {
+            if(p[0].equals(String.valueOf(Ident)))
+            {
+                index = ports.indexOf(p);
+            }
+            
+        }
+        
+        return index;
+        
+    }
+    
+    public static int getPort(String IPto)
+    {
+        arrangePort(IPto, String.valueOf(generatingPort())+".1");
+        return findIdent(getIdentbyString(IPto));
+        
+    }
+    
+    public static String getIdentbyString(String IP)
+    {
+        return IP.substring(IP.lastIndexOf("."), IP.length());
     }
     
     
@@ -128,7 +173,7 @@ public class DynamicPorts {
                     args[1] = IPv4to;
                     
                 }
-                args[2] = String.valueOf(Port);
+                args[2] = getIdentbyString(args[1]) + "." + Port;
                 args[3] = doWhat;
                
                 StartClientServer.startClient(args);
