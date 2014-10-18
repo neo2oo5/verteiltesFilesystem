@@ -46,7 +46,7 @@ public class DynamicPorts {
         do
         {
             rand = (int) (Math.random() * (portRangeMax - portRangeMin) + portRangeMin);
-        }while(ports.indexOf(rand) == -1);
+        }while(ports.indexOf(rand) != -1);
 
          
          
@@ -82,7 +82,7 @@ public class DynamicPorts {
         return findPort(port);
     }
     
-    private static int findPort(int port)
+    public static int findPort(int port)
     {
         int index = -1;
         
@@ -99,7 +99,7 @@ public class DynamicPorts {
         
     }
     
-    private static int findIdent(String Ident)
+    public static int findIdent(String Ident)
     {
         int index = -1;
         
@@ -114,6 +114,11 @@ public class DynamicPorts {
         
         return index;
         
+    }
+    public static String getPortbyIndex(int index)
+    {
+        String[] tmp = ports.get(index);
+        return tmp[1];
     }
     
     public static int getPort(String IPto)
@@ -162,7 +167,7 @@ public class DynamicPorts {
                  */
                 String[] args = new String[4];
                 
-                if(back)
+                if(!back)
                 {
                     args[0] = IPv4to;
                     args[1] = Config.getCurrentIp();

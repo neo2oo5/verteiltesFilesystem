@@ -158,6 +158,8 @@ public class Handler implements Runnable
                         DynamicPorts dp = DynamicPorts.getInstance();
                         String[] ipp = args[2].split(Pattern.quote("."));
                         
+                        outTxT.print(args[2]);
+                        
                         //Bearbeite Anfrage
                         if(ipp[2].length()== 1)
                         {
