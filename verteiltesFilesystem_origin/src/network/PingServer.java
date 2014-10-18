@@ -45,7 +45,7 @@ public class PingServer
         {
             IPList.removeIP(checkIP);
             c.remove(checkIP);
-            out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfern, nicht erreichbar!", 1);
+            out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
             return false;
         }
         /**
