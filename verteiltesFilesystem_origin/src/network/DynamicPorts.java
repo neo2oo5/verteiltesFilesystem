@@ -175,7 +175,14 @@ public class DynamicPorts {
      */
     public static void releasePort(int port)
     {
-        ports.remove(port);
+        for(String[] p: ports)
+        {
+            if(p[1].equals(String.valueOf(port)))
+            {
+                ports.remove(p);
+            }
+            
+        }
     }
     
     /**

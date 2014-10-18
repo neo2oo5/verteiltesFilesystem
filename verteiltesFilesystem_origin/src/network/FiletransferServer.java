@@ -11,12 +11,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import static java.lang.Thread.sleep;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -40,6 +35,7 @@ public class FiletransferServer
         BufferedInputStream bis = null;
         BufferedOutputStream out = null;
         Socket sock = null;
+        int dynamicPort = 0;
         try
         {
             IPList.InsertIpInList(args[2]);
@@ -53,7 +49,7 @@ public class FiletransferServer
                 index = dp.findIdent(dp.getIdentbyString(args[2]));
             } while (index == -1);
 
-            int dynamicPort = Integer.valueOf(dp.getPortbyIndex(index));
+            dynamicPort = Integer.valueOf(dp.getPortbyIndex(index));
             outMsg.print(dynamicPort);
 
             // ServerSocket servsock = new ServerSocket(1718);
@@ -123,6 +119,7 @@ public class FiletransferServer
                 if(fis != null) fis.close();
                 if(bis != null) bis.close();
                 if(sock != null) sock.close();
+                if(dynamicPort != 0) dp.releasePort(dynamicPort);
             } catch (IOException ex)
             {
                 outMsg.print("(FileTransferServer) " + ex.toString(), 3);
