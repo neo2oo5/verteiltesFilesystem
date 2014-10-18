@@ -66,6 +66,7 @@ public class FiletransferServer
             }
             
             //starte Client und gib file größe mit
+            // sdfsfd
             File myFile = new File(file);
             int fsi = (int) myFile.length();
             StringBuilder sb = new StringBuilder();
