@@ -8,10 +8,14 @@ package network;
 import fileSystem.fileSystemException;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -51,47 +55,109 @@ public class FiletransferClient
      */
     public static boolean FileTransferClient(String[] args)
     {
-        setTransferReady(false);
-        out.print("FileTransferClient Startet", 1);
+        ServerSocket serverSocket = null;
+        Socket socket = null;
+        InputStream is = null;
+        FileOutputStream fos = null;
         BufferedOutputStream bos = null;
-        Socket sock = null;
-        
+
         
         try
-        {   
-        
-            String targetPath = PathHelper.getFile("Downloads");
-            targetPath += File.separator;
-            int fs = Integer.parseInt(args[1]);
-            //sock = new Socket(args[2], 1718);
-            sock = new Socket(args[2], Integer.valueOf(args[3]));
-            byte[] mybytearray = new byte[fs];
-            InputStream is = sock.getInputStream();
-            File path = new File(targetPath + args[0]);
-            FileOutputStream fos = new FileOutputStream(path);
-            bos = new BufferedOutputStream(fos);
-            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            bos.write(mybytearray, 0, bytesRead);
+        {
+            setTransferReady(false);
+            out.print("FileTransferClient Startet", 1);
+            
+            try
+            {
+                serverSocket = new ServerSocket(Integer.valueOf(args[3]));
+            } catch (IOException ex)
+            {
+                System.out.println("Can't setup server on this port number. ");
+            }
 
-        } catch (IOException ex)
-        {
-            return false;
-        } catch (fileSystemException ex)
-        {
-            out.print("(FileTransferClient) " + ex.toString(), 3);
-        } finally
-        {
+            
+            
+            int bufferSize = 0;
+
+            
+            
+            try
+            {
+                socket = serverSocket.accept();
+            } catch (IOException ex)
+            {
+                System.out.println("Can't accept client connection. ");
+            }
 
             try
             {
-                bos.close();
-                sock.close();
+                is = socket.getInputStream();
+
+                bufferSize = socket.getReceiveBufferSize();
+                System.out.println("Buffer size: " + bufferSize);
             } catch (IOException ex)
             {
-                out.print("(FileTransferClient) " + ex.toString(), 3);
+                System.out.println("Can't get socket input stream. ");
+            }
+
+            try
+            {
+                String targetPath = PathHelper.getFile("Downloads");
+                targetPath += File.separator;
+                fos = new FileOutputStream(targetPath + args[0]);
+                bos = new BufferedOutputStream(fos);
+
+            } catch (FileNotFoundException ex)
+            {
+                System.out.println("File not found. ");
+            } catch (fileSystemException ex)
+            {
+                System.out.println("File not found. ");
+            }
+
+            byte[] bytes = new byte[bufferSize];
+
+            int count;
+
+            while ((count = is.read(bytes)) > 0)
+            {
+                bos.write(bytes, 0, count);
+            }
+
+            bos.flush();
+           
+            return true;
+        } catch (IOException ex)
+        {
+            out.print("--- Fehler Fileclient --- " + ex.toString(), 3);
+        }
+        finally{
+            try {
+                if(bos != null)
+                {
+                    bos.close();
+                }
+                else if (is != null)
+                {
+                    is.close();
+                }
+                else if (socket != null)
+                {
+                    socket.close();
+                }
+                else if (serverSocket != null)
+                {
+                    serverSocket.close();
+                }
+                
+                
+                
+               
+                setTransferReady(true);
+            } catch (IOException ex) {
+                Logger.getLogger(FiletransferClient.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        setTransferReady(true);
-        return true;
+        return false;
     }
 }
