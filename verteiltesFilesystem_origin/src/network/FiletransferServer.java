@@ -46,15 +46,16 @@ public class FiletransferServer
 
             dp.getPort(args[2]);
 
-            int index = -1;
+            
             do
             {
                 dynamicPort = dp.findIdent(dp.getIdentbyString(args[2]));
-            } while (index == -1);
+                
+            } while (dynamicPort == -1);
 
+            //outMsg.print(dynamicPort, 3);
             
             
-            outMsg.print(dynamicPort);
 
             // ServerSocket servsock = new ServerSocket(1718);
             String file = null;
