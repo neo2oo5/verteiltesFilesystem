@@ -15,8 +15,6 @@ import static java.lang.Thread.sleep;
 import java.net.BindException;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
