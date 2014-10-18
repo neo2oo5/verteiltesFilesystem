@@ -39,13 +39,13 @@ public class PingServer
         try
         {
             SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
-            socket.connect(sockaddr, 200);
+            socket.connect(sockaddr, 800);
 
         } catch (IOException ex)
         {
+            out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
             IPList.removeIP(checkIP);
             c.remove(checkIP);
-            out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
             return false;
         }
         /**
