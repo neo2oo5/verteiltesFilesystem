@@ -20,6 +20,10 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+/**
+ *
+ * @author xoxoxo
+ */
 public class ColorPane extends JTextPane {
 
     /**

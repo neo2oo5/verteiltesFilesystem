@@ -24,10 +24,29 @@ import javax.swing.JScrollPane;
  */
 public class GUIOutput extends Output{
     
+    /**
+     *
+     */
     protected static final Color D_Red     = Color.getHSBColor( 0.000f, 1.000f, 0.502f );
+
+    /**
+     *
+     */
     protected static final Color D_Yellow  = Color.getHSBColor( 0.167f, 1.000f, 0.502f );
+
+    /**
+     *
+     */
     protected static final Color D_Green   = Color.getHSBColor( 0.333f, 1.000f, 0.502f );
+
+    /**
+     *
+     */
     protected static final Color D_White   = Color.getHSBColor( 0.000f, 0.000f, 0.753f );
+
+    /**
+     *
+     */
     protected static final Color B_Black   = Color.getHSBColor( 0.000f, 0.000f, 0.502f );
     private List<String> log = Collections.synchronizedList(new ArrayList<String>());
     private List<String> queue = Collections.synchronizedList(new ArrayList<String>());
@@ -45,7 +64,10 @@ public class GUIOutput extends Output{
         private static GUIOutput INSTANCE = new GUIOutput();
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public static GUIOutput getInstance() 
     {
         if(GUIOutputHolder.INSTANCE==null)
@@ -61,17 +83,29 @@ public class GUIOutput extends Output{
         return GUIOutputHolder.INSTANCE;
     }
     
+    /**
+     *
+     * @param e
+     */
     public void setVisible(boolean e)
     {
         f.setVisible(e);
         
     }
     
+    /**
+     *
+     * @param e
+     */
     public void switchOnOff(boolean e)
     {
         visible = e;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean getVisible()
     {
         return visible;
@@ -187,8 +221,10 @@ public class GUIOutput extends Output{
       
     }
     
-   
-   public void refreshGuiLog()
+    /**
+     *
+     */
+    public void refreshGuiLog()
    {
        spane.repaint();
        

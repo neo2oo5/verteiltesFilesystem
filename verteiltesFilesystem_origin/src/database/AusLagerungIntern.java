@@ -26,7 +26,11 @@ public class AusLagerungIntern
       return adresse;
     }
  
-   public String getFileNameWithoutExtension()
+    /**
+     *
+     * @return
+     */
+    public String getFileNameWithoutExtension()
    {
       File file = new File("E:/workspace/Project_SQL_14/test.txt");
       String fileName = file.getName();
@@ -34,8 +38,11 @@ public class AusLagerungIntern
       return fileNameWithoutExtension;
    }
    
-   
-   public String getFileExtension()
+    /**
+     *
+     * @return
+     */
+    public String getFileExtension()
    {
        File file = new File("E:/workspace/Project_SQL_14/test.txt");
        String fileName = file.getName();
@@ -48,7 +55,11 @@ public class AusLagerungIntern
        return extension;
    }
    
-   public String lastModified()
+    /**
+     *
+     * @return
+     */
+    public String lastModified()
    {
        File file = new File("E:/workspace/Project_SQL_14/test.txt");
        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");

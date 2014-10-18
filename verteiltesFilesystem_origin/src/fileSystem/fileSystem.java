@@ -105,6 +105,11 @@ public class fileSystem implements Runnable
          return !file.canWrite();
     }
     
+    /**
+     *
+     * @param Path
+     * @return
+     */
     public boolean isFolerToLarge(String Path)
     {
         int folderSize = new File(Path).list().length;
@@ -242,6 +247,10 @@ public class fileSystem implements Runnable
         return fileSystem.get(find(clients, IP));
     }
     
+    /**
+     *
+     * @param IP
+     */
     public void remove(String IP)
     {
         fileSystem.remove(find(clients, IP));

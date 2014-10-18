@@ -121,6 +121,7 @@ public class DynamicTree extends JPanel
     /**
            * Builds a tree from a given forward slash delimited string.
            * 
+     * @param parent
            * @param str The string to build the tree from
            */
     public void buildTreeFromString(DefaultMutableTreeNode parent, final String str) {
@@ -189,7 +190,12 @@ public class DynamicTree extends JPanel
          return index;
      }
      
-     public void removeOldFsEntrys(List<String> fs, String IP)
+    /**
+     *
+     * @param fs
+     * @param IP
+     */
+    public void removeOldFsEntrys(List<String> fs, String IP)
      {
          
 
@@ -262,6 +268,11 @@ public class DynamicTree extends JPanel
         
      }
      
+    /**
+     *
+     * @param ip
+     * @return
+     */
     public static boolean validIP (String ip) {
         try {
             if (ip == null || ip.isEmpty()) {
@@ -289,6 +300,14 @@ public class DynamicTree extends JPanel
         }
     }
      
+    /**
+     *
+     * @param Node
+     * @param nodeList
+     * @param IP
+     * @param tmp
+     * @return
+     */
     public boolean checkNode(DefaultMutableTreeNode Node, List<DefaultMutableTreeNode> nodeList, String IP, List<String> tmp)
     {
         
@@ -314,8 +333,12 @@ public class DynamicTree extends JPanel
   
     }
     
-    
-     
+    /**
+     *
+     * @param node
+     * @param index
+     * @return
+     */
     public DefaultMutableTreeNode getObjectAtIndex(DefaultMutableTreeNode node, int index)
     {
         if(node.getChildCount() > 0)
@@ -328,12 +351,10 @@ public class DynamicTree extends JPanel
         }
     }
      
-     
-     
-    
-     
-   
-    
+    /**
+     *
+     * @return
+     */
     public TreePath lastOpenedNode()
     {
         
@@ -362,6 +383,9 @@ public class DynamicTree extends JPanel
         
     }
     
+    /**
+     *
+     */
     public void expandtoLastOpenNode() {
         
         if((lastOpenedNode = lastOpenedNode()) != null)
@@ -441,11 +465,19 @@ public class DynamicTree extends JPanel
         return tree;
     }
     
+    /**
+     *
+     * @return
+     */
     public static synchronized DefaultTreeModel getTreeModel()
     {
         return (DefaultTreeModel) tree.getModel();
     }
     
+    /**
+     *
+     * @return
+     */
     public static synchronized DefaultMutableTreeNode getRootNode()
     {
         return rootNode;
@@ -472,7 +504,10 @@ public class DynamicTree extends JPanel
         toolkit.beep();
     }
     
-    
+    /**
+     *
+     * @param ip
+     */
     public void removeOverIP(String ip)
     {
         int childcount = getRootNode().getChildCount();

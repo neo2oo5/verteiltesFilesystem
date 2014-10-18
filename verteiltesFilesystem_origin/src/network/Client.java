@@ -30,6 +30,10 @@ public class Client
 
     static GUIOutput outTxt = GUIOutput.getInstance();
 
+    /**
+     *
+     * @param args
+     */
     public static void client(String[] args)
     {
         /**

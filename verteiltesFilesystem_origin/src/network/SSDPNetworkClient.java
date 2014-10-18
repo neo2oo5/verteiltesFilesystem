@@ -7,6 +7,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import substructure.GUIOutput;
 
+/**
+ *
+ * @author xoxoxo
+ */
 public class SSDPNetworkClient implements Runnable
 {
 

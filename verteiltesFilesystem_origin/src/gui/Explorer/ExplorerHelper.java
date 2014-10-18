@@ -25,6 +25,11 @@ public class ExplorerHelper {
     private static GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
     
+    /**
+     *
+     * @param path
+     * @return
+     */
     public static String getPath(DefaultMutableTreeNode path)
     {
         String jTreeVarSelectedPath = "";
@@ -39,6 +44,11 @@ public class ExplorerHelper {
         return jTreeVarSelectedPath;
     }
     
+    /**
+     *
+     * @param currentNode
+     * @return
+     */
     public static String[] getNetOperationData(DefaultMutableTreeNode currentNode)
     {
         try {
@@ -49,6 +59,12 @@ public class ExplorerHelper {
             return null;
     }
     
+    /**
+     *
+     * @param currentNode
+     * @param targetPath
+     * @return
+     */
     public static String[] getNetOperationData(DefaultMutableTreeNode currentNode, String targetPath)
     {
         String  path    = getPath(currentNode);
@@ -106,11 +122,22 @@ public class ExplorerHelper {
         return   result;
     }
     
+    /**
+     *
+     * @param path
+     * @return
+     */
     public static String convertPath(String path)
     {
        return convertPath(path, false);
     }
     
+    /**
+     *
+     * @param path
+     * @param forDownload
+     * @return
+     */
     public static String convertPath(String path, boolean forDownload)
     {
         String tmps="";

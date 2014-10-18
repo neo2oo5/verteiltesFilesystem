@@ -289,16 +289,28 @@ public class Config
                                 return getPath;
     }
     
-     static public void setCurrentIp(String IP)
+    /**
+     *
+     * @param IP
+     */
+    static public void setCurrentIp(String IP)
     {
         currentIP = IP;
     }
     
+    /**
+     *
+     * @return
+     */
     static public String getCurrentIp()
     {
         return currentIP;
     }
     
+    /**
+     *
+     * @return
+     */
     static public ArrayList<String[]> getIPList()
     {
         ArrayList<String[]> ipList = new ArrayList<>();

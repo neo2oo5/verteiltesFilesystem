@@ -27,12 +27,23 @@ public class fileSystem_Start
     private static FileInputStream input;
     static GUIOutput out = GUIOutput.getInstance();
     static fileSystem c = fileSystem.getInstance();
+
+    /**
+     *
+     */
     public static GUI gUI = null;
+
+    /**
+     *
+     */
     public static boolean Debug   = false; //nur fuer debug
     
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.InterruptedException
+     * @throws java.io.IOException
+     * @throws fileSystem.fileSystemException
      */
     public static void main(String[] args) throws InterruptedException, IOException, fileSystemException
     {

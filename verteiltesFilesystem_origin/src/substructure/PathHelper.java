@@ -21,6 +21,10 @@ public class PathHelper{
     static GUIOutput out =  GUIOutput.getInstance();
     private static String SysDir = System.getProperty("user.dir") + File.separator + "System" + File.separator;
     
+    /**
+     *
+     * @return
+     */
     public static String getOSName()
     {
         String os = System.getProperty("os.name");
@@ -61,7 +65,12 @@ public class PathHelper{
         return null;
     }
     
-    
+    /**
+     *
+     * @param file
+     * @return
+     * @throws fileSystemException
+     */
     public static String getFile(String file) throws fileSystemException
     {  
         Path fPath;
@@ -87,6 +96,12 @@ public class PathHelper{
         
     }
     
+    /**
+     *
+     * @param folder
+     * @return
+     * @throws fileSystemException
+     */
     public static String getFolder(String folder)  throws fileSystemException
     {
         Path fPath;

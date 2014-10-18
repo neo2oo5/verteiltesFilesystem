@@ -35,7 +35,7 @@ public class FiletransferServer
         {
             IPList.InsertIpInList(args[2]);
             out.print("FileTransferServer startet", 1);
-            out.print("port");
+            
             dp.getPort(args[2]);
             
             int index = -1;

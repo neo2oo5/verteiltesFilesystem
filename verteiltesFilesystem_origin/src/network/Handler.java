@@ -156,9 +156,9 @@ public class Handler implements Runnable
                      else if (args[anz].equals("arrangePort"))
                     {
                         DynamicPorts dp = DynamicPorts.getInstance();
-                        String[] ipp = args[2].split(Pattern.quote("."));
+                        String[] ipp = args[1].split(Pattern.quote("."));
                         
-                        outTxT.print(args[2]);
+                        
                         
                         //Bearbeite Anfrage
                         if(ipp[2].length()== 1)
@@ -169,14 +169,14 @@ public class Handler implements Runnable
                                 if(dp.setPort(ipp[0], Integer.valueOf(ipp[1])) != -1 )
                                 {
                                     //sent ok (port nr)
-                                    dp.arrangePort(args[0], ipp[2] + ".11", true);
-                                    outTxT.print("Port " + ipp[2].substring(0, 3) + " wurde zum Transfer vorgeschalgen und aktzeptiert");
+                                    dp.arrangePort(args[0], ipp[1] + ".11", true);
+                                    outTxT.print("Port " + ipp[1] + " wurde zum Transfer vorgeschalgen und aktzeptiert");
                                 }
                                 else
                                 {
                                     //sent -1
-                                    dp.arrangePort(args[0], ipp[2] + ".10", true);
-                                    outTxT.print("Port " + args[2].substring(0, 3) + " wurde abgelehnt da er schon benutzt wird");
+                                    dp.arrangePort(args[0], ipp[1] + ".10", true);
+                                    outTxT.print("Port " + ipp[1] + " wurde abgelehnt da er schon benutzt wird");
 
                                 }
                             }
@@ -189,11 +189,11 @@ public class Handler implements Runnable
                                 if(dp.setPort(ipp[0], Integer.valueOf(ipp[1])) != -1 )
                                 {
                                     //sent ok (port nr)
-                                    outTxT.print("Port " + args[2].substring(0, 3) + " wurde zum Transfer aktzeptiert");
+                                    outTxT.print("Port " + ipp[1] + " wurde zum Transfer aktzeptiert");
                                 }
                                 else
                                 {
-                                    outTxT.print("Port" + args[2].substring(0, 3) + " wurde abgelehnt");
+                                    outTxT.print("Port" + ipp[1] + " wurde abgelehnt");
                                 }
                             }
                         }

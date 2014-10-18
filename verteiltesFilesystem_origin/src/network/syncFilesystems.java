@@ -25,6 +25,9 @@ public class syncFilesystems implements Runnable
     private String fullPath = "", filename = "myFileList.ser";
     private static GUIOutput out = GUIOutput.getInstance();
 
+    /**
+     *
+     */
     public syncFilesystems()
     {
         try

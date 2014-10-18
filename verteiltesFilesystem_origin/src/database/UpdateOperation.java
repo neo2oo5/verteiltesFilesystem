@@ -6,7 +6,12 @@ import java.sql.*;
  */
 public class UpdateOperation
 {
-  public static void main( String args[] )
+
+    /**
+     *
+     * @param args
+     */
+    public static void main( String args[] )
   {
     Connection c;
     Statement stmt;

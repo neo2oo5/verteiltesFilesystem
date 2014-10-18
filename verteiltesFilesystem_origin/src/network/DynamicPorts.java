@@ -30,6 +30,10 @@ public class DynamicPorts {
     private DynamicPorts() {
     }
     
+    /**
+     *
+     * @return
+     */
     public static DynamicPorts getInstance() {
         return DynamicPortsHolder.INSTANCE;
     }
@@ -56,6 +60,12 @@ public class DynamicPorts {
         
     }
     
+    /**
+     *
+     * @param ident
+     * @param port
+     * @return
+     */
     public static int setPort(String ident, int port)
     {
         boolean trigger = true;
@@ -82,6 +92,11 @@ public class DynamicPorts {
         return findPort(port);
     }
     
+    /**
+     *
+     * @param port
+     * @return
+     */
     public static int findPort(int port)
     {
         int index = -1;
@@ -99,6 +114,11 @@ public class DynamicPorts {
         
     }
     
+    /**
+     *
+     * @param Ident
+     * @return
+     */
     public static int findIdent(String Ident)
     {
         int index = -1;
@@ -115,12 +135,23 @@ public class DynamicPorts {
         return index;
         
     }
+
+    /**
+     *
+     * @param index
+     * @return
+     */
     public static String getPortbyIndex(int index)
     {
         String[] tmp = ports.get(index);
         return tmp[1];
     }
     
+    /**
+     *
+     * @param IPto
+     * @return
+     */
     public static int getPort(String IPto)
     {
         arrangePort(IPto, String.valueOf(generatingPort())+".1");
@@ -128,24 +159,42 @@ public class DynamicPorts {
         
     }
     
+    /**
+     *
+     * @param IP
+     * @return
+     */
     public static String getIdentbyString(String IP)
     {
-        return IP.substring(IP.lastIndexOf("."), IP.length());
+        return IP.substring(IP.lastIndexOf(".") + 1, IP.length());
     }
     
-    
-    
+    /**
+     *
+     * @param port
+     */
     public static void releasePort(int port)
     {
         ports.remove(port);
     }
     
+    /**
+     *
+     * @param IPv4to
+     * @param Port
+     */
     public static void arrangePort(String IPv4to, String Port)
     {
             arrangePort(IPv4to, Port, false);
     
     }
     
+    /**
+     *
+     * @param IPv4to
+     * @param Port
+     * @param back
+     */
     public static void arrangePort(String IPv4to, String Port, boolean back)
     {
         try {

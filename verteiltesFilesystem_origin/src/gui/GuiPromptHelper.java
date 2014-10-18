@@ -16,11 +16,29 @@ import javax.swing.*;
 public class GuiPromptHelper
 {
   
-
+    /**
+     *
+     */
     final public static int showInformation     = 1;
+
+    /**
+     *
+     */
     final public static int showWarning         = 2;
+
+    /**
+     *
+     */
     final public static int showError           = 3;
+
+    /**
+     *
+     */
     final public static int showQuestion        = 4;
+
+    /**
+     *
+     */
     final public static int showInput        = 5;
     private String input="";
     

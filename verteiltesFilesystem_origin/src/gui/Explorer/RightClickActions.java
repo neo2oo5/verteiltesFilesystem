@@ -26,6 +26,11 @@ public class RightClickActions {
             fsDownloadMSG = "Ein FileSystem kann nicht gedownloadet werden.",
             fsDeleteMSG = "Ein FileSystem kann nicht geloescht werden.";
     
+    /**
+     *
+     * @param currentNode
+     * @param args
+     */
     public static void FileDownload(DefaultMutableTreeNode currentNode, String[] args)
     {
         out.print("download");
@@ -51,6 +56,11 @@ public class RightClickActions {
                     }
     }
     
+    /**
+     *
+     * @param currentNode
+     * @param args
+     */
     public static void FileCreate(DefaultMutableTreeNode currentNode, String[] args)
     {
         MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
@@ -95,6 +105,11 @@ public class RightClickActions {
                         }
     }
     
+    /**
+     *
+     * @param currentNode
+     * @param args
+     */
     public static void FileRename(DefaultMutableTreeNode currentNode, String[] args)
     {
                         System.out.print("rename");
@@ -121,6 +136,11 @@ public class RightClickActions {
                         }
     }
     
+    /**
+     *
+     * @param currentNode
+     * @param args
+     */
     public static void FileDelete(DefaultMutableTreeNode currentNode, String[] args)
     {
         if (currentNode.isLeaf() == true)

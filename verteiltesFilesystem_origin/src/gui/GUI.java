@@ -51,6 +51,9 @@ public class GUI extends javax.swing.JFrame
         
     }
 
+    /**
+     *
+     */
     public void setOnOffState()
     {
         try

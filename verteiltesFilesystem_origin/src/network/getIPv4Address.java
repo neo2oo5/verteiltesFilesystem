@@ -22,6 +22,10 @@ import java.util.Collections;
 import java.util.Enumeration;
 import substructure.GUIOutput;
 
+/**
+ *
+ * @author xoxoxo
+ */
 public class getIPv4Address
 {
 

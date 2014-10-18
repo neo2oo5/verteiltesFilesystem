@@ -26,11 +26,19 @@ public class FiletransferClient
     static DynamicPorts dp = DynamicPorts.getInstance();
     static boolean transferReady = false;
 
+    /**
+     *
+     * @return
+     */
     public static boolean isTransferReady()
     {
         return transferReady;
     }
 
+    /**
+     *
+     * @param transferReady
+     */
     public static void setTransferReady(boolean transferReady)
     {
         FiletransferClient.transferReady = transferReady;
@@ -48,11 +56,7 @@ public class FiletransferClient
         BufferedOutputStream bos = null;
         Socket sock = null;
         
-        for(String arg: args)
-            {
-                
-                out.print(arg, 2);
-            }
+        
         try
         {   
         

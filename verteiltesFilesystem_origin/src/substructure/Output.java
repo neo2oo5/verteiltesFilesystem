@@ -25,19 +25,55 @@ public class Output
         * Ein wenig Farbe fuer den Terminal
         *
         */
+
+    /**
+     *
+     */
+    
     protected String Logfile                   = "log.txt";
+
+    /**
+     *
+     */
     protected PrintStream orig                 = System.out;
+
+    /**
+     *
+     */
     protected static final String ANSI_BLACK   = "\u001B[30m";
+
+    /**
+     *
+     */
     protected static final String ANSI_WHITE   = "\u001B[37m";
+
+    /**
+     *
+     */
     protected static final String ANSI_RED     = "\u001B[31m";
+
+    /**
+     *
+     */
     protected static final String ANSI_GREEN   = "\u001B[32m";
+
+    /**
+     *
+     */
     protected static final String ANSI_YELLOW  = "\u001B[33m";
    
+    /**
+     *
+     */
     public Output()
     {
         
     }
     
+    /**
+     *
+     * @param msg
+     */
     public Output(Object msg)
     {
         setLogfile();
@@ -47,6 +83,11 @@ public class Output
         print(msg);
     }
     
+    /**
+     *
+     * @param msg
+     * @param modelevel
+     */
     public Output(Object msg, int modelevel)
     {
         setLogfile();
@@ -56,11 +97,17 @@ public class Output
         print(msg, modelevel);
     }
     
+    /**
+     *
+     */
     protected void setStdout()
     {
         System.setOut(orig);
     }
     
+    /**
+     *
+     */
     protected void setLogfile()
     {
         try{   
@@ -72,13 +119,20 @@ public class Output
         }  
     }
     
-    
-    
+    /**
+     *
+     * @param msg
+     */
     public  void print(Object msg)
     {
         print(msg, 1);
     }
     
+    /**
+     *
+     * @param msg
+     * @param modelevel
+     */
     public  void print(Object msg, int modelevel)
     {
         int debug = 0;
@@ -130,6 +184,12 @@ public class Output
         
     }
     
+    /**
+     *
+     * @param msg
+     * @param mode
+     * @param debug
+     */
     public void out(Object msg, int mode, int debug)
     {
          String print = "";

@@ -12,6 +12,11 @@ package database;
  */
 public class EingehendNetzwerk
 {
+
+    /**
+     *
+     * @return
+     */
     public String getIp()
     {
         //DAVIDS FUNKTION AUFRUFEN !!!!! NOCH EINZUBAUEN

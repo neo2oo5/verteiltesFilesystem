@@ -37,6 +37,10 @@ public class RightClickMenu
     private JMenuItem menuItemFileDownload, menuItemFileDelete, menuItemFileCreate, menuItemFileRename;
     private GUIOutput out = GUIOutput.getInstance();
 
+    /**
+     *
+     * @param e
+     */
     public RightClickMenu(MouseEvent e)
     {
         popup = new JPopupMenu();

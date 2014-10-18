@@ -8,7 +8,12 @@ import java.sql.*;
  */
 
 public class Join {
-public static void main(String args[]) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String args[]) {
     
     Statement stmt;
     

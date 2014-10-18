@@ -58,6 +58,7 @@ public class StartClientServer
 
     /**
      * class to start the server
+     * @return 
      */
     public static Thread startServer()
     {
@@ -69,6 +70,8 @@ public class StartClientServer
 
     /**
      * class to start a client
+     * @param args
+     * @return 
      */
     public static Thread startClient(String args[])
     {

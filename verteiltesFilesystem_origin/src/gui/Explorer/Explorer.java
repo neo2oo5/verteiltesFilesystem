@@ -34,7 +34,6 @@ public class Explorer
     /**
      *
      * @param Pane
-     * @return
      */
     public Explorer(javax.swing.JTabbedPane Pane)
     {   
@@ -72,8 +71,9 @@ public class Explorer
        
     }
     
-    
-    
+    /**
+     *
+     */
     public static synchronized void initExplorerTree() 
    {
        
