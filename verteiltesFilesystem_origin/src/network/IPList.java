@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -65,7 +66,7 @@ public class IPList
                 synchronized (fw)
                 {
                     fw.write(IPtoInsert);
-                    fw.newLine();
+                    fw.write(LineSeperator());
                     fw.flush();
                     //writer.write(System.getProperty("line.separator"));
                 }
@@ -152,7 +153,7 @@ public class IPList
             for (String ip : IPList)
             {
                 fw.write(ip);
-                fw.newLine();
+                fw.write(LineSeperator());
                 fw.flush();
             }
 
@@ -244,6 +245,23 @@ public class IPList
             out.print("(replaceIP) " + ex.toString(), 3);
         }
         return Collections.synchronizedList(IPList);
+    }
+
+    public static String LineSeperator()
+    {
+        String os = substructure.PathHelper.getOSName();
+        if (os.contains("Linux"))
+        {
+            return Pattern.quote("\r");
+        } else if (os.contains("Mac"))
+        {
+
+            return Pattern.quote("\r");
+        } else if (os.contains("Windows"))
+        {
+            return Pattern.quote("\n");
+        }
+        return "";
     }
 
 }
