@@ -8,6 +8,7 @@ package network;
 import gui.Config;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,7 @@ import substructure.GUIOutput;
 public class DynamicPorts {
     
     
-    private static List<String[]> ports         = new ArrayList<>();
+    private static final List<String[]> ports  = Collections.synchronizedList(new ArrayList<String[]>());
     private static int portRangeMax            = 1750;
     private static int portRangeMin            = 1720;
     private static int index                   = -1;
@@ -34,7 +35,7 @@ public class DynamicPorts {
      *
      * @return
      */
-    public static DynamicPorts getInstance() {
+    public synchronized static DynamicPorts getInstance() {
         return DynamicPortsHolder.INSTANCE;
     }
     
@@ -43,7 +44,7 @@ public class DynamicPorts {
         private static final DynamicPorts INSTANCE = new DynamicPorts();
     }
     
-    private static int generatingPort()
+    private synchronized static int generatingPort()
     {
         
         int rand=0;
@@ -66,7 +67,7 @@ public class DynamicPorts {
      * @param port
      * @return
      */
-    public static int setPort(String ident, int port)
+    public synchronized static int setPort(String ident, int port)
     {
         boolean trigger = true;
         String[] tmp = new String[2];
@@ -97,7 +98,7 @@ public class DynamicPorts {
      * @param port
      * @return
      */
-    public static int findPort(int port)
+    public synchronized static int findPort(int port)
     {
         int index = -1;
         
@@ -119,20 +120,28 @@ public class DynamicPorts {
      * @param Ident
      * @return
      */
-    public static int findIdent(String Ident)
+    public synchronized static int findIdent(String Ident)
     {
-        int index = -1;
+        
+        String[] returnS =null;
         
         for(String[] p: ports)
         {
             if(p[0].equals(String.valueOf(Ident)))
             {
-                index = ports.indexOf(p);
+                returnS = p;
             }
             
         }
         
-        return index;
+        if(returnS != null)
+        {
+            return Integer.valueOf(returnS[1]);
+        }
+        else
+        {
+            return -1;
+        }
         
     }
 
@@ -141,10 +150,16 @@ public class DynamicPorts {
      * @param index
      * @return
      */
-    public static String getPortbyIndex(int index)
+    public synchronized static String getPortbyIndex(int index)
     {
-        String[] tmp = ports.get(index);
-        return tmp[1];
+        if(ports.size() > 0)
+        {
+            String[] tmp = ports.get(index);
+            return tmp[1];
+        }
+        
+        return null;
+        
     }
     
     /**
@@ -152,10 +167,10 @@ public class DynamicPorts {
      * @param IPto
      * @return
      */
-    public static int getPort(String IPto)
+    public synchronized static int getPort(String IPto)
     {
         arrangePort(IPto, String.valueOf(generatingPort())+".1");
-        return findIdent(getIdentbyString(IPto));
+        return Integer.valueOf(findIdent(getIdentbyString(IPto)));
         
     }
     
@@ -164,7 +179,7 @@ public class DynamicPorts {
      * @param IP
      * @return
      */
-    public static String getIdentbyString(String IP)
+    public synchronized static String getIdentbyString(String IP)
     {
         return IP.substring(IP.lastIndexOf(".") + 1, IP.length());
     }
@@ -173,9 +188,19 @@ public class DynamicPorts {
      *
      * @param port
      */
-    public static void releasePort(int port)
+    public synchronized static void releasePort(int port)
     {
-        ports.remove(port);
+        
+        for(int i = 0; i < ports.size(); i++)
+        {
+            String[] tmp = ports.get(i);
+            if(tmp[1].equals(String.valueOf(port)))
+            {
+                ports.remove(tmp);
+            }
+
+        }
+        
     }
     
     /**
@@ -183,7 +208,7 @@ public class DynamicPorts {
      * @param IPv4to
      * @param Port
      */
-    public static void arrangePort(String IPv4to, String Port)
+    public synchronized static void arrangePort(String IPv4to, String Port)
     {
             arrangePort(IPv4to, Port, false);
     
@@ -195,7 +220,7 @@ public class DynamicPorts {
      * @param Port
      * @param back
      */
-    public static void arrangePort(String IPv4to, String Port, boolean back)
+    public synchronized static void arrangePort(String IPv4to, String Port, boolean back)
     {
         try {
             boolean kicked = CheckKicked.checkKicked();
