@@ -5,6 +5,7 @@
  */
 package network;
 
+import fileSystem.fileSystem;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -19,6 +20,7 @@ import substructure.GUIOutput;
 public class PingServer
 {
     static GUIOutput out = GUIOutput.getInstance();
+    static fileSystem c = fileSystem.getInstance();
     
     /**
      *
@@ -41,7 +43,9 @@ public class PingServer
 
         } catch (IOException ex)
         {
-            //   out.print("(CheckWhoIsOnline_old - PingServer) : " + ex.toString(), 2);
+            IPList.removeIP(checkIP);
+            c.remove(checkIP);
+            out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfern, nicht erreichbar!", 1);
             return false;
         }
         /**
