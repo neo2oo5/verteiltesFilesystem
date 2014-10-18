@@ -119,10 +119,10 @@ public class FiletransferServer
         {
             try
             {
-                out.close();
-                fis.close();
-                bis.close();
-                sock.close();
+                if(out != null) out.close();
+                if(fis != null) fis.close();
+                if(bis != null) bis.close();
+                if(sock != null) sock.close();
             } catch (IOException ex)
             {
                 Logger.getLogger(FiletransferServer.class.getName()).log(Level.SEVERE, null, ex);
