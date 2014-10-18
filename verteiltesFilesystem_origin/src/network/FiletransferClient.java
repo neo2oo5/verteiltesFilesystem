@@ -55,23 +55,30 @@ public class FiletransferClient
         out.print("FileTransferClient Startet", 1);
         BufferedOutputStream bos = null;
         Socket sock = null;
-        
-        
+
         try
-        {   
-        
+        {
+
             String targetPath = PathHelper.getFile("Downloads");
             targetPath += File.separator;
             int fs = Integer.parseInt(args[1]);
             //sock = new Socket(args[2], 1718);
             sock = new Socket(args[2], Integer.valueOf(args[3]));
+            sock.setSoTimeout(25000);
             byte[] mybytearray = new byte[fs];
             InputStream is = sock.getInputStream();
             File path = new File(targetPath + args[0]);
             FileOutputStream fos = new FileOutputStream(path);
             bos = new BufferedOutputStream(fos);
-            int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-            bos.write(mybytearray, 0, bytesRead);
+            int bytesRead = 0;
+            int bytesReadOld = 0;
+            do
+            {
+                bytesRead = is.read(mybytearray, bytesRead, mybytearray.length);
+                bos.write(mybytearray, bytesReadOld, bytesRead);
+                bos.flush();
+                bytesReadOld = bytesRead;
+            } while (bytesRead < mybytearray.length);
 
         } catch (IOException ex)
         {
