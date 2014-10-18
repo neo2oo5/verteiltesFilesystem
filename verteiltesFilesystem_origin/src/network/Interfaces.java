@@ -46,7 +46,6 @@ public class Interfaces
             out.print("Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
-            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
             String IPv4target = null;
@@ -101,7 +100,6 @@ public class Interfaces
             out.print("(Interface - FileRename) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
-            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
             /* interface to rename a file with the necessary values */
@@ -140,7 +138,6 @@ public class Interfaces
             out.print("(Interface - FileDelete) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
-            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
             /**
@@ -174,7 +171,6 @@ public class Interfaces
             out.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
-            out.print("IP " + IPv4 + "zur Zeit nicht erreichbar!", 3);
         } else
         {
             /**
