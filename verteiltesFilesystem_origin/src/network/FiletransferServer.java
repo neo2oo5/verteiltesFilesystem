@@ -125,7 +125,7 @@ public class FiletransferServer
                 if(sock != null) sock.close();
             } catch (IOException ex)
             {
-                Logger.getLogger(FiletransferServer.class.getName()).log(Level.SEVERE, null, ex);
+                outMsg.print("(FileTransferServer) " + ex.toString(), 3);
             }
 
         }
