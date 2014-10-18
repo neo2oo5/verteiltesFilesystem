@@ -55,12 +55,18 @@ public class FiletransferClient
      */
     public static boolean FileTransferClient(String[] args)
     {
+        ServerSocket serverSocket = null;
+        Socket socket = null;
+        InputStream is = null;
+        FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
+
+        
         try
         {
             setTransferReady(false);
             out.print("FileTransferClient Startet", 1);
-            ServerSocket serverSocket = null;
-
+            
             try
             {
                 serverSocket = new ServerSocket(Integer.valueOf(args[3]));
@@ -69,12 +75,12 @@ public class FiletransferClient
                 System.out.println("Can't setup server on this port number. ");
             }
 
-            Socket socket = null;
-            InputStream is = null;
-            FileOutputStream fos = null;
-            BufferedOutputStream bos = null;
+            
+            
             int bufferSize = 0;
 
+            
+            
             try
             {
                 socket = serverSocket.accept();
@@ -119,15 +125,38 @@ public class FiletransferClient
             }
 
             bos.flush();
-            bos.close();
-            is.close();
-            socket.close();
-            serverSocket.close();
-            setTransferReady(true);
+           
             return true;
         } catch (IOException ex)
         {
             out.print("--- Fehler Fileclient --- " + ex.toString(), 3);
+        }
+        finally{
+            try {
+                if(bos != null)
+                {
+                    bos.close();
+                }
+                else if (is != null)
+                {
+                    is.close();
+                }
+                else if (socket != null)
+                {
+                    socket.close();
+                }
+                else if (serverSocket != null)
+                {
+                    serverSocket.close();
+                }
+                
+                
+                
+               
+                setTransferReady(true);
+            } catch (IOException ex) {
+                Logger.getLogger(FiletransferClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return false;
     }
