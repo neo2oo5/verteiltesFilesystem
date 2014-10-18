@@ -252,14 +252,14 @@ public class IPList
         String os = substructure.PathHelper.getOSName();
         if (os.contains("Linux"))
         {
-            return Pattern.quote("\r");
+            return "\r";
         } else if (os.contains("Mac"))
         {
 
-            return Pattern.quote("\r");
+            return "\r";
         } else if (os.contains("Windows"))
         {
-            return Pattern.quote("\n");
+            return "\r\n";
         }
         return "";
     }
