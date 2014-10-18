@@ -12,8 +12,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import static java.lang.Thread.sleep;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -36,20 +39,19 @@ public class FiletransferServer
         {
             IPList.InsertIpInList(args[2]);
             out.print("FileTransferServer startet", 1);
-            
+
             dp.getPort(args[2]);
-            
+
             int index = -1;
             do
             {
                 index = dp.findIdent(dp.getIdentbyString(args[2]));
-            }while(index == -1);
-            
+            } while (index == -1);
+
             int dynamicPort = Integer.valueOf(dp.getPortbyIndex(index));
             out.print(dynamicPort);
-            
-           // ServerSocket servsock = new ServerSocket(1718);
-            Socket sock = new Socket(args[2], dynamicPort);
+
+            // ServerSocket servsock = new ServerSocket(1718);
             String file = null;
             try
             {
@@ -62,9 +64,9 @@ public class FiletransferServer
                 }
             } catch (fileSystemException ex)
             {
-                out.print("(FileTransferServer) " + ex, 2);
+                out.print("(FileTransferServer) -" + ex.toString(), 2);
             }
-            
+
             //starte Client und gib file grÃ¶ÃŸe mit
             File myFile = new File(file);
             int fsi = (int) myFile.length();
@@ -78,18 +80,18 @@ public class FiletransferServer
             argsClient[3] = args[4]; // ip Server
             argsClient[4] = String.valueOf(dynamicPort);
             argsClient[5] = "FileTransferClient";
-            
+
             StartClientServer.startClient(argsClient);
-            
-            
+
             // Get the size of the file
+            sleep(1000);
+            Socket sock = new Socket(args[2], dynamicPort);
             int bufferSize = sock.getReceiveBufferSize();
-            
-            
-            
+
 //                  // Get the size of the file
             long length = myFile.length();
-            if (length > Integer.MAX_VALUE) {
+            if (length > Integer.MAX_VALUE)
+            {
                 System.out.println("File is too large.");
             }
             byte[] bytes = new byte[(int) length];
@@ -99,14 +101,22 @@ public class FiletransferServer
 
             int count;
 
-            while ((count = bis.read(bytes)) > 0) {
+            while ((count = bis.read(bytes)) > 0)
+            {
                 out.write(bytes, 0, count);
             }
 
             out.flush();
+            out.close();
+            fis.close();
+            bis.close();
+            sock.close();
         } catch (IOException ex)
         {
             out.print("(FileTransferServer) " + ex.toString(), 3);
+        } catch (InterruptedException ex)
+        {
+            Logger.getLogger(FiletransferServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

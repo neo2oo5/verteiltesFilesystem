@@ -63,7 +63,7 @@ public class FiletransferClient
 
             try
             {
-                serverSocket = new ServerSocket(Integer.parseInt(args[3]));
+                serverSocket = new ServerSocket(Integer.valueOf(args[3]));
             } catch (IOException ex)
             {
                 System.out.println("Can't setup server on this port number. ");
