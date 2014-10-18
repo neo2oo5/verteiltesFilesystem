@@ -180,39 +180,10 @@ public class IPList
      */
     public static synchronized void replaceIP(String searchedIP, String toReplaceIP)
     {
-        FileWriter writer = null;
-        try
-        {
+        List<String> IPList = getIPList();
 
-            List<String> IPList = getIPList();
-
-            IPList.add(toReplaceIP);
-            IPList.remove(searchedIP);
-
-            ipListPath = GetIPListPath();
-            File file = new File(ipListPath);
-            writer = new FileWriter(file, false);
-
-            for (String ip : IPList)
-            {
-                writer.write(ip);
-            }
-
-        } catch (IOException ex)
-        {
-            out.print(ex.toString());
-
-        } finally
-        {
-            try
-            {
-                writer.close();
-
-            } catch (IOException ex)
-            {
-                out.print(ex.toString());
-            }
-        }
+        IPList.add(toReplaceIP);
+        IPList.remove(searchedIP);
 
     }
 
