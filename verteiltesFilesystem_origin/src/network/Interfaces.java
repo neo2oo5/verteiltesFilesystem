@@ -8,6 +8,7 @@ package network;
 /**
  * Used Libraries
  */
+import fileSystem.fileSystem;
 import gui.Config;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -24,6 +25,7 @@ public class Interfaces
 
     // attr.
     static GUIOutput out = GUIOutput.getInstance();
+    static fileSystem c = fileSystem.getInstance();
 
     /**
      *
@@ -291,6 +293,7 @@ public class Interfaces
         try
         {
             AdminPannel.adminKickUser(ipToKick);
+            c.remove(ipToKick);
         } catch (IOException ex)
         {
             out.print("(Interface - AdminKickUser) : " + ex.toString(), 2);
