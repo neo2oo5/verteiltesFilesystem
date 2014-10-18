@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.tree.DefaultMutableTreeNode;
+import network.PingServer;
 import substructure.GUIOutput;
 import substructure.PathHelper;
 
@@ -72,54 +73,60 @@ public class ExplorerHelper {
         
             
         result[0]  = path.substring(0, path.indexOf(File.separator)); //IP
-        List<Path>  fs  =  c.get(result[0]);
-        result[1]  = path.substring(path.lastIndexOf(File.separator)+1, path.length()); //filename
-        
-        result[3]  = targetPath; //targetPath
-        
-        for(Path pathfs: fs)
+        if(PingServer.PingServer(result[0]))
         {
-            
-            if(pathfs.toString().contains(result[1]))
+            List<Path>  fs  =  c.get(result[0]);
+            result[1]  = path.substring(path.lastIndexOf(File.separator)+1, path.length()); //filename
+
+            result[3]  = targetPath; //targetPath
+
+            for(Path pathfs: fs)
             {
-                System.out.print("Path befor: "+pathfs.toString()+"\n");
-                
-                
-                result[2] = convertPath(pathfs.toString(), true);
-                 
-                System.out.print("Path after convert: "+result[2]+"\n");
 
-                //linux
-                int index = result[2].lastIndexOf("/");
-                String os = "linux";
-
-                //try if win
-                if(index == -1)
+                if(pathfs.toString().contains(result[1]))
                 {
-                    index   = result[2].lastIndexOf("\\");
-                    os      = "win";
-                }
+                    System.out.print("Path befor: "+pathfs.toString()+"\n");
 
 
-                if(index != -1)
-                {
-                    if(os.equals("linux"))
+                    result[2] = convertPath(pathfs.toString(), true);
+
+                    System.out.print("Path after convert: "+result[2]+"\n");
+
+                    //linux
+                    int index = result[2].lastIndexOf("/");
+                    String os = "linux";
+
+                    //try if win
+                    if(index == -1)
                     {
-                        result[2]  = result[2].substring(0, index)+"/";
+                        index   = result[2].lastIndexOf("\\");
+                        os      = "win";
                     }
-                    else if(os.equals("win"))
+
+
+                    if(index != -1)
                     {
-                        result[2]  = result[2].substring(0, index)+"\\";
+                        if(os.equals("linux"))
+                        {
+                            result[2]  = result[2].substring(0, index)+"/";
+                        }
+                        else if(os.equals("win"))
+                        {
+                            result[2]  = result[2].substring(0, index)+"\\";
+                        }
                     }
+
+                    System.out.print("Path: "+result[2]+"\n");
+
+
                 }
-                
-                System.out.print("Path: "+result[2]+"\n");
-                     
-                
             }
+            return   result;
         }
         
-        return   result;
+        return null;
+        
+        
     }
     
     /**
