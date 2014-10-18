@@ -327,7 +327,7 @@ public class fileSystem implements Runnable
                 out.print("(fileSystem - OutGoingList) : " + ex.toString(), 3);
             }
         }
-        out.print("myFile.ser erfolgreich erstellt");
+      //  out.print("myFile.ser erfolgreich erstellt");
         return output;
     } 	
 	

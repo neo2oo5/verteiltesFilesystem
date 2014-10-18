@@ -64,7 +64,12 @@ public class Interfaces
                     args[4] = clientFilename;
                     args[5] = IPv4;
                     args[6] = doWhat;
-                    StartClientServer.startClient(args);
+                    Thread client = StartClientServer.startClient(args);
+                    
+                    do{
+                        Thread.sleep(500);
+                    }while(client.isAlive());
+                    
                     return true;
 
                 } catch (Exception ex)

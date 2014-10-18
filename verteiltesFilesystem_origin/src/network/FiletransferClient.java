@@ -23,6 +23,7 @@ public class FiletransferClient
 {
 
     static GUIOutput out = GUIOutput.getInstance();
+    static DynamicPorts dp = DynamicPorts.getInstance();
     static boolean transferReady = true;
 
     public static boolean isTransferReady()
@@ -47,11 +48,15 @@ public class FiletransferClient
         BufferedOutputStream bos = null;
         Socket sock = null;
         try
-        {
+        {   for(String arg: args)
+            {
+                System.out.print(arg);
+            }
             String targetPath = PathHelper.getFile("Downloads");
             targetPath += File.separator;
             int fs = Integer.parseInt(args[1]);
-            sock = new Socket(args[2], 1718);
+            //sock = new Socket(args[2], 1718);
+            sock = new Socket(args[2], Integer.valueOf(args[4]));
             byte[] mybytearray = new byte[fs];
             InputStream is = sock.getInputStream();
             File path = new File(targetPath + args[0]);

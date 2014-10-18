@@ -23,6 +23,7 @@ public class FiletransferServer
 {
 
     static GUIOutput out = GUIOutput.getInstance();
+    static DynamicPorts dp = DynamicPorts.getInstance();
 
     /**
      *
@@ -34,7 +35,11 @@ public class FiletransferServer
         {
             IPList.InsertIpInList(args[2]);
             out.print("FileTransferServer startet", 1);
-            ServerSocket servsock = new ServerSocket(1718);
+            out.print("port");
+            int dynamicPort = dp.getPort();
+            out.print(dynamicPort);
+           // ServerSocket servsock = new ServerSocket(1718);
+            ServerSocket servsock = new ServerSocket(dynamicPort);
             String file = null;
             try
             {
@@ -49,17 +54,20 @@ public class FiletransferServer
             {
                 out.print("(FileTransferServer) " + ex, 2);
             }
+            
+            //starte Client und gib file größe mit
             File myFile = new File(file);
             int fsi = (int) myFile.length();
             StringBuilder sb = new StringBuilder();
             sb.append(fsi);
             String strI = sb.toString();
-            String[] argsClient = new String[5];
+            String[] argsClient = new String[6];
             argsClient[0] = args[2]; // IP Client
             argsClient[1] = args[3]; // neuerName
             argsClient[2] = strI; // größe datei
             argsClient[3] = args[4]; // ip Server
             argsClient[4] = "FileTransferClient";
+            argsClient[5] = String.valueOf(dynamicPort);
             StartClientServer.startClient(argsClient);
             boolean transfer = true;
             while (transfer)

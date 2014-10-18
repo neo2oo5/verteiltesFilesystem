@@ -8,8 +8,11 @@ package network;
 import fileSystem.fileSystem;
 import fileSystem.fileSystemException;
 import gui.Config;
+import java.io.File;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -69,6 +72,15 @@ public class syncFilesystems implements Runnable
             {
                 if (Interfaces.interfaceFileTransfer(IP, null, filename, "inComingList.ser"))
                 {
+                    do
+                    {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(syncFilesystems.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    }while( FiletransferClient.isTransferReady() != true);
                     trigger = false;
                 }
 

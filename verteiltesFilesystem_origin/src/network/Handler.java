@@ -153,6 +153,53 @@ public class Handler implements Runnable
                         IPList.InsertIpInList(args[0]);
                         outTxT.print("(Handler) newClient eintrag: " + args[0]);
                     }
+                     else if (args[anz].equals("arrangePort"))
+                    {
+                        DynamicPorts dp = DynamicPorts.getInstance();
+                        
+                        //Bearbeite Anfrage
+                        if(args[2].length()== 5)
+                        {
+                            if(args[2].codePointAt(4) == 1)
+                            {
+
+                                if(dp.setPort(Integer.valueOf(args[2].substring(0, 3))) != -1 )
+                                {
+                                    //sent ok (port nr)
+                                    dp.arrangePort(args[0], args[2] + "1", true);
+                                    outTxT.print("Port " + args[2].substring(0, 3) + " wurde zum Transfer vorgeschalgen und aktzeptiert");
+                                }
+                                else
+                                {
+                                    //sent -1
+                                    dp.arrangePort(args[0], args[2] + "0", true);
+                                    outTxT.print("Port " + args[2].substring(0, 3) + " wurde abgelehnt da er schon benutzt wird");
+
+                                }
+                            }
+                        }
+                        // Bearbeite Antwort
+                        else if(args[2].length()== 6)
+                        {
+                            if(args[2].codePointAt(5) == 1)
+                            {
+                                if(dp.setPort(Integer.valueOf(args[2].substring(0, 3))) != -1 )
+                                {
+                                    //sent ok (port nr)
+                                    outTxT.print("Port " + args[2].substring(0, 3) + " wurde zum Transfer aktzeptiert");
+                                }
+                                else
+                                {
+                                    outTxT.print("Port" + args[2].substring(0, 3) + " wurde abgelehnt");
+                                }
+                            }
+                        }
+                        
+                        
+                                
+                        
+                        outTxT.print("(Handler) Port wird mit Client ausgehandel: " + args[0]);
+                    }
                 }
                 reader.close();
                 writer.close();

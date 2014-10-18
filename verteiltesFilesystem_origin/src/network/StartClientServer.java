@@ -59,18 +59,22 @@ public class StartClientServer
     /**
      * class to start the server
      */
-    public static void startServer()
+    public static Thread startServer()
     {
-        new Thread(new StartServer()).start();
+        Thread server = new Thread(new StartServer());
+        server.start();
+        return server;
 
     }
 
     /**
      * class to start a client
      */
-    public static void startClient(String args[])
+    public static Thread startClient(String args[])
     {
-        new Thread(new StartClient(args)).start();
+        Thread client = new Thread(new StartClient(args));
+        client.start();
+        return client;
     }
 
 }
