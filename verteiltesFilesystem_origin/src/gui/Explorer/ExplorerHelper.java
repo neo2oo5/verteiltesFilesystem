@@ -156,7 +156,7 @@ public class ExplorerHelper {
                     else
                     {
                         //fuer jtree
-                        if(PathHelper.getOSName() == "Linux")
+                        if(PathHelper.getOSName() == "Linux" || PathHelper.getOSName() == "Mac")
                         {
                             tmps = path.replace("\\", "/");
                         }
