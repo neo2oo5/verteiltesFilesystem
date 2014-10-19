@@ -44,7 +44,7 @@ public class PingServer
             {
                 SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
                 socket.connect(sockaddr, 1000);
-
+                chk = true;
             } catch (IOException ex)
             {
                 chk = false;
@@ -53,6 +53,7 @@ public class PingServer
                 {
                     out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
                     IPList.removeIP(checkIP);
+                    counter = 0;
                     return false;
                 }
             }
