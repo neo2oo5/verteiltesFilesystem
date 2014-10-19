@@ -89,7 +89,6 @@ public class FiletransferClient
             is = socket.getInputStream();
 
             bufferSize = socket.getReceiveBufferSize();
-            System.out.println("Buffer size: " + bufferSize);
             String targetPath = PathHelper.getFile("Downloads");
             targetPath += File.separator;
             fos = new FileOutputStream(targetPath + args[0]);
@@ -109,11 +108,9 @@ public class FiletransferClient
         } catch (IOException ex)
         {
             out.print("(Filetransfer - Client) " + ex.toString(), 3);
-            ex.printStackTrace();
         } catch (fileSystemException ex)
         {
             out.print("(Filetransfer - Client) " + ex.toString(), 3);
-            ex.printStackTrace();
         } finally
         {
             try
@@ -138,7 +135,6 @@ public class FiletransferClient
             } catch (IOException ex)
             {
             out.print("(Filetransfer - Client) " + ex.toString(), 3);
-            ex.printStackTrace();
             }
         }
         return false;

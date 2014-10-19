@@ -124,6 +124,7 @@ public class Handler implements Runnable
                     {
                         outTxT.print("(Handler) AdminMessage: " + args[0], 1);
                         if(args[0].equals("Admin Logged out!")) AdminPannel.setLoggedin(false);
+                        else if(args[0].equals("Admin Logged in!")) AdminPannel.setLoggedin(true);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
                         String ownIP = gui.Config.getCurrentIp();
@@ -158,8 +159,7 @@ public class Handler implements Runnable
                         DynamicPorts dp = DynamicPorts.getInstance();
                         String[] ipp = args[1].split(Pattern.quote("."));
                         
-                        
-                        
+                        outTxT.print("(Handler) Port wird mit Client ausgehandelt: " + args[0]);
                         //Bearbeite Anfrage
                         if(ipp[2].length()== 1)
                         {
@@ -170,7 +170,7 @@ public class Handler implements Runnable
                                 {
                                     //sent ok (port nr)
                                     dp.arrangePort(args[0], ipp[1] + ".11", true);
-                                    outTxT.print("Port " + ipp[1] + " wurde zum Transfer vorgeschalgen und aktzeptiert");
+                                    outTxT.print("Port " + ipp[1] + " wurde zum Transfer vorgeschlagen und aktzeptiert");
                                 }
                                 else
                                 {
@@ -197,11 +197,6 @@ public class Handler implements Runnable
                                 }
                             }
                         }
-                        
-                        
-                                
-                        
-                        outTxT.print("(Handler) Port wird mit Client ausgehandel: " + args[0]);
                     }
                 }
                 reader.close();

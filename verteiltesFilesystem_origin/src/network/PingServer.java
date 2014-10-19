@@ -7,9 +7,12 @@ package network;
 
 import fileSystem.fileSystem;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import substructure.GUIOutput;
 
 /**
@@ -44,15 +47,23 @@ public class PingServer
             {
                 SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
                 socket.connect(sockaddr, 1000);
-
+                chk = true;
             } catch (IOException ex)
             {
+                try
+                {
+                    sleep(500);
+                } catch (InterruptedException ex1)
+                {
+                    out.print("(PingServer) " + ex1.toString(), 1);
+                }
                 chk = false;
                 counter++;
-                if (counter == 4)
+                if (counter >= 4)
                 {
                     out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
                     IPList.removeIP(checkIP);
+                    counter = 0;
                     return false;
                 }
             }
