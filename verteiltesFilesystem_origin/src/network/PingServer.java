@@ -12,16 +12,16 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import substructure.GUIOutput;
 
-
 /**
  *
  * @author Lamparari
  */
 public class PingServer
 {
+
     static GUIOutput out = GUIOutput.getInstance();
     static fileSystem c = fileSystem.getInstance();
-    
+
     /**
      *
      * @param checkIP
@@ -36,17 +36,27 @@ public class PingServer
         /**
          * try to connect to and address, timeout at 50 seconds
          */
-        try
+        int counter = 0;
+        boolean chk = true;
+        do
         {
-            SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
-            socket.connect(sockaddr, 1000);
+            try
+            {
+                SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
+                socket.connect(sockaddr, 1000);
 
-        } catch (IOException ex)
-        {
-            out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
-            IPList.removeIP(checkIP);
-            return false;
-        }
+            } catch (IOException ex)
+            {
+                chk = false;
+                counter++;
+                if (counter == 4)
+                {
+                    out.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
+                    IPList.removeIP(checkIP);
+                    return false;
+                }
+            }
+        } while (!chk);
         /**
          * close the socket, catch exceptions and return the value
          */

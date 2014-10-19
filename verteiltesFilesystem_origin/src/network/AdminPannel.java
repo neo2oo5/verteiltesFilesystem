@@ -69,13 +69,6 @@ public class AdminPannel
     public static boolean adminLogin()
     {
         adminCheckLogin();
-        try
-        {
-            sleep(5000);
-        } catch (InterruptedException ex)
-        {
-            out.print("(AdminPannel - adminCheckLogin) : " + ex.toString(), 2);
-        }
         if (isLoggedin() == false)
         {
             FileWriter writer = null;
