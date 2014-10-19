@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- *
+ * Erstellt das Popup fuer den Rechtsklick
  * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class JTreeMouseListener implements MouseListener {
@@ -22,9 +22,7 @@ public class JTreeMouseListener implements MouseListener {
         {
             showMenu(e);
         }
-        
-        
-        
+
     }
 
     /**

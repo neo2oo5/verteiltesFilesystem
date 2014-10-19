@@ -6,21 +6,18 @@
 package gui.Explorer;
 
 import gui.Config;
-import gui.GuiPromptHelper;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.net.UnknownHostException;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import substructure.GUIOutput;
 import network.*;
 
 /**
- *
+ * Erstellt entsprechen den Userrechten das RechtsklickPopup
  * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class RightClickMenu {
@@ -66,16 +63,18 @@ public class RightClickMenu {
                 args = ExplorerHelper.getNetOperationData(currentNode);
 
                 if (args != null) {
-                    //eigene IP
+                    //Rechte im Lokalen FS
                     if (Config.getCurrentIp().equals(args[0])) {
                         popup.add(menuItemFileCreate);
                         popup.add(menuItemFileDelete);
                         popup.add(menuItemFileRename);
+                    //Rechte als Admin im FS
                     } else if (Interfaces.interfaceIAmAdmin()) {
                         popup.add(menuItemFileDownload);
                         popup.add(menuItemFileCreate);
                         popup.add(menuItemFileDelete);
                         popup.add(menuItemFileRename);
+                    //Rechte ohne Admin im nicht Lokalen FS
                     } else if (Interfaces.interfaceIAmAdmin() == false && !Config.getCurrentIp().equals(args[0])) {
                         popup.add(menuItemFileDownload);
                     }
@@ -104,8 +103,6 @@ public class RightClickMenu {
             if (currentSelection != null) {
                 currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
                 args = ExplorerHelper.getNetOperationData(currentNode);
-
-                
             }
 
             if (currentNode != null && currentSelection != null && args != null) {
@@ -116,14 +113,19 @@ public class RightClickMenu {
                 //datei erstellen
                 if (CFI_CMD.equals(command)) {
                     RightClickActions.FileCreate(currentNode, args);
-                    //datei umbenennen
-                } else if (REFI_CMD.equals(command)) {
+                
+                } 
+                //datei umbenennen
+                else if (REFI_CMD.equals(command)) {
 
                     RightClickActions.FileRename(currentNode, args);
-                    //datei löschen
-                } else if (RFI_CMD.equals(command)) {
+                
+                } 
+                //datei löschen
+                else if (RFI_CMD.equals(command)) {
                     RightClickActions.FileDelete(currentNode, args);
-                } //datei download
+                } 
+                //datei download
                 else if (DFI_CMD.equals(command) && currentNode != null) {
                     RightClickActions.FileDownload(currentNode, args);
                 }
