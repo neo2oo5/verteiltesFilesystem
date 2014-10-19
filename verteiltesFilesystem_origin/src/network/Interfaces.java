@@ -66,11 +66,12 @@ public class Interfaces
                     args[5] = IPv4;
                     args[6] = doWhat;
                     Thread client = StartClientServer.startClient(args);
-                    
-                    do{
+
+                    do
+                    {
                         Thread.sleep(500);
-                    }while(client.isAlive());
-                    
+                    } while (client.isAlive());
+
                     return true;
 
                 } catch (Exception ex)
@@ -220,7 +221,6 @@ public class Interfaces
         String ip = Config.getCurrentIp();
         IPList.InsertIpInList(ip);
         out.print("(Interface) - StartProgram -> Ihre IP: " + ip);
-
         CheckWhoIsOnline.doMulticast();
         return true;
     }
@@ -249,9 +249,7 @@ public class Interfaces
             {
                 online = false;
             }
-
         }
-
         return online;
     }
 

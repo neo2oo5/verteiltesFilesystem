@@ -69,7 +69,7 @@ public class SSDPNetworkClient implements Runnable
     private void dumpPacket(DatagramPacket packet) throws IOException
     {
         String addr = packet.getAddress().getHostAddress();
-    //System.out.println("Response from: " + addr);
+        //System.out.println("Response from: " + addr);
         //adresse in liste eintrage
         ByteArrayInputStream in = new ByteArrayInputStream(packet.getData(), 0, packet.getLength());
         if (checkifFileSystem(in) && !addr.equals(Config.getCurrentIp()) && !IPList.SearchIP(addr))
@@ -86,6 +86,13 @@ public class SSDPNetworkClient implements Runnable
             {
                 IPList.InsertIpInList(addr);
                 PingServer.PingServer(addr);
+                String ownIP = gui.Config.getCurrentIp();
+                String doWhat = "CheckAdminLoggedin";
+                String[] args = new String[3];
+                args[0] = addr;
+                args[1] = ownIP;
+                args[2] = doWhat;
+                StartClientServer.startClient(args);
                 out.print("(SSDPNetwork) Folgende IP in Liste eingetragen: " + addr + "\n");
             }
         }
