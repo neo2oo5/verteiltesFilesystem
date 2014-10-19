@@ -22,9 +22,9 @@ public class NetworkOnline
         return msg;
     }
 
-    public static void setMsg(boolean msg)
+    public static void setMsg()
     {
-        NetworkOnline.msg = msg;
+        NetworkOnline.msg = !isMsg();
     }
     
     public static int getCounter()
@@ -47,11 +47,10 @@ public class NetworkOnline
         if (getIPList().size() > 1)
         {
             setCounter();
-            if(getCounter() > 0) setMsg(false);
             return true;
         } else
         {
-            if(getCounter() > 0) setMsg(true);
+            if(getCounter() > 0) setMsg();
             setCounter(0);
             return false;
         }

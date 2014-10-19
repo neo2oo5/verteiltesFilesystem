@@ -242,7 +242,7 @@ public class Interfaces
         } else
         {
 
-            NetworkOnline.isNetworkOnline();
+            online = NetworkOnline.isNetworkOnline();
 
         }
 
