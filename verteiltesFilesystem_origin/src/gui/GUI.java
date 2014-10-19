@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import network.NetworkOnline;
+import network.Interfaces;
 import substructure.GUIOutput;
 
 
@@ -59,20 +59,14 @@ public class GUI extends javax.swing.JFrame
      */
     public void setOnOffState()
     {
-        try
+        if (network.Interfaces.interfaceNetworkOnline() == true)
         {
-            if (network.Interfaces.interfaceNetworkOnline() == true)
-            {
-                state.setGreen();
-                statel.setText("Online");
-            } else
-            {
-                state.setRed();
-                statel.setText("Offline");
-            }
-        } catch (UnknownHostException ex)
+            state.setGreen();
+            statel.setText("Online");
+        } else
         {
-            out.print("(GUI) - setOnOffState : " + ex.toString(), 2);
+            state.setRed();
+            statel.setText("Offline");
         }
         
         
@@ -260,7 +254,7 @@ public class GUI extends javax.swing.JFrame
                 break;
             case "Explorer":
         {
-            if(NetworkOnline.isNetworkOnline() == true)
+            if(Interfaces.interfaceNetworkOnline() == true)
             {
                 explorer.addTab(jTabbedPane5, ActiveTabIndex);
             }

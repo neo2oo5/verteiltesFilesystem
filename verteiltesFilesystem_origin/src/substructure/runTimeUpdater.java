@@ -81,13 +81,9 @@ public class runTimeUpdater {
     {
         @Override public void run()
         {
-            try {
-                if(Interfaces.interfaceNetworkOnline())
-                {
-                    Interfaces.interfaceMergeList();
-                }
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(runTimeUpdater.class.getName()).log(Level.SEVERE, null, ex);
+            if(Interfaces.interfaceNetworkOnline())
+            {
+                Interfaces.interfaceMergeList();
             }
         }
     }

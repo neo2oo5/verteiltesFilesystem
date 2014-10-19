@@ -13,6 +13,8 @@ import gui.Config;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static network.IPList.getIPList;
 import substructure.GUIOutput;
 
@@ -231,24 +233,30 @@ public class Interfaces
      * @return
      * @throws java.net.UnknownHostException
      */
-    public static boolean interfaceNetworkOnline() throws UnknownHostException
+    public static boolean interfaceNetworkOnline()
     {
-
         boolean online = false;
-        boolean kicked = CheckKicked.checkKicked();
-        if (kicked)
-        {
-            out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
-        } else
-        {
 
-            if (getIPList().size() > 1)
+        try
+        {
+            boolean kicked = CheckKicked.checkKicked();
+            if (kicked)
             {
-                online = true;
+                out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
             } else
             {
-                online = false;
+
+                if (getIPList().size() > 1)
+                {
+                    online = true;
+                } else
+                {
+                    online = false;
+                }
             }
+        } catch (UnknownHostException ex)
+        {
+            out.print("(Interface - NetworkOnline) : " + ex.toString(), 3);
         }
         return online;
     }

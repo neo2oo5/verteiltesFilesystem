@@ -32,7 +32,6 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import network.NetworkOnline;
 
 /**
  *
@@ -77,34 +76,27 @@ public class DynamicTree extends JPanel
        
         tree.addMouseListener(new JTreeMouseListener());
 
-        try {   
-            out.print("online: " + network.Interfaces.interfaceNetworkOnline());
-            
-            if(fileSystem_Start.Debug == true)
-            {
-                Pane.addTab("Explorer", scrollPane);
+        out.print("online: " + network.Interfaces.interfaceNetworkOnline());
+        if(fileSystem_Start.Debug == true)
+        {
+            Pane.addTab("Explorer", scrollPane);
+        }
+        if(Config.isRootDir() == true &&  network.Interfaces.interfaceNetworkOnline() == true)
+        {
+            Pane.addTab("Explorer", scrollPane);
+        }
+        else
+        {
+            try {
+                ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
+                loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
+                loadingl = new JLabel("", loading, JLabel.CENTER);
+                
+                Pane.addTab("Explorer",loadingl);
+                
+            } catch (fileSystemException ex) {
+                out.print(ex.toString());
             }
-            if(Config.isRootDir() == true &&  network.Interfaces.interfaceNetworkOnline() == true)
-            {
-                    Pane.addTab("Explorer", scrollPane); 
-            }
-            else
-            {
-                try {
-                    ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
-                    loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
-                    loadingl = new JLabel("", loading, JLabel.CENTER);
-                   
-                        Pane.addTab("Explorer",loadingl);
-                    
-                } catch (fileSystemException ex) {
-                    out.print(ex.toString());
-                }
-            }
-            
-        } catch (UnknownHostException ex) {
-
-           out.print(ex.toString());
         }
 
     }
