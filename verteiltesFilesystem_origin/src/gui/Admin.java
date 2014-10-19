@@ -20,6 +20,7 @@ import substructure.GUIOutput;
 /**
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Klasse ueberprueft Login und wechselt Login Panel mit Control Panel
  */
 public class Admin
 {

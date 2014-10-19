@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui;
 
 /**
@@ -13,7 +12,6 @@ package gui;
  */
 import java.awt.Color;
 
-
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -22,7 +20,7 @@ import javax.swing.text.StyleContext;
 
 /**
  *
- * @author xoxoxo
+ * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
 public class ColorPane extends JTextPane {
 
@@ -32,15 +30,15 @@ public class ColorPane extends JTextPane {
      * @param s
      */
     public void appendNaive(Color c, String s) { // naive implementation
-    // bad: instiantiates a new AttributeSet object on each call
-    SimpleAttributeSet aset = new SimpleAttributeSet();
-    StyleConstants.setForeground(aset, c);
+        // bad: instiantiates a new AttributeSet object on each call
+        SimpleAttributeSet aset = new SimpleAttributeSet();
+        StyleConstants.setForeground(aset, c);
 
-    int len = getText().length();
-    setCaretPosition(len); // place caret at the end (with no selection)
-    setCharacterAttributes(aset, false);
-    replaceSelection(s); // there is no selection, so inserts at caret
-  }
+        int len = getText().length();
+        setCaretPosition(len); // place caret at the end (with no selection)
+        setCharacterAttributes(aset, false);
+        replaceSelection(s); // there is no selection, so inserts at caret
+    }
 
     /**
      *
@@ -48,16 +46,16 @@ public class ColorPane extends JTextPane {
      * @param s
      */
     public void append(Color c, String s) { // better implementation--uses
-                      // StyleContext
-    StyleContext sc = StyleContext.getDefaultStyleContext();
-    AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
-        StyleConstants.Foreground, c);
+        // StyleContext
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY,
+                StyleConstants.Foreground, c);
 
-    int len = getDocument().getLength(); // same value as
-                       // getText().length();
-    setCaretPosition(len); // place caret at the end (with no selection)
-    setCharacterAttributes(aset, false);
-    replaceSelection(s); // there is no selection, so inserts at caret
-  }
-  
+        int len = getDocument().getLength(); // same value as
+        // getText().length();
+        setCaretPosition(len); // place caret at the end (with no selection)
+        setCharacterAttributes(aset, false);
+        replaceSelection(s); // there is no selection, so inserts at caret
+    }
+
 }

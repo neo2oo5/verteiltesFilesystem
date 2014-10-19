@@ -15,28 +15,22 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import network.Interfaces;
 import substructure.GUIOutput;
 
-
 /**
  *
  * @author Kevin Bonner <kevin.bonner@gmx.de>
  */
-public class GUI extends javax.swing.JFrame
-{
+public class GUI extends javax.swing.JFrame {
 
     private GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
     private int ActiveTabIndex = 0;
-    private int ExplorerIndex  = 0;
+    private int ExplorerIndex = 0;
     private Explorer explorer;
     private Admin admin = null;
     private KreisPanel state = new KreisPanel();
@@ -45,35 +39,29 @@ public class GUI extends javax.swing.JFrame
     /**
      * Creates new form GUI
      */
-    public GUI()
-    {
+    public GUI() {
 
         initComponents();
-        
+
         owninitComponents();
-        
+
     }
 
     /**
      *
      */
-    public void setOnOffState()
-    {
-        if (network.Interfaces.interfaceNetworkOnline() == true)
-        {
+    public void setOnOffState() {
+        if (network.Interfaces.interfaceNetworkOnline() == true) {
             state.setGreen();
             statel.setText("Online");
-        } else
-        {
+        } else {
             state.setRed();
             statel.setText("Offline");
         }
-        
-        
+
     }
 
-    private void owninitComponents()
-    {
+    private void owninitComponents() {
 
         /*Network status display*/
         state.setBounds(3, 7, 25, 25);
@@ -86,7 +74,6 @@ public class GUI extends javax.swing.JFrame
         add(statel);
 
         /*Set Admin Defaults*/
-        
         AdminConfigPanel.setVisible(true);
         AdminLoginPanel.setVisible(true);
         //admin = new Admin(AdminConfigPanel, AdminLoginPanel);
@@ -95,19 +82,16 @@ public class GUI extends javax.swing.JFrame
         new otherTab(jTabbedPane5);
 
         new Config(jTabbedPane5);
-        
+
         explorer = new Explorer(jTabbedPane5);
-        
+
         /*Set Icon Image*/
         BufferedImage image = null;
-        try
-        {
+        try {
             image = ImageIO.read(new File(substructure.PathHelper.getFile("hdd.png")));
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             out.print("(GUI) - owninitComponents : " + e.toString(), 2);
-        } catch (fileSystemException ex)
-        {
+        } catch (fileSystemException ex) {
             out.print("(GUI) - owninitComponents : " + ex.toString(), 2);
         }
         setIconImage(image);
@@ -131,7 +115,7 @@ public class GUI extends javax.swing.JFrame
         AdminUsernameField = new javax.swing.JTextField();
         AdminPasswordField = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Verteiltes Filesystem");
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -233,40 +217,31 @@ public class GUI extends javax.swing.JFrame
          *
          *
          */
-        if (Config.isRootDir())
-        {
+        if (Config.isRootDir()) {
             fileSystem fs = fileSystem.getInstance();
             fs.setNewFileSystem(Config.getCurrentIp(), Config.getRootDir());
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
         }
 
-        
-            /*check Network state*/
-            setOnOffState();
-        
+        /*check Network state*/
+        setOnOffState();
 
         ActiveTabIndex = jTabbedPane5.getSelectedIndex();
         out.print("Panel: " + jTabbedPane5.getTitleAt(ActiveTabIndex) + " wurde geöffnet");
 
-        switch (jTabbedPane5.getTitleAt(ActiveTabIndex))
-        {
+        switch (jTabbedPane5.getTitleAt(ActiveTabIndex)) {
             case "Config":
                 break;
-            case "Explorer":
-        {
-            if(Interfaces.interfaceNetworkOnline() == true)
-            {
-                explorer.addTab(jTabbedPane5, ActiveTabIndex);
-            }
-            
+            case "Explorer": {
+                if (Interfaces.interfaceNetworkOnline() == true) {
+                    explorer.addTab(jTabbedPane5, ActiveTabIndex);
+                }
+
                // explorer.addTab(jTabbedPane5, ActiveTabIndex);
-                
-            
-        }
-                break;
+            }
+            break;
             case "Admin":
-                if (admin != null)
-                {
+                if (admin != null) {
                     admin.refresh();
                 }
                 break;
@@ -278,8 +253,7 @@ public class GUI extends javax.swing.JFrame
     private void AdminLoginSentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminLoginSentActionPerformed
         //Switcht between Login and Admin Panel
 
-        if (Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
-        {
+        if (Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText())) {
             admin = new Admin(AdminConfigPanel, AdminLoginPanel);
         }
 
@@ -293,8 +267,7 @@ public class GUI extends javax.swing.JFrame
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
 
     }
 
@@ -313,15 +286,13 @@ public class GUI extends javax.swing.JFrame
      * Class to create the Online status Display
      *      
      */
-    class KreisPanel extends JPanel
-    {
+    class KreisPanel extends JPanel {
 
         Graphics2D g2;
         Color color = Color.RED;
 
         @Override
-        public void paint(Graphics g)
-        {
+        public void paint(Graphics g) {
             g2 = (Graphics2D) g;
 
             g2.setPaint(color);
@@ -329,14 +300,12 @@ public class GUI extends javax.swing.JFrame
 
         }
 
-        public void setRed()
-        {
+        public void setRed() {
             this.color = Color.RED;
             repaint();
         }
 
-        public void setGreen()
-        {
+        public void setGreen() {
             this.color = Color.GREEN;
             repaint();
         }
