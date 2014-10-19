@@ -18,6 +18,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -30,6 +32,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import network.NetworkOnline;
 
 /**
  *
@@ -45,7 +48,7 @@ public class DynamicTree extends JPanel
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private static GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
-    
+   
 
     private static JLabel loadingl;
     private TreePath lastOpenedNode;
@@ -113,9 +116,12 @@ public class DynamicTree extends JPanel
      */
     public void addTab(javax.swing.JTabbedPane Pane, int index)
     {
+        
         Pane.removeTabAt(index);
         Pane.addTab("Explorer", scrollPane);
         Pane.setSelectedIndex(index);
+                       
+        
     }
         
     /**

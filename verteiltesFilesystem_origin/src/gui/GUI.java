@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import network.NetworkOnline;
 import substructure.GUIOutput;
 
 
@@ -33,7 +34,9 @@ public class GUI extends javax.swing.JFrame
 {
 
     private GUIOutput out = GUIOutput.getInstance();
+    private static fileSystem c = fileSystem.getInstance();
     private int ActiveTabIndex = 0;
+    private int ExplorerIndex  = 0;
     private Explorer explorer;
     private Admin admin = null;
     private KreisPanel state = new KreisPanel();
@@ -71,6 +74,8 @@ public class GUI extends javax.swing.JFrame
         {
             out.print("(GUI) - setOnOffState : " + ex.toString(), 2);
         }
+        
+        
     }
 
     private void owninitComponents()
@@ -255,14 +260,14 @@ public class GUI extends javax.swing.JFrame
                 break;
             case "Explorer":
         {
-            try {
-                if (Config.isRootDir() == true && network.Interfaces.interfaceNetworkOnline() == true )
-                {
-                    explorer.addTab(jTabbedPane5, ActiveTabIndex);
-                }
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            if(NetworkOnline.isNetworkOnline() == true)
+            {
+                explorer.addTab(jTabbedPane5, ActiveTabIndex);
             }
+            
+               // explorer.addTab(jTabbedPane5, ActiveTabIndex);
+                
+            
         }
                 break;
             case "Admin":
