@@ -242,13 +242,7 @@ public class Interfaces
         } else
         {
 
-            if (getIPList().size() > 1)
-            {
-                online = true;
-            } else
-            {
-                online = false;
-            }
+            NetworkOnline.isNetworkOnline();
 
         }
 
