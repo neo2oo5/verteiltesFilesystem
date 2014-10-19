@@ -1,100 +1,102 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
 /**
- * Used Libraries
+ * Imports
  */
-import java.io.BufferedReader;
+import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
+import java.io.OutputStream;
+import java.io.BufferedReader;
 import substructure.GUIOutput;
+import java.io.InputStreamReader;
 
 /**
- *
- * @author Lamparari
- */
-/**
- * class wich starts a client to communicate with the server *
+ * Klasse Client
+ * 
+ * Klasse zur Kommunikation mit anderen Usern
+ * - Diese Klasse schreibt zum erfolgreichen übertragen von Informationen
+ *   das mitgegebene String Array in einen String um
+ * - Überträgt den String an den gewünschten User
+ * 
+ * @author David Lampa
+ * @version 1.0
  */
 public class Client
 {
-
-    static GUIOutput outTxt = GUIOutput.getInstance();
+    /**
+     * Variablen Initialisieren
+     */
+    static GUIOutput outMsg = GUIOutput.getInstance();
 
     /**
+     * Funktion client
+     * 
+     * Diese Funktion dient zur Kommunikation mit anderen Usern
+     * - Diese Klasse schreibt zum erfolgreichen übertragen von Informationen
+     *   das mitgegebene String Array in einen String um
+     * - Überträgt den String an den gewünschten User
      *
-     * @param args
+     * @param args String[] // das zu umwandelnde String Array mit den gewünschten Informationen
      */
     public static void client(String[] args)
     {
-        /**
-         * reads the input from the shell
-         */
-        Scanner eingabe = new Scanner(System.in);
-
         try
         {
             /**
-             * initiate the client socket (Port 1717, name = input)
+             * Variablen Initialisieren
+             * Socket mit Verbindung zum gewünschten User öffnen
              */
-            Socket client = new Socket(args[0], 1717);
             String anServer = "";
+            Socket client = new Socket(args[0], 1717);
+            
+            /**
+             * Wandelt das mitgegebene String Array in einen String um
+             */
             anServer += args[1];
             for (int i = 2; i < args.length; i++)
             {
                 anServer += "#entf#" + args[i];
             }
 
+            
             /**
-             * --- Streams ---
-             */
-            /**
-             * Get the output and handle it
+             * Stream Variablen Initialisieren
              */
             OutputStream out = client.getOutputStream();
             BufferedReader reader;
-            /**
-             * convert input to a string
-             */
+            
             try (PrintWriter writer = new PrintWriter(out))
             {
                 /**
-                 * get the input
+                 * Stream Variablen Initialisieren
                  */
                 InputStream in = client.getInputStream();
-                /**
-                 * Buffer the input
-                 */
                 reader = new BufferedReader(new InputStreamReader(in));
-                writer.write(anServer);
+                
                 /**
-                 * stop to puffer the output of the printwriter
+                 * String in Stream schreiben und wegsenden
                  */
+                writer.write(anServer);
                 writer.flush();
+                
                 /**
-                 * close the applications
+                 * Streams & Client Schließen
                  */
                 writer.close();
                 reader.close();
                 client.close();
-
             }
-            /**
-             * catch exceptions and log them
-             */
         } catch (IOException ex)
         {
-            outTxt.print("(Client - client) : " + ex.toString(), 2);
+            /**
+             * Fehler abfangen und ausgeben
+             */
+            outMsg.print("(Client - client) : " + ex.toString(), 2);
         }
-
     }
 }

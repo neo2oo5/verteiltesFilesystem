@@ -1,65 +1,91 @@
+/**
+ * Package
+ */
 package network;
 
 /**
- * Used Libraries
+ * Imports
  */
 import java.io.File;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author Lamparari
+ * Klasse Rename
+ * 
+ * Diese Klasse dient zum Lokalen umbenennung des Dateinamens
+ * - fügt dem Dateinamen ein "-neueDatei-" hinzu
+ *   falls der gewünschte dateiname schon existiert
+ * 
+ * @author David Lampa
+ * @version 1.0
+ * 
  */
 public class Rename
 {
-
     /**
+     * Funktion renameFile
+     * 
+     * Diese Funktion ändert den Dateinamen
      *
-     * @param path
-     * @param oldName
-     * @param newName
-     * @return
+     *
+     * @param path String // Pfad in dem sich die Datei befindet
+     * @param oldName String // Originaler / Alter Name der Datei
+     * @param newName String // Neuer Name der Datei
+     * @return boolean // true = umbenennen war Erfolgreich
      */
     public static boolean renameFile(String path, String oldName, String newName)
     {
         /**
-         * First, get the name of the old file(or directory) wich you want to
-         * rename. Then choose the new name
+         * Initialisierung der Neuen und Originalen/Alten Datei
          */
         File fileOld = new File(path + oldName);
         File fileNew = new File(path + newName);
+        
         /**
-         * return false if the file not exists wich should be renamed
+         * Falls die Originale/Alte Datei nicht Existiert gebe false zurück
+         * Aktion kann nicht durchgeführt werden
          */
         if (!fileOld.exists())
         {
             return false;
         }
+        
         /**
-         * if the file exists, it gets a new name now
+         * Solange eine datei mit diesem namen Existiert
+         * wird der Dateiname um "-neueDatei-" erweitert
          */
         while (fileNew.exists())
         {
-            String[] sname = newName.split(Pattern.quote("."));
             /**
-             * splits the name at every "."
+             * Splitten des neuen Dateinamens um vor der Datei Endung den
+             * Dateinamen erweitern zu können
+             * Hole Anzahl gesplitterter teile, falls Datei Endung aus mehreren .endungen besteht 
              */
+            String[] sname = newName.split(Pattern.quote("."));
             int anz = sname.length;
+            
             /**
-             * get the length of the string
+             * Erweitern des Dateinamen
              */
             newName = sname[0] + "-neueDatei-";
+            
             /**
-             * rename the file *
+             * Füge die Datei Endungen hinzu
              */
             for (int i = 1; i < anz; i++)
             {
                 newName += "." + sname[i];
             }
+            
+            /**
+             * Initialisiere die Neue Datei
+             */
             fileNew = new File(path + newName);
         }
+        
         /**
-         * return true if the file has get a new name
+         * Bennene die Originale/Alte datei um
+         * Gebe zurück, ob das umbenennen er Datei erfolgreich war
          */
         return fileOld.renameTo(fileNew);
     }

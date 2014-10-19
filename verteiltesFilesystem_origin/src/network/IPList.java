@@ -1,35 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
-import fileSystem.fileSystemException;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+/**
+ * Imports
+ */
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.List;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import substructure.GUIOutput;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import substructure.PathHelper;
+import java.io.FileNotFoundException;
+import fileSystem.fileSystemException;
 
 /**
- *
- * @author Lamparari
+ * Klasse IPList
+ * 
+ * Diese Klasse dient dazu aus der IPs.txt Datei die verbundenen IP's in eine
+ * IPListe zu machen , mit der man die gewünschten Aktionen ausführen kann
+ * 
+ * @author David Lampa
+ * @version 1.0
+ * 
  */
 public class IPList
 {
-
-    static GUIOutput out = GUIOutput.getInstance();
+    /**
+     * Variablen Initialisieren
+     */
+    static GUIOutput outMsg = GUIOutput.getInstance();
     private static String ipListPath;
 
     /**
@@ -43,7 +49,7 @@ public class IPList
             return PathHelper.getFile("IPs.txt");
         } catch (fileSystemException ex)
         {
-            out.print("(GetIPListPath) " + ex.toString(), 3);
+            outMsg.print("(GetIPListPath) " + ex.toString(), 3);
             return null;
         }
     }
@@ -75,7 +81,7 @@ public class IPList
 
         } catch (IOException ex)
         {
-            out.print("(InsertIpInList) " + ex.toString(), 3);
+            outMsg.print("(InsertIpInList) " + ex.toString(), 3);
         } finally
         {
 
@@ -87,7 +93,7 @@ public class IPList
                 }
             } catch (IOException ex)
             {
-                Logger.getLogger(IPList.class.getName()).log(Level.SEVERE, null, ex);
+                outMsg.print("(InsertIpInList) " + ex.toString(), 3);
             }
         }
     }
@@ -106,7 +112,7 @@ public class IPList
             writer.close();
         } catch (IOException ex)
         {
-            Logger.getLogger(IPList.class.getName()).log(Level.SEVERE, null, ex);
+            outMsg.print("(InsertIpInList) " + ex.toString(), 3);
         }
 
     }
@@ -159,7 +165,7 @@ public class IPList
 
         } catch (IOException ex)
         {
-            out.print(ex.toString());
+            outMsg.print("(removeIP) " + ex.toString(), 3);
 
         } finally
         {
@@ -170,7 +176,7 @@ public class IPList
 
             } catch (IOException ex)
             {
-                out.print(ex.toString());
+                outMsg.print(ex.toString());
             }
         }
     }
@@ -204,17 +210,16 @@ public class IPList
 
         } catch (IOException ex)
         {
-            out.print(ex.toString());
+            outMsg.print("(replaceIP) " + ex.toString(), 3);
 
         } finally
         {
             try
             {
                 writer.close();
-
             } catch (IOException ex)
             {
-                out.print(ex.toString());
+                outMsg.print("(replaceIP) " + ex.toString(), 3);
             }
         }
 
@@ -241,10 +246,10 @@ public class IPList
             inFile.close();
         } catch (FileNotFoundException ex)
         {
-            out.print("(replaceIP) " + ex.toString(), 3);
+            outMsg.print("(getIPList) " + ex.toString(), 3);
         } catch (IOException ex)
         {
-            out.print("(replaceIP) " + ex.toString(), 3);
+            outMsg.print("(getIPList) " + ex.toString(), 3);
         }
         return Collections.synchronizedList(IPList);
     }

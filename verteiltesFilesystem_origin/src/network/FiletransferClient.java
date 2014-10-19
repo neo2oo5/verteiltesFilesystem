@@ -1,31 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
-import fileSystem.fileSystemException;
-import java.io.BufferedOutputStream;
+/**
+ * Imports
+ */
 import java.io.File;
-import java.io.FileOutputStream;
+import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.BindException;
-import java.net.ConnectException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import substructure.GUIOutput;
+import java.net.BindException;
 import substructure.PathHelper;
+import java.io.FileOutputStream;
+import java.net.ConnectException;
+import java.io.BufferedOutputStream;
+import fileSystem.fileSystemException;
 
 /**
- *
- * @author Lamparari
+ * Klasse FiletransferClient
+ * 
+ * Klasse die sich mit dem FiletransferServer verbindet
+ * und die Datei Empfängt
+ * 
+ * @author David Lampa
+ * @version 1.0
  */
 public class FiletransferClient
 {
-
-    static GUIOutput out = GUIOutput.getInstance();
+    /**
+     * Variablen Initialisieren
+     */
+    static GUIOutput outMsg = GUIOutput.getInstance();
     static DynamicPorts dp = DynamicPorts.getInstance();
     static boolean transferReady = false;
 
@@ -63,7 +71,7 @@ public class FiletransferClient
         try
         {
             setTransferReady(false);
-            out.print("FileTransferClient Startet", 1);
+            outMsg.print("FileTransferClient Startet", 1);
             
             boolean trigger = true;
             do
@@ -107,10 +115,10 @@ public class FiletransferClient
 
         } catch (IOException ex)
         {
-            out.print("(Filetransfer - Client) " + ex.toString(), 3);
+            outMsg.print("(Filetransfer - Client) " + ex.toString(), 3);
         } catch (fileSystemException ex)
         {
-            out.print("(Filetransfer - Client) " + ex.toString(), 3);
+            outMsg.print("(Filetransfer - Client) " + ex.toString(), 3);
         } finally
         {
             try
@@ -134,7 +142,7 @@ public class FiletransferClient
                 return true;
             } catch (IOException ex)
             {
-            out.print("(Filetransfer - Client) " + ex.toString(), 3);
+            outMsg.print("(Filetransfer - Client) " + ex.toString(), 3);
             }
         }
         return false;

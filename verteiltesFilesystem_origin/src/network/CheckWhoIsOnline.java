@@ -1,49 +1,59 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
-import fileSystem.fileSystem;
+/**
+ * Imports
+ */
 import gui.Config;
-import java.util.ArrayList;
 import java.util.List;
-import substructure.GUIOutput;
+import java.util.ArrayList;
+import fileSystem.fileSystem;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Klasse CheckWhoIsOnline
+ * 
+ * Klasse die ein Multicast sendet (bei Systemstart)
+ * Ansonsten auf ein Multicast neuer User Antwortet
+ * - IP Übergibt eigene IP oder empfängt IP's zum eintragen in die IP Liste
+ * 
+ * @author David Lampa, Kevin Bonner
+ * @version 1.0
+ * 
+ * @extends Thread
  */
 public class CheckWhoIsOnline extends Thread
 {
-
+    /**
+     * Variablen Initialisieren
+     */
     private static Thread multicast = null;
-    private static GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
     private static List<String[]> ipList = new ArrayList<>();
     private static boolean init = false;
 
-    private CheckWhoIsOnline()
-    {
-    }
-
     /**
-     *
+     * Funktion doMulticast
+     * 
+     * Diese Funktion führt den Multicast aus (bei Systemstart)
+     * Ansonsten auf ein Multicast neuer User Antwortet
+     * - IP Übergibt eigene IP oder empfängt IP's zum eintragen in die IP Liste
      */
     public static void doMulticast()
     {
+        /**
+         * Neuen Thread mit Multicast starten
+         * - erneut Multicast starten, wenn kein Multicast ausgeführt wird
+         */
         multicast = new Thread(new SSDPNetworkClient());
         multicast.setName("Multicast");
         
         if (multicast == null)
         {
-            
-            
             multicast.start();
         } else
         {
-
             if (!multicast.isAlive())
             {
                 multicast.start();
@@ -52,10 +62,16 @@ public class CheckWhoIsOnline extends Thread
     }
 
     /**
-     *
+     * Funktion doPingTest
+     * 
+     * Diese Funktion prüft ob die IP's die im FileSystem vorhanden sind noch erreichbar sind
+     * Falls dies nicht der Fall sein sollte werden die Daten aus dem FileSystem entfernt
      */
     public static void doPingTest()
     {
+        /**
+         * Hole eine IP aus dem FileSystem und Pinge diese an
+         */
         initPingTest();
 
         List<String> ips = c.getAllIps();
@@ -79,13 +95,15 @@ public class CheckWhoIsOnline extends Thread
             {
                 if (!PingServer.PingServer(currentIP) && !currentIP.equals(Config.getCurrentIp()))
                 {
-
                     ipSet[0] = String.valueOf(Integer.getInteger(ipSet[0]) + 1);
                 }
 
                 ipList.set(index, ipSet);
 
-                //remove off ip (Explorer, )
+                /**
+                 * IP ist nicht erreichbar und wird aus dem FileSystem 
+                 * und aus der IPliste entfernt
+                 */
                 for (int i = 0; i < ipList.size(); i++)
                 {
                     String[] ipSetnew = new String[2];
@@ -96,7 +114,6 @@ public class CheckWhoIsOnline extends Thread
                         c.remove(ipSetnew[1]);
                         //remove from IPList
                         IPList.removeIP(ipSetnew[0]);
-
                     }
                 }
             }
@@ -104,11 +121,18 @@ public class CheckWhoIsOnline extends Thread
         }
     }
 
+    /**
+     * Funktion initPingTest
+     * 
+     * Diese Funktion prüft ob die IP's die im FileSystem vorhanden sind noch erreichbar sind
+     */
     private static void initPingTest()
-
-    {
+{
         if (init == false)
         {
+            /**
+             * Hole die IPListe aus dem FileSystem und prüfe diese auf erreichbarkeit
+             */
             List<String> ips = c.getAllIps();
             for (int z = 0; z < c.getClientCount(); z++)
             {
@@ -123,11 +147,8 @@ public class CheckWhoIsOnline extends Thread
                 }
 
                 ipList.add(ipSet);
-
             }
-
             init = true;
         }
     }
-
 }

@@ -1,29 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
-import fileSystem.fileSystemException;
+/**
+ * Imports
+ */
+import java.io.File;
+import java.net.Socket;
+import java.io.IOException;
+import substructure.GUIOutput;
+import java.net.BindException;
+import java.io.FileInputStream;
+import java.net.ConnectException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import static java.lang.Thread.sleep;
-import java.net.BindException;
-import java.net.ConnectException;
-import java.net.Socket;
-import substructure.GUIOutput;
+import fileSystem.fileSystemException;
 
 /**
- *
- * @author Lamparari
+ * Klasse FiletransferServer
+ * 
+ * Klasse die den FiletransferClient mit den benötigten Informationen startet
+ * sich mit dem FiletransferClient verbindet
+ * und die gewünschte Datei Sendet
+ * 
+ * @author David Lampa
+ * @version 1.0
  */
 public class FiletransferServer
 {
-
+    /**
+     * Variablen Initialisieren
+     */
     static GUIOutput outMsg = GUIOutput.getInstance();
     static DynamicPorts dp = DynamicPorts.getInstance();
 
@@ -34,30 +42,28 @@ public class FiletransferServer
     public static void FileTransferServer(String[] args)
     {
 
+        /**
+         * Variablen Initialisieren
+         */
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         BufferedOutputStream out = null;
         Socket sock = null;
         int dynamicPort = 0;
+        
         try
         {
             IPList.InsertIpInList(args[2]);
             outMsg.print("FileTransferServer startet", 1);
 
             dp.getPort(args[2]);
-
             
             do
             {
                 dynamicPort = dp.findIdent(dp.getIdentbyString(args[2]));
                 
             } while (dynamicPort == -1);
-
-            //outMsg.print(dynamicPort, 3);
             
-            
-
-            // ServerSocket servsock = new ServerSocket(1718);
             String file = null;
             try
             {
@@ -108,7 +114,6 @@ public class FiletransferServer
                 }
             }while(trigger);
             
-            
             int bufferSize = sock.getReceiveBufferSize();
 
 //                  // Get the size of the file
@@ -146,7 +151,6 @@ public class FiletransferServer
             {
                 outMsg.print("(FileTransferServer) " + ex.toString(), 3);
             }
-
         }
     }
 }

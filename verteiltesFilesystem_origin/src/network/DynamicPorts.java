@@ -1,31 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
+/**
+ * Imports
+ */
 import gui.Config;
-import java.net.UnknownHostException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import substructure.GUIOutput;
+import java.net.UnknownHostException;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Klasse DynamicPorts
+ * 
+ * Klasse die einen Port mit dem anderen User aushandelt
+ * 
+ * @author David Lampa, Kevin Bonner
+ * @version 1.0
  */
 public class DynamicPorts {
     
-    
+    /**
+     * Variablen Initialisieren
+     */
     private static final List<String[]> ports  = Collections.synchronizedList(new ArrayList<String[]>());
     private static int portRangeMax            = 1750;
     private static int portRangeMin            = 1720;
     private static int index                   = -1;
-    static GUIOutput out                       = GUIOutput.getInstance();
+    static GUIOutput outMsg                    = GUIOutput.getInstance();
    
     
     private DynamicPorts() {
@@ -46,19 +51,13 @@ public class DynamicPorts {
     
     private synchronized static int generatingPort()
     {
-        
         int rand=0;
         do
         {
             rand = (int) (Math.random() * (portRangeMax - portRangeMin) + portRangeMin);
         }while(ports.indexOf(rand) != -1);
 
-         
-         
-
-        
-        return rand;
-        
+        return rand;        
     }
     
     /**
@@ -88,8 +87,7 @@ public class DynamicPorts {
             ports.add(tmp);
             
         }
-        
-        
+                
         return findPort(port);
     }
     
@@ -107,12 +105,10 @@ public class DynamicPorts {
             if(p[1].equals(String.valueOf(port)))
             {
                 index = ports.indexOf(p);
-            }
-            
+            }            
         }
         
-        return index;
-        
+        return index;        
     }
     
     /**
@@ -131,7 +127,6 @@ public class DynamicPorts {
             {
                 returnS = p;
             }
-            
         }
         
         if(returnS != null)
@@ -142,7 +137,6 @@ public class DynamicPorts {
         {
             return -1;
         }
-        
     }
 
     /**
@@ -158,8 +152,7 @@ public class DynamicPorts {
             return tmp[1];
         }
         
-        return null;
-        
+        return null;        
     }
     
     /**
@@ -170,8 +163,7 @@ public class DynamicPorts {
     public synchronized static int getPort(String IPto)
     {
         arrangePort(IPto, String.valueOf(generatingPort())+".1");
-        return Integer.valueOf(findIdent(getIdentbyString(IPto)));
-        
+        return Integer.valueOf(findIdent(getIdentbyString(IPto)));        
     }
     
     /**
@@ -189,8 +181,7 @@ public class DynamicPorts {
      * @param port
      */
     public synchronized static void releasePort(int port)
-    {
-        
+    {        
         for(int i = 0; i < ports.size(); i++)
         {
             String[] tmp = ports.get(i);
@@ -198,9 +189,7 @@ public class DynamicPorts {
             {
                 ports.remove(tmp);
             }
-
-        }
-        
+        }        
     }
     
     /**
@@ -210,8 +199,7 @@ public class DynamicPorts {
      */
     public synchronized static void arrangePort(String IPv4to, String Port)
     {
-            arrangePort(IPv4to, Port, false);
-    
+            arrangePort(IPv4to, Port, false);    
     }
     
     /**
@@ -226,10 +214,10 @@ public class DynamicPorts {
             boolean kicked = CheckKicked.checkKicked();
             if (kicked)
             {
-                out.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
+                outMsg.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
             } else if (PingServer.PingServer(IPv4to) == false)
             {
-                out.print("IP " + IPv4to + "zur Zeit nicht erreichbar!", 3);
+                outMsg.print("(Dynamic Ports) IP " + IPv4to + "zur Zeit nicht erreichbar!", 3);
             } else
             {
                 /**
@@ -256,16 +244,9 @@ public class DynamicPorts {
                 args[3] = doWhat;
                
                 StartClientServer.startClient(args);
-                
-                
-                
-                
-            }   } catch (UnknownHostException ex) {
-            Logger.getLogger(DynamicPorts.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
+            }   
+        } catch (UnknownHostException ex) {
+            outMsg.print("(Dynamic Ports) " + ex.toString(), 3);
+        }    
     }
-    
-    
-    
 }
