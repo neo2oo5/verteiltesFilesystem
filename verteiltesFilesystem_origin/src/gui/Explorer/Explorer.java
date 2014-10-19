@@ -76,6 +76,21 @@ public class Explorer
      */
     public static synchronized void initExplorerTree() 
    {
+        
+        List<String> ips = c.getAllIps();
+                
+
+             for(int b = 0; b < c.getClientCount(); b++)
+             {
+                 
+                    String currentIP = ips.get(b);
+       
+                    if(!PingServer.PingServer(currentIP))
+                    {
+                        c.remove(currentIP);
+                        treePanel.removeOverIP(currentIP);
+                    }
+             }
        
         
         if (!Config.isRootDir())
@@ -97,7 +112,7 @@ public class Explorer
 
 
 
-            List<String> ips = c.getAllIps();
+            
             List<String> tmp = new ArrayList<>();
 
              for(int z = 0; z < c.getClientCount(); z++)

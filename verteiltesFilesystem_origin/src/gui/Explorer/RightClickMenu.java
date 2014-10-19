@@ -105,12 +105,10 @@ public class RightClickMenu {
                 currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
                 args = ExplorerHelper.getNetOperationData(currentNode);
 
-                for (String arg : args) {
-                    System.out.print(arg + "\n");
-                }
+                
             }
 
-            if (currentNode != null && currentSelection != null) {
+            if (currentNode != null && currentSelection != null && args != null) {
 
                 System.out.print("selection: " + currentSelection + "node" + currentNode.getUserObject() + " \n");
                 System.out.print("admin: " + Interfaces.interfaceIAmAdmin() + "\n");
