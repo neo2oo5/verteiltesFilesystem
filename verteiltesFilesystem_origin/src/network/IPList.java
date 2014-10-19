@@ -198,6 +198,8 @@ public class IPList
             for (String ip : IPList)
             {
                 writer.write(ip);
+                writer.write(LineSeperator());
+                writer.flush();
             }
 
         } catch (IOException ex)
@@ -261,7 +263,7 @@ public class IPList
         {
             return "\r\n";
         }
-        return "";
+        return "\r\n";
     }
 
 }
