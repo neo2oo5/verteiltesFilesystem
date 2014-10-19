@@ -124,6 +124,7 @@ public class Handler implements Runnable
                     {
                         outTxT.print("(Handler) AdminMessage: " + args[0], 1);
                         if(args[0].equals("Admin Logged out!")) AdminPannel.setLoggedin(false);
+                        else if(args[0].equals("Admin Logged in!")) AdminPannel.setLoggedin(true);
                     } else if (args[anz].equals("AdminKickUser"))
                     {
                         String ownIP = gui.Config.getCurrentIp();
