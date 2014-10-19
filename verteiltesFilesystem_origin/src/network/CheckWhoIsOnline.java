@@ -90,7 +90,6 @@ public class CheckWhoIsOnline extends Thread
                 {
                     String[] ipSetnew = new String[2];
                     ipSet = ipList.get(i);
-                    System.out.print(ipSetnew[1]);
                     if (Integer.getInteger(ipSetnew[0]) >= 3)
                     {
                         //remove from fs

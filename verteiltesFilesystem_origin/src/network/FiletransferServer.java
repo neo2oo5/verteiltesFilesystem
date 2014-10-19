@@ -133,7 +133,6 @@ public class FiletransferServer
         } catch (IOException ex)
         {
             outMsg.print("(FileTransferServer) " + ex.toString(), 3);
-            ex.printStackTrace();
         } finally
         {
             try
@@ -146,7 +145,6 @@ public class FiletransferServer
             } catch (IOException ex)
             {
                 outMsg.print("(FileTransferServer) " + ex.toString(), 3);
-                ex.printStackTrace();
             }
 
         }
