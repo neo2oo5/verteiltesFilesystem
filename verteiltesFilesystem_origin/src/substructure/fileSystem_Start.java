@@ -33,7 +33,7 @@ public class fileSystem_Start {
     /**
      *
      */
-    public static boolean Debug = true; //nur fuer debug
+    public static boolean Debug = false; //nur fuer debug
 
     /**
      * @param args the command line arguments
