@@ -253,6 +253,40 @@ public class IPList
         }
         return Collections.synchronizedList(IPList);
     }
+    
+    public static List<String> getIPListRandom()
+    {
+        ArrayList<String> IPList = new ArrayList<>();
+        int laengeListe = 0;
+        try
+        {
+            BufferedReader inFile = null;
+
+            ipListPath = GetIPListPath();
+            inFile = new BufferedReader(new FileReader(ipListPath));
+            String ip = null;
+            while ((ip = inFile.readLine()) != null)
+            {
+                laengeListe = IPList.size();
+                int rand=0;
+                do
+                {
+                    rand = (int) Math.random();
+                    
+                }while(rand < 0 && rand > laengeListe);
+                
+                IPList.add(rand, ip);
+            }
+            inFile.close();
+        } catch (FileNotFoundException ex)
+        {
+            outMsg.print("(getIPList) " + ex.toString(), 3);
+        } catch (IOException ex)
+        {
+            outMsg.print("(getIPList) " + ex.toString(), 3);
+        }
+        return Collections.synchronizedList(IPList);
+    }
 
     public static String LineSeperator()
     {
