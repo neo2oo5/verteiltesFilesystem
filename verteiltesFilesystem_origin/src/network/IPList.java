@@ -19,6 +19,7 @@ import java.io.BufferedWriter;
 import substructure.PathHelper;
 import java.io.FileNotFoundException;
 import fileSystem.fileSystemException;
+import java.util.Random;
 
 /**
  * Klasse IPList
@@ -253,39 +254,39 @@ public class IPList
         }
         return Collections.synchronizedList(IPList);
     }
-    
+       
+        
+
+      
+        
+
+        public static String anyItem()
+        {
+            Random randomGenerator = new Random();
+
+            int index = randomGenerator.nextInt(getIPList().size());
+            String item = getIPList().get(index);
+            return item;
+        }
     public static List<String> getIPListRandom()
     {
-        ArrayList<String> IPList = new ArrayList<>();
-        int laengeListe = 0;
-        try
+        ArrayList<String> IPListRandom = new ArrayList<>();
+        List<String> IPList = getIPList();
+        int laengeListe = IPList.size();
+        
+        do
         {
-            BufferedReader inFile = null;
-
-            ipListPath = GetIPListPath();
-            inFile = new BufferedReader(new FileReader(ipListPath));
-            String ip = null;
-            while ((ip = inFile.readLine()) != null)
+            String item = anyItem();
+            
+            if(IPListRandom.indexOf(item) == -1)
             {
-                laengeListe = IPList.size();
-                int rand=0;
-                do
-                {
-                    rand = (int) Math.random();
-                    
-                }while(rand < 0 && rand > laengeListe);
-                
-                IPList.add(rand, ip);
+                IPListRandom.add(item);
             }
-            inFile.close();
-        } catch (FileNotFoundException ex)
-        {
-            outMsg.print("(getIPList) " + ex.toString(), 3);
-        } catch (IOException ex)
-        {
-            outMsg.print("(getIPList) " + ex.toString(), 3);
-        }
-        return Collections.synchronizedList(IPList);
+          
+            
+        }while(IPListRandom.size() < laengeListe);
+                
+        return Collections.synchronizedList(IPListRandom);
     }
 
     public static String LineSeperator()

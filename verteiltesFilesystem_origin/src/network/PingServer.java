@@ -71,7 +71,7 @@ public class PingServer
                     /**
                      * Warte eine Halbe Sekunde
                      */
-                    sleep(500);
+                    sleep(800);
                 } catch (InterruptedException ex1)
                 {
                     /**
@@ -92,7 +92,7 @@ public class PingServer
                  * Lösche die IP aus der Liste, Melde dass die IP gelöscht wurde
                  * Gebe flase zurück // nicht Erfolgreich
                  */
-                if (counter >= 4)
+                if (counter >= 8)
                 {
                     IPList.removeIP(checkIP);
                     outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
