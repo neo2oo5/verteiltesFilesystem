@@ -9,14 +9,9 @@ package network;
 import java.net.Socket;
 import java.io.IOException;
 import fileSystem.fileSystem;
-import java.net.SocketAddress;
 import substructure.GUIOutput;
-import java.net.InetSocketAddress;
-import static java.lang.Thread.sleep;
-import java.net.SocketTimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.net.SocketFactory;
+import static java.lang.Thread.sleep;
 
 /**
  * Klasse PingServer
@@ -64,11 +59,10 @@ public class PingServer
                 try
                 {
                     /**
-                     * Starte den Socket mit Verbindung zum Gewünschten User mit
-                     * einem Max. Timeout von einer Sekunde Setze chk auf true
+                     * Starte den Socket mit Verbindung zum Gewünschten User 
+                     * Überprüfe ob verbindunge geklappt hat
+                     * - Falls 4 mal nicht geklappt -> löschen aus IP Liste
                      */
-//                     SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
-//                     socket.connect(sockaddr, 1000);
                     Socket s = SocketFactory.getDefault().createSocket(checkIP, 1717);
                     if (s.isConnected() == true)
                     {
