@@ -123,6 +123,9 @@ public class PingServer
                     outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
                    
                 }
+            } catch (IOException ex)
+            {
+                outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
             }
         } while (!chk);
         try
