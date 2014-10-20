@@ -1,32 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
 /**
- * Used Libraries
+ * Imports
  */
-import fileSystem.fileSystem;
 import gui.Config;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static network.IPList.getIPList;
+import java.io.IOException;
+import fileSystem.fileSystem;
 import substructure.GUIOutput;
+import java.net.UnknownHostException;
+import static network.IPList.getIPList;
 
 /**
- *
- * @author Lamparari
+ * Klasse Interfaces
+ * 
+ * Diese Klasse dient als Schnittstelle für alle Package's
+ * die gewünschte Aktion auszuführen 
+ * oder sich mit einem User zu verbinden um dort die gewünschte Aktion auszuführen
+ * 
+ * 
+ * @author David Lampa
+ * @version 1.0
+ * 
  */
 public class Interfaces
 {
-
-    // attr.
-    static GUIOutput out = GUIOutput.getInstance();
+    /**
+     * Variablen Initialisieren
+     */
+    static GUIOutput outMsg = GUIOutput.getInstance();
     static fileSystem c = fileSystem.getInstance();
 
     /**
@@ -45,7 +50,7 @@ public class Interfaces
         boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("Network Offline or You get Kicked from Network", 3);
+            outMsg.print("Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
         } else
@@ -78,7 +83,7 @@ public class Interfaces
 
                 } catch (Exception ex)
                 {
-                    out.print("(Interfaces) FileTransfer " + ex, 3);
+                    outMsg.print("(Interfaces) FileTransfer " + ex, 3);
                 }
 
             }
@@ -100,7 +105,7 @@ public class Interfaces
         boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("(Interface - FileRename) : " + "Network Offline or You get Kicked from Network", 3);
+            outMsg.print("(Interface - FileRename) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
         } else
@@ -138,7 +143,7 @@ public class Interfaces
         boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("(Interface - FileDelete) : " + "Network Offline or You get Kicked from Network", 3);
+            outMsg.print("(Interface - FileDelete) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
         } else
@@ -171,7 +176,7 @@ public class Interfaces
         boolean kicked = CheckKicked.checkKicked();
         if (kicked)
         {
-            out.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
+            outMsg.print("(Interface - FileCreate) : " + "Network Offline or You get Kicked from Network", 3);
         } else if (PingServer.PingServer(IPv4) == false)
         {
         } else
@@ -222,7 +227,7 @@ public class Interfaces
         StartClientServer.startServer();
         String ip = Config.getCurrentIp();
         IPList.InsertIpInList(ip);
-        out.print("(Interface) - StartProgram -> Ihre IP: " + ip);
+        outMsg.print("(Interface) - StartProgram -> Ihre IP: " + ip);
         CheckWhoIsOnline.doMulticast();
         return true;
     }
@@ -242,7 +247,7 @@ public class Interfaces
             boolean kicked = CheckKicked.checkKicked();
             if (kicked)
             {
-                out.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
+                outMsg.print("(Interface - NetworkOnline) : " + "Network Offline or You get Kicked from Network", 3);
             } else
             {
 
@@ -256,7 +261,7 @@ public class Interfaces
             }
         } catch (UnknownHostException ex)
         {
-            out.print("(Interface - NetworkOnline) : " + ex.toString(), 3);
+            outMsg.print("(Interface - NetworkOnline) : " + ex.toString(), 3);
         }
         return online;
     }
@@ -281,7 +286,7 @@ public class Interfaces
             return AdminPannel.adminLogout();
         } catch (IOException ex)
         {
-            out.print("(Interface - AdminLogout) : " + ex.toString(), 2);
+            outMsg.print("(Interface - AdminLogout) : " + ex.toString(), 2);
         }
         return false;
     }
@@ -298,7 +303,7 @@ public class Interfaces
             c.remove(ipToKick);
         } catch (IOException ex)
         {
-            out.print("(Interface - AdminKickUser) : " + ex.toString(), 2);
+            outMsg.print("(Interface - AdminKickUser) : " + ex.toString(), 2);
         }
     }
 
@@ -374,7 +379,7 @@ public class Interfaces
      */
     public static void interfaceNewClient(String clientIP, String ownIP)
     {
-        out.print("(interfaceNewClient) start");
+        outMsg.print("(interfaceNewClient) start");
         String doWhat = "newClient";
         String[] args = new String[3];
         args[0] = clientIP;

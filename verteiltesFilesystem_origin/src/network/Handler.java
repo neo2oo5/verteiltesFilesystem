@@ -1,37 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
 /**
- * Used Libraries
+ * Imports
  */
-import fileSystem.fileSystemException;
-import java.io.BufferedReader;
 import java.io.File;
+import java.net.Socket;
+import java.io.PrintWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.regex.Pattern;
+import java.io.BufferedReader;
 import substructure.GUIOutput;
+import java.util.regex.Pattern;
+import java.io.InputStreamReader;
+import fileSystem.fileSystemException;
 
 /**
- *
- * @author Lamparari
- */
-/**
- * run class "Handler" with threads
+ * Klasse Handler
+ * 
+ * Diese Klasse dient dazu, die vom anderen User gewünschte Aktion Lokal auszuführen
+ * 
+ * @author David Lampa
+ * @version 1.0
+ * 
+ * @Runnable
  */
 public class Handler implements Runnable
 {
-
+    /**
+     * Variablen Initialisieren
+     */
     private Socket client;
-    static GUIOutput outTxT = GUIOutput.getInstance();
+    static GUIOutput outMsg = GUIOutput.getInstance();
 
     /**
      *
@@ -122,7 +125,7 @@ public class Handler implements Runnable
                         network.AdminPannel.setLoggedin(true);
                     } else if (args[anz].equals("AdminMessage"))
                     {
-                        outTxT.print("(Handler) AdminMessage: " + args[0], 1);
+                        outMsg.print("(Handler) AdminMessage: " + args[0], 1);
                         if(args[0].equals("Admin Logged out!")) AdminPannel.setLoggedin(false);
                         else if(args[0].equals("Admin Logged in!")) AdminPannel.setLoggedin(true);
                     } else if (args[anz].equals("AdminKickUser"))
@@ -133,33 +136,33 @@ public class Handler implements Runnable
                         {
                             IPList.clearList();
                             IPList.InsertIpInList(ownIP);
-                            outTxT.print("(Handler) you removed from network by an admin");
+                            outMsg.print("(Handler) you removed from network by an admin");
 
                         } else
                         {
                             IPList.removeIP(args[0]);
-                            outTxT.print("(Handler) Exit: " + args[0] + " get kicked");
+                            outMsg.print("(Handler) Exit: " + args[0] + " get kicked");
                         }
                     } else if (args[anz].equals("Exit"))
                     {
                         IPList.removeIP(args[0]);
-                        outTxT.print("(Handler) Exit: " + args[0] + " get removed");
+                        outMsg.print("(Handler) Exit: " + args[0] + " get removed");
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
                         IPList.replaceIP(args[0], args[1]);
 
-                        outTxT.print("(Handler) ChangeOwnIP: " + args[0] + " to " + args[1]);
+                        outMsg.print("(Handler) ChangeOwnIP: " + args[0] + " to " + args[1]);
                     } else if (args[anz].equals("newClient"))
                     {
                         IPList.InsertIpInList(args[0]);
-                        outTxT.print("(Handler) newClient eintrag: " + args[0]);
+                        outMsg.print("(Handler) newClient eintrag: " + args[0]);
                     }
                      else if (args[anz].equals("arrangePort"))
                     {
                         DynamicPorts dp = DynamicPorts.getInstance();
                         String[] ipp = args[1].split(Pattern.quote("."));
                         
-                        outTxT.print("(Handler) Port wird mit Client ausgehandelt: " + args[0]);
+                        outMsg.print("(Handler) Port wird mit Client ausgehandelt: " + args[0]);
                         //Bearbeite Anfrage
                         if(ipp[2].length()== 1)
                         {
@@ -170,13 +173,13 @@ public class Handler implements Runnable
                                 {
                                     //sent ok (port nr)
                                     dp.arrangePort(args[0], ipp[1] + ".11", true);
-                                    outTxT.print("Port " + ipp[1] + " wurde zum Transfer vorgeschlagen und aktzeptiert");
+                                    outMsg.print("Port " + ipp[1] + " wurde zum Transfer vorgeschlagen und aktzeptiert");
                                 }
                                 else
                                 {
                                     //sent -1
                                     dp.arrangePort(args[0], ipp[1] + ".10", true);
-                                    outTxT.print("Port " + ipp[1] + " wurde abgelehnt da er schon benutzt wird");
+                                    outMsg.print("Port " + ipp[1] + " wurde abgelehnt da er schon benutzt wird");
 
                                 }
                             }
@@ -189,26 +192,35 @@ public class Handler implements Runnable
                                 if(dp.setPort(ipp[0], Integer.valueOf(ipp[1])) != -1 )
                                 {
                                     //sent ok (port nr)
-                                    outTxT.print("Port " + ipp[1] + " wurde zum Transfer aktzeptiert");
+                                    outMsg.print("Port " + ipp[1] + " wurde zum Transfer aktzeptiert");
                                 }
                                 else
                                 {
-                                    outTxT.print("Port" + ipp[1] + " wurde abgelehnt");
+                                    outMsg.print("Port" + ipp[1] + " wurde abgelehnt");
                                 }
                             }
                         }
                     }
                 }
+                /**
+                 * reader, writer, client close
+                 */
                 reader.close();
                 writer.close();
                 client.close();
             } catch (IOException ex)
             {
-                outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
+                /**
+                 * Fehler abfangen und ausgeben
+                 */
+                outMsg.print("(Handler - run - if) : " + ex.toString(), 3);
             }
         } catch (IOException ex)
         {
-            outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
+            /**
+             * Fehler abfangen und ausgeben
+             */
+            outMsg.print("(Handler - run - if) : " + ex.toString(), 3);
         } finally
         {
             try
@@ -216,7 +228,10 @@ public class Handler implements Runnable
                 outPS.close();
             } catch (IOException ex)
             {
-                outTxT.print("(Handler - run - if) : " + ex.toString(), 2);
+                /**
+                 * Fehler abfangen und ausgeben
+                 */
+                outMsg.print("(Handler - run - if) : " + ex.toString(), 3);
             }
         }
     }

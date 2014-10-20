@@ -1,77 +1,85 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
 /**
- * Used Libraries
+ * Imports
  */
+import java.net.Socket;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import substructure.GUIOutput;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 
 /**
- *
- * @author Lamparari
- */
-/**
- * class to run a computer as a server
+ * Klasse Server
+ * 
+ * Klasse zur Kommunikation mit anderen Usern
+ * - Diese Klasse dient zum empfangen der gewünschten Aktionen
+ * - gibt diese dem Handler weiter, der die gewünschte Aktion dann ausführt
+ * - wird beim Programmstart gestartet und bleibt bis zum Beenden des Programms
+ * 
+ * @author David Lampa
+ * @version 1.0
+ * 
  */
 public class Server
 {
 
-    static GUIOutput out = GUIOutput.getInstance();
+    /**
+     * Variablen Initialisieren
+     */
+    static GUIOutput outMsg = GUIOutput.getInstance();
 
     /**
+     * Funktion server
+     * 
+     * Diese Funktion dient zur Kommunikation mit anderen Usern
+     * - Diese Klasse dient zum erfolgreichen empfangen von Informationen
+     *   das mitgegebene String an den Handler weiter zu geben
      *
      */
     public static void server()
     {
-
         /**
-         * Thread pool with a fixed number of threads
+         * ThreadPool, Socket Initialisieren
          */
         ExecutorService executor = Executors.newFixedThreadPool(80);
-
-        /**
-         * server socket, named "server"
-         */
         ServerSocket server;
+        
         try
         {
             /**
-             * server port = 1717
+             * Serversocket Verbindung erstellen, damit die Client's sich mit dem
+             * Server verbinden können
              */
             server = new ServerSocket(1717);
+            
             /**
-             * check if the server was started
+             * Gebe aus, dass der Server und das Programm gestartet sind
              */
-            out.print("Programm gestartet!", 1);
-            out.print("Server Gestartet!", 1);
+            outMsg.print("Programm gestartet!", 1);
+            outMsg.print("Server Gestartet!", 1);
 
             /**
-             * search for client requests to accept them
+             * Wenn ein Client sich verbinden will
+             * - Verbindung Aktzeptieren
+             * - Daten an den Handler weitergeben
              */
             while (true)
             {
-                /**
-                 * wait for a client request
-                 */
                 Socket client = server.accept();
                 executor.execute(new Handler(client));
 
             }
-            /**
-             * catch exceptions and log them
-             */
         } catch (IOException ex)
         {
-            out.print("(Server - server) : " + ex.toString(), 2);
+            /**
+             * Fehler abfangen und ausgeben
+             */
+            outMsg.print("(Server - server) : " + ex.toString(), 3);
         }
 
     }

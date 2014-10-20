@@ -1,41 +1,56 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
-import fileSystem.fileSystem;
-import fileSystem.fileSystemException;
+/**
+ * Imports
+ */
 import gui.Config;
-import java.io.File;
-import java.net.UnknownHostException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import fileSystem.fileSystem;
 import substructure.GUIOutput;
+import java.net.UnknownHostException;
+import fileSystem.fileSystemException;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Klasse syncFilesystems
+ * 
+ * Klasse dient dazu, das FileSystem Synchron zu halten
+ * 
+ * @author David Lampa
+ * @version 1.0
+ * 
+ * @Runnable
  */
 public class syncFilesystems implements Runnable
 {
-
+    /**
+     * Variablen Initialisieren
+     */
     private String fullPath = "", filename = "myFileList.ser";
-    private static GUIOutput out = GUIOutput.getInstance();
+    private static GUIOutput outMsg = GUIOutput.getInstance();
 
     /**
+     * Funktion syncFilesystems
+     * 
+     * Diese Funktion dient dazu, das FileSystem über Thread zu Synchronisieren
      *
      */
     public syncFilesystems()
     {
         try
         {
+            /**
+             * Variablen Initialisieren
+             */
             fullPath = substructure.PathHelper.getFile(filename);
         } catch (fileSystemException ex)
         {
-            out.print(ex.toString());
+            /**
+             * Fehler abfangen und ausgeben
+             */
+            outMsg.print("(syncFilesystems) " + ex.toString(), 3);
         }
 
     }
@@ -43,44 +58,78 @@ public class syncFilesystems implements Runnable
     @Override
     public void run()
     {
-        out.print("(syncFileSystems) start");
+        outMsg.print("(syncFileSystems) start", 1);
 
+        /**
+         * IPListe holen
+         */
         List<String> ips = IPList.getIPList();
 
+        /**
+         * Solange IP's in der IPListe sind
+         */
         for (String ip : ips)
         {
+            /**
+             * Solange User anpingbar ist und nicht der eigenen IP entspricht
+             */
             if (PingServer.PingServer(ip) && !ip.equals(Config.getCurrentIp()))
             {
                 if (downloadFSbyIP(ip))
                 {
+                    /**
+                     * Füge die FileSysteme zusammen
+                     */
                     fileSystem fs = fileSystem.getInstance();
                     fs.mergeList();
                 } else
                 {
-                    out.print("Ein sync Fehler mit folgender IP trat auf: " + ip);
+                    /**
+                     * Fehler abfangen und ausgeben
+                     */
+                    outMsg.print("Ein sync Fehler mit folgender IP trat auf: " + ip);
                 }
             }
         }
 
-        out.print("(syncFileSystems) standart gemäß beendet");
-
+        outMsg.print("(syncFileSystems) standart gemäß beendet");
     }
 
+    /**
+     * Funktion downloadFSbyIP
+     * 
+     * Diese Funktion dient dazu, das FileSystem zu Synchronisieren
+     *
+     * @param IP String // gewünschte IP von der das FileSystem geholt werden soll
+     * @return boolean // true = Synchronisieren Erfolgreich
+     */
     private boolean downloadFSbyIP(String IP)
     {
         try
         {
+            /**
+             * Variablen Initialisieren
+             */
             boolean trigger = true;
             do
             {
+                /**
+                 * Falls der Dateidownload Fertig ist
+                 */
                 if (Interfaces.interfaceFileTransfer(IP, null, filename, "inComingList.ser"))
                 {
                     do
                     {
                         try {
+                            /**
+                             * Warte eine Sekunde solange der DOwnload noch nicht abgeschlossen ist
+                             */
                             Thread.sleep(1000);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(syncFilesystems.class.getName()).log(Level.SEVERE, null, ex);
+                            /**
+                             * Fehler abfangen und ausgeben
+                             */
+                            outMsg.print("(downloadFSbyIP) " + ex.toString(), 3);
                         }
                         
                     }while( FiletransferClient.isTransferReady() != true);
@@ -88,14 +137,20 @@ public class syncFilesystems implements Runnable
                 }
 
             } while (trigger);
-
+            
+            /**
+             * Gebe Erfolgreich zurück
+             */
             return true;
 
         } catch (UnknownHostException ex)
         {
-            out.print(ex.toString());
+            
+            /**
+             * Fehler abfangen, ausgeben und Fehlgeschlagen zurückgeben
+             */
+            outMsg.print("(downloadFSbyIP) " + ex.toString(), 3);
             return false;
         }
-
     }
 }

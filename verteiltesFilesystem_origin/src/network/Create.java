@@ -1,32 +1,50 @@
+/**
+ * Package
+ */
 package network;
 
 /**
- * Used Libraries
+ * Imports
  */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.regex.Pattern;
 import substructure.GUIOutput;
+import java.util.regex.Pattern;
 
 /**
- * Class to create a File on a path wich the user can select by himself *
+ * Klasse Create
+ * 
+ * Klasse zum lokalen erstellen einer Datei
+ * - fügt dem Dateinamen ein "-neueDatei-" hinzu
+ *   falls der gewünschte dateiname schon existiert
+ * 
+ * @author David Lampa
+ * @version 1.0
  */
 public class Create
 {
-
-    static GUIOutput out = GUIOutput.getInstance();
+    /**
+     * Variablen Initialisieren
+     */
+    static GUIOutput outMsg = GUIOutput.getInstance();
 
     /**
-     *
-     * @param path
-     * @param name
-     * @return
+     * Funktion createFile
+     * 
+     * Diese Funktion dient zum lokalen erstellen einer Datei
+     * - fügt dem Dateinamen ein "-neueDatei-" hinzu
+     *   falls der gewünschte dateiname schon existiert
+     * 
+     * @param path // Pfad wo die Datei erstellt werden soll
+     * @param name // Name der zu erstellenden Datei
+     * @return boolean  // true = erstellen erfolgreich
      */
-    public static boolean createFile(String path, String name)
+    public static boolean createFile(String path, String name)            
     {
         /**
-         * Creates the new File at the selected path
+         * Initialisierung der Datei
+         * - Erstellung des Pfades falls dieser nicht vorhanden ist
          */
         File dir = new File(path);
         dir.mkdirs();
@@ -34,36 +52,52 @@ public class Create
         try
         {
             /**
-             * creates a File - if the file already exists, overwrite it
+             * Solange eine datei mit diesem namen Existiert
+             * wird der Dateiname um "-neueDatei-" erweitert
              */
             while (file.exists())
             {
-                String[] sname = name.split(Pattern.quote("."));
                 /**
-                 * splits the name at every "."
+                 * Splitten des Dateinamens um vor der Datei Endung den
+                 * Dateinamen erweitern zu können
+                 * Hole Anzahl gesplitterter teile, falls Datei Endung aus mehreren .endungen besteht 
                  */
+                String[] sname = name.split(Pattern.quote("."));
                 int anz = sname.length;
+                
                 /**
-                 * get the length of the string
+                 * Erweitern des Dateinamen
                  */
                 name = sname[0] + "-neueDatei-";
+                
                 /**
-                 * rename the file *
+                 * Füge die Datei Endungen hinzu
                  */
                 for (int i = 1; i < anz; i++)
                 {
                     name += "." + sname[i];
                 }
+                
+                /**
+                 * Initialisiere die Datei
+                 */
                 file = new File(path + name);
             }
+            
+            /**
+             * Erstelle die Datei
+             */
             FileWriter writer = new FileWriter(file, false);
         } catch (IOException ex)
         {
-            out.print("(Create - createFile) : " + ex.toString(), 2);
+            /**
+             * Fehler abfangen, ausgeben und fehlgeschlagen zurückgeben
+             */
+            outMsg.print("(Create - createFile) : " + ex.toString(), 2);
             return false;
         }
         /**
-         * return if the file was created successfully
+         * Gebe zurück, ob das erstellen der Datei erfolgreich war
          */
         return true;
     }

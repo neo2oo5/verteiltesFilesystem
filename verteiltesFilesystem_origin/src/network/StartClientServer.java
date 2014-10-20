@@ -1,44 +1,56 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
 /**
- *
- * @author Lamparari
+ * Klasse StartClientServer
+ * 
+ * Klasse dient dazu den Server oder Client als thread zu starten
+ * - Client gibt den gewünschten String Array mit
+ * 
+ * @author David Lampa
+ * @version 1.0
+ * 
  */
 public class StartClientServer
 {
-
     /**
-     * Use method runnable to run "StartClient" and "StartServer" as a Thread
+     * Klasse StartServer
+     * - dient dazu den Server als Thread zu starten
+     * 
+     * @Runnable
      */
     static class StartServer implements Runnable
     {
 
         @Override
         /**
-         * run the server
+         * Starte den Server
          */
         public void run()
         {
             Server.server();
         }
-
     }
 
     /**
-     * Use method runnable to run "StartClient" and "StartServer" as a Thread
+     * Klasse StartClient
+     * - dient dazu den Clienten als Thread zu starten
+     * - mit dem gewünschten String Array zum Übergeben
+     * 
+     * @Runnable
      */
     static class StartClient implements Runnable
     {
 
+        /**
+         * Variablen Initialisieren
+         */
         String[] args;
 
         /**
-         * start this objekt parallel to the upper class
+         * Konstruktur, dient dazu, um dne gewünschten String mit zu geben
          */
         public StartClient(String args[])
         {
@@ -47,18 +59,19 @@ public class StartClientServer
 
         @Override
         /**
-         * run the client
+         * Clienten Starten
          */
         public void run()
         {
             Client.client(args);
         }
-
     }
 
     /**
-     * class to start the server
-     * @return 
+     * Thread startServer
+     * - Startet den Server als Thread
+     * 
+     * @return server // gibt zurück ob Thread start erfolgreich war
      */
     public static Thread startServer()
     {
@@ -69,9 +82,12 @@ public class StartClientServer
     }
 
     /**
-     * class to start a client
-     * @param args
-     * @return 
+     * Thread startClient
+     * - Startet den Clienten als Thread
+     * - Übergibt den gewünschten String Array
+     * 
+     * @param args String[] // gewünschtes String Array, welches übergeben werden soll
+     * @return server // gibt zurück ob Thread start erfolgreich war
      */
     public static Thread startClient(String args[])
     {
@@ -79,5 +95,4 @@ public class StartClientServer
         client.start();
         return client;
     }
-
 }

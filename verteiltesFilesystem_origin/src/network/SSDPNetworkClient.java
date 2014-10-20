@@ -1,22 +1,34 @@
+/**
+ * Package
+ */
 package network;
 
-import gui.Config;
+/**
+ * Imports
+ */
 import java.io.*;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import gui.Config;
 import substructure.GUIOutput;
 
 /**
- *
- * @author xoxoxo
+ * Klasse SSDPNetworkClient
+ * 
+ * Diese Klasse dient UPNP/SSDP client to demonstrate the usage of UDP multicast sockets.
+ * 
+ * @author David Lampa, Kevin Bonner
+ * @version 1.0
+ * 
+ * @Runnable
  */
 public class SSDPNetworkClient implements Runnable
 {
-
+    /**
+     * Variablen Initialisieren
+     */
     MulticastSocket socket;
     final int port = 1900;
-    static GUIOutput out = GUIOutput.getInstance();
+    static GUIOutput outMsg = GUIOutput.getInstance();
 
     /**
      * UPNP/SSDP client to demonstrate the usage of UDP multicast sockets.
@@ -39,14 +51,14 @@ public class SSDPNetworkClient implements Runnable
             DatagramPacket hi = new DatagramPacket(txbuf, txbuf.length,
                     multicastAddress, port);
             socket.send(hi);
-            out.print("(SSDPNetwork) SSDP alive sent");
+            outMsg.print("(SSDPNetwork) SSDP alive sent");
 
             // send discover
             txbuf = DISCOVER_MESSAGE_ROOTDEVICE.getBytes("UTF-8");
             hi = new DatagramPacket(txbuf, txbuf.length,
                     multicastAddress, port);
             socket.send(hi);
-            out.print("(SSDPNetwork) SSDP discover sent");
+            outMsg.print("(SSDPNetwork) SSDP discover sent");
 
             //empfange
             do
@@ -58,7 +70,7 @@ public class SSDPNetworkClient implements Runnable
             } while (true); // should leave loop by SocketTimeoutException
         } catch (SocketTimeoutException e)
         {
-            out.print("(SSDPNetwork) Timeout");
+            outMsg.print("(SSDPNetwork) Timeout");
             if (socket != null)
             {
                 socket.close();
@@ -93,7 +105,7 @@ public class SSDPNetworkClient implements Runnable
                 args[1] = ownIP;
                 args[2] = doWhat;
                 StartClientServer.startClient(args);
-                out.print("(SSDPNetwork) Folgende IP in Liste eingetragen: " + addr + "\n");
+                outMsg.print("(SSDPNetwork) Folgende IP in Liste eingetragen: " + addr + "\n");
             }
         }
     }
@@ -150,7 +162,7 @@ public class SSDPNetworkClient implements Runnable
             multicast();
         } catch (IOException ex)
         {
-            Logger.getLogger(SSDPNetworkClient.class.getName()).log(Level.SEVERE, null, ex);
+            outMsg.print("(SSDPNetwork) " + ex.toString(), 3);
         }
     }
 }
