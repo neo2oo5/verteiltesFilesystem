@@ -146,6 +146,7 @@ public class Handler implements Runnable
                     } else if (args[anz].equals("Exit"))
                     {
                         IPList.removeIP(args[0]);
+                        gui.Explorer.Explorer.removeIP(args[0]);
                         outMsg.print("(Handler) Exit: " + args[0] + " get removed");
                     } else if (args[anz].equals("ChangeOwnIP"))
                     {
