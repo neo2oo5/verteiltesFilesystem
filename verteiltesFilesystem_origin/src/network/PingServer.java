@@ -13,6 +13,10 @@ import java.net.SocketAddress;
 import substructure.GUIOutput;
 import java.net.InetSocketAddress;
 import static java.lang.Thread.sleep;
+import java.net.SocketTimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.net.SocketFactory;
 
 /**
  * Klasse PingServer
@@ -61,42 +65,63 @@ public class PingServer
                  * mit einem Max. Timeout von einer Sekunde
                  * Setze chk auf true
                  */
-                SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
-                socket.connect(sockaddr, 1000);
-                chk = true;
-            } catch (IOException ex)
-            {
-                try
+               // SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
+               // socket.connect(sockaddr, 1000);
+                Socket s = SocketFactory.getDefault().createSocket(checkIP, 1717);
+                
+                if(s.isConnected() == false)
                 {
-                    /**
-                     * Warte eine Halbe Sekunde
-                     */
-                    sleep(800);
-                } catch (InterruptedException ex1)
+                    counter++;
+                    try {
+                        sleep(800);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PingServer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    chk = false;
+                }
+                else
                 {
-                    /**
-                     * Fehler abfangen, ausgeben - falls Sleep Fehlschlägt
-                     */
-                    outMsg.print("(PingServer) " + ex1.toString(), 1);
+                    chk = true;
                 }
                 
-                /**
-                 * Setze chk als false - nicht geklappt
-                 * Zähle den Counter hoch
-                 */
-                chk = false;
-                counter++;
+                if (counter >= 8)
+                {
+                    outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
+                    return false;
+                }
                 
+                
+            } catch (SocketTimeoutException ex)
+            {
+                
+                
+          
                 /**
                  * Soald die Verbindung zum gewünschten User 4 mal nicht erfolgreich war
                  * Lösche die IP aus der Liste, Melde dass die IP gelöscht wurde
                  * Gebe flase zurück // nicht Erfolgreich
                  */
-                if (counter >= 8)
+                
+            } catch (IOException ex)
+            {
+                outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
+                
+            }
+            finally
+            {
+                try
                 {
-                    IPList.removeIP(checkIP);
-                    outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
-                    return false;
+                    /**
+                                        * Schließe die Socket Verbindung
+                                        */
+                    socket.close();
+                } catch (IOException ex)
+                {
+                    /**
+                                        * Fehler abfangen, ausgeben und fehlgeschlagen zurückgeben
+                                        */
+                    outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
+                   
                 }
             }
         } while (!chk);
