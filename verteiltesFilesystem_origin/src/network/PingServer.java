@@ -70,14 +70,12 @@ public class PingServer
 //                     SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
 //                     socket.connect(sockaddr, 1000);
                     Socket s = SocketFactory.getDefault().createSocket(checkIP, 1717);
-                    outMsg.print("AAAAAAAAAAAAAA " + s.isConnected(), 3);
                     if (s.isConnected() == true)
                     {
                         chk = true;
                     }
                 } catch (IOException ex)
                 {
-                    outMsg.print("------------------------------------", 3);
                     counter++;
                     try
                     {
@@ -90,8 +88,8 @@ public class PingServer
 
                     if (counter >= 4)
                     {
-                        outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
                         IPList.removeIP(checkIP);
+                        outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
                         return false;
                     }
                 }
