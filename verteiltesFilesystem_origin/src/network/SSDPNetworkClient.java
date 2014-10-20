@@ -81,7 +81,7 @@ public class SSDPNetworkClient implements Runnable
     private void dumpPacket(DatagramPacket packet) throws IOException
     {
         String addr = packet.getAddress().getHostAddress();
-        //System.out.println("Response from: " + addr);
+        
         //adresse in liste eintrage
         ByteArrayInputStream in = new ByteArrayInputStream(packet.getData(), 0, packet.getLength());
         if (checkifFileSystem(in) && !addr.equals(Config.getCurrentIp()) && !IPList.SearchIP(addr))
@@ -147,13 +147,7 @@ public class SSDPNetworkClient implements Runnable
             + "SERVER: FileSystem\r\n"
             + "HOST: 239.255.255.250:1900\r\n\r\n";
 
-    /**
-     * MAIN
-     */
-    /* public static void main(String[] args) throws Exception {
-     SSDPNetworkClient client = new SSDPNetworkClient();
-     client.multicast();
-     }*/
+    
     @Override
     public void run()
     {

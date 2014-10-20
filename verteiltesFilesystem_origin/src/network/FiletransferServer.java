@@ -36,6 +36,11 @@ public class FiletransferServer
     static DynamicPorts dp = DynamicPorts.getInstance();
 
     /**
+     * Funktion FileTransferServer
+     * 
+     * Funktion die den FiletransferClient mit den benötigten Informationen startet
+     * sich mit dem FiletransferClient verbindet
+     * und die gewünschte Datei Sendet
      *
      * @param args
      */

@@ -38,8 +38,9 @@ public class FiletransferClient
     static boolean transferReady = false;
 
     /**
+     * Diese Funktion dient zum auslesen ob der Transfer beendet ist oder nicht
      *
-     * @return
+     * @return boolean // true = Transfer Fertig
      */
     public static boolean isTransferReady()
     {
@@ -47,8 +48,9 @@ public class FiletransferClient
     }
 
     /**
+     * Diese Funktion dient zum setzen, ob der Transfer beendet ist oder nicht
      *
-     * @param transferReady
+     * @param transferReady // true = Transfer Fertig
      */
     public static void setTransferReady(boolean transferReady)
     {
@@ -57,8 +59,11 @@ public class FiletransferClient
 
     /**
      *
-     * @param args
-     * @return
+     * Klasse die sich mit dem FiletransferServer verbindet
+     * und die Datei Empfängt
+     * 
+     * @param args String Array // Alle Informationen für den Dateitransfer enthalten
+     * @return boolean // true = Transfer erfolgreich
      */
     public static boolean FileTransferClient(String[] args)
     {

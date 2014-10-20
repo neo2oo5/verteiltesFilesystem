@@ -222,7 +222,6 @@ public class AdminPannel
 
         for (String ip : IPListe)
         {
-
             String doWhat = "AdminMessage";
             String[] args = new String[3];
             args[0] = ip;
@@ -260,7 +259,6 @@ public class AdminPannel
             outMsg.print("Sie können sich nicht selbst Kicken!", 3);
         } else
         {
-
             /**
              * Ansonsten IPListe holen
              * Sage jedem er soll die IP aus seiner Liste entfernen
