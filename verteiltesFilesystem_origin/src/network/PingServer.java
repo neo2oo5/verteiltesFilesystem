@@ -13,6 +13,9 @@ import java.net.SocketAddress;
 import substructure.GUIOutput;
 import java.net.InetSocketAddress;
 import static java.lang.Thread.sleep;
+import java.net.SocketTimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Klasse PingServer
@@ -64,7 +67,7 @@ public class PingServer
                 SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
                 socket.connect(sockaddr, 1000);
                 chk = true;
-            } catch (IOException ex)
+            } catch (SocketTimeoutException ex)
             {
                 try
                 {
@@ -86,6 +89,7 @@ public class PingServer
                  */
                 chk = false;
                 counter++;
+                ex.printStackTrace();
                 
                 /**
                  * Soald die Verbindung zum gewünschten User 4 mal nicht erfolgreich war
@@ -94,10 +98,12 @@ public class PingServer
                  */
                 if (counter >= 8)
                 {
-                    IPList.removeIP(checkIP);
                     outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
                     return false;
                 }
+            } catch (IOException ex)
+            {
+                outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
             }
         } while (!chk);
         try

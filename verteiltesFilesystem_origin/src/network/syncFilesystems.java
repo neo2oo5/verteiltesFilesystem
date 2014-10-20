@@ -63,7 +63,7 @@ public class syncFilesystems implements Runnable
         /**
          * IPListe holen
          */
-        List<String> ips = IPList.getIPListRandom();
+        List<String> ips = IPList.getIPList();
 
         /**
          * Solange IP's in der IPListe sind
