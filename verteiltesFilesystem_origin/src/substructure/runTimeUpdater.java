@@ -55,7 +55,8 @@ public class runTimeUpdater {
         @Override
         public void run() {
             substructure.fileSystem_Start.gUI.setOnOffState();
-            
+            //Interfaces.interfecDoPingTest();
+
         }
     }
 
