@@ -36,7 +36,7 @@ public class runTimeUpdater {
 
         timer.schedule(new MulticastUpdater(), 20000, 30000);
 
-        timer.schedule(new syncFileSytems(), 1000, 5000);
+        timer.schedule(new syncFileSytems(), 1000, 15000);
 
         out.print("runTimeUpdater gestarted");
     }
@@ -55,7 +55,7 @@ public class runTimeUpdater {
         @Override
         public void run() {
             substructure.fileSystem_Start.gUI.setOnOffState();
-            Interfaces.interfecDoPingTest();
+            //Interfaces.interfecDoPingTest();
 
         }
     }
