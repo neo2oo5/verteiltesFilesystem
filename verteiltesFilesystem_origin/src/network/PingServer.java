@@ -58,75 +58,53 @@ public class PingServer
          */
         do
         {
-            try
-            {
-                /**
-                 * Starte den Socket mit Verbindung zum Gewünschten User 
-                 * mit einem Max. Timeout von einer Sekunde
-                 * Setze chk auf true
-                 */
-               // SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
-               // socket.connect(sockaddr, 1000);
-                Socket s = SocketFactory.getDefault().createSocket(checkIP, 1717);
-                
-                if(s.isConnected() == false)
-                {
-                    counter++;
-                    try {
-                        sleep(800);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(PingServer.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    chk = false;
-                }
-                else
-                {
-                    chk = true;
-                }
-                
-                if (counter >= 8)
-                {
-                    outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
-                    return false;
-                }
-                
-                
-            } catch (SocketTimeoutException ex)
-            {
-                
-                
-          
-                /**
-                 * Soald die Verbindung zum gewünschten User 4 mal nicht erfolgreich war
-                 * Lösche die IP aus der Liste, Melde dass die IP gelöscht wurde
-                 * Gebe flase zurück // nicht Erfolgreich
-                 */
-                
-            } catch (IOException ex)
-            {
-                outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
-                
-            }
-            finally
-            {
                 try
                 {
                     /**
-                                        * Schließe die Socket Verbindung
-                                        */
-                    socket.close();
+                     * Starte den Socket mit Verbindung zum Gewünschten User
+                     * mit einem Max. Timeout von einer Sekunde
+                     * Setze chk auf true
+                     */
+//                     SocketAddress sockaddr = new InetSocketAddress(checkIP, 1717);
+//                     socket.connect(sockaddr, 1000);
+                    Socket s = SocketFactory.getDefault().createSocket(checkIP, 1717);
+                    outMsg.print("AAAAAAAAAAAAAA " + s.isConnected(), 3);
+                    if(s.isConnected() == true)
+                    {
+                        chk = true;
+                    }
                 } catch (IOException ex)
                 {
-                    /**
-                                        * Fehler abfangen, ausgeben und fehlgeschlagen zurückgeben
-                                        */
-                    outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
-                   
+                    outMsg.print("------------------------------------",3);
+                        counter++;
+                        try {
+                            sleep(800);
+                        } catch (InterruptedException ex1) {
+                            outMsg.print("(PingServer) " + ex1.toString(), 1);
+                        }
+                        chk = false;
+                    
+                        if (counter >= 4)
+                        {
+                            outMsg.print("IP: " + checkIP + " wurde aus dem Netzwerk entfernt, da nicht erreichbar!", 1);
+                            return false;
+                        }
                 }
-            } catch (IOException ex)
-            {
-                outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
-            }
+                try
+                    {
+                        /**
+                         * Schließe die Socket Verbindung
+                         */
+                        socket.close();
+                    } catch (IOException ex)
+                    {
+                        /**
+                         * Fehler abfangen, ausgeben und fehlgeschlagen zurückgeben
+                         */
+                        outMsg.print("(CheckWhoIsOnline - PingServer) : " + ex.toString(), 2);
+                        
+                    }
+            
         } while (!chk);
         try
         {

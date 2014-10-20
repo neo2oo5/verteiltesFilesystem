@@ -254,40 +254,40 @@ public class IPList
         }
         return Collections.synchronizedList(IPList);
     }
-//       
-//        
-//
-//      
-//        
-//
-//        public static String anyItem()
-//        {
-//            Random randomGenerator = new Random();
-//
-//            int index = randomGenerator.nextInt(getIPList().size());
-//            String item = getIPList().get(index);
-//            return item;
-//        }
-//    public static List<String> getIPListRandom()
-//    {
-//        ArrayList<String> IPListRandom = new ArrayList<>();
-//        List<String> IPList = getIPList();
-//        int laengeListe = IPList.size();
-//        
-//        do
-//        {
-//            String item = anyItem();
-//            
-//            if(IPListRandom.indexOf(item) == -1)
-//            {
-//                IPListRandom.add(item);
-//            }
-//          
-//            
-//        }while(IPListRandom.size() < laengeListe);
-//                
-//        return Collections.synchronizedList(IPListRandom);
-//    }
+       
+        
+
+      
+        
+
+        public static String anyItem()
+        {
+            Random randomGenerator = new Random();
+
+            int index = randomGenerator.nextInt(getIPList().size());
+            String item = getIPList().get(index);
+            return item;
+        }
+    public static List<String> getIPListRandom()
+    {
+        ArrayList<String> IPListRandom = new ArrayList<>();
+        List<String> IPList = getIPList();
+        int laengeListe = IPList.size();
+        
+        do
+        {
+            String item = anyItem();
+            
+            if(IPListRandom.indexOf(item) == -1)
+            {
+                IPListRandom.add(item);
+            }
+          
+            
+        }while(IPListRandom.size() < laengeListe);
+                
+        return Collections.synchronizedList(IPListRandom);
+    }
 
     public static String LineSeperator()
     {
