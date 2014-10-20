@@ -57,6 +57,11 @@ public class Explorer {
         }
 
     }
+    
+    public static void removeIP(String currentIP)
+    {
+        treePanel.removeOverIP(currentIP);
+    }
 
     /**
      * Syncronisiert den JTreeExplorer mit dem FS
