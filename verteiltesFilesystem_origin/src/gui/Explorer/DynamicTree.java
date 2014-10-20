@@ -383,14 +383,15 @@ public class DynamicTree extends JPanel {
      * @param ip
      */
     public void removeOverIP(String ip) {
-        int childcount = getRootNode().getChildCount();
+        DefaultMutableTreeNode root = getRootNode();
+        int childcount = root.getChildCount();
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 
         if (childcount > 0) {
             for (int y = 0; y < childcount; y++) {
-                DefaultMutableTreeNode currentchildNode = (DefaultMutableTreeNode) getRootNode().getChildAt(y);
+                DefaultMutableTreeNode currentchildNode = (DefaultMutableTreeNode) root.getChildAt(y);
                 if (currentchildNode.getUserObject().toString().equals(ip)) {
-                    System.out.print(currentchildNode.getUserObject());
+                   // System.out.print(currentchildNode.getUserObject());
                     model.removeNodeFromParent(currentchildNode);
                 }
             }
