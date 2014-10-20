@@ -202,16 +202,25 @@ public class Handler implements Runnable
                         }
                     }
                 }
+                /**
+                 * reader, writer, client close
+                 */
                 reader.close();
                 writer.close();
                 client.close();
             } catch (IOException ex)
             {
-                outMsg.print("(Handler - run - if) : " + ex.toString(), 2);
+                /**
+                 * Fehler abfangen und ausgeben
+                 */
+                outMsg.print("(Handler - run - if) : " + ex.toString(), 3);
             }
         } catch (IOException ex)
         {
-            outMsg.print("(Handler - run - if) : " + ex.toString(), 2);
+            /**
+             * Fehler abfangen und ausgeben
+             */
+            outMsg.print("(Handler - run - if) : " + ex.toString(), 3);
         } finally
         {
             try
@@ -219,7 +228,10 @@ public class Handler implements Runnable
                 outPS.close();
             } catch (IOException ex)
             {
-                outMsg.print("(Handler - run - if) : " + ex.toString(), 2);
+                /**
+                 * Fehler abfangen und ausgeben
+                 */
+                outMsg.print("(Handler - run - if) : " + ex.toString(), 3);
             }
         }
     }

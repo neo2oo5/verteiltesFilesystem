@@ -1,70 +1,91 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Package
  */
 package network;
 
 /**
- *
- * @author David Lampa, Michael Marchand
- */
-/**
- * Used Libraries *
+ * Imports
  */
 import gui.Config;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.net.InetAddress;
 import java.util.Collections;
 import java.util.Enumeration;
 import substructure.GUIOutput;
+import java.net.SocketException;
+import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 
 /**
- *
- * @author xoxoxo
+ * Klasse getIPv4Address
+ * 
+ * Klasse dient dazu, alle Aktuellen und in verwendung stehenden (W)LAN Ports zu erkennen
+ * - die IP und den Adapter Name zu holen und in die ArrayListe bzw in die IPs.txt einzutragen
+ * 
+ * @author David Lampa, Michael Marchand
+ * @version 1.0
  */
 public class getIPv4Address
 {
-
-    static GUIOutput out = GUIOutput.getInstance();
+    /**
+     * Variablen Initialisieren
+     */
+    static GUIOutput outMsg = GUIOutput.getInstance();
 
     /**
+     * Funktion getIPv4Address
+     * 
+     * Diese Funktion dient dazu, alle Aktuellen und in verwendung stehenden (W)LAN Ports zu erkennen
+     * - die IP und den Adapter Name zu holen und in die ArrayListe bzw in die IPs.txt einzutragen
      *
-     * @return @throws java.net.UnknownHostException
+     * @return ArrayList String Array IPListe 
+     * @throws java.net.UnknownHostException
      */
     public static ArrayList<String> getIPv4Address() throws UnknownHostException
     {
-
-        ArrayList<String> IPListe = new ArrayList<String>();
         /**
-         * Search all network interfaces
+         * Variablen, IPListe Initialisieren
          */
+        int n = 0;
         Enumeration<NetworkInterface> netInter = null;
+        ArrayList<String> IPListe = new ArrayList<String>();
+        
         try
         {
+            /**
+             * Hole alle Netzwerkadapter und trage diese in netInter ein
+             */
             netInter = NetworkInterface.getNetworkInterfaces();
         } catch (SocketException ex)
         {
-            out.print("(getIPv4Address - getIPv4Address) : " + ex.toString(), 2);
+            /**
+             * Fehler abfangen und ausgeben
+             */
+            outMsg.print("(getIPv4Address - getIPv4Address) : " + ex.toString(), 2);
         }
-        int n = 0;
+        
         /**
-         * Search for internet-adresses in the network table
+         * Solange weitere Adapter in der netInter Liste eingetragen sind
          */
         while (netInter.hasMoreElements())
         {
-            NetworkInterface ni = netInter.nextElement();
-            int finder = 0;
             /**
-             * get the IP from every client who is listed in the network table
+             * Variablen Initialisieren
+             * Nächste Element von netInter holen
+             */
+            int finder = 0;
+            NetworkInterface ni = netInter.nextElement();
+            
+            /**
+             * Hole die Netzwerk Adressen (Name + IP) solange noch welche in der Liste sind
              */
             for (InetAddress iaddress : Collections.list(ni.getInetAddresses()))
             {
                 /**
-                 * Search and format the router IP in the local network
+                 * Überprüfe ob der Netzwerk Adapter verwendet werden kann
+                 * - Loopback Adresse auf false prüfen
+                 * - Local Adresse auf true prüfen
+                 * - wenn dies der Fall ist, Adaptername und IP in die IPListe eintragen
                  */
                 if (iaddress.isLoopbackAddress() == false && iaddress.isSiteLocalAddress() == true)
                 {
@@ -72,44 +93,70 @@ public class getIPv4Address
                 }
             }
         }
-
+        
+        /**
+         * gebe die IPListe zurück
+         */
         return IPListe;
 
     }
 
     /**
+     * Funktion getIPv4Address
+     * 
+     * Diese Funktion dient dazu, alle Aktuellen und in verwendung stehenden (W)LAN Ports zu erkennen
+     * - diese als verwendete IP zu setzen
+     * - setzt die IP für den Programmstart
      *
-     * @throws UnknownHostException
+     * @throws java.net.UnknownHostException
      */
     public static void setIPv4Address() throws UnknownHostException
     {
         /**
-         * Search all network interfaces
+         * Variablen Initialisieren
+         * Nächste Element von netInter holen
          */
+        int n = 0;
+        String ip = null;
         Enumeration<NetworkInterface> netInter = null;
+        
         try
         {
+            /**
+             * Hole alle Netzwerkadapter und trage diese in netInter ein
+             */
             netInter = NetworkInterface.getNetworkInterfaces();
         } catch (SocketException ex)
         {
-            out.print("(getIPv4Address - setIPv4Address) : " + ex.toString(), 2);
+            /**
+             * Fehler abfangen und ausgeben
+             */
+            outMsg.print("(getIPv4Address - setIPv4Address) : " + ex.toString(), 2);
         }
-        int n = 0;
-        String ip = null;
+        
         /**
-         * Search for internet-adresses in the network table
+         * Solange weitere Adapter in der netInter Liste eingetragen sind
          */
         while (netInter.hasMoreElements())
         {
-            NetworkInterface ni = netInter.nextElement();
-            int finder = 0;
             /**
-             * get the IP from every client who is listed in the network table
+             * Variablen Initialisieren
+             * Nächste Element von netInter holen
+             */
+            int finder = 0;
+            NetworkInterface ni = netInter.nextElement();
+            
+            /**
+             * Hole die Netzwerk Adressen (Name + IP) solange noch welche in der Liste sind
              */
             for (InetAddress iaddress : Collections.list(ni.getInetAddresses()))
             {
                 /**
-                 * Search and format the router IP in the local network
+                 * Überprüfe ob der Netzwerk Adapter verwendet werden kann
+                 * - Loopback Adresse auf false prüfen
+                 * - Local Adresse auf true prüfen
+                 * - wenn dies der Fall ist, Adaptername und IP in die IPListe eintragen
+                 *   & als Aktuelle IP setzen
                  */
                 if (iaddress.isLoopbackAddress() == false && iaddress.isSiteLocalAddress() == true)
                 {
