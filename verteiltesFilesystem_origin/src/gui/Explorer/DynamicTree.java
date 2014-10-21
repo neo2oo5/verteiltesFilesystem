@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.Explorer;
 
 import fileSystem.fileSystem;
@@ -27,10 +22,11 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Stellt Funktionen zur Bearbeitung des JTree Models bereit
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class DynamicTree extends JPanel {
+public class DynamicTree extends JPanel
+{
 
     private static DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root Node");
     private static DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
@@ -44,38 +40,42 @@ public class DynamicTree extends JPanel {
     JScrollPane scrollPane;
 
     /**
-     * Create JTree
+     * Erstellt auf einem Pane ein Jtree mit einem standart Root Node
      *
      * @param Pane
      */
-    public DynamicTree(javax.swing.JTabbedPane Pane) {
+    public DynamicTree(javax.swing.JTabbedPane Pane)
+    {
 
         treeModel.addTreeModelListener(new JTreeModelListener());
 
         tree = new JTree(treeModel);
         tree.setEditable(false);
-        //tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        //tree.setShowsRootHandles(true);
 
         scrollPane = new JScrollPane(tree);
 
         tree.addMouseListener(new JTreeMouseListener());
 
         out.print("online: " + network.Interfaces.interfaceNetworkOnline());
-        if (fileSystem_Start.Debug == true) {
+        if (fileSystem_Start.Debug == true)
+        {
             Pane.addTab("Explorer", scrollPane);
         }
-        if (Config.isRootDir() == true && network.Interfaces.interfaceNetworkOnline() == true) {
+        if (Config.isRootDir() == true && network.Interfaces.interfaceNetworkOnline() == true)
+        {
             Pane.addTab("Explorer", scrollPane);
-        } else {
-            try {
+        } else
+        {
+            try
+            {
                 ImageIcon loading = new ImageIcon(substructure.PathHelper.getFile("ajax-loader.gif"));
                 loading.setImage(loading.getImage().getScaledInstance(100, 100, 2));
                 loadingl = new JLabel("", loading, JLabel.CENTER);
 
                 Pane.addTab("Explorer", loadingl);
 
-            } catch (fileSystemException ex) {
+            } catch (fileSystemException ex)
+            {
                 out.print(ex.toString());
             }
         }
@@ -83,12 +83,14 @@ public class DynamicTree extends JPanel {
     }
 
     /**
-     * Refresh Explorer Tab after selecting a path
+     * Aktualisiert das Explorer Tab nach dem das Programm Online ging
+     * Entfernt den Lade Balken
      *
      * @param Pane
      * @param index
      */
-    public void addTab(javax.swing.JTabbedPane Pane, int index) {
+    public void addTab(javax.swing.JTabbedPane Pane, int index)
+    {
 
         Pane.removeTabAt(index);
         Pane.addTab("Explorer", scrollPane);
@@ -97,12 +99,13 @@ public class DynamicTree extends JPanel {
     }
 
     /**
-     * Builds a tree from a given forward slash delimited string.
+     * Erstellt aus dem Pfad die Ordnerstruktur im JTree
      *
      * @param parent
-     * @param str The string to build the tree from
+     * @param str Dateisystem Pfad
      */
-    public void buildTreeFromString(DefaultMutableTreeNode parent, final String str) {
+    public void buildTreeFromString(DefaultMutableTreeNode parent, final String str)
+    {
         // Fetch the root node
         //DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeModel.getRoot();
         String[] strings;
@@ -117,23 +120,25 @@ public class DynamicTree extends JPanel {
         DefaultMutableTreeNode node = parent;
 
         // Iterate of the string array
-        for (String s : strings) {
+        for (String s : strings)
+        {
             // Look for the index of a node at the current level that
             // has a value equal to the current string
             int index = childIndex(node, s);
 
             // Index less than 0, this is a new node not currently present on the tree
-            if (index < 0) {
+            if (index < 0)
+            {
                 // Add the new node
                 DefaultMutableTreeNode newChild = new DefaultMutableTreeNode(s);
-                //node.insert(newChild, node.getChildCount());
 
                 model.insertNodeInto(newChild, node, node.getChildCount());
 
                 node = newChild;
 
             } // Else, existing node, skip to the next string
-            else {
+            else
+            {
                 node = (DefaultMutableTreeNode) node.getChildAt(index);
             }
         }
@@ -141,21 +146,25 @@ public class DynamicTree extends JPanel {
     }
 
     /**
-     * Returns the index of a child of a given node, provided its string value.
+     * Gibt den Index des Übergebenen Nodes zurück
+     * 
      *
      * @param node The node to search its children
      * @param childValue The value of the child to compare with
-     * @return The index
+     * @return Index
      */
-    public int childIndex(final DefaultMutableTreeNode node, final String childValue) {
+    public int childIndex(final DefaultMutableTreeNode node, final String childValue)
+    {
         Enumeration<DefaultMutableTreeNode> children = node.children();
         DefaultMutableTreeNode child = null;
         int index = -1;
 
-        while (children.hasMoreElements() && index < 0) {
+        while (children.hasMoreElements() && index < 0)
+        {
             child = children.nextElement();
 
-            if (child.getUserObject() != null && childValue.equals(child.getUserObject())) {
+            if (child.getUserObject() != null && childValue.equals(child.getUserObject()))
+            {
                 index = node.getIndex(child);
             }
         }
@@ -164,11 +173,12 @@ public class DynamicTree extends JPanel {
     }
 
     /**
-     *
+     * Entfernt alte nicht mehr im FileSystem enthaltene Pfade
      * @param fs
      * @param IP
      */
-    public void removeOldFsEntrys(List<String> fs, String IP) {
+    public void removeOldFsEntrys(List<String> fs, String IP)
+    {
 
         List<String> fsLocal = fs;
         List<DefaultMutableTreeNode> nodeList = new ArrayList<>();
@@ -180,23 +190,27 @@ public class DynamicTree extends JPanel {
         //create DefaultMultableTreeNode List
         checkNode(node, nodeList, IP, fsLocal);
 
-        for (int i = 0; i < fsLocal.size(); i++) {
+        for (int i = 0; i < fsLocal.size(); i++)
+        {
             boolean trigger = false;
-            for (int y = 0; y < nodeList.size(); y++) {
+            for (int y = 0; y < nodeList.size(); y++)
+            {
 
                 String nodePath = "";
                 String fsLocals = File.separator + fsLocal.get(i);
                 TreeNode[] path = nodeList.get(y).getPath();
 
-                for (TreeNode n : path) {
-                    if (!n.toString().equals("Root Node") && !validIP(n.toString())) {
+                for (TreeNode n : path)
+                {
+                    if (!n.toString().equals("Root Node") && !validIP(n.toString()))
+                    {
                         nodePath += File.separator + n.toString();
                     }
 
                 }
 
-                    //   System.out.print("node:  "+ nodePath + "\nlocal: " + fsLocals +  "\n");
-                if (fsLocals.contains(nodePath)) {
+                if (fsLocals.contains(nodePath))
+                {
                     nodeList.remove(y);
 
                 }
@@ -207,10 +221,11 @@ public class DynamicTree extends JPanel {
 
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 
-        for (int y = 1; y < nodeList.size(); y++) {
-               // System.out.print("wird gelöscht: "+nodeList.get(y).getUserObject() + "\n");
+        for (int y = 1; y < nodeList.size(); y++)
+        {
 
-            if (nodeList.get(y).getParent() != null) {
+            if (nodeList.get(y).getParent() != null)
+            {
                 model.removeNodeFromParent((DefaultMutableTreeNode) nodeList.get(y).getParent());
             }
             model.removeNodeFromParent(nodeList.get(y));
@@ -218,101 +233,118 @@ public class DynamicTree extends JPanel {
 
         }
 
-         //  System.out.print(c.toString());
     }
 
     /**
-     *
+     * 
      * @param ip
-     * @return
+     * @return true = ist ip , false = keine IP
      */
-    public static boolean validIP(String ip) {
-        try {
-            if (ip == null || ip.isEmpty()) {
+    private static boolean validIP(String ip)
+    {
+        try
+        {
+            if (ip == null || ip.isEmpty())
+            {
                 return false;
             }
 
             String[] parts = ip.split("\\.");
-            if (parts.length != 4) {
+            if (parts.length != 4)
+            {
                 return false;
             }
 
-            for (String s : parts) {
+            for (String s : parts)
+            {
                 int i = Integer.parseInt(s);
-                if ((i < 0) || (i > 255)) {
+                if ((i < 0) || (i > 255))
+                {
                     return false;
                 }
             }
-            if (ip.endsWith(".")) {
+            if (ip.endsWith("."))
+            {
                 return false;
             }
 
             return true;
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException nfe)
+        {
             return false;
         }
     }
 
     /**
-     *
+     * Funktion Liest Rekursiv alle Nodes in eine Liste
      * @param Node
      * @param nodeList
      * @param IP
      * @param tmp
-     * @return
+     * @return true = hat weiter ChildNodes, false = keine weiteren ChildNodes
      */
-    public boolean checkNode(DefaultMutableTreeNode Node, List<DefaultMutableTreeNode> nodeList, String IP, List<String> tmp) {
+    public boolean checkNode(DefaultMutableTreeNode Node, List<DefaultMutableTreeNode> nodeList, String IP, List<String> tmp)
+    {
 
         nodeList.add(Node);
 
         int childcount = Node.getChildCount();
         //has node more than 0  childs return true
-        if (Node.getChildCount() > 0) {
+        if (Node.getChildCount() > 0)
+        {
             DefaultMutableTreeNode next = Node;
-            for (int i = 0; i < childcount; i++) {
+            for (int i = 0; i < childcount; i++)
+            {
                 checkNode((DefaultMutableTreeNode) next.getChildAt(i), nodeList, IP, tmp);
 
             }
             return true;
-        } else {
+        } else
+        {
             return false;
         }
 
     }
 
     /**
-     *
+     * Gibt den Index eines Nodes zurück
      * @param node
      * @param index
-     * @return
+     * @return DefaultMutableTreeNode
      */
-    public DefaultMutableTreeNode getObjectAtIndex(DefaultMutableTreeNode node, int index) {
-        if (node.getChildCount() > 0) {
+    public DefaultMutableTreeNode getObjectAtIndex(DefaultMutableTreeNode node, int index)
+    {
+        if (node.getChildCount() > 0)
+        {
             return (DefaultMutableTreeNode) node.getChildAt(index);
-        } else {
+        } else
+        {
             return null;
         }
     }
 
     /**
-     *
-     * @return
+     * Öffnet den letzten geöffneten Pfad
+     * @return TreePath
      */
-    public TreePath lastOpenedNode() {
+    public TreePath lastOpenedNode()
+    {
 
         List paths = new ArrayList();
 
-        //TreePath currentSelection = tree.getSelectionPath();
         TreePath currentSelection = DynamicTree.getTree().getSelectionPath();
-        if (currentSelection != null) {
-            for (Object node : currentSelection.getPath()) {
+        if (currentSelection != null)
+        {
+            for (Object node : currentSelection.getPath())
+            {
 
                 paths.add(node);
 
             }
 
             return new TreePath(paths.toArray());
-        } else {
+        } else
+        {
             return null;
         }
 
@@ -321,55 +353,64 @@ public class DynamicTree extends JPanel {
     /**
      *
      */
-    public void expandtoLastOpenNode() {
+    public void expandtoLastOpenNode()
+    {
 
-        if ((lastOpenedNode = lastOpenedNode()) != null) {
+        if ((lastOpenedNode = lastOpenedNode()) != null)
+        {
             tree.expandPath(lastOpenedNode);
         }
     }
 
     /**
-     * remove all nodes without the root
+     * Löscht alle Nodes aus den Root Node
      */
-    public void clear() {
+    public void clear()
+    {
         rootNode.removeAllChildren();
         tree.repaint();
     }
 
     /**
-     *
+     * Gibt den JTree zurück
      * @return tree
      */
-    public static synchronized javax.swing.JTree getTree() {
+    public static synchronized javax.swing.JTree getTree()
+    {
         return tree;
     }
 
     /**
-     *
+     * Gibt den JTree Model zurück
      * @return
      */
-    public static synchronized DefaultTreeModel getTreeModel() {
+    public static synchronized DefaultTreeModel getTreeModel()
+    {
         return (DefaultTreeModel) tree.getModel();
     }
 
     /**
-     *
+     * Gibt den Root Node zurück
      * @return
      */
-    public static synchronized DefaultMutableTreeNode getRootNode() {
+    public static synchronized DefaultMutableTreeNode getRootNode()
+    {
         return rootNode;
     }
 
     /**
-     * remove current Node
+     * Löscht den aktuell gewählten Node
      */
-    public void removeCurrentNode() {
+    public void removeCurrentNode()
+    {
         TreePath currentSelection = tree.getSelectionPath();
-        if (currentSelection != null) {
+        if (currentSelection != null)
+        {
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
             MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
 
-            if (parent != null && currentNode != null) {
+            if (parent != null && currentNode != null)
+            {
                 treeModel.removeNodeFromParent(currentNode);
                 return;
             }
@@ -379,19 +420,23 @@ public class DynamicTree extends JPanel {
     }
 
     /**
-     *
+     * Löscht ein FS per IP
      * @param ip
      */
-    public void removeOverIP(String ip) {
+    public void removeOverIP(String ip)
+    {
         DefaultMutableTreeNode root = getRootNode();
         int childcount = root.getChildCount();
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 
-        if (childcount > 0) {
-            for (int y = 0; y < childcount; y++) {
+        if (childcount > 0)
+        {
+            for (int y = 0; y < childcount; y++)
+            {
                 DefaultMutableTreeNode currentchildNode = (DefaultMutableTreeNode) root.getChildAt(y);
-                if (currentchildNode.getUserObject().toString().equals(ip)) {
-                   // System.out.print(currentchildNode.getUserObject());
+                if (currentchildNode.getUserObject().toString().equals(ip))
+                {
+                    // System.out.print(currentchildNode.getUserObject());
                     model.removeNodeFromParent(currentchildNode);
                 }
             }
@@ -399,18 +444,21 @@ public class DynamicTree extends JPanel {
     }
 
     /**
-     * insert a child to current Node
+     * Fügt ein ChildNode ein
      *
      * @param child
-     * @return
+     * @return DefaultMutableTreeNode
      */
-    public DefaultMutableTreeNode addObject(Object child) {
+    public DefaultMutableTreeNode addObject(Object child)
+    {
         DefaultMutableTreeNode parentNode = null;
         TreePath parentPath = tree.getSelectionPath();
 
-        if (parentPath == null) {
+        if (parentPath == null)
+        {
             parentNode = rootNode;
-        } else {
+        } else
+        {
             parentNode = (DefaultMutableTreeNode) (parentPath.getLastPathComponent());
         }
 
@@ -418,37 +466,43 @@ public class DynamicTree extends JPanel {
     }
 
     /**
-     *
+     * Fügt ein ChildNode ein
      * @param parent
      * @param child
-     * @return
+     * @return DefaultMutableTreeNode
      */
-    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child) {
+    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child)
+    {
         return addObject(parent, child, false);
     }
 
     /**
-     *
+     * Fügt ein ChildNode ein
      * @param parent
      * @param child
      * @param shouldBeVisible
-     * @return
+     * @return DefaultMutableTreeNode
      */
-    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible) {
+    public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent, Object child, boolean shouldBeVisible)
+    {
         DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
 
-        if (parent == null) {
+        if (parent == null)
+        {
             parent = rootNode;
         }
 
-        try {
+        try
+        {
 
             treeModel.insertNodeInto(childNode, parent, parent.getChildCount());
-        } catch (java.lang.NullPointerException ex) {
+        } catch (java.lang.NullPointerException ex)
+        {
             out.print("DynamicJTree: " + ex, 3);
         }
 
-        if (shouldBeVisible) {
+        if (shouldBeVisible)
+        {
             tree.scrollPathToVisible(new TreePath(childNode.getPath()));
         }
 

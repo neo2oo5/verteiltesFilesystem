@@ -1,41 +1,41 @@
-       /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import javax.swing.*;
 
 /**
- * Creates small Popups
+ * Hilfs-Klasse zum erstellen kleiner Popups
+ * -Information
+ * -Warnung
+ * -Fehler
+ * -Text eingabe
  *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class GuiPromptHelper {
+public class GuiPromptHelper
+{
 
     /**
-     *
+     * Zeigt ein Informations Popup
      */
     final public static int showInformation = 1;
 
     /**
-     *
+     * Zeigt ein Warnung Popup
      */
     final public static int showWarning = 2;
 
     /**
-     *
+     * Zeigt ein Fehler Popup
      */
     final public static int showError = 3;
 
     /**
-     *
+     *  Zeigt ein Informations Popup
      */
     final public static int showQuestion = 4;
 
     /**
-     *
+     * Zeigt ein Text eingabe Popup
      */
     final public static int showInput = 5;
     private String input = "";
@@ -43,7 +43,8 @@ public class GuiPromptHelper {
     /**
      *
      */
-    public GuiPromptHelper() {
+    public GuiPromptHelper()
+    {
         //default constructor
     }
 
@@ -52,9 +53,11 @@ public class GuiPromptHelper {
      * @param mode
      * @param msg
      */
-    public GuiPromptHelper(int mode, String msg) {
+    public GuiPromptHelper(int mode, String msg)
+    {
 
-        switch (mode) {
+        switch (mode)
+        {
             case 0:
                 break;
             case 1:
@@ -82,9 +85,11 @@ public class GuiPromptHelper {
      * @param mode
      * @param msg
      */
-    public void show(int mode, String msg) {
+    public void show(int mode, String msg)
+    {
 
-        switch (mode) {
+        switch (mode)
+        {
             case 0:
                 break;
             case 1:
@@ -107,24 +112,32 @@ public class GuiPromptHelper {
 
     }
 
-    private void showInformation(String msg) {
+    private void showInformation(String msg)
+    {
         JOptionPane.showMessageDialog(null, msg);
     }
 
-    private void showWarning(String msg) {
+    private void showWarning(String msg)
+    {
         JOptionPane.showMessageDialog(null, msg, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 
-    private void showError(String msg) {
+    private void showError(String msg)
+    {
         JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private int showQuestion(String msg) {
+    private int showQuestion(String msg)
+    {
         return showQuestion(msg, null);
     }
 
-    private int showQuestion(String msg, String title) {
-        Object[] options = {"Yes, please", "No, thanks"};
+    private int showQuestion(String msg, String title)
+    {
+        Object[] options =
+        {
+            "Yes, please", "No, thanks"
+        };
 
         int n = JOptionPane.showOptionDialog(null, msg, title,
                 JOptionPane.YES_NO_OPTION,
@@ -134,12 +147,14 @@ public class GuiPromptHelper {
         return n;
     }
 
-    private void showInput(String msg) {
+    private void showInput(String msg)
+    {
         input = JOptionPane.showInputDialog(null, msg);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return input;
     }
 }

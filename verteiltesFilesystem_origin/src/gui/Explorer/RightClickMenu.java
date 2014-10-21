@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.Explorer;
 
 import gui.Config;
@@ -17,10 +12,12 @@ import substructure.GUIOutput;
 import network.*;
 
 /**
- * Erstellt entsprechen den Userrechten das RechtsklickPopup
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Erstellt entsprechend den Userrechten das RechtsklickPopup
+ *
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class RightClickMenu {
+public class RightClickMenu
+{
 
     private static String CFI_CMD = "createFile";
     private static String RFI_CMD = "removeFile";
@@ -32,10 +29,11 @@ public class RightClickMenu {
     private GUIOutput out = GUIOutput.getInstance();
 
     /**
-     *
+     * Erstellt und Added entsprechend den Rechten die JMenuItems
      * @param e
      */
-    public RightClickMenu(MouseEvent e) {
+    public RightClickMenu(MouseEvent e)
+    {
         popup = new JPopupMenu();
 
         menuItemFileDownload = new JMenuItem("Datei downloaden");
@@ -57,25 +55,31 @@ public class RightClickMenu {
         String[] args = new String[5];
         DefaultMutableTreeNode currentNode = null;
 
-        if (currentSelection != null) {
+        if (currentSelection != null)
+        {
             currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
-            if (currentNode != null) {
+            if (currentNode != null)
+            {
                 args = ExplorerHelper.getNetOperationData(currentNode);
 
-                if (args != null) {
+                if (args != null)
+                {
                     //Rechte im Lokalen FS
-                    if (Config.getCurrentIp().equals(args[0])) {
+                    if (Config.getCurrentIp().equals(args[0]))
+                    {
                         popup.add(menuItemFileCreate);
                         popup.add(menuItemFileDelete);
                         popup.add(menuItemFileRename);
-                    //Rechte als Admin im FS
-                    } else if (Interfaces.interfaceIAmAdmin()) {
+                        //Rechte als Admin im FS
+                    } else if (Interfaces.interfaceIAmAdmin())
+                    {
                         popup.add(menuItemFileDownload);
                         popup.add(menuItemFileCreate);
                         popup.add(menuItemFileDelete);
                         popup.add(menuItemFileRename);
-                    //Rechte ohne Admin im nicht Lokalen FS
-                    } else if (Interfaces.interfaceIAmAdmin() == false && !Config.getCurrentIp().equals(args[0])) {
+                        //Rechte ohne Admin im nicht Lokalen FS
+                    } else if (Interfaces.interfaceIAmAdmin() == false && !Config.getCurrentIp().equals(args[0]))
+                    {
                         popup.add(menuItemFileDownload);
                     }
                 }
@@ -91,42 +95,47 @@ public class RightClickMenu {
      *
      *
      */
-    class PopupListener implements ActionListener {
+   private class PopupListener implements ActionListener
+    {
 
         @Override
-        public void actionPerformed(ActionEvent e) {
-            String command = e.getActionCommand(); //To change body of generated methods, choose Tools | Templates.
+        public void actionPerformed(ActionEvent e)
+        {
+            String command = e.getActionCommand();
             TreePath currentSelection = DynamicTree.getTree().getSelectionPath();
             String[] args = new String[5];
             DefaultMutableTreeNode currentNode = null;
 
-            if (currentSelection != null) {
+            if (currentSelection != null)
+            {
                 currentNode = (DefaultMutableTreeNode) (currentSelection.getLastPathComponent());
                 args = ExplorerHelper.getNetOperationData(currentNode);
             }
 
-            if (currentNode != null && currentSelection != null && args != null) {
+            if (currentNode != null && currentSelection != null && args != null)
+            {
 
                 System.out.print("selection: " + currentSelection + "node" + currentNode.getUserObject() + " \n");
                 System.out.print("admin: " + Interfaces.interfaceIAmAdmin() + "\n");
 
                 //datei erstellen
-                if (CFI_CMD.equals(command)) {
+                if (CFI_CMD.equals(command))
+                {
                     RightClickActions.FileCreate(currentNode, args);
-                
-                } 
-                //datei umbenennen
-                else if (REFI_CMD.equals(command)) {
+
+                } //datei umbenennen
+                else if (REFI_CMD.equals(command))
+                {
 
                     RightClickActions.FileRename(currentNode, args);
-                
-                } 
-                //datei löschen
-                else if (RFI_CMD.equals(command)) {
+
+                } //datei löschen
+                else if (RFI_CMD.equals(command))
+                {
                     RightClickActions.FileDelete(currentNode, args);
-                } 
-                //datei download
-                else if (DFI_CMD.equals(command) && currentNode != null) {
+                } //datei download
+                else if (DFI_CMD.equals(command) && currentNode != null)
+                {
                     RightClickActions.FileDownload(currentNode, args);
                 }
 

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.Explorer;
 
 import fileSystem.fileSystem;
@@ -16,10 +11,11 @@ import substructure.GUIOutput;
 import substructure.PathHelper;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Enthält helfer Funktionen für den Explorer
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class ExplorerHelper {
+public class ExplorerHelper
+{
 
     private static String downloadFolder = "Downloads";
     private static GUIOutput out = GUIOutput.getInstance();
@@ -27,15 +23,19 @@ public class ExplorerHelper {
 
     /**
      * Wandelt Node um in Vollstaendigen Pfad
+     *
      * @param path
      * @return
      */
-    public static String getPath(DefaultMutableTreeNode path) {
+    public static String getPath(DefaultMutableTreeNode path)
+    {
         String jTreeVarSelectedPath = "";
         Object[] paths = path.getPath();
-        for (int i = 1; i < paths.length; i++) {
+        for (int i = 1; i < paths.length; i++)
+        {
             jTreeVarSelectedPath += paths[i];
-            if (i + 1 < paths.length) {
+            if (i + 1 < paths.length)
+            {
                 jTreeVarSelectedPath += File.separator;
             }
         }
@@ -45,38 +45,47 @@ public class ExplorerHelper {
 
     /**
      * Ermittelt aus Pfad IP, sourcePath, Filename fuer Netzwerkoperationen
+     *
      * @param currentNode
      * @return
      */
-    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode) {
-        try {
+    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode)
+    {
+        try
+        {
             return getNetOperationData(currentNode, substructure.PathHelper.getFolder(downloadFolder));
-        } catch (fileSystemException ex) {
+        } catch (fileSystemException ex)
+        {
             out.print(ex.toString());
         }
         return null;
     }
 
     /**
-     *  Ermittelt aus Pfad IP, sourcePath, Filename fuer Netzwerkoperationen
+     * Ermittelt aus Pfad IP, sourcePath, Filename fuer Netzwerkoperationen
+     *
      * @param currentNode
      * @param targetPath
      * @return
      */
-    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode, String targetPath) {
+    public static String[] getNetOperationData(DefaultMutableTreeNode currentNode, String targetPath)
+    {
         String path = getPath(currentNode);
         String result[] = new String[5];
 
         result[0] = path.substring(0, path.indexOf(File.separator)); //IP
-        if (PingServer.PingServer(result[0])) {
+        if (PingServer.PingServer(result[0]))
+        {
             List<Path> fs = c.get(result[0]);
             result[1] = path.substring(path.lastIndexOf(File.separator) + 1, path.length()); //filename
 
             result[3] = targetPath; //targetPath
 
-            for (Path pathfs : fs) {
+            for (Path pathfs : fs)
+            {
 
-                if (pathfs.toString().contains(result[1])) {
+                if (pathfs.toString().contains(result[1]))
+                {
                     System.out.print("Path befor: " + pathfs.toString() + "\n");
 
                     result[2] = convertPath(pathfs.toString(), true);
@@ -88,15 +97,19 @@ public class ExplorerHelper {
                     String os = "linux";
 
                     //try if win
-                    if (index == -1) {
+                    if (index == -1)
+                    {
                         index = result[2].lastIndexOf("\\");
                         os = "win";
                     }
 
-                    if (index != -1) {
-                        if (os.equals("linux")) {
+                    if (index != -1)
+                    {
+                        if (os.equals("linux"))
+                        {
                             result[2] = result[2].substring(0, index) + "/";
-                        } else if (os.equals("win")) {
+                        } else if (os.equals("win"))
+                        {
                             result[2] = result[2].substring(0, index) + "\\";
                         }
                     }
@@ -113,51 +126,64 @@ public class ExplorerHelper {
     }
 
     /**
-     *
+     * Wandelt Pfade entsprechend dem OS um Windows, Linux, Mac
      * @param path
-     * @return
+     * @return string  
      */
-    public static String convertPath(String path) {
+    public static String convertPath(String path)
+    {
         return convertPath(path, false);
     }
 
     /**
-     * Wandelt Pfade entsprechend dem OS um
-     * Windows, Linux, Mac
+     * Wandelt Pfade entsprechend dem OS um Windows, Linux, Mac
+     *
      * @param path
      * @param forDownload
-     * @return
+     * @return string
      */
-    public static String convertPath(String path, boolean forDownload) {
+    public static String convertPath(String path, boolean forDownload)
+    {
         String tmps = "";
 
-        if (path.length() > 0) {
+        if (path.length() > 0)
+        {
             //windows pfade anpassen zu
-            if (path.contains(":")) {
-                if (forDownload) {
+            if (path.contains(":"))
+            {
+                if (forDownload)
+                {
                     //fuer download
                     tmps = path.replace("/", "\\");
 
-                } else {
+                } else
+                {
                     //fuer jtree
-                    if (PathHelper.getOSName() == "Linux" || PathHelper.getOSName() == "Mac") {
+                    if (PathHelper.getOSName() == "Linux" || PathHelper.getOSName() == "Mac")
+                    {
                         tmps = path.replace("\\", "/");
-                    } else {
+                    } else
+                    {
                         tmps = path.replace("/", "\\");
                     }
                 }
 
             } //linux pfade anpassen zu
-            else {
-                if (forDownload) {
+            else
+            {
+                if (forDownload)
+                {
                     //fuer download
                     tmps = path.replace("\\", "/");
 
-                } else {
-                    if (PathHelper.getOSName() == "Windows") {
+                } else
+                {
+                    if (PathHelper.getOSName() == "Windows")
+                    {
                         path = path.substring(1, path.length());
                         tmps = path.replace("/", "\\");
-                    } else {
+                    } else
+                    {
                         path = path.substring(1, path.length());
                         tmps = path.replace("\\", "/");
                     }

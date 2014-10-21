@@ -1,24 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.Explorer;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * Erstellt das Popup fuer den Rechtsklick
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Fängt den Rechtsklick im Explorer ab um das Popup erstellen zu können
+ *
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class JTreeMouseListener implements MouseListener {
-    
+public class JTreeMouseListener implements MouseListener
+{
+
     //open Popupmenu
     @Override
-    public void mouseClicked(MouseEvent e) {
-        
-        if(e.getButton() == 3)
+    public void mouseClicked(MouseEvent e)
+    {
+
+        if (e.getButton() == 3)
         {
             showMenu(e);
         }
@@ -26,32 +24,37 @@ public class JTreeMouseListener implements MouseListener {
     }
 
     /**
-     * Create Rightclick Menu
+     * Erstellt das Rechtsklick Menü
+     *
      * @param e
      */
     public void showMenu(MouseEvent e)
     {
-      new RightClickMenu(e);
-       
+        new RightClickMenu(e);
+
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mousePressed(MouseEvent e)
+    {
+
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseReleased(MouseEvent e)
+    {
+
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseEntered(MouseEvent e)
+    {
+
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
-       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseExited(MouseEvent e)
+    {
+
     }
 }

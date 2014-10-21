@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.Explorer;
 
 import fileSystem.fileSystem;
@@ -14,11 +9,13 @@ import network.Interfaces;
 import substructure.GUIOutput;
 
 /**
- * Enthaelt die Funktionen fuer die Aktionen aus dem Popup
- * Create, Rename, Delete, Download
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Enthaelt die Funktionen fuer die Aktionen aus dem Popup Create, Rename,
+ * Delete, Download
+ *
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class RightClickActions {
+public class RightClickActions
+{
 
     private static GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
@@ -28,87 +25,104 @@ public class RightClickActions {
             fsDeleteMSG = "Ein FileSystem kann nicht geloescht werden.";
 
     /**
-     *
+     * Dient zum Datei download
      * @param currentNode
      * @param args
      */
-    public static void FileDownload(DefaultMutableTreeNode currentNode, String[] args) {
+    public static void FileDownload(DefaultMutableTreeNode currentNode, String[] args)
+    {
         out.print("download");
-        if (currentNode.isLeaf() == true) {
+        if (currentNode.isLeaf() == true)
+        {
 
-            if (args != null) {
+            if (args != null)
+            {
                 out.print("(Download) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + " targetPath: " + args[3] + "- Filename after Download: " + args[0] + "_" + args[1]);
-                try {
+                try
+                {
                     Interfaces.interfaceFileTransfer(args[0], args[2], args[1], args[1]);
-                } catch (UnknownHostException ex) {
+                } catch (UnknownHostException ex)
+                {
                     out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
                 }
                 out.print("datei download beendet");
             }
-        } else {
+        } else
+        {
             new GuiPromptHelper(GuiPromptHelper.showError, fsDownloadMSG);
         }
     }
 
     /**
-     *
+     * Dient zum Datei erstellen
      * @param currentNode
      * @param args
      */
-    public static void FileCreate(DefaultMutableTreeNode currentNode, String[] args) {
+    public static void FileCreate(DefaultMutableTreeNode currentNode, String[] args)
+    {
         MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
 
         out.print(currentNode.getUserObject() + " " + currentNode.isLeaf() + "\n");
-        if (currentNode.isLeaf() == false) {
+        if (currentNode.isLeaf() == false)
+        {
             GuiPromptHelper prompt = new GuiPromptHelper(GuiPromptHelper.showInput, "Datei Name?");
             String fileName = prompt.toString();
             DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(fileName);
 
             System.out.print(currentNode.getUserObject());
-                            //netzwerk ordner hinzufueg funktion
+            //netzwerk ordner hinzufueg funktion
 
-            if (args != null && fileName != null) {
-                try {
+            if (args != null && fileName != null)
+            {
+                try
+                {
                     out.print("(Create) IPv4: " + args[0] + " filename: " + fileName + " sourcePath: " + args[2] + "targetPath: " + args[3]);
                     Interfaces.interfaceFileCreate(args[0], args[2], fileName);
                     c.addElement(args[0], fileName);
                     DynamicTree.getTreeModel().insertNodeInto(childNode, currentNode, currentNode.getChildCount());
 
                     out.print("Datei erstellt");
-                } catch (UnknownHostException ex) {
+                } catch (UnknownHostException ex)
+                {
                     out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
                 }
             }
 
-        } else {
+        } else
+        {
             new GuiPromptHelper(GuiPromptHelper.showError, fileinFileMSG);
         }
 
-        if (parent != null) {
+        if (parent != null)
+        {
 
             return;
         }
     }
 
     /**
-     *
+     * Dient zum Umbennenen einer Datei
      * @param currentNode
      * @param args
      */
-    public static void FileRename(DefaultMutableTreeNode currentNode, String[] args) {
+    public static void FileRename(DefaultMutableTreeNode currentNode, String[] args)
+    {
         System.out.print("rename");
         GuiPromptHelper prompt = new GuiPromptHelper(GuiPromptHelper.showInput, "Neuer Name?");
         String fileName = prompt.toString();
 
         currentNode.setUserObject(prompt.toString());
 
-        if (args != null && fileName != null) {
+        if (args != null && fileName != null)
+        {
             out.print("(Rename) IPv4: " + args[0] + " filename old: " + args[1] + " filename new: " + fileName + " sourcePath: " + args[2] + "targetPath: " + args[3]);
-            try {
+            try
+            {
                 Interfaces.interfaceFileRename(args[0], args[2], args[1], fileName);
                 c.deleteElement(args[0], args[2] + args[1]);
                 c.addElement(args[0], args[2] + fileName);
-            } catch (UnknownHostException ex) {
+            } catch (UnknownHostException ex)
+            {
                 out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
             }
             out.print("datei umbenannt");
@@ -116,26 +130,32 @@ public class RightClickActions {
     }
 
     /**
-     *
+     * Dient zum Löschen einer Datei
      * @param currentNode
      * @param args
      */
-    public static void FileDelete(DefaultMutableTreeNode currentNode, String[] args) {
-        if (currentNode.isLeaf() == true) {
+    public static void FileDelete(DefaultMutableTreeNode currentNode, String[] args)
+    {
+        if (currentNode.isLeaf() == true)
+        {
             DynamicTree.getTreeModel().removeNodeFromParent(currentNode);
-                            //netzwerk loesch funktion
+            //netzwerk loesch funktion
 
-            if (args != null) {
+            if (args != null)
+            {
                 out.print("(Remove) IPv4: " + args[0] + " filename: " + args[1] + " sourcePath: " + args[2] + "targetPath: " + args[3]);
-                try {
+                try
+                {
                     Interfaces.interfaceFileDelete(args[0], args[2], args[1]);
                     c.deleteElement(args[0], args[2] + args[1]);
-                } catch (UnknownHostException ex) {
+                } catch (UnknownHostException ex)
+                {
                     out.print("(rightClickMenu) - PopupListener : " + ex.toString(), 2);
                 }
                 out.print("datei gelöscht");
             }
-        } else {
+        } else
+        {
             new GuiPromptHelper(GuiPromptHelper.showError, fsDeleteMSG);
         }
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import fileSystem.fileSystem;
@@ -19,93 +14,92 @@ import network.IPList;
 import network.Interfaces;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Klasse zur Verwaltung der Netzwerkteilnehmer
+ * 
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class AdminControlPanel extends javax.swing.JPanel {
-    
-    private static GUIOutput out =  GUIOutput.getInstance();
+public class AdminControlPanel extends javax.swing.JPanel
+{
+
+    private static GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
-    private static JLabel[] usersL  = new JLabel[100];
+    private static JLabel[] usersL = new JLabel[100];
     private static JButton[] usersB = new JButton[100];
     private static String logoutCMD = "logout";
     private static JPanel adminControlPanel, adminloginPanel;
-    
+
     /**
-     * Creates new form AdminConfigPanel
+     * Erstellt AdminConfigPanel
+     *
      * @param panel
      */
-    public AdminControlPanel(JPanel panel) {
-        
+    public AdminControlPanel(JPanel panel)
+    {
+
         adminControlPanel = this;
-        adminloginPanel   = panel;
-        
+        adminloginPanel = panel;
+
         adminloginPanel.setVisible(false);
         initComponents();
-        
+
         createUserlist();
-        
+
         logout.setActionCommand(logoutCMD);
         logout.addActionListener(new AdminControlListener());
-            
-            setVisible(true);
-            setSize(new Dimension(500, 500));
-            revalidate();
-            repaint();
-            
+
+        setVisible(true);
+        setSize(new Dimension(500, 500));
+        revalidate();
+        repaint();
+
     }
-    
+
     /**
-     * Updated the userlist
+     * Aktualisiert die Netzwerk Liste
      */
     public void refreshUserlist()
     {
         createUserlist();
-       
+
         revalidate();
         repaint();
-        
-        
+
     }
     /*
-        *   Create Userlist on the AdminControlPanel
-        *   
-       */
+     *   Erstellt die Buttons und Labels auf dem UserPanel
+     *   
+     */
+
     private void createUserlist()
     {
         List<String> ips = IPList.getIPList();
-        
-        
-        
-         
-            int x = 0;
-            int y = 5;
-            int width = 200;
-            int height = 20;
-            for(int i = 0; i < ips.size(); i++)
-            {
-                String ip = ips.get(i);
-                
-                usersL[i] = new JLabel();
-                usersL[i].setText("user"+i+": "+ ip);
-                usersL[i].setBounds(x, y += 20, width, height);
-                usersL[i].setVisible(true);
-                userlist.add(usersL[i]);
-                
-                usersB[i] = new JButton();
-                usersB[i].setText("Aus Netzwerk entfernen");
-                usersB[i].setBounds(x, y += 20, width, height);
-                usersB[i].setActionCommand(ip);
-                usersB[i].addActionListener(new AdminControlListener());
-                usersB[i].setVisible(true);
-                userlist.add(usersB[i]);
-               
-            }
-            
-            
-    } 
-           
-   
+
+        int x = 0;
+        int y = 5;
+        int width = 200;
+        int height = 20;
+        for (int i = 0; i < ips.size(); i++)
+        {
+            String ip = ips.get(i);
+
+            usersL[i] = new JLabel();
+            usersL[i].setText("user" + i + ": " + ip);
+            usersL[i].setBounds(x, y += 20, width, height);
+            usersL[i].setVisible(true);
+            userlist.add(usersL[i]);
+
+            usersB[i] = new JButton();
+            usersB[i].setText("Aus Netzwerk entfernen");
+            usersB[i].setBounds(x, y += 20, width, height);
+            usersB[i].setActionCommand(ip);
+            usersB[i].addActionListener(new AdminControlListener());
+            usersB[i].setVisible(true);
+            userlist.add(usersB[i]);
+
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -179,54 +173,55 @@ public class AdminControlPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     /**
-     *  ActionListener 
+     * ActionListener
      */
-    private static class AdminControlListener implements ActionListener {
+    private static class AdminControlListener implements ActionListener
+    {
 
-        public AdminControlListener() {
+        public AdminControlListener()
+        {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e)
+        {
             String cmd = e.getActionCommand();
-            
+
             List<String> ips = IPList.getIPList();
-            
-            
-            for(int i = 0; i < ips.size(); i++)
+
+            for (int i = 0; i < ips.size(); i++)
             {
                 String ip = ips.get(i);
-                if(cmd.equals(Config.getCurrentIp()))
+                if (cmd.equals(Config.getCurrentIp()))
                 {
                     new GuiPromptHelper(GuiPromptHelper.showError, "Sie können ihren eigenen Client nicht aus dem Netzwerk entfernen!");
-                }
-                else
+                } else
                 {
-                    if(cmd.equals(ip))
+                    if (cmd.equals(ip))
                     {
                         Interfaces.interfaceAdminKickUser(ip);
-                        new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: "+ ip +" wurde aus dem Netzwerk entfernt");
+                        new GuiPromptHelper(GuiPromptHelper.showInformation, "Client mit der IP: " + ip + " wurde aus dem Netzwerk entfernt");
                         userlist.remove(usersL[i]);
                         userlist.remove(usersB[i]);
 
-
                     }
                 }
-                
+
             }
-            
-            if(logoutCMD.equals(cmd))
+
+            if (logoutCMD.equals(cmd))
             {
-                try {
+                try
+                {
                     Interfaces.interfaceAdminLogout();
                     AdminControlPanel.adminControlPanel.setVisible(false);
                     AdminControlPanel.adminloginPanel.setVisible(true);
-                } catch (UnknownHostException ex) {
+                } catch (UnknownHostException ex)
+                {
                     Logger.getLogger(AdminControlPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
-            
+
             AdminControlPanel.userlist.revalidate();
             AdminControlPanel.userlist.repaint();
         }

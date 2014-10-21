@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package substructure;
 
 import fileSystem.fileSystemException;
@@ -14,9 +9,11 @@ import java.util.logging.Logger;
 
 /**
  * Ein wenig Farbe fuer den Terminal
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ *
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class Output {
+public class Output
+{
 
     /**
      *
@@ -56,7 +53,8 @@ public class Output {
     /**
      *
      */
-    public Output() {
+    public Output()
+    {
 
     }
 
@@ -64,7 +62,8 @@ public class Output {
      *
      * @param msg
      */
-    public Output(Object msg) {
+    public Output(Object msg)
+    {
         setLogfile();
         print(msg);
 
@@ -77,7 +76,8 @@ public class Output {
      * @param msg
      * @param modelevel
      */
-    public Output(Object msg, int modelevel) {
+    public Output(Object msg, int modelevel)
+    {
         setLogfile();
         print(msg, modelevel);
 
@@ -88,17 +88,21 @@ public class Output {
     /**
      *
      */
-    protected void setStdout() {
+    protected void setStdout()
+    {
         System.setOut(orig);
     }
 
     /**
      *
      */
-    protected void setLogfile() {
-        try {
+    protected void setLogfile()
+    {
+        try
+        {
             System.setOut(new PrintStream(substructure.PathHelper.getFile(Logfile)));
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             new GuiPromptHelper(GuiPromptHelper.showError, ex.toString());
         }
     }
@@ -107,7 +111,8 @@ public class Output {
      *
      * @param msg
      */
-    public void print(Object msg) {
+    public void print(Object msg)
+    {
         print(msg, 1);
     }
 
@@ -116,7 +121,8 @@ public class Output {
      * @param msg
      * @param modelevel
      */
-    public void print(Object msg, int modelevel) {
+    public void print(Object msg, int modelevel)
+    {
         int debug = 0;
         Properties prop = new Properties();
         InputStream input = null;
@@ -128,25 +134,32 @@ public class Output {
          * 2) Warning
          * 3) Error
          */
-        try {
+        try
+        {
 
-            try {
+            try
+            {
                 // load a properties file
                 prop.load(new FileReader(substructure.PathHelper.getFile("debug.properties")));
-            } catch (fileSystemException ex) {
+            } catch (fileSystemException ex)
+            {
                 Logger.getLogger(Output.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             // get the property value and print it out
-            try {
+            try
+            {
                 debug = Integer.parseInt(prop.getProperty("MODE"));
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Modelevel konnte nicht gelesen werden " + e);
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e)
+        {
             new GuiPromptHelper(GuiPromptHelper.showWarning, "Output: Debug File konnte nicht geladen werden " + e);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             ex.printStackTrace();
         }
 
@@ -160,18 +173,23 @@ public class Output {
      * @param mode
      * @param debug
      */
-    public void out(Object msg, int mode, int debug) {
+    public void out(Object msg, int mode, int debug)
+    {
         String print = "";
 
-        if (debug >= 3 && mode == 3) {
+        if (debug >= 3 && mode == 3)
+        {
             print = ANSI_RED + "ERROR: ";
-        } else if (debug >= 2 && mode == 2) {
+        } else if (debug >= 2 && mode == 2)
+        {
             print = ANSI_YELLOW + "WARNING: ";
-        } else if (debug >= 1 && mode == 1) {
+        } else if (debug >= 1 && mode == 1)
+        {
             print = ANSI_GREEN + "INFORMATION: ";
         }
 
-        if (mode != 0) {
+        if (mode != 0)
+        {
             System.out.println(print + msg);
         }
     }

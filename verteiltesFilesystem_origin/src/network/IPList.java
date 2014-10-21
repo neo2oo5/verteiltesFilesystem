@@ -75,7 +75,6 @@ public class IPList
                     fw.write(IPtoInsert);
                     fw.write(LineSeperator());
                     fw.flush();
-                    //writer.write(System.getProperty("line.separator"));
                 }
 
             }
@@ -254,20 +253,16 @@ public class IPList
         }
         return Collections.synchronizedList(IPList);
     }
-       
-        
+     
+    public static String anyItem()
+    {
+        Random randomGenerator = new Random();
 
-      
-        
-
-        public static String anyItem()
-        {
-            Random randomGenerator = new Random();
-
-            int index = randomGenerator.nextInt(getIPList().size());
-            String item = getIPList().get(index);
-            return item;
-        }
+        int index = randomGenerator.nextInt(getIPList().size());
+        String item = getIPList().get(index);
+        return item;
+    }
+    
     public static List<String> getIPListRandom()
     {
         ArrayList<String> IPListRandom = new ArrayList<>();

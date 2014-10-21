@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package substructure;
 
 import gui.ColorPane;
@@ -20,36 +15,45 @@ import javax.swing.JScrollPane;
 
 /**
  * Erweitert Output.java um Gui
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ *
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class GUIOutput extends Output {
+public class GUIOutput extends Output
+{
 
     /**
      *
      */
-    protected static final Color D_Red = Color.getHSBColor(0.000f, 1.000f, 0.502f);
+    protected static final Color D_Red = Color.getHSBColor(0.000f, 1.000f,
+            0.502f);
 
     /**
      *
      */
-    protected static final Color D_Yellow = Color.getHSBColor(0.167f, 1.000f, 0.502f);
+    protected static final Color D_Yellow = Color.getHSBColor(0.167f, 1.000f,
+            0.502f);
 
     /**
      *
      */
-    protected static final Color D_Green = Color.getHSBColor(0.333f, 1.000f, 0.502f);
+    protected static final Color D_Green = Color.getHSBColor(0.333f, 1.000f,
+            0.502f);
 
     /**
      *
      */
-    protected static final Color D_White = Color.getHSBColor(0.000f, 0.000f, 0.753f);
+    protected static final Color D_White = Color.getHSBColor(0.000f, 0.000f,
+            0.753f);
 
     /**
      *
      */
-    protected static final Color B_Black = Color.getHSBColor(0.000f, 0.000f, 0.502f);
-    private List<String> log = Collections.synchronizedList(new ArrayList<String>());
-    private List<String> queue = Collections.synchronizedList(new ArrayList<String>());
+    protected static final Color B_Black = Color.getHSBColor(0.000f, 0.000f,
+            0.502f);
+    private List<String> log
+            = Collections.synchronizedList(new ArrayList<String>());
+    private List<String> queue
+            = Collections.synchronizedList(new ArrayList<String>());
 
     ColorPane pane = new ColorPane();
     JScrollPane spane = new JScrollPane(pane);
@@ -57,7 +61,8 @@ public class GUIOutput extends Output {
 
     private static boolean visible = true;
 
-    private static class GUIOutputHolder {
+    private static class GUIOutputHolder
+    {
 
         private static GUIOutput INSTANCE = new GUIOutput();
     }
@@ -66,10 +71,14 @@ public class GUIOutput extends Output {
      *
      * @return
      */
-    public static GUIOutput getInstance() {
-        if (GUIOutputHolder.INSTANCE == null) {
-            synchronized (GUIOutputHolder.INSTANCE) {
-                if (GUIOutputHolder.INSTANCE == null) {
+    public static GUIOutput getInstance()
+    {
+        if (GUIOutputHolder.INSTANCE == null)
+        {
+            synchronized (GUIOutputHolder.INSTANCE)
+            {
+                if (GUIOutputHolder.INSTANCE == null)
+                {
                     GUIOutputHolder.INSTANCE = new GUIOutput();
                 }
             }
@@ -81,7 +90,8 @@ public class GUIOutput extends Output {
      *
      * @param e
      */
-    public void setVisible(boolean e) {
+    public void setVisible(boolean e)
+    {
         f.setVisible(e);
 
     }
@@ -90,7 +100,8 @@ public class GUIOutput extends Output {
      *
      * @param e
      */
-    public void switchOnOff(boolean e) {
+    public void switchOnOff(boolean e)
+    {
         visible = e;
     }
 
@@ -98,11 +109,13 @@ public class GUIOutput extends Output {
      *
      * @return
      */
-    public boolean getVisible() {
+    public boolean getVisible()
+    {
         return visible;
     }
 
-    private GUIOutput() {
+    private GUIOutput()
+    {
 
         f.setPreferredSize(new Dimension(600, 400));
         f.setSize(600, 400);
@@ -111,28 +124,40 @@ public class GUIOutput extends Output {
 
     }
 
-    private void readLogfile() {
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(substructure.PathHelper.getFile(Logfile)));
+    private void readLogfile()
+    {
+        try
+        {
+            BufferedReader in
+                    = new BufferedReader(new FileReader(substructure.PathHelper.getFile(Logfile)));
             String line = new String();
 
-            while ((line = in.readLine()) != null) {
+            while ((line = in.readLine()) != null)
+            {
                 log.add(line);
             }
-        } catch (Exception e) {
-            new GuiPromptHelper(GuiPromptHelper.showWarning, "GUIOutput: Es gab ein Fehler beim lesen des Logfiles. " + e.toString());
+        } catch (Exception e)
+        {
+            new GuiPromptHelper(GuiPromptHelper.showWarning,
+                    "GUIOutput: Es gab ein Fehler beim lesen des Logfiles. "
+                    + e.toString());
         }
     }
 
-    private Color getANSIColor(String ANSIColor) {
+    private Color getANSIColor(String ANSIColor)
+    {
 
-        if (ANSIColor.equals(ANSI_RED)) {
+        if (ANSIColor.equals(ANSI_RED))
+        {
             return D_Red;
-        } else if (ANSIColor.equals(ANSI_GREEN)) {
+        } else if (ANSIColor.equals(ANSI_GREEN))
+        {
             return D_Green;
-        } else if (ANSIColor.equals(ANSI_YELLOW)) {
+        } else if (ANSIColor.equals(ANSI_YELLOW))
+        {
             return D_Yellow;
-        } else {
+        } else
+        {
             return D_White;
         }
 
@@ -145,9 +170,11 @@ public class GUIOutput extends Output {
      * @param debug
      */
     @Override
-    public void out(Object msg, int mode, int debug) {
+    public void out(Object msg, int mode, int debug)
+    {
 
-        if (visible) {
+        if (visible)
+        {
             setLogfile();
             super.out(msg, mode, debug);
             System.out.flush();
@@ -156,30 +183,46 @@ public class GUIOutput extends Output {
             pane.setText("");
             setText(pane);
             refreshGuiLog();
-        } else {
+        } else
+        {
             super.out(msg, mode, debug);
         }
 
     }
 
-    private void setText(ColorPane pane) {
-        synchronized (queue) {
-            synchronized (log) {
-                for (int i = 0; i < log.size(); i++) {
+    private void setText(ColorPane pane)
+    {
+        synchronized (queue)
+        {
+            synchronized (log)
+            {
+                for (int i = 0; i < log.size(); i++)
+                {
 
                     /* p = p.toString().replace(ANSI_RED, "")
                      .replace(ANSI_YELLOW, "")
                      .replace(ANSI_GREEN, "");*/
-                    if (log.get(i).contains(ANSI_RED)) {
-                        queue.add(ANSI_RED.toString() + "--##--" + log.get(i).toString().replace(ANSI_RED, "") + "\n");
-                    } else if (log.get(i).contains(ANSI_YELLOW)) {
-                        queue.add(ANSI_YELLOW.toString() + "--##--" + log.get(i).toString().replace(ANSI_YELLOW, "") + "\n");
-                    } else if (log.get(i).contains(ANSI_GREEN)) {
-                        queue.add(ANSI_GREEN.toString() + "--##--" + log.get(i).toString().replace(ANSI_GREEN, "") + "\n");
+                    if (log.get(i).contains(ANSI_RED))
+                    {
+                        queue.add(ANSI_RED.toString() + "--##--"
+                                + log.get(i).toString().replace(ANSI_RED, "")
+                                + "\n");
+                    } else if (log.get(i).contains(ANSI_YELLOW))
+                    {
+                        queue.add(ANSI_YELLOW.toString() + "--##--"
+                                + log.get(i).toString().replace(ANSI_YELLOW, "")
+                                + "\n");
+                    } else if (log.get(i).contains(ANSI_GREEN))
+                    {
+                        queue.add(ANSI_GREEN.toString() + "--##--"
+                                + log.get(i).toString().replace(ANSI_GREEN, "")
+                                + "\n");
                     }
 
-                    for (int y = 0; y < queue.size(); y++) {
-                        String tmp[] = queue.get(y).split(Pattern.quote("--##--"));
+                    for (int y = 0; y < queue.size(); y++)
+                    {
+                        String tmp[]
+                                = queue.get(y).split(Pattern.quote("--##--"));
 
                         pane.append(getANSIColor(tmp[0]), tmp[1]);
                     }
@@ -188,7 +231,6 @@ public class GUIOutput extends Output {
 
                 }
             }
-            //  pane.append(getANSIColor(ANSI_GREEN), p.toString().replace(ANSI_GREEN, "") + "\n");
         }
 
     }
@@ -196,7 +238,8 @@ public class GUIOutput extends Output {
     /**
      *
      */
-    public void refreshGuiLog() {
+    public void refreshGuiLog()
+    {
         spane.repaint();
         pane.repaint();
     }

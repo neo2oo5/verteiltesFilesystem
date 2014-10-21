@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import fileSystem.fileSystem;
@@ -22,10 +17,14 @@ import network.getIPv4Address;
 import substructure.GUIOutput;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ *  Klasse erledigt folgende Aufgaben:
+ * Pfad auswahl zur Indexierung
+ * Öffnen des GuiLog Fensters
+ * Auswahl des NetzwerkAdapters
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class Config {
+public class Config
+{
 
     private static GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
@@ -36,18 +35,20 @@ public class Config {
     private static final String folderCMD = "folder", logCMD = "log", configFile = "config.properties", value = "ROOT_DIR";
     private static String currentIP = null;
 
-    /**
-     *
+   /**
+     * Erstellt das Config Tab und added es der Gui
      * @param Pane
      */
-    public Config(javax.swing.JTabbedPane Pane) {
+    public Config(javax.swing.JTabbedPane Pane)
+    {
 
         createNetAdapterPanel();
         createFilechooserAndLogComponents();
         Pane.addTab("Config", configP);
     }
 
-    private void createNetAdapterPanel() {
+    private void createNetAdapterPanel()
+    {
         ArrayList<String[]> ips = getIPList();
 
         interfaceP = new JPanel();
@@ -58,7 +59,8 @@ public class Config {
         int y = 5;
         int width = 200;
         int height = 20;
-        for (int i = 0; i < ips.size(); i++) {
+        for (int i = 0; i < ips.size(); i++)
+        {
             String[] tmp = ips.get(i);
 
             ipName[i] = new JLabel();
@@ -80,16 +82,19 @@ public class Config {
 
     }
 
-    private void createFilechooserAndLogComponents() {
+    private void createFilechooserAndLogComponents()
+    {
 
         /*
          * Filechooser
          */
         folderL = new JLabel("Aktueller Pfad: ");
 
-        if (!isRootDir()) {
+        if (!isRootDir())
+        {
             pathL.setText("Pfad");
-        } else {
+        } else
+        {
             pathL.setText(getRootDir());
         }
 
@@ -126,26 +131,31 @@ public class Config {
     }
 
     /**
-     *
-     * @return true or false if RootDir is set
+     *Ist RootDir gesetzt gibt die Funktion true andernfalls false zurück
+     * @return true or false 
      */
-    static public boolean isRootDir() {
+    static public boolean isRootDir()
+    {
 
         Properties prop = new Properties();
-        try {
+        try
+        {
 
             // load a properties file
             prop.load(new FileReader(substructure.PathHelper.getFile(configFile)));
             return !prop.getProperty(value).isEmpty();
 
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             out.print("(Config.java) " + configFile + "nicht gefunden");
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             out.print("(Config.java) " + ex.toString());
-        } catch (NullPointerException ex) {
-            //out.print("(Config.java) " + ex.toString());
+        } catch (NullPointerException ex)
+        {
             return false;
-        } catch (fileSystemException ex) {
+        } catch (fileSystemException ex)
+        {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -154,50 +164,62 @@ public class Config {
     }
 
     /**
-     *
+     * Gibt den aktuell gewählten Pfad zurück
      * @return Folder Path
      */
-    static public String getRootDir() {
+    static public String getRootDir()
+    {
 
         Properties prop = new Properties();
-        try {
+        try
+        {
 
             // load a properties file
             prop.load(new FileReader(substructure.PathHelper.getFile(configFile)));
             return prop.getProperty(value);
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             out.print("(Config.java) " + configFile + "nicht gefunden");
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             out.print("(Config.java) " + ex.toString());
-        } catch (fileSystemException ex) {
+        } catch (fileSystemException ex)
+        {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return null;
     }
 
-    /**
-     *
+  /**
+     * Erstellt den Filechooser und prüft ob gewählter Ordner zu groß ist
      */
-    static public void filechooser() {
+    static public void filechooser()
+    {
         boolean trigger = true;
-        do {
+        do
+        {
             String tmpPath = createFileChooser();
 
-            if (tmpPath.length() > 0) {
-                if (c.isAccessDenied(tmpPath) == false && c.isFolerToLarge(tmpPath) == false) {
+            if (tmpPath.length() > 0)
+            {
+                if (c.isAccessDenied(tmpPath) == false && c.isFolerToLarge(tmpPath) == false)
+                {
                     trigger = false;
-                } else {
+                } else
+                {
                     new GuiPromptHelper(GuiPromptHelper.showWarning, "Config: Der Ordner darf insgesamt nur 50 Dateien mit jeweils max. 50MB haben.");
                 }
-            } else {
+            } else
+            {
                 trigger = true;
             }
 
         } while (trigger);
     }
 
-    static private String createFileChooser() {
+    static private String createFileChooser()
+    {
         /*
          *   Erstellt ordner auswahl
          *  speichert Pfad in config.properties
@@ -208,15 +230,16 @@ public class Config {
         jfc.setDialogTitle("Bitte Verzeichnis auswählen");
         jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int auswahl = jfc.showOpenDialog(new JFrame());
-        if (auswahl == JFileChooser.APPROVE_OPTION) {
+        if (auswahl == JFileChooser.APPROVE_OPTION)
+        {
             getPath = jfc.getSelectedFile().getPath();
             pathL.setText(getPath);
-            //out.print(Path);
 
             Properties prop = new Properties();
             OutputStream output = null;
 
-            try {
+            try
+            {
 
                 // set the properties value
                 prop.setProperty(value, getPath);
@@ -224,21 +247,28 @@ public class Config {
                 // save properties to project root folder
                 prop.store(new FileWriter(substructure.PathHelper.getFile(configFile)), null);
 
-            } catch (IOException io) {
+            } catch (IOException io)
+            {
 
-            } catch (fileSystemException ex) {
+            } catch (fileSystemException ex)
+            {
                 out.print(ex.toString());
-            } finally {
-                if (output != null) {
-                    try {
+            } finally
+            {
+                if (output != null)
+                {
+                    try
+                    {
                         output.close();
-                    } catch (IOException e) {
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
                 }
 
             }
-        } else if (auswahl == JFileChooser.CANCEL_OPTION) {
+        } else if (auswahl == JFileChooser.CANCEL_OPTION)
+        {
             new GuiPromptHelper(GuiPromptHelper.showWarning, "Ohne ausgewählten Pfad wird der Client sich nicht"
                     + " ins Netz einwählen");
         }
@@ -247,64 +277,80 @@ public class Config {
     }
 
     /**
-     *
+     * Zum setzen der IP
+     * wird vom Netzwerk Paket zum start des Programmes aufgerufen
      * @param IP
      */
-    static public void setCurrentIp(String IP) {
+    static public void setCurrentIp(String IP)
+    {
         currentIP = IP;
     }
 
     /**
-     *
+     * Gibt die Aktuelle IP zurück
      * @return
      */
-    static public String getCurrentIp() {
+    static public String getCurrentIp()
+    {
         return currentIP;
     }
 
     /**
      *
-     * @return
+     * 
      */
-    static public ArrayList<String[]> getIPList() {
+    static private ArrayList<String[]> getIPList()
+    {
         ArrayList<String[]> ipList = new ArrayList<>();
         String[] AdapterName = null;
 
-        try {
+        try
+        {
             ArrayList<String> ips = getIPv4Address.getIPv4Address();
 
-            for (int i = 0; i < ips.size(); i++) {
+            for (int i = 0; i < ips.size(); i++)
+            {
                 AdapterName = ips.get(i).split(Pattern.quote("/"));
                 ipList.add(AdapterName);
             }
 
-        } catch (UnknownHostException ex) {
+        } catch (UnknownHostException ex)
+        {
             Logger.getLogger(Config.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return ipList;
     }
 
-    private static class ConfigListener implements ActionListener {
+    private static class ConfigListener implements ActionListener
+    {
 
-        public ConfigListener() {
+        public ConfigListener()
+        {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e)
+        {
 
             String cmd = e.getActionCommand();
-            if (folderCMD.equals(cmd)) {
+            if (folderCMD.equals(cmd))
+            {
                 filechooser();
-            } else if (logCMD.equals(cmd)) {
-                if (logB.getText().equals("An")) {
+            } else if (logCMD.equals(cmd))
+            {
+                if (logB.getText().equals("An"))
+                {
                     logB.setText("Aus");
                     out.setVisible(false);
-                } else {
-                    if (out.getVisible()) {
+                } else
+                {
+                    if (out.getVisible())
+                    {
                         logB.setText("An");
                         out.setVisible(true);
-                    } else {
+                    } else
+                    {
                         new GuiPromptHelper(GuiPromptHelper.showWarning, "GUILog wurde in den Start Parameter deaktiviert");
                     }
                 }
@@ -313,24 +359,31 @@ public class Config {
 
     }
 
-    private static class InterfacelListener implements ActionListener {
+    private static class InterfacelListener implements ActionListener
+    {
 
-        public InterfacelListener() {
+        public InterfacelListener()
+        {
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e)
+        {
             String cmd = e.getActionCommand();
             ArrayList<String[]> ips = getIPList();
 
-            for (int i = 0; i < ips.size(); i++) {
+            for (int i = 0; i < ips.size(); i++)
+            {
                 String[] tmp = ips.get(i);
 
-                if (tmp[1].equals(cmd)) {
-                    try {
+                if (tmp[1].equals(cmd))
+                {
+                    try
+                    {
 
                         network.Interfaces.interfaceChangeOwnIP(getCurrentIp(), tmp[1]);
-                    } catch (UnknownHostException ex) {
+                    } catch (UnknownHostException ex)
+                    {
                         out.print("IP konnte nicht geändert werden.", 3);
                     }
                 }

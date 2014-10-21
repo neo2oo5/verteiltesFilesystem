@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import gui.Explorer.*;
@@ -22,10 +17,13 @@ import network.Interfaces;
 import substructure.GUIOutput;
 
 /**
- *
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ *  GUI ist die Hauptklasse. Von hier werden alle anderen Klassen aufgerufen
+ * 
+ * 
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame
+{
 
     private GUIOutput out = GUIOutput.getInstance();
     private static fileSystem c = fileSystem.getInstance();
@@ -37,9 +35,10 @@ public class GUI extends javax.swing.JFrame {
     private JLabel statel = new JLabel("Offline");
 
     /**
-     * Creates new form GUI
+     * Erstellt die GUI
      */
-    public GUI() {
+    public GUI()
+    {
 
         initComponents();
 
@@ -47,21 +46,25 @@ public class GUI extends javax.swing.JFrame {
 
     }
 
-    /**
-     *
+ /**
+     * Setzt in der GUI den Online, Offline Status
      */
-    public void setOnOffState() {
-        if (network.Interfaces.interfaceNetworkOnline() == true) {
+    public void setOnOffState()
+    {
+        if (network.Interfaces.interfaceNetworkOnline() == true)
+        {
             state.setGreen();
             statel.setText("Online");
-        } else {
+        } else
+        {
             state.setRed();
             statel.setText("Offline");
         }
 
     }
 
-    private void owninitComponents() {
+    private void owninitComponents()
+    {
 
         /*Network status display*/
         state.setBounds(3, 7, 25, 25);
@@ -76,7 +79,7 @@ public class GUI extends javax.swing.JFrame {
         /*Set Admin Defaults*/
         AdminConfigPanel.setVisible(true);
         AdminLoginPanel.setVisible(true);
-        //admin = new Admin(AdminConfigPanel, AdminLoginPanel);
+        
 
         /*Create required Tabs*/
         new otherTab(jTabbedPane5);
@@ -87,11 +90,14 @@ public class GUI extends javax.swing.JFrame {
 
         /*Set Icon Image*/
         BufferedImage image = null;
-        try {
+        try
+        {
             image = ImageIO.read(new File(substructure.PathHelper.getFile("hdd.png")));
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             out.print("(GUI) - owninitComponents : " + e.toString(), 2);
-        } catch (fileSystemException ex) {
+        } catch (fileSystemException ex)
+        {
             out.print("(GUI) - owninitComponents : " + ex.toString(), 2);
         }
         setIconImage(image);
@@ -217,7 +223,8 @@ public class GUI extends javax.swing.JFrame {
          *
          *
          */
-        if (Config.isRootDir()) {
+        if (Config.isRootDir())
+        {
             fileSystem fs = fileSystem.getInstance();
             fs.setNewFileSystem(Config.getCurrentIp(), Config.getRootDir());
             out.print("(GUI - TabChange) Lokales fileSystem wurde eingelesen");
@@ -229,19 +236,22 @@ public class GUI extends javax.swing.JFrame {
         ActiveTabIndex = jTabbedPane5.getSelectedIndex();
         out.print("Panel: " + jTabbedPane5.getTitleAt(ActiveTabIndex) + " wurde geöffnet");
 
-        switch (jTabbedPane5.getTitleAt(ActiveTabIndex)) {
+        switch (jTabbedPane5.getTitleAt(ActiveTabIndex))
+        {
             case "Config":
                 break;
-            case "Explorer": {
-                if (Interfaces.interfaceNetworkOnline() == true) {
+            case "Explorer":
+            {
+                if (Interfaces.interfaceNetworkOnline() == true)
+                {
                     explorer.addTab(jTabbedPane5, ActiveTabIndex);
                 }
 
-               // explorer.addTab(jTabbedPane5, ActiveTabIndex);
             }
             break;
             case "Admin":
-                if (admin != null) {
+                if (admin != null)
+                {
                     admin.refresh();
                 }
                 break;
@@ -253,7 +263,8 @@ public class GUI extends javax.swing.JFrame {
     private void AdminLoginSentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminLoginSentActionPerformed
         //Switcht between Login and Admin Panel
 
-        if (Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText())) {
+        if (Admin.Login(AdminUsernameField.getText(), AdminPasswordField.getText()))
+        {
             admin = new Admin(AdminConfigPanel, AdminLoginPanel);
         }
 
@@ -261,15 +272,10 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_AdminLoginSentActionPerformed
 
     private void AdminLoginSentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminLoginSentMouseClicked
-        // TODO add your handling code here:
+        //standard login Mousehandler
     }//GEN-LAST:event_AdminLoginSentMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AdminConfigPanel;
@@ -286,13 +292,15 @@ public class GUI extends javax.swing.JFrame {
      * Class to create the Online status Display
      *      
      */
-    class KreisPanel extends JPanel {
+    private class KreisPanel extends JPanel
+    {
 
         Graphics2D g2;
         Color color = Color.RED;
 
         @Override
-        public void paint(Graphics g) {
+        public void paint(Graphics g)
+        {
             g2 = (Graphics2D) g;
 
             g2.setPaint(color);
@@ -300,12 +308,14 @@ public class GUI extends javax.swing.JFrame {
 
         }
 
-        public void setRed() {
+        public void setRed()
+        {
             this.color = Color.RED;
             repaint();
         }
 
-        public void setGreen() {
+        public void setGreen()
+        {
             this.color = Color.GREEN;
             repaint();
         }

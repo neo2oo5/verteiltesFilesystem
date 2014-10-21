@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package substructure;
 
 import fileSystem.fileSystem;
@@ -11,11 +6,13 @@ import java.util.TimerTask;
 import network.Interfaces;
 
 /**
- * Fuehrt zu festgelegten Zeiten Aktionen aus
- * z.B initExplorer: Explorer sync mit FS
- * @author Kevin Bonner <kevin.bonner@gmx.de>
+ * Fuehrt zu festgelegten Zeiten Aktionen aus z.B initExplorer: Explorer sync
+ * mit FS
+ *
+ * @author Kevin Bonner  - kevin.bonner@gmx.de
  */
-public class runTimeUpdater {
+public class runTimeUpdater
+{
 
     private fileSystem c = fileSystem.getInstance();
     private static GUIOutput out = GUIOutput.getInstance();
@@ -23,7 +20,8 @@ public class runTimeUpdater {
     /**
      *
      */
-    public runTimeUpdater() {
+    public runTimeUpdater()
+    {
         Timer timer = new Timer();
 
         // Start in one second then drain every 5 seconds
@@ -41,49 +39,61 @@ public class runTimeUpdater {
         out.print("runTimeUpdater gestarted");
     }
 
-    class JTreeCreator extends TimerTask {
+    class JTreeCreator extends TimerTask
+    {
 
         @Override
-        public void run() {
+        public void run()
+        {
 
             gui.Explorer.Explorer.initExplorerTree();
         }
     }
 
-    class GUIScheduler extends TimerTask {
+    class GUIScheduler extends TimerTask
+    {
 
         @Override
-        public void run() {
+        public void run()
+        {
             substructure.fileSystem_Start.gUI.setOnOffState();
             //Interfaces.interfecDoPingTest();
 
         }
     }
 
-    class GUILog extends TimerTask {
+    class GUILog extends TimerTask
+    {
 
         @Override
-        public void run() {
-            if (out != null) {
+        public void run()
+        {
+            if (out != null)
+            {
                 out.refreshGuiLog();
             }
         }
     }
 
-    class syncFileSytems extends TimerTask {
+    class syncFileSytems extends TimerTask
+    {
 
         @Override
-        public void run() {
-            if (Interfaces.interfaceNetworkOnline()) {
+        public void run()
+        {
+            if (Interfaces.interfaceNetworkOnline())
+            {
                 Interfaces.interfaceMergeList();
             }
         }
     }
 
-    class MulticastUpdater extends TimerTask {
+    class MulticastUpdater extends TimerTask
+    {
 
         @Override
-        public void run() {
+        public void run()
+        {
             Interfaces.interfaceRestartMulticast();
         }
     }
