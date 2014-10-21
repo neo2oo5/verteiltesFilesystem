@@ -37,7 +37,7 @@ public class Interfaces
     /**
      *
      * @param IPv4
-     * @param path // -> null wenn im System ordner über Pathhelper pfad geholt
+     * @param path //  null wenn im System ordner über Pathhelper pfad geholt
      * wird
      * @param filename
      * @param clientFilename
@@ -236,7 +236,6 @@ public class Interfaces
      * method to start the interfaces
      *
      * @return
-     * @throws java.net.UnknownHostException
      */
     public static boolean interfaceNetworkOnline()
     {

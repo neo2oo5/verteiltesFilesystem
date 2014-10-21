@@ -31,7 +31,7 @@ public class CheckKicked
      * - IPListe nach der eigenen IP durchsuchen
      * - Falls eigene IP nicht gefunden wurde, return true
      *
-     * @return boolean // false -> alles in Ordnung, man ist noch im Netzwerk
+     * @return boolean // false  alles in Ordnung, man ist noch im Netzwerk
      * @throws java.net.UnknownHostException // wird in der GUI abgefangen und ausgegeben
      */
     public static boolean checkKicked() throws UnknownHostException

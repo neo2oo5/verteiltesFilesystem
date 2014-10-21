@@ -19,7 +19,7 @@ import substructure.GUIOutput;
  * @author David Lampa, Kevin Bonner
  * @version 1.0
  * 
- * @Runnable
+ 
  */
 public class SSDPNetworkClient implements Runnable
 {

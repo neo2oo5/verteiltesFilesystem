@@ -108,7 +108,7 @@ public class Output
     }
 
     /**
-     *
+     * Gibt eine Nachricht aus als Information
      * @param msg
      */
     public void print(Object msg)
@@ -117,7 +117,7 @@ public class Output
     }
 
     /**
-     *
+     * Gibt eine Nachricht aus entsprechend dem Modelevel
      * @param msg
      * @param modelevel
      */
@@ -168,7 +168,7 @@ public class Output
     }
 
     /**
-     *
+     * Coloriert den Übergebenen Text
      * @param msg
      * @param mode
      * @param debug

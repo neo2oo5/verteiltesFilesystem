@@ -21,7 +21,6 @@ import fileSystem.fileSystem;
  * @author David Lampa, Kevin Bonner
  * @version 1.0
  * 
- * @extends Thread
  */
 public class CheckWhoIsOnline extends Thread
 {

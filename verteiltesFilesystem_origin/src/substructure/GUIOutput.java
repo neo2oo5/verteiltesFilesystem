@@ -68,7 +68,7 @@ public class GUIOutput extends Output
     }
 
     /**
-     *
+     * Gibt die Instanz zurück
      * @return
      */
     public static GUIOutput getInstance()
@@ -87,7 +87,7 @@ public class GUIOutput extends Output
     }
 
     /**
-     *
+     * Setzt das Fram auf sichtbar oder nicht sichtabar
      * @param e
      */
     public void setVisible(boolean e)
@@ -97,7 +97,7 @@ public class GUIOutput extends Output
     }
 
     /**
-     *
+     * Schaltet den GuiLog aus
      * @param e
      */
     public void switchOnOff(boolean e)
@@ -106,8 +106,8 @@ public class GUIOutput extends Output
     }
 
     /**
-     *
-     * @return
+     * Gibt zurück ob GuiLog abgeschaltet ist
+     * @return true or false
      */
     public boolean getVisible()
     {
@@ -164,7 +164,7 @@ public class GUIOutput extends Output
     }
 
     /**
-     *
+     *  Leitet out Stream auf die GuiLog
      * @param msg
      * @param mode
      * @param debug

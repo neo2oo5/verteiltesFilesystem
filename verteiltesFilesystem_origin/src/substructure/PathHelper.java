@@ -19,8 +19,8 @@ public class PathHelper
     private static String SysDir = System.getProperty("user.dir") + File.separator + "System" + File.separator;
 
     /**
-     *
-     * @return
+     * Gibt den Namen des Betriebssystemes zurück
+     * @return Name des OS
      */
     public static String getOSName()
     {
@@ -58,10 +58,10 @@ public class PathHelper
     }
 
     /**
-     *
-     * @param file
-     * @return
-     * @throws fileSystemException
+     * Gibt den vollen Pfad des Files entsprechend dem OS zurück
+     * @param file 
+     * @return vollen Pfad des Files
+     * @throws fileSystemException falls Datei nicht gefunden wird
      */
     public static String getFile(String file) throws fileSystemException
     {
@@ -86,10 +86,10 @@ public class PathHelper
     }
 
     /**
-     *
+     * Gibt den vollen Pfad des Folders entsprechend dem OS zurück
      * @param folder
-     * @return
-     * @throws fileSystemException
+     * @return vollen Pfad des Folder
+     * @throws fileSystemException falls Folder nicht gefunden wird
      */
     public static String getFolder(String folder) throws fileSystemException
     {

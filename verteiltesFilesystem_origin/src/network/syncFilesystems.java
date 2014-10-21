@@ -21,7 +21,6 @@ import fileSystem.fileSystemException;
  * @author David Lampa
  * @version 1.0
  * 
- * @Runnable
  */
 public class syncFilesystems implements Runnable
 {
